@@ -100,10 +100,12 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # Blog
 # -----------------------------------------------------------------------------
 
-blog_name: Alan Synn  # your blog must have a name for it to show up in the nav bar
-blog_description: A personal blog about programming, technology, and my journey as a software engineer. Here I share my experiences, learnings, and thoughts on various technical topics.
-permalink: /blog/:year/:title/
-lsi: false # produce an index for related posts
+## Disable blog temporarily
+
+# blog_name: Alan Synn  # your blog must have a name for it to show up in the nav bar
+# blog_description: A personal blog about programming, technology, and my journey as a software engineer. Here I share my experiences, learnings, and thoughts on various technical topics.
+# permalink: /blog/:year/:title/
+# lsi: false # produce an index for related posts
 
 # Pagination
 pagination:
