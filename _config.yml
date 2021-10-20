@@ -77,9 +77,9 @@ panelbear_analytics: XXXXXXXXX # panelbear analytics site ID
 # Blog
 # -----------------------------------------------------------------------------
 
-blog_name: Alan Synn  # your blog must have a name for it to show up in the nav bar
-blog_description: Personal Page
-permalink: /blog/:year/:title/
+# blog_name: Alan Synn  # your blog must have a name for it to show up in the nav bar
+# blog_description: Personal Page
+# permalink: /blog/:year/:title/
 
 # Pagination
 pagination:
