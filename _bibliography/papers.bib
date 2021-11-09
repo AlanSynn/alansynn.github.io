@@ -1,72 +1,72 @@
 ---
 ---
 
-@string{aps = {American Physical Society,}}
+@string{acm = {Association for Computing Machinery,}}
+@string{ieee = {Institute of Electrical and Electronics Engineers,}}
 
-@book{einstein1956investigations,
-  bibtex_show={true},
-  title={Investigations on the Theory of the Brownian Movement},
-  author={Einstein, Albert},
-  year={1956},
-  publisher={Courier Corporation,}
+@inproceedings{ahn2021nips,
+  abbr={NIPS Demo},
+  bibtex_show={false},
+  title={Protopia AI: Taking on Missing Link in Inference Privacy},
+  author={Ahn, Byung Hoon and Synn, DoangJoo and Derkani, Masih and Ebrahimi, Eiman and Esmaeilzadeh, Hadi},
+  booktitle={Neural Information Processing Systems Demonstrations [To Appear]},
+  year={2021},
+  selected={true},
+  organization={Neural Information Processing Systems}
 }
 
-@article{einstein1950meaning,
-  abbr={AJP},
-  bibtex_show={true},
-  title={The meaning of relativity},
-  author={Einstein, Albert and Taub, AH},
-  journal={American Journal of Physics,},
-  volume={18},
-  number={6},
-  pages={403--404},
-  year={1950},
-  publisher={American Association of Physics Teachers,}
+@article{synn2021mbs,
+  abbr={Submitted},
+  title={Micro Batch Streaming: Allowing the Training of DNN models Using a large batch size on Small Memory Systems},
+  author={Synn, DoangJoo and Piao, XinYu and Park, JuYoung and Kim, Jong-Kook},
+  booktitle={Submitted},
+  selected={true},
 }
 
-@article{PhysRev.47.777,
-  abbr={PhysRev},
-  title={Can Quantum-Mechanical Description of Physical Reality Be Considered Complete?},
-  author={Einstein, A. and Podolsky, B. and Rosen, N.},
-  abstract={In a complete theory there is an element corresponding to each element of reality. A sufficient condition for the reality of a physical quantity is the possibility of predicting it with certainty, without disturbing the system. In quantum mechanics in the case of two physical quantities described by non-commuting operators, the knowledge of one precludes the knowledge of the other. Then either (1) the description of reality given by the wave function in quantum mechanics is not complete or (2) these two quantities cannot have simultaneous reality. Consideration of the problem of making predictions concerning a system on the basis of measurements made on another system that had previously interacted with it leads to the result that if (1) is false then (2) is also false. One is thus led to conclude that the description of reality as given by a wave function is not complete.},
-  journal={Phys. Rev.,},
-  volume={47},
-  issue={10},
-  pages={777--780},
-  numpages={0},
-  year={1935},
-  month={May},
-  publisher=aps,
-  doi={10.1103/PhysRev.47.777},
-  url={http://link.aps.org/doi/10.1103/PhysRev.47.777},
-  html={https://journals.aps.org/pr/abstract/10.1103/PhysRev.47.777},
-  pdf={example_pdf.pdf},
-  selected={true}
+@article{hahn2021fbs,
+  abbr={Submitted},
+  title={Feature Based Sampling: A Fast and Robust Sampling Method for Tasks that Use Point Cloud Data},
+  author={Han, JungWoo and Synn, DoangJoo and Kim, TaeHyung and Jung, HaeCheon and Kim, Jong-Kook},
+  booktitle={Submitted},
+  selected={true},
 }
 
-@article{einstein1905molekularkinetischen,
-  title={{\"U}ber die von der molekularkinetischen Theorie der W{\"a}rme geforderte Bewegung von in ruhenden Fl{\"u}ssigkeiten suspendierten Teilchen},
-  author={Einstein, A.},
-  journal={Annalen der physik,},
-  volume={322},
-  number={8},
-  pages={549--560},
-  year={1905},
-  publisher={Wiley Online Library}
+@inproceedings{synn2021nwt,
+  abbr={KIPS},
+  bibtex_show={false},
+  title={Num Worker Tuner: An Automated Spawn Parameter Tuner for Multi-Processing DataLoaders},
+  author={Synn, DoangJoo and Kim, JongKook},
+  booktitle={ACK},
+  year={2021},
+  selected={true},
+  abstract={In training a deep learning model, it is crucial to tune various hyperparameters and gain speed and accuracy. Although the hyperparameters that mathematically affect the convergence significantly affect the training speed, the system parameters that affect the host-to-device data set transmission time also occupy a specific part in the overall time acceleration. Therefore, it is important to properly tune and select parameters that can affect the data loader as a system parameter in overall time acceleration. We propose an automated framework called Num Worker Tuner (NWT) to address this problem. This method finds the appropriate number of multi-processing subprocesses through the search space and accelerates the learning through the number of subprocesses. Furthermore, this method allows memory efficiency and speed-up by tuning the system-dependent parameter, the number of multi-process spawns.},
+  organization={Korea Information Processing Society}
 }
 
-@article{einstein1905movement,
-  abbr={Ann. Phys.},
-  title={Un the movement of small particles suspended in statiunary liquids required by the molecular-kinetic theory 0f heat},
-  author={Einstein, A.},
-  journal={Ann. Phys.,},
-  volume={17},
-  pages={549--560},
-  year={1905}
+@inproceedings{park2021survey,
+  abbr={KIPS},
+  bibtex_show={false},
+  title={A Survey on the Advancement of Virtualization Technology},
+  author={Park, JooYoung and Synn, DoangJoo and Kim, JongKook},
+  booktitle={Proceedings of the Korea Information Processing Society Conference},
+  pages={12--15},
+  year={2021},
+  selected={true},
+  organization={Korea Information Processing Society}
 }
 
-@article{einstein1905electrodynamics,
-  title={On the electrodynamics of moving bodies},
-  author={Einstein, A.},
-  year={1905}
+@article{kim2020sg,
+  abbr={KIPS},
+  bibtex_show={false},
+  title={SG-Drop: Faster Skip-Gram by Dropping Context Words},
+  author={Kim, DongJae and Synn, DoangJoo and Kim, Jong-Kook},
+  journal={KIPS},
+  volume={27},
+  number={2},
+  pages={1014--1017},
+  year={2020},
+  pdf={http://manuscriptlink-society-file.s3.amazonaws.com/kips/conference/2020fall/presentation/KIPS_C2020B0301.pdf},
+  abstract={Many natural language processing (NLP) models utilize pre-trained word embeddings to leverage latent information. One of the most successful word embedding model is the Skip-gram (SG). In this paper, we propose a Skipgram drop (SG-Drop) model, which is a variation of the SG model. The SG-Drop model is designed to reduce training time efficiently. Furthermore, the SG-Drop allows controlling training time with its hyperparameter. It could train word embedding faster than reducing training epochs while better preserving the quality.},
+  selected={true},
+  publisher={KIPS}
 }
