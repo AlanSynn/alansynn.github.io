@@ -10,8 +10,8 @@ email: alan@alansynn.com
 description: #> # the ">" symbol means to ignore newlines until "footer_text:"
 #   A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 footer_text: >
-  Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
-  Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
+# Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
+# Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
 
 icon: 💻 # the emoji used as the favicon
 url: https://alansynn.github.io # the base hostname & protocol for your site
@@ -29,7 +29,7 @@ impressum_path:  # set to path to include impressum link in the footer, use the 
 # Layout
 # -----------------------------------------------------------------------------
 
-navbar_fixed: true
+navbar_fixed: false
 footer_fixed: false
 
 # Dimensions
@@ -68,7 +68,6 @@ stackoverflow_id: #your stackoverflow id
 rss_icon: true
 
 contact_note: >
-  You can even add a little note about which of these is the best way to reach you.
 
 google_analytics: UA-XXXXXXXXX # out your google-analytics code
 panelbear_analytics: XXXXXXXXX # panelbear analytics site ID
@@ -158,7 +157,7 @@ github: [metadata]
 scholar:
 
   last_name: Synn
-  first_name: [DoangJoo, DJ.]
+  first_name: [DoangJoo, Doangjoo, D.]
 
   style: apa
   locale: en
@@ -198,7 +197,8 @@ enable_mansory:             true   # enables automatic project cards arangement
 enable_math:                true   # enables math typesetting (uses MathJax)
 enable_tooltips:            false  # enables automatic tooltip links generated
                                    # for each section titles on pages and posts
-enable_darkmode:            true   # enables switching between light/dark modes
+enable_darkmode:            false   # enables switching between light/dark modes
+enable_navbar:              false
 enable_navbar_social:       false  # enables displaying social links in the
                                    # navbar on the about page
 enable_project_categories:  true   # enables categorization of projects into
