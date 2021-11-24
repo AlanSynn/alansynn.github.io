@@ -19,7 +19,7 @@ education: true
 workexperience: true
 ---
 
-I am a Master student in Electrical and Computer Engineering at Korea University working with Prof. Jong-Kook Kim. Also, I am currently working as a Research Scientist at [Protopia AI inc.](https://protopia.ai/) at Austin, Texas. Protopia AI inc. is an AI privacy start-up lead by [Dr. Eiman Ebrahimi](http://eimanebrahimi.com/) and [Prof. Hadi Esmaeilzadeh](https://cseweb.ucsd.edu/~hadi/). In Protopia AI, I developed and maintaining internal frameworks and libraries to support privacy-preserving machine learning with distributed ML frameworks and cloud computing.
+I am a Master student in Electrical and Computer Engineering at Korea University working with Prof. Jong-Kook Kim. Also, I am currently working as a Research Scientist at [Protopia AI inc.](https://protopia.ai/) at Austin, Texas. Protopia AI inc. is an AI privacy start-up led by [Dr. Eiman Ebrahimi](http://eimanebrahimi.com/) and [Prof. Hadi Esmaeilzadeh](https://cseweb.ucsd.edu/~hadi/). In Protopia AI, I developed and maintained internal frameworks and libraries to support privacy-preserving machine learning with distributed ML frameworks and cloud computing.
 
 I have 5+ years of industry experience as a software engineer in various layers of distributed system, machine learning system and cloud computing. During the period, I was a AWS Educate Cloud Ambassador of Amazon Web Service. I also have profound experience developing distributed frameworks on cloud, models using PyTorch, and deploying models using ONNX.
 
