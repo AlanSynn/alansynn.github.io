@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-description: <a href="http://hpic.korea.ac.kr">Master Student @High Performance and Intelligence Computing Lab, Korea University</a>. <br/> <a href="http://protopia.ai">Research Engineer @Protopia AI inc. Austin, Texas</a>
+description: <a href="http://protopia.ai">Research Engineer @Protopia AI inc. Austin, Texas</a>
 
 profile:
   align: right
