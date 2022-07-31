@@ -6,7 +6,7 @@ description: <a href="http://hpic.korea.ac.kr">PhD Student in Computer Science @
 
 profile:
   align: right
-  # image: prof_pic.png
+  image: prof_pic.jpeg
   address: >
 # <p>555 your office number</p>
 # <p>123 your address street</p>
