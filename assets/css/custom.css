@@ -65,3 +65,14 @@
     width: auto;
   }
 }
+
+/* Adjustments for when navbar is disabled */
+body:not(.fixed-top-nav) .container.mt-5 {
+  margin-top: 2rem !important;
+  padding-top: 1rem;
+}
+
+/* Add some space at the top of the page when navbar is disabled */
+body:not(.fixed-top-nav) {
+  padding-top: 1rem;
+}

@@ -26,3 +26,5 @@ My work addresses three key challenges in AI-assisted design: (1) developing edu
 Throughout my career, I have developed and implemented a wide range of solutions, from government-led programming education initiatives to advanced ubiquitous computing stacks. My background includes significant experience as a cloud architect, where I have designed social robots, optimized cloud-native software and managed DevOps infrastructures for various companies.
 
 I received M.Eng and B.Eng in Electrical and Computer Engineering from Korea University advised by Prof. Jong-Kook Kim. My research at Korea University focused on Machine Learning Systems and Distributed Systems.
+
+📧 Contact me at: alansynn [at] gatech [dot] edu
