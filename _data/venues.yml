@@ -31,3 +31,7 @@
 "KIPS":
   url: https://www.kips.or.kr/
   color: "#FF9800"
+
+"TKIPS":
+  url: https://tkips.kips.or.kr/
+  color: "#9C27B0"

@@ -19,6 +19,24 @@
   selected={true}
 }
 
+@article{ryu2025adapt,
+  abbr={KIPS},
+  bibtex_show={false},
+  title={ADaPT: An Automated Dataloader Parameter Tuning Framework using AVL Tree-based Search Algorithms},
+  author={Ryu, MyungHoon and Piao, XinYu and Park, JooYoung and Synn, DoangJoo and Kim, Jong-Kook},
+  journal={The Transactions of the Korea Information Processing Society},
+  volume={14},
+  number={1},
+  pages={1--8},
+  year={2025},
+  month={1},
+  doi={10.3745/TKIPS.2025.14.1.1},
+  url={https://tkips.kips.or.kr/digital-library/101925},
+  selected={true},
+  abstract={Recently deep learning has become widely used in many research fields and businesses. To improve the performance of deep learning, one of the critical challenges is to determine the optimal values of many parameters that can be adjusted. This paper focuses on the adjustable dataloader parameters that affect the overall training time and proposes an automated dataloader parameter tuning framework, called ADaPT, to determine the optimal values of the dataloader parameters. The proposed ADaPT uses the characteristic of the AVL tree and attempts to determine optimal dataloader parameters in a small amount of time to accelerate the data loading. The results show that the proposed method effectively accelerates the data loading speed compared to the default parameter values and values that are recommended by PyTorch and the speed is comparable to the optimal.},
+  publisher={Korea Information Processing Society}
+}
+
 @article{piao2023enabling,
   abbr={IEEE Access},
   title={Enabling large batch size training for dnn models beyond the memory limit while maintaining performance},
@@ -103,6 +121,24 @@
   pdf={http://manuscriptlink-society-file.s3.amazonaws.com/kips/conference/2020fall/presentation/KIPS_C2020B0301.pdf},
   abstract={Many natural language processing (NLP) models utilize pre-trained word embeddings to leverage latent information. One of the most successful word embedding model is the Skip-gram (SG). In this paper, we propose a Skipgram drop (SG-Drop) model, which is a variation of the SG model. The SG-Drop model is designed to reduce training time efficiently. Furthermore, the SG-Drop allows controlling training time with its hyperparameter. It could train word embedding faster than reducing training epochs while better preserving the quality.},
   selected={true},
+  publisher={Korea Information Processing Society}
+}
+
+@article{synn2023distributed,
+  abbr={KIPS},
+  bibtex_show={false},
+  title={Distributed Training of Deep Learning Models Using Micro Batch Streaming},
+  author={Synn, DoangJoo and Piao, XinYu and Park, JuYoung and Kim, Jong-Kook},
+  journal={KIPS Transactions on Software and Data Engineering},
+  volume={12},
+  number={3},
+  pages={101--108},
+  year={2023},
+  month={3},
+  doi={10.3745/KTSDE.2023.12.3.101},
+  url={https://tkips.kips.or.kr/digital-library/101925},
+  selected={true},
+  abstract={Deep learning models have been growing in size and complexity, requiring more computational resources for training. Distributed training has emerged as a solution to this challenge, allowing models to be trained across multiple devices. However, traditional distributed training approaches often face challenges related to memory constraints, especially when dealing with large batch sizes. In this paper, we propose a novel approach called Micro Batch Streaming (MBS) for distributed training of deep learning models. MBS addresses memory limitations by dividing large batches into smaller micro-batches and processing them sequentially while accumulating gradients. We evaluate our approach on various deep learning tasks and demonstrate its effectiveness in enabling distributed training with large batch sizes on memory-constrained systems. Our results show that MBS can achieve comparable or better performance than traditional distributed training methods while using less memory per device.},
   publisher={Korea Information Processing Society}
 }
 
