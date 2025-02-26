@@ -2,11 +2,11 @@
 layout: about
 title: about
 permalink: /
-description: <a href="http://hpic.korea.ac.kr">PhD Student in Computer Science @System for Artificial Intelligence Lab, Georgia Institute of Technology</a>
+description: <a href="https://scs.gatech.edu">PhD Student in Computer Science @Georgia Institute of Technology</a>
 
 profile:
   align: right
-  image: prof_pic.jpeg
+  image: profile_pic.png
   address: >
 # <p>555 your office number</p>
 # <p>123 your address street</p>
@@ -19,8 +19,10 @@ education: true
 workexperience: true
 ---
 
-I am a PhD Student in the fields of Computer Science at Georgia Institute of Technology. My research interests span Distributed systems, Cloud Computing, and System for AI. Before I get into PhD program, I worked as a software engineer for 8+ years in various layers of distributed system, machine learning system and cloud computing.
+I am a PhD Student in Computer Science at Georgia Institute of Technology. My research explores the intersection of generative AI and computational design, particularly in creative processes like building automata and kinematics. I investigate how foundation models can revolutionize mechanical and computational design by enabling rapid production of diverse solutions while preserving human creative intent.
 
-During the period, I was a Research Scientist at [Protopia AI inc.](https://protopia.ai/) which is a AI company mainly tackles for privacy in Austin, Texas. In Protopia AI, I develop and maintain internal frameworks and libraries to support privacy-preserving machine learning with distributed ML frameworks and cloud computing. And I was a AWS Educate Cloud Ambassador of Amazon Web Service. I have profound experience developing distributed frameworks on cloud, models using PyTorch, and deploying models using ONNX.
+My work addresses three key challenges in AI-assisted design: (1) developing educational frameworks that help designers effectively collaborate with AI while maintaining their creative vision, (2) preserving human intent throughout the AI-assisted design process, and (3) creating specialized tools for non-expert users working on mechanical design projects.
+
+Throughout my career, I have developed and implemented a wide range of solutions, from government-led programming education initiatives to advanced ubiquitous computing stacks. My background includes significant experience as a cloud architect, where I have designed social robots, optimized cloud-native software and managed DevOps infrastructures for various companies.
 
 I received M.Eng and B.Eng in Electrical and Computer Engineering from Korea University advised by Prof. Jong-Kook Kim. My research at Korea University focused on Machine Learning Systems and Distributed Systems.

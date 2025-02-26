@@ -8,7 +8,7 @@ first_name: DoangJoo "Alan"
 last_name: Synn
 email: alansynn@gatech.edu
 description: #> # the ">" symbol means to ignore newlines until "footer_text:"
-  DoangJoo (Alan) Synn, Computer Science PhD Student at Georgia Tech, 8 YOE Software Engineer 💻 & Research Scientist 🗒️. Love Music and Producing 🎼
+  DoangJoo (Alan) Synn, Computer Science PhD Student at Georgia Tech, 8 YOE Software Engineer 💻 & Research Scientist 🗒️. Researching generative AI in computational design, with a focus on automata and kinematics. Exploring human-AI collaboration in creative processes.
 footer_text: >
 # Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio">al-folio</a> theme.
 # Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
