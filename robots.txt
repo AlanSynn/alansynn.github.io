@@ -1,4 +1,1 @@
-User-agent: *
-Disallow:
-
-Sitemap: https://alansynn.github.io/sitemap.xml
+User-agent: * Disallow: Sitemap: https://alansynn.github.io/sitemap.xml
