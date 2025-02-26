@@ -56,11 +56,16 @@ layout: default
       {% include latest_posts.liquid %}
     {% endif %}
 
+    <!-- Education -->
+    {% if page.education %}
+      <h2>
+        <a href="{{ '/education/' | relative_url }}" style="color: inherit">education</a>
+      </h2>
+      {% include education.liquid %}
+    {% endif %}
+
     <!-- Selected papers -->
     {% if page.selected_papers %}
-      <h2>
-        <a href="{{ '/publications/' | relative_url }}" style="color: inherit">selected publications</a>
-      </h2>
       {% include selected_papers.liquid %}
     {% endif %}
 

@@ -1,0 +1,67 @@
+/* Custom CSS for styling venue badges and other elements */
+
+/* Style for publication venue badges */
+.publications .abbr {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.publications .abbr .badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  background-color: #4caf50;
+  color: white;
+  width: 100px;
+  text-transform: uppercase;
+}
+
+/* Fix for education and publications sections */
+.education .cv,
+.publications .cv {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.education .card,
+.publications .card {
+  margin-bottom: 20px;
+}
+
+.education .card-title,
+.publications .card-title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+/* Make bibliography entries match education styling */
+.education .bibliography,
+.publications .bibliography {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.education .bibliography li,
+.publications .bibliography li {
+  margin-bottom: 10px;
+  padding: 0.75rem 1.25rem;
+}
+
+/* Responsive fixes for mobile */
+@media (max-width: 768px) {
+  .publications .abbr {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .publications .abbr .badge {
+    width: auto;
+  }
+}

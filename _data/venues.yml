@@ -7,3 +7,27 @@
 
 "Vision":
   color: "#009f36"
+
+"CHI":
+  url: https://chi2025.acm.org/
+  color: "#E91E63"
+
+"IEEE Access":
+  url: https://ieeeaccess.ieee.org/
+  color: "#0066CC"
+
+"NIPS Demo":
+  url: https://neurips.cc/
+  color: "#673AB7"
+
+"arXiv":
+  url: https://arxiv.org/
+  color: "#B71C1C"
+
+"ACK":
+  url: https://www.kips.or.kr/
+  color: "#2E7D32"
+
+"KIPS":
+  url: https://www.kips.or.kr/
+  color: "#FF9800"
