@@ -1,0 +1,24 @@
+options:
+  quiet-deprecation-warnings: true
+
+rules:
+  no-warn: 2
+  no-debug: 2
+  no-ids: 0
+  indentation: 0
+  property-sort-order: 0
+  variable-for-property: 0
+  no-color-literals: 0
+  force-element-nesting: 0
+  force-pseudo-nesting: 0
+  hex-length: 0
+  hex-notation: 0
+  nesting-depth: 0
+  no-qualifying-elements: 0
+  no-transition-all: 0
+  no-url-domains: 0
+  no-url-protocols: 0
+  quotes: 0
+  shorthand-values: 0
+  url-quotes: 0
+  placeholder-in-extend: 0

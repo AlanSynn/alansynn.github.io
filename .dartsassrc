@@ -1,0 +1,5 @@
+{
+  "quietDeps": true,
+  "quiet": true,
+  "noDeprecationWarning": true
+}

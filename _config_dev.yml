@@ -1,0 +1,10 @@
+sass:
+  style: compressed
+  quiet_deps: true
+  quiet: true
+  load_paths:
+    - _sass
+    - node_modules
+
+# This file can be used with the command:
+# bundle exec jekyll serve --config _config.yml,_config_dev.yml --livereload

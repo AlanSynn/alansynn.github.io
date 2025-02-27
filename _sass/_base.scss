@@ -4,6 +4,7 @@
 
 // Typography
 
+@use "variables" as *;
 p,
 h1,
 h2,
@@ -193,8 +194,7 @@ ul.task-list input[type="checkbox"] {
 // Profile
 
 .profile {
-  margin-left: 1rem;
-  max-width: 12rem;
+  width: 100%;
 
   .more-info {
     margin-bottom: 5px;
