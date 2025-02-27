@@ -64,6 +64,7 @@ How can we effectively teach designers to use AI in their creative environment w
 There is growing concern about designers relying heavily on AI-generated content at the expense of creative authenticity. When designers request specific features (e.g., an automaton with particular movement characteristics), AI might generate something different. Instead of revisiting their original intent, designers often adapt to the AI output, potentially compromising their creative vision.
 
 My research explores methods to:
+
 - Preserve human intent throughout the AI-assisted design process
 - Develop interaction models that keep designers' original goals at the forefront
 - Create feedback mechanisms that help designers recognize when they're diverging from their initial vision
