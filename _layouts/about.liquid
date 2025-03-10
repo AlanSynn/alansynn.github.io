@@ -38,7 +38,58 @@ layout: default
       </div>
     {% endif %}
 
+    <!-- Bio/Introduction -->
     <div class="clearfix">{{ content }}</div>
+
+    <!-- All CV sections in one container for tighter spacing -->
+    <div class="education">
+      <div class="cv">
+        <!-- Research interests -->
+        {% if page.research_interests %}
+          {% include research_interests.liquid %}
+        {% endif %}
+
+        <!-- Education history -->
+        {% if page.education_history %}
+          {% include education_history.liquid %}
+        {% endif %}
+
+        <!-- Work experience -->
+        {% if page.work_experience %}
+          {% include work_experience.liquid %}
+        {% endif %}
+
+        <!-- Selected papers -->
+        {% if page.selected_papers %}
+          {% include selected_papers.liquid %}
+        {% endif %}
+
+        <!-- Honors and awards -->
+        {% if page.honors_awards %}
+          {% include honors_awards.liquid %}
+        {% endif %}
+
+        <!-- Student activities -->
+        {% if page.student_activities %}
+          {% include student_activities.liquid %}
+        {% endif %}
+
+        <!-- Teaching experience -->
+        {% if page.teaching_experience %}
+          {% include teaching_experience.liquid %}
+        {% endif %}
+
+        <!-- Technical projects -->
+        {% if page.technical_projects %}
+          {% include technical_projects.liquid %}
+        {% endif %}
+
+        <!-- References -->
+        {% if page.references %}
+          {% include references.liquid %}
+        {% endif %}
+      </div>
+    </div>
 
     <!-- News -->
     {% if page.announcements and page.announcements.enabled %}
@@ -54,16 +105,6 @@ layout: default
         <a href="{{ '/blog/' | relative_url }}" style="color: inherit">latest posts</a>
       </h2>
       {% include latest_posts.liquid %}
-    {% endif %}
-
-    <!-- Education -->
-    {% if page.education %}
-      {% include education.liquid %}
-    {% endif %}
-
-    <!-- Selected papers -->
-    {% if page.selected_papers %}
-      {% include selected_papers.liquid %}
     {% endif %}
 
     <!-- Social -->

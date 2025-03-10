@@ -15,8 +15,14 @@ profile:
 news: false # includes a list of news items
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: false # includes social icons at the bottom of the page
-education: true
-workexperience: true
+research_interests: true
+education_history: true
+work_experience: true
+honors_awards: true
+teaching_experience: true
+student_activities: true
+technical_projects: true
+references: true
 ---
 
 I am a PhD Student in Computer Science at Georgia Institute of Technology. My research explores the intersection of generative AI and computational design, particularly in creative processes like building automata and kinematics. I investigate how foundation models can revolutionize mechanical and computational design by enabling rapid production of diverse solutions while preserving human creative intent.

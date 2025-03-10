@@ -1,10 +1,6 @@
-<div class="publications education">
-  <div class="cv">
-    <div class="card mt-3 p-3">
-      <h3 class="card-title">Publications</h3>
-      <div class="card-text font-weight-light">
-        {% bibliography --group_by none --query @*[selected=true]* %}
-      </div>
-    </div>
+<div class="publications mt-3 p-3">
+  <h3 class="card-title">Selected Publications</h3>
+  <div class="card-text font-weight-light">
+    {% bibliography --group_by none --query @*[selected=true]* %}
   </div>
 </div>
