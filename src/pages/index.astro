@@ -1,32 +1,59 @@
 ---
 import Base from '@/layouts/Base.astro';
-import Hero from '@/components/Hero.astro';
-import Section from '@/components/Section.astro';
+import CompactPub from '@/components/CompactPub.astro';
 import NewsList from '@/components/NewsList.astro';
-import Publications from '@/components/Publications.astro';
+import Socials from '@/components/Socials.astro';
+import { site, researchInterests, getPapers, experience } from '@/lib/data';
 import { getCollection } from 'astro:content';
-import BioContent from '../../content/about.typ?html&body';
 
+// Single-page profile: compact, scannable in a glance (danfei/sha9-style).
 const allNews = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const latestNews = allNews.slice(0, 5);
+const latestNews = allNews.slice(0, 4);
+const selected = getPapers().filter((p) => p.selected).slice(0, 6);
+const topExperience = experience.slice(0, 4);
+const bio = researchInterests.statements[0];
 ---
 <Base>
-  <Hero />
-
-  <Section index="01" title="About">
-    <div class="prose">
-      <BioContent />
+  <section class="profile">
+    <img
+      class="profile__photo"
+      src="/profile-photo.webp"
+      alt={`Portrait of ${site.name}`}
+      width="336"
+      height="420"
+      loading="eager"
+    />
+    <div class="profile__text">
+      <h1>{site.name}</h1>
+      <p class="profile__role">{site.title} · {site.affiliation}</p>
+      <p class="profile__bio">{bio}</p>
+      <div class="profile__links">
+        <a class="btn btn--primary" href="/pdfs/cv.pdf" target="_blank" rel="noopener">CV (PDF)</a>
+        <a class="btn" href="/publications">Publications</a>
+        <a class="btn btn--ghost" href="/research">Research</a>
+      </div>
+      <Socials />
     </div>
-  </Section>
+  </section>
 
-  <Section index="02" title="News" meta={latestNews.length ? `${latestNews.length} latest` : ''} divider={true}>
-    <NewsList items={latestNews} />
-    {allNews.length > latestNews.length && (
-      <a class="back-link" href="/news">All news →</a>
-    )}
-  </Section>
+  <h2 class="home-head">News</h2>
+  <NewsList items={latestNews} />
+  <a class="back-link" href="/news">All news →</a>
 
-  <Section index="03" title="Publications" meta="all" divider={true}>
-    <Publications />
-  </Section>
+  <h2 class="home-head">Selected Publications</h2>
+  <div class="cpubs">
+    {selected.map((p) => <CompactPub paper={p} />)}
+  </div>
+  <a class="back-link" href="/publications">All publications →</a>
+
+  <h2 class="home-head">Experience</h2>
+  <ul class="mini-timeline">
+    {topExperience.map((e: { period?: string; title: string }) => (
+      <li>
+        <span class="mini-timeline__period">{e.period}</span>
+        <span>{e.title}</span>
+      </li>
+    ))}
+  </ul>
+  <a class="back-link" href="/cv">Full CV →</a>
 </Base>

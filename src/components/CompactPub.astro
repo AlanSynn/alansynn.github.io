@@ -1,0 +1,66 @@
+---
+// CompactPub.astro — dense one-line publication row for the homepage's
+// "selected" list. Small thumbnail, title (link), self-bolded authors,
+// venue badge + year, resource links. Full gallery (abstract/BibTeX) lives
+// on /publications via PublicationItem.
+import { me, coauthorUrl, venueInfo, type Paper } from '@/lib/data';
+
+interface Props { paper: Paper }
+const { paper } = Astro.props;
+
+const vinfo = venueInfo(paper.abbr);
+const titleHref = paper.url ?? (paper.doi ? `https://doi.org/${paper.doi}` : paper.pdf) ?? paper.website ?? null;
+
+const videoLink = paper.video
+  ? /^(https?:)?\/\//.test(paper.video) || /\.(mp4|webm|ogg)$/i.test(paper.video)
+    ? paper.video
+    : `https://www.youtube.com/watch?v=${paper.video}`
+  : null;
+
+const links: { label: string; url: string }[] = [];
+if (paper.website) links.push({ label: 'Project', url: paper.website });
+if (paper.pdf) links.push({ label: 'PDF', url: paper.pdf });
+if (paper.code) links.push({ label: 'Code', url: paper.code });
+if (videoLink) links.push({ label: 'Video', url: videoLink });
+
+const last = paper.authors.length - 1;
+---
+<div class="cpub" id={paper.key}>
+  <div class="cpub__thumb" class:list={[!paper.preview && 'cpub__thumb--placeholder']}>
+    {paper.preview ? <img src={paper.preview} alt="" loading="lazy" /> : <span>{paper.abbr ?? paper.type.slice(0, 4)}</span>}
+  </div>
+  <div class="cpub__body">
+    <div class="cpub__line">
+      <span class="cpub__title">{titleHref ? <a href={titleHref} target="_blank" rel="noopener">{paper.title}</a> : paper.title}</span>
+      <span class="cpub__year">{paper.year}</span>
+    </div>
+    <div class="cpub__authors">
+      {paper.authors.map((a, i) => {
+        const sep = i === 0 ? '' : i === last && last > 0 ? ', ' : ', ';
+        const text = a.given ? `${a.given} ${a.family}` : a.family;
+        const isMe = a.family.toLowerCase() === me.family.toLowerCase();
+        const url = isMe ? null : coauthorUrl(a.family, a.given);
+        return (
+          <>
+            {sep}
+            {isMe ? <strong class="me">{text}</strong> : url ? <a href={url} target="_blank" rel="noopener">{text}</a> : text}
+          </>
+        );
+      })}
+    </div>
+    <div class="cpub__meta">
+      {paper.abbr && (
+        vinfo?.url ? (
+          <a class="badge" style={vinfo.color ? `--badge-color:${vinfo.color}` : undefined} href={vinfo.url} target="_blank" rel="noopener">{paper.abbr}</a>
+        ) : (
+          <span class="badge" style={vinfo?.color ? `--badge-color:${vinfo.color}` : undefined}>{paper.abbr}</span>
+        )
+      )}
+      {links.length > 0 && (
+        <span class="cpub__links">
+          {links.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.label}</a>)}
+        </span>
+      )}
+    </div>
+  </div>
+</div>

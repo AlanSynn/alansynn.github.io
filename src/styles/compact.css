@@ -1,0 +1,110 @@
+/* ============================================================================
+   compact.css — homepage single-page profile (danfei/sha9-style, one-glance).
+   Profile strip + dense publication rows + mini timeline.
+   ========================================================================== */
+
+/* ---- Profile strip ---------------------------------------------------- */
+.profile {
+  display: grid;
+  grid-template-columns: 168px 1fr;
+  gap: var(--space-6);
+  align-items: start;
+  padding-block: var(--space-6);
+}
+.profile__photo {
+  width: 168px;
+  height: 210px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  filter: grayscale(0.06) contrast(1.02);
+  box-shadow: var(--shadow-sm);
+}
+.profile h1 {
+  font-size: var(--step-4);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  margin-bottom: var(--space-2);
+}
+.profile__role {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--accent);
+  letter-spacing: var(--tracking-mono);
+  margin-bottom: var(--space-4);
+}
+.profile__bio {
+  font-size: var(--step-0);
+  color: var(--ink-soft);
+  line-height: var(--leading-snug);
+  max-width: 42rem;
+  margin-bottom: var(--space-4);
+}
+.profile__links { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-4); }
+@media (max-width: 640px) {
+  .profile { grid-template-columns: 1fr; gap: var(--space-4); }
+  .profile__photo { width: 128px; height: 160px; }
+}
+
+/* ---- Section heads (homepage) ----------------------------------------- */
+.home-head {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  margin: var(--space-8) 0 var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--hairline);
+}
+.home-head:first-of-type { margin-top: var(--space-5); }
+
+/* ---- Compact publication row ------------------------------------------ */
+.cpub {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--hairline);
+}
+.cpub:first-child { border-top: none; }
+.cpub__thumb {
+  width: 56px;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-sm);
+  background: var(--paper-sunken);
+  border: 1px solid var(--hairline);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--step--3);
+  color: var(--accent);
+  letter-spacing: var(--tracking-mono);
+}
+.cpub__thumb img { width: 100%; height: 100%; object-fit: cover; }
+.cpub__line { display: flex; align-items: baseline; gap: var(--space-3); }
+.cpub__title { font-weight: 600; color: var(--ink); font-size: var(--step-0); line-height: var(--leading-snug); flex: 1; }
+.cpub__title a { color: inherit; }
+.cpub__title a:hover { color: var(--accent); text-decoration: none; }
+.cpub__year { font-family: var(--font-mono); font-size: var(--step--2); color: var(--muted); white-space: nowrap; }
+.cpub__authors { font-size: var(--step--1); color: var(--ink-soft); margin-top: 0.1em; }
+.cpub__meta { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-1); flex-wrap: wrap; }
+.cpub__links { display: flex; gap: var(--space-3); font-family: var(--font-mono); font-size: var(--step--2); }
+.cpub__links a { color: var(--accent); }
+.cpub__links a:hover { text-decoration: underline; }
+
+/* ---- Mini timeline (homepage highlights) ------------------------------ */
+.mini-timeline { list-style: none; padding: 0; margin: var(--space-2) 0 0; }
+.mini-timeline li {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--hairline);
+  font-size: var(--step--1);
+  align-items: baseline;
+}
+.mini-timeline li:first-child { border-top: none; }
+.mini-timeline__period { font-family: var(--font-mono); font-size: var(--step--2); color: var(--muted); }
+@media (max-width: 480px) {
+  .mini-timeline li { grid-template-columns: 1fr; gap: 0; }
+}
