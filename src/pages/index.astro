@@ -5,7 +5,6 @@ import CompactPub from '@/components/CompactPub.astro';
 import Socials from '@/components/Socials.astro';
 import Timeline from '@/components/Timeline.astro';
 import ProjectCard from '@/components/ProjectCard.astro';
-import ResearchStatement from '@/components/ResearchStatement.astro';
 import {
   site, researchInterests, getPapers, experience, education,
   honors, teaching, activities,
@@ -43,12 +42,6 @@ const bio = researchInterests.statements[0];
         loading="eager"
       />
     </div>
-  </section>
-
-  {/* ---- Research (interests lead is in the profile bio; here the full statement) ---- */}
-  <section id="research">
-    <h2 class="home-head">Research</h2>
-    <ResearchStatement />
   </section>
 
   {/* ---- Publications (Selected + All) ---- */}
@@ -113,7 +106,7 @@ const bio = researchInterests.statements[0];
   {/* ---- Contact ---- */}
   <section id="contact">
     <h2 class="home-head">Contact</h2>
-    <p>Open to faculty conversations, research collaborations, and intern hosting on generative design, computational fabrication, and HCI.</p>
+    <p>Feel free to reach out — always happy to talk.</p>
     <Socials />
   </section>
 </Base>

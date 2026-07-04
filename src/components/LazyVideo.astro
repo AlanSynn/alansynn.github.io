@@ -1,12 +1,14 @@
 ---
-// LazyVideo.astro - a build-time-generated clip shown as a lazy-loaded,
-// hover-to-play thumbnail. The <video> starts with NO src so the browser
-// downloads nothing until IntersectionObserver fires; once loaded, the clip
-// plays on hover (desktop) and stays paused otherwise. Under reduced-motion,
-// the src is still set so a tap can play, but nothing autoplays.
+// LazyVideo.astro - build-time-generated clip shown as a lazy-loaded,
+// hover-to-play thumbnail. The clip's <video> starts with NO src so the
+// browser downloads nothing until IntersectionObserver fires; once loaded,
+// the clip plays on hover (desktop) and pauses otherwise.
 //
-// Safe to drop in multiple times per page: each <video> is initialized once
-// via a data attribute, and the inline script is an idempotent IIFE.
+// The resting "thumbnail" is a separate <img> layered over the <video>, so it
+// is always the poster frame - never the video's current/first frame (which
+// can be white/black after a play+reset). Safe to drop in multiple times per
+// page: each instance is initialized once via a data attribute, and the
+// inline script is an idempotent IIFE.
 interface Props {
   src: string;
   poster?: string;
@@ -15,17 +17,21 @@ interface Props {
 }
 const { src, poster, alt, class: cls } = Astro.props;
 ---
-<video
-  class={cls}
-  muted
-  loop
-  playsinline
-  preload="none"
-  poster={poster}
-  aria-label={alt}
-  data-lazy-video
-  data-src={src}
-></video>
+<span class:list={["lazy-video", cls]}>
+  <video
+    muted
+    loop
+    playsinline
+    preload="none"
+    poster={poster}
+    aria-label={alt}
+    data-lazy-video
+    data-src={src}
+  ></video>
+  {poster && (
+    <img class="lazy-video__poster" src={poster} alt="" loading="lazy" aria-hidden="true" />
+  )}
+</span>
 
 <script is:inline>
   (function () {
@@ -39,7 +45,11 @@ const { src, poster, alt, class: cls } = Astro.props;
           v.setAttribute('data-lazy-init', '');
           var src = v.getAttribute('data-src');
           if (!src) return;
+          var wrap = v.closest('.lazy-video');
           var loaded = false;
+          function setPlaying(on) {
+            if (wrap) wrap.classList.toggle('is-playing', !!on);
+          }
           // Lazy-load: only set src once the element scrolls near the viewport.
           if ('IntersectionObserver' in window) {
             var io = new IntersectionObserver(function (entries) {
@@ -54,14 +64,13 @@ const { src, poster, alt, class: cls } = Astro.props;
             }, { rootMargin: '200px' });
             io.observe(v);
           } else {
-            // No IO support: fall back to loading immediately.
             loaded = true;
             v.src = src;
             v.load();
           }
-          // Hover-to-play (desktop pointer). Skipped under reduced-motion so
-          // nothing autoplays; the loaded src still allows tap-to-play.
           if (!reduced) {
+            // Hover-to-play (desktop pointer). Poster overlay hides on play,
+            // returns on leave - the resting frame is always the poster img.
             v.addEventListener('mouseenter', function () {
               if (!loaded) return;
               var p = v.play();
@@ -71,7 +80,21 @@ const { src, poster, alt, class: cls } = Astro.props;
               if (!loaded) return;
               v.pause();
               try { v.currentTime = 0; } catch (e) { /* ignore */ }
+              setPlaying(false);
             });
+            v.addEventListener('play', function () { setPlaying(true); });
+            v.addEventListener('pause', function () { setPlaying(false); });
+            v.addEventListener('ended', function () { setPlaying(false); });
+          } else {
+            // Reduced motion: tap to toggle play (no autoplay).
+            v.addEventListener('click', function () {
+              if (!loaded) return;
+              if (v.paused) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+              else { v.pause(); }
+            });
+            v.addEventListener('play', function () { setPlaying(true); });
+            v.addEventListener('pause', function () { setPlaying(false); });
+            v.addEventListener('ended', function () { setPlaying(false); });
           }
         })(vids[i]);
       }
@@ -81,7 +104,6 @@ const { src, poster, alt, class: cls } = Astro.props;
     } else {
       init(document);
     }
-    // Re-init on Astro view transitions / client-side navigation.
     document.addEventListener('astro:page-load', function () { init(document); });
   })();
 </script>
