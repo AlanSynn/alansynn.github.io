@@ -1,6 +1,6 @@
 #import "/src/3rd_party/mathyml/lib.typ": *
 
-_DoangJoo (Alan) Synn — alansynn\@gatech.edu_
+_DoangJoo (Alan) Synn - alansynn\@gatech.edu_
 
 = The Intersection of Generative AI and Computational Design
 
@@ -12,7 +12,7 @@ My research focuses on the transformative potential of generative AI in computat
 
 Mechanical crafts, commonly known as automata, represent an interdisciplinary medium that combines mechanical engineering, art, craft, and storytelling. Historically rooted in the intricate craftsmanship of clockwork and timepieces, automata have evolved into modern expressions of kinetic art and engaging learning tools. Their interdisciplinary nature makes automata a powerful medium for creative expression and education, appealing to makers of all ages.
 
-Building automata is an engaging yet complex process that blends creativity with problem-solving. Makers begin by ideating what to create — often a character or object, such as an elephant — and identifying which parts to animate, like its legs or trunk. Next, they design the mechanisms needed to achieve the desired motion, such as combining gears, joints, or linkages. Once the design is finalized, the fabrication process demands thorough planning and precision to successfully create a functional automaton.
+Building automata is an engaging yet complex process that blends creativity with problem-solving. Makers begin by ideating what to create - often a character or object, such as an elephant - and identifying which parts to animate, like its legs or trunk. Next, they design the mechanisms needed to achieve the desired motion, such as combining gears, joints, or linkages. Once the design is finalized, the fabrication process demands thorough planning and precision to successfully create a functional automaton.
 
 This domain presents unique challenges that generative AI can address, while also serving as an ideal testbed for exploring human-AI collaboration in design.
 
@@ -36,7 +36,7 @@ These functions are encapsulated in the concept of *Generative Design*, where AI
 == Limitations and Challenges
 
 - *Complexity in Implementation*: AI integration into design workflows requires a deep understanding of both AI mechanisms and user intent. AI and systems researchers often focus primarily on enhancing model performance rather than supporting creative co-creation processes with designers.
-- *Dependability Issues*: AI effectiveness is inherently tied to the quality of underlying data. The principle of "garbage in, garbage out" holds true — flawed data results in flawed outputs. Users may not detect how data quality affects outcomes.
+- *Dependability Issues*: AI effectiveness is inherently tied to the quality of underlying data. The principle of "garbage in, garbage out" holds true - flawed data results in flawed outputs. Users may not detect how data quality affects outcomes.
 - *Loss of Human Touch*: AI cannot replicate the nuanced creativity and emotional depth imparted by human designers. AI-generated designs often lack the distinctive artistic touch that defines compelling aesthetics and resonates on a human level.
 
 = Research Agenda
@@ -73,7 +73,7 @@ Despite the accessibility of natural language interfaces for LLMs ("prompting"),
 
 The integration of generative AI into computational design, particularly for mechanical systems like automata, represents a frontier with immense potential. By addressing the current limitations in human-AI creative collaboration, my research aims to develop new paradigms, tools, and methodologies that empower designers to fully leverage AI capabilities while maintaining their creative vision and intent.
 
-Through this work, I seek to transform how designers interact with AI — not as a replacement for human creativity, but as a powerful collaborator that expands the boundaries of what is possible in computational design.
+Through this work, I seek to transform how designers interact with AI - not as a replacement for human creativity, but as a powerful collaborator that expands the boundaries of what is possible in computational design.
 
 = References
 

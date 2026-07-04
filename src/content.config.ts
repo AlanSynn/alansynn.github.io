@@ -1,6 +1,6 @@
 // ============================================================================
 // Content collections. Blog = Typst (framework pattern). News + Projects =
-// Markdown, one file per item — scalable, al-folio-like, ready for a future
+// Markdown, one file per item - scalable, al-folio-like, ready for a future
 // lab page (multi-author).
 // ============================================================================
 import { glob } from 'astro/loaders';

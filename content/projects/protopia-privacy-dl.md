@@ -1,6 +1,6 @@
 ---
 title: "Privacy-Preserving Deep Learning"
-period: "2021 – 2022"
+period: "2021 - 2022"
 org: "Protopia AI"
 category: "work"
 order: 3
@@ -13,15 +13,15 @@ links:
 
 Protopia generates curated noise around the source signal, safeguarding data from unauthorized inference.
 
-**Illustration** — our technology on a mask-detection task over baby faces:
+**Illustration** - our technology on a mask-detection task over baby faces:
 [Protopia blog](https://www.protopia.ai/blog/what-is-the-one-and-only-way-to-secure-your-ai-data).
 
-**Demo video** — our technology on a face-detection task:
+**Demo video** - our technology on a face-detection task:
 [Protopia blog](https://www.protopia.ai/blog/what-is-the-one-and-only-way-to-secure-your-ai-data).
 
-Related: [NetApp — Responsible AI and ethics by design](https://www.netapp.com/blog/responsible-AI-ethics-by-design/).
+Related: [NetApp - Responsible AI and ethics by design](https://www.netapp.com/blog/responsible-AI-ethics-by-design/).
 
-### Work at Protopia AI (2021.01 – 2022.08 · NeurIPS-D '21)
+### Work at Protopia AI (2021.01 - 2022.08 · NeurIPS-D '21)
 
 - Development of Protopia AI's noise-training technology for inference privacy.
 - Development of an internal framework and system for noise-training privacy.

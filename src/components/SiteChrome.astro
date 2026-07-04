@@ -1,5 +1,5 @@
 ---
-// SiteChrome.astro — reading-progress bar, back-to-top, image lightbox.
+// SiteChrome.astro - reading-progress bar, back-to-top, image lightbox.
 // Progressive enhancement; respects reduced motion.
 ---
 <div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
@@ -30,7 +30,8 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     if (btn) btn.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
     });
 
     /* ---- Lightbox for prose images (blog, project bodies, research) ---- */

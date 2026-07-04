@@ -10,7 +10,7 @@
   show-outline: true,
 )
 
-Because this site compiles *Typst* to HTML at build time, equations become MathML — no client-side MathJax, no layout shift. A quick tour.
+Because this site compiles *Typst* to HTML at build time, equations become MathML - no client-side MathJax, no layout shift. A quick tour.
 
 == Inline and display
 
@@ -28,4 +28,4 @@ $ cal(J)_text("PPO")(theta) = bb(E)_((q,a)~cal(D)) [ min(r_t(theta) hat(A)_t, "c
 
 where $r_t(theta) = (pi_theta(a_t | s_t))/(pi_(theta_text("old"))(a_t | s_t))$ is the importance-sampling ratio and $hat(A)_t$ is the advantage estimate.
 
-That is the whole pipeline — write math, get crisp typeset output.
+That is the whole pipeline - write math, get crisp typeset output.

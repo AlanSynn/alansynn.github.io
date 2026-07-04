@@ -9,7 +9,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month:
 <Base title="Blog">
   <Section index="01" title="Blog" meta={`${posts.length} ${posts.length === 1 ? 'post' : 'posts'}`}>
     {posts.length === 0 ? (
-      <p class="empty-state">No posts yet — check back soon.</p>
+      <p class="empty-state">No posts yet - check back soon.</p>
     ) : (
       <ul class="blog-list">
         {posts.map((post) => (

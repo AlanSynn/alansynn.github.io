@@ -1,5 +1,5 @@
 /* ============================================================================
-   tokens.css — "Drafting Bench" design system for Alan Synn.
+   tokens.css - "Drafting Bench" design system for Alan Synn.
    Subject: kinematic automata / generative computational design.
    Light/dark via [data-theme]. No-flash inline script in Base.astro resolves
    stored pref or system preference BEFORE first paint.
@@ -7,12 +7,12 @@
 
 :root {
   /* ---- Color: light (default) ------------------------------------------- */
-  --paper: #ffffff;            /* clean white — academic, light-first         */
+  --paper: #ffffff;            /* clean white - academic, light-first         */
   --paper-raised: #ffffff;     /* cards, elevated surfaces                    */
   --paper-sunken: #f5f6f8;     /* wells, code blocks, thumbnail placeholder   */
-  --ink: #15171c;              /* primary text — near-black                    */
+  --ink: #15171c;              /* primary text - near-black                    */
   --ink-soft: #3a3f47;         /* secondary text                              */
-  --muted: #6b7178;            /* tertiary / metadata                         */
+  --muted: #5e646b;            /* tertiary / metadata (darkened for AA on sunken bg) */
   --faint: #99a0a8;            /* very low-emphasis                           */
   --hairline: #e8eaee;         /* dividers, borders                           */
   --hairline-strong: #d3d7dd;  /* emphasized rules                            */
@@ -33,7 +33,7 @@
   --font-body: "Hanken Grotesk", "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: "IBM Plex Mono", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
-  /* Modular type scale (1.250 — major third), base 1rem ≈ 17px             */
+  /* Modular type scale (1.250 - major third), base 1rem ≈ 17px             */
   --step--2: clamp(0.69rem, 0.67rem + 0.10vw, 0.74rem);
   --step--1: clamp(0.83rem, 0.81rem + 0.12vw, 0.90rem);
   --step-0:  clamp(1.00rem, 0.96rem + 0.20vw, 1.06rem);

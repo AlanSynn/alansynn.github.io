@@ -1,21 +1,17 @@
 # ============================================================================
-# Research interests. Graphics-forward primary identity + a visible systems
-# thread (the ML-systems research + production-engineering depth is a strength).
+# Research interests. Concrete, artifact-first (MotionSmith) for scanners.
 # ============================================================================
 
 statements:
   - >-
-    My research explores *computational design and creativity*, with a focus on
-    representing and supporting creative intent in generative and interactive
-    systems. I build models and interfaces that translate high-level human
-    intent into expressive, controllable outcomes, spanning **computer
-    graphics**, **motion synthesis**, and **kinematic design**.
+    I build design tools that turn a maker's sketch into a working, fabricable
+    automaton, most recently *MotionSmith* (CHI 2026). My research spans
+    **computer graphics**, **motion synthesis**, and **computational design**,
+    with a focus on preserving creative intent in generative systems.
   - >-
-    I also bring a systems-research and engineering background: distributed
-    training systems, ML infrastructure (privacy-preserving inference, model
-    compression), and production software from social robotics to cloud-native
-    platforms. This depth lets me take a graphics or HCI idea from model to
-    deployable system, not just a demo.
+    I also bring eight years of production systems experience, distributed
+    training, ML infrastructure, and cloud-native platforms, so I can take a
+    graphics idea from model to deployable system.
 
 focus_areas:
   - Computer Graphics

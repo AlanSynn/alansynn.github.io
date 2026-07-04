@@ -4,7 +4,7 @@ period: "2019"
 org: "Flysher Inc."
 category: "work"
 order: 2
-summary: "A TypeScript game-server framework — libraries, components, and tooling — replacing the deprecated pomelo stack for a global top-10 social game."
+summary: "A TypeScript game-server framework - libraries, components, and tooling - replacing the deprecated pomelo stack for a global top-10 social game."
 image: "https://github.com/NetEase/pomelo/wiki/images/mmo-arch.png"
 links:
   - { label: "pomelo (predecessor)", url: "https://github.com/NetEase/pomelo" }

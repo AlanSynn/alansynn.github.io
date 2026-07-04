@@ -1,5 +1,5 @@
 ---
-title: "MotionSmith — A Sketch-Based Design System for Automata Making"
+title: "MotionSmith - A Sketch-Based Design System for Automata Making"
 period: "2026"
 org: "Georgia Tech · UC Santa Barbara"
 category: "research"
@@ -13,7 +13,7 @@ links:
   - { label: "Google Scholar", url: "https://scholar.google.com/citations?user=tAfkWYcAAAAJ" }
 ---
 
-**CHI 2026 Full Paper** — *Proceedings of the 2026 CHI Conference on Human Factors in Computing Systems*, Barcelona, Spain · April 13–17, 2026.
+**CHI 2026 Full Paper** - *Proceedings of the 2026 CHI Conference on Human Factors in Computing Systems*, Barcelona, Spain · April 13-17, 2026.
 
 ![Three artist-designed automata shown as digital sketches above and fabricated artifacts below.](/images/motionsmith/motionsmith-teaser.webp)
 
@@ -29,9 +29,9 @@ MotionSmith moves from motion-path sketching to mechanism generation to fabricat
 
 ![MotionSmith workflow from motion-path sketching to fabrication-ready export.](/images/motionsmith/motionsmith-workflow.webp)
 
-1. **Identify a goal** — import a character, define the rig, sketch a motion path, and adjust pacing or smoothness.
-2. **Generate mechanisms** — compare four-bar, cam-follower, and gear candidates, then refine the selected mechanism directly on canvas.
-3. **Support fabrication** — export SVG or PDF blueprint packets that bridge the digital design to a physical automaton.
+1. **Identify a goal** - import a character, define the rig, sketch a motion path, and adjust pacing or smoothness.
+2. **Generate mechanisms** - compare four-bar, cam-follower, and gear candidates, then refine the selected mechanism directly on canvas.
+3. **Support fabrication** - export SVG or PDF blueprint packets that bridge the digital design to a physical automaton.
 
 ![MotionSmith desktop interface showing path editing, mechanism recommendations, and export tools.](/images/motionsmith/motionsmith-interface.webp)
 
@@ -41,17 +41,17 @@ Each deployment spans the full handoff from MotionSmith authoring, to mechanism 
 
 ![Lu Lyu's shy elephant process from MotionSmith authoring to fabrication and final automaton.](/images/motionsmith/motionsmith-case-lu.webp)
 
-### Lu Lyu — Shy elephant
+### Lu Lyu - Shy elephant
 
 The piece evolved from a simpler leg lift into a quieter flower-holding gesture with a distinct shy rhythm. LL chose a four-bar linkage because it supported a clear raise-pause-settle rhythm. MotionSmith SVG output was extruded in Fusion 360, then combined with 3D-printed linkages, cardstock layers, and brass fasteners.
 
 ![Marc Horovitz's tin robot process from MotionSmith authoring to fabrication and final automaton.](/images/motionsmith/motionsmith-case-marc.webp)
 
-### Marc Horovitz — Tin robot
+### Marc Horovitz - Tin robot
 
 ![Tom Haney's cheering man process from MotionSmith authoring to fabrication and final automaton.](/images/motionsmith/motionsmith-case-tom.webp)
 
-### Tom Haney — Cheering man
+### Tom Haney - Cheering man
 
 ## Citation
 

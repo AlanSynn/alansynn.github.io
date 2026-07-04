@@ -1,5 +1,5 @@
 /* ============================================================================
-   base.css — reset, document chrome, element defaults.
+   base.css - reset, document chrome, element defaults.
    Derives every value from tokens.css. No hardcoded colors here.
    ========================================================================== */
 
@@ -30,7 +30,7 @@ body {
   font-weight: 400;
   color: var(--ink);
   background-color: var(--paper);
-  /* Faint engineering graph-paper grid — the drafting-bench substrate.      */
+  /* Faint engineering graph-paper grid - the drafting-bench substrate.      */
   background-image:
     linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);

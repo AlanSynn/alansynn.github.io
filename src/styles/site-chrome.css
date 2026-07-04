@@ -1,5 +1,5 @@
 /* ============================================================================
-   site-chrome.css — reading progress, back-to-top, search UI.
+   site-chrome.css - reading progress, back-to-top, search UI.
    ========================================================================== */
 
 .reading-progress {
@@ -18,8 +18,8 @@
   position: fixed;
   right: var(--space-4);
   bottom: var(--space-5);
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   display: grid;
   place-items: center;
   border-radius: var(--radius-pill);
@@ -103,8 +103,8 @@
   position: absolute;
   top: var(--space-5);
   right: var(--space-5);
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: var(--radius-pill);
   color: #fff;
   font-size: 1.2rem;
