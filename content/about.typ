@@ -1,6 +1,6 @@
 #import "/src/3rd_party/mathyml/lib.typ": *
 
-I am a PhD Student in Computer Science at the _Georgia Institute of Technology_. My research explores the intersection of *generative AI* and *computational design*, particularly in creative processes like building automata and kinematics. I investigate how foundation models can revolutionize mechanical and computational design by enabling rapid production of diverse solutions while preserving human creative intent.
+I am a PhD Candidate in Computer Science at the _Georgia Institute of Technology_. My research explores the intersection of *generative AI* and *computational design*, particularly in creative processes like building automata and kinematics. I investigate how foundation models can support mechanical and computational design while preserving human creative intent.
 
 My work addresses three key challenges in AI-assisted design: (1) developing computational design frameworks that help users effectively collaborate with AI while maintaining their creative vision, (2) preserving human intent throughout the AI-assisted design process, and (3) creating specialized tools for non-expert users working on mechanical design projects.
 

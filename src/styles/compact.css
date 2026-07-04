@@ -34,7 +34,6 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
   height: 210px;
   object-fit: cover;
   border-radius: var(--radius-md);
-  filter: grayscale(0.06) contrast(1.02);
   box-shadow: var(--shadow-sm);
 }
 .profile h1 {
@@ -44,11 +43,10 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
   margin-bottom: var(--space-2);
 }
 .profile__role {
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-  color: var(--accent);
-  letter-spacing: var(--tracking-mono);
-  margin-bottom: var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--step-1);
+  color: var(--ink-soft);
+  margin-bottom: var(--space-2);
 }
 .profile__bio {
   font-size: var(--step-0);
@@ -103,10 +101,11 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
 .cpub__title { font-weight: 600; color: var(--ink); font-size: var(--step-0); line-height: var(--leading-snug); flex: 1; }
 .cpub__title a { color: inherit; }
 .cpub__title a:hover { color: var(--accent); text-decoration: none; }
-.cpub__year { font-family: var(--font-mono); font-size: var(--step--2); color: var(--muted); white-space: nowrap; }
+.cpub__year { font-family: var(--font-body); font-size: var(--step--1); color: var(--muted); white-space: nowrap; }
 .cpub__authors { font-size: var(--step--1); color: var(--ink-soft); margin-top: 0.1em; }
 .cpub__meta { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-1); flex-wrap: wrap; }
-.cpub__links { display: flex; gap: var(--space-3); font-family: var(--font-mono); font-size: var(--step--2); }
+.cpub__venue { font-style: italic; color: var(--muted); font-size: var(--step--1); }
+.cpub__links { display: flex; gap: var(--space-3); font-family: var(--font-body); font-size: var(--step--1); }
 .cpub__links a { color: var(--accent); }
 .cpub__links a:hover { text-decoration: underline; }
 

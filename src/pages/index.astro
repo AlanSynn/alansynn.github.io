@@ -16,7 +16,7 @@ import { getCollection } from 'astro:content';
 // One page = the whole CV. Scroll-only, no nav.
 const papers = getPapers();
 // Curated "Selected" for a Graphics/HCI scanner (2 CHI, NeurIPS demo, 2 first-author systems).
-const highlighted = ['synn2026motionsmith', 'yu2025tangible', 'ahn2021nips', 'synn2023distributed', 'synn2021mbs'];
+const highlighted = ['synn2026motionsmith', 'yu2025tangible', 'ahn2021nips', 'synn2023distributed'];
 const selectedPubs = papers.filter((p) => highlighted.includes(p.key));
 const otherPubs = papers.filter((p) => !highlighted.includes(p.key));
 
@@ -50,13 +50,13 @@ const bio = researchInterests.statements[0];
   </section>
 
   {/* ---- Research (interests lead is in the profile bio; here the full statement) ---- */}
-  <section id="research" data-reveal>
+  <section id="research">
     <h2 class="home-head">Research</h2>
     <ResearchStatement />
   </section>
 
   {/* ---- Publications (Selected + All) ---- */}
-  <section id="publications" data-reveal>
+  <section id="publications">
     <h2 class="home-head">Publications</h2>
     <div class="cpubs">
       {selectedPubs.map((p) => <CompactPub paper={p} />)}
@@ -72,7 +72,7 @@ const bio = researchInterests.statements[0];
   </section>
 
   {/* ---- Projects ---- */}
-  <section id="projects" data-reveal>
+  <section id="projects">
     <h2 class="home-head">Projects</h2>
     {researchProjects.length > 0 && (
       <>
@@ -89,19 +89,19 @@ const bio = researchInterests.statements[0];
   </section>
 
   {/* ---- Experience ---- */}
-  <section id="experience" data-reveal>
+  <section id="experience">
     <h2 class="home-head">Experience</h2>
     <Timeline items={experience} />
   </section>
 
   {/* ---- Education ---- */}
-  <section id="education" data-reveal>
+  <section id="education">
     <h2 class="home-head">Education</h2>
     <Timeline items={education} />
   </section>
 
   {/* ---- Honors ---- */}
-  <section id="honors" data-reveal>
+  <section id="honors">
     <h2 class="home-head">Honors &amp; Awards</h2>
     {honors.map((g: { group: string; items: string[] }) => (
       <div class="honor-group">
@@ -114,19 +114,19 @@ const bio = researchInterests.statements[0];
   </section>
 
   {/* ---- Teaching ---- */}
-  <section id="teaching" data-reveal>
+  <section id="teaching">
     <h2 class="home-head">Teaching</h2>
     <Timeline items={teaching} />
   </section>
 
   {/* ---- Activities & Service ---- */}
-  <section id="service" data-reveal>
+  <section id="service">
     <h2 class="home-head">Activities &amp; Service</h2>
     <Timeline items={activities} />
   </section>
 
   {/* ---- Contact ---- */}
-  <section id="contact" data-reveal>
+  <section id="contact">
     <h2 class="home-head">Contact</h2>
     <p>Open to faculty conversations, research collaborations, and intern hosting on generative design, computational fabrication, and HCI.</p>
     <p><a class="contact-mail" href={`mailto:${site.email}`}>{site.email}</a></p>
