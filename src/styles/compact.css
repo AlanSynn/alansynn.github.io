@@ -1,5 +1,5 @@
 /* ============================================================================
-   compact.css — single-page interactive CV.
+   compact.css - single-page interactive CV.
    Profile strip (photo RIGHT, aside) + dense publication rows + collapsibles
    + mini timeline + scroll-reveal.
    ========================================================================== */
@@ -12,6 +12,8 @@
   will-change: opacity, transform;
 }
 [data-reveal].in { opacity: 1; transform: none; }
+/* No-JS fallback: if JS fails, show everything (no trapped invisibility). */
+html.no-js [data-reveal] { opacity: 1 !important; transform: none !important; }
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] { opacity: 1 !important; transform: none !important; transition: none; }
 }

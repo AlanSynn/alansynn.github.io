@@ -1,5 +1,5 @@
 // ============================================================================
-// papers.ts — minimal, dependency-free BibTeX parser tailored to the al-folio
+// papers.ts - minimal, dependency-free BibTeX parser tailored to the al-folio
 // flavour used in src/data/papers.bib. Runs at BUILD TIME only (Node fs).
 // Handles: @string macros, nested braces in values, {}/""/bare-word values,
 // boolean-ish fields, author splitting, month names. Preserves every field
@@ -79,13 +79,13 @@ function stripComments(src: string): string {
 function parseValue(token: string, strings: Record<string, string>): string {
   const t = token.trim();
   if (!t) return '';
-  // Quoted or braced — strip outermost delimiters, keep inner braces as content.
+  // Quoted or braced - strip outermost delimiters, keep inner braces as content.
   if ((t[0] === '{' && t[t.length - 1] === '}') || (t[0] === '"' && t[t.length - 1] === '"')) {
     return t.slice(1, -1).trim();
   }
-  // Bare word — could be a @string macro or a number.
+  // Bare word - could be a @string macro or a number.
   if (Object.prototype.hasOwnProperty.call(strings, t)) return strings[t];
-  // Concatenation with # — e.g., acm # " Inc."
+  // Concatenation with # - e.g., acm # " Inc."
   if (t.includes('#')) {
     return t.split('#').map((p) => parseValue(p, strings)).join('');
   }

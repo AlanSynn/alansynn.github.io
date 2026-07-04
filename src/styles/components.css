@@ -1,5 +1,5 @@
 /* ============================================================================
-   components.css — every discrete UI unit. Tokens drive all visual values.
+   components.css - every discrete UI unit. Tokens drive all visual values.
    ========================================================================== */
 
 /* ==========================================================================
@@ -72,8 +72,8 @@
   z-index: var(--z-header);
   display: inline-grid;
   place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: var(--radius-pill);
   border: 1px solid var(--hairline-strong);
   background: color-mix(in srgb, var(--paper) 80%, transparent);
@@ -149,7 +149,7 @@
   letter-spacing: var(--tracking-wide);
   padding: 0.15em 0.55em;
   border-radius: var(--radius-sm);
-  color: var(--badge-color, var(--accent));
+  color: color-mix(in srgb, var(--badge-color, var(--accent)) 70%, #000 30%);
   background: color-mix(in srgb, var(--badge-color, var(--accent)) 12%, transparent);
   border: 1px solid color-mix(in srgb, var(--badge-color, var(--accent)) 30%, transparent);
   line-height: 1.5;

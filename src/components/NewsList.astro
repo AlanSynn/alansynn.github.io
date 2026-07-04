@@ -1,5 +1,5 @@
 ---
-// NewsList.astro — renders news collection entries (newest first by caller).
+// NewsList.astro - renders news collection entries (newest first by caller).
 import { render } from 'astro:content';
 interface Props { items: import('astro:content').CollectionEntry<'news'>[] }
 const { items } = Astro.props;

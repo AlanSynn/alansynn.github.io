@@ -1,5 +1,5 @@
 // ============================================================================
-// data.ts — single access point for all structured content. YAML files live
+// data.ts - single access point for all structured content. YAML files live
 // in src/data/ (human-edited); papers.bib is parsed at build by papers.ts.
 // Import from here in any .astro frontmatter.
 // ============================================================================
@@ -25,7 +25,7 @@ export type { Paper, Author };
 
 export const references = referencesData;
 
-// "Me" — used to bold + disambiguate the owner in author lists.
+// "Me" - used to bold + disambiguate the owner in author lists.
 export const me = {
   family: site.last_name,
   givenFirst: [site.first_name, site.nick_name, 'D.'],

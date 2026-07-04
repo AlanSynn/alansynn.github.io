@@ -22,7 +22,7 @@ url: 'https://alansynn.com'
 domain: 'alansynn.com'
 
 description: >-
-  DoangJoo (Alan) Synn — Computer Science PhD Student at Georgia Tech.
+  DoangJoo (Alan) Synn, Computer Science PhD Student at Georgia Tech.
   Research at the intersection of generative AI and computational design:
   automata, kinematics, and human-AI collaboration.
 
@@ -37,7 +37,7 @@ keywords:
 
 # Short hero copy (also rendered on the homepage hero).
 tagline: >-
-  Computer graphics, motion synthesis, and computational design — building
+  Computer graphics, motion synthesis, and computational design, building
   generative systems that turn human intent into expressive, controllable motion
   for automata, kinematics, and creative tools.
 

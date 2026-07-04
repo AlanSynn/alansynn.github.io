@@ -8,4 +8,4 @@ Throughout my career, I have developed and implemented a wide range of solutions
 
 I received M.Eng and B.Eng in Electrical and Computer Engineering from _Korea University_ advised by Prof. Jong-Kook Kim. My research at Korea University focused on Machine Learning Systems and Distributed Systems.
 
-Beyond research, I spent eight years as a software and systems engineer — designing embedded Linux boards and firmware for the social robot _Musio_ (AKA Intelligence), building large-scale Node.js game backends (Flysher), architecting privacy-preserving ML infrastructure (Protopia AI), and consulting startups on cloud-native platforms. This engineering practice grounds my research: I build the systems behind the models I study.
+Beyond research, I spent eight years as a software and systems engineer - designing embedded Linux boards and firmware for the social robot _Musio_ (AKA Intelligence), building large-scale Node.js game backends (Flysher), architecting privacy-preserving ML infrastructure (Protopia AI), and consulting startups on cloud-native platforms. This engineering practice grounds my research: I build the systems behind the models I study.

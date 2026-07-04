@@ -10,15 +10,15 @@
   show-outline: false,
 )
 
-Welcome to the relaunched site. It is now typeset with *Typst* and built with *Astro* — content lives in structured files (`YAML`, `BibTeX`, `Typst`), so publications, projects, and news stay easy to maintain.
+Welcome to the relaunched site. It is now typeset with *Typst* and built with *Astro* - content lives in structured files (`YAML`, `BibTeX`, `Typst`), so publications, projects, and news stay easy to maintain.
 
 == What is here
 
-- *Publications* — every paper, grouped by year, with one-click BibTeX export and an optional "selected only" filter.
-- *Projects* — things I have shipped, with video where it exists.
-- *CV* — the full timeline: education, experience, honors, teaching, service.
-- *Research* — my research statement on generative AI and computational design.
+- *Publications* - every paper, grouped by year, with one-click BibTeX export and an optional "selected only" filter.
+- *Projects* - things I have shipped, with video where it exists.
+- *CV* - the full timeline: education, experience, honors, teaching, service.
+- *Research* - my research statement on generative AI and computational design.
 
-The design uses a light/dark theme toggle and a kinematic coupler-curve motif — a nod to the automata and linkage work on the *Projects* page.
+The design uses a light/dark theme toggle and a kinematic coupler-curve motif - a nod to the automata and linkage work on the *Projects* page.
 
 More writing soon.

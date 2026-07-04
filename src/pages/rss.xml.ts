@@ -7,7 +7,7 @@ import { site } from '@/lib/data';
 export async function GET(context: APIContext) {
   const posts = (await getCollection('blog')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   return rss({
-    title: `${site.name} — Blog`,
+    title: `${site.name} - Blog`,
     description: site.description,
     site: context.site ?? site.url,
     items: posts.map((p) => ({
