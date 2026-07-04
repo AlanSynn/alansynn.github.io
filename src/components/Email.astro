@@ -1,0 +1,23 @@
+---
+// Email.astro — obfuscated email link. Raw address never appears in the HTML
+// (only base64 halves + a human-readable "[at] ... [dot]" display). Click is
+// decoded in JS to a mailto. Defeats text-scraping crawlers.
+import { site } from '@/lib/data';
+const [user, domain] = site.email.split('@');
+const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
+const display = `${user} [at] ${domain.replace(/\./g, ' [dot] ')}`;
+---
+<a class="email" href="#" data-u={enc(user)} data-d={enc(domain)} aria-label={`email ${user} at ${domain}`}>{display}</a>
+
+<script is:inline>
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a.email[data-u]');
+    if (!a) return;
+    e.preventDefault();
+    try {
+      var u = atob(a.getAttribute('data-u'));
+      var d = atob(a.getAttribute('data-d'));
+      window.location.href = 'mailto:' + u + '@' + d;
+    } catch (err) { /* noop */ }
+  });
+</script>

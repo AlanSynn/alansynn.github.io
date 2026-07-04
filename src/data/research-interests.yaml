@@ -1,23 +1,23 @@
 # ============================================================================
-# Research interests. Concrete, artifact-first (MotionSmith) for scanners.
+# Research interests. Concrete + graspable (multi-round agent rewrite).
 # ============================================================================
 
 statements:
   - >-
-    My research explores **computational design and creativity**, with a focus
-    on representing and supporting creative intent in generative and
-    interactive systems. I build models and interfaces that translate
-    high-level human intent into expressive, controllable outcomes, spanning
-    **computer graphics**, **motion synthesis**, **AI**, and **HCI**.
+    I build tools that help people design and make things that move. My
+    research brings together **computer graphics**, **HCI**, and
+    **computational design** to turn a sketch of the motion you want into
+    working gears, cams, and linkages, ready to cut and assemble. Before my
+    PhD I spent eight years shipping production systems, from distributed
+    machine-learning infrastructure to the embedded robotics behind the social
+    robot Musio.
   - >-
-    I also bring eight years of production systems experience (distributed
-    training, ML infrastructure, cloud-native platforms), which lets me take a
-    graphics or HCI idea from model to deployable system.
+    That engineering experience grounds how I build: I can take a graphics or
+    HCI idea from model to deployable system, not just a demo.
 
 focus_areas:
   - Computer Graphics
-  - Motion Synthesis
+  - HCI
   - Computational Design
+  - Motion Synthesis
   - ML Systems
-  - Production Engineering
-  - Robotics / Embedded

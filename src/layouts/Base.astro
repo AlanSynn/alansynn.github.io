@@ -28,7 +28,6 @@ const jsonld = JSON.stringify({
   name: site.name,
   jobTitle: site.title,
   url: site.url,
-  email: `mailto:${site.email}`,
   image: `${site.url}/og.png`,
   worksFor: { "@type": "Organization", name: site.affiliation },
   subjectOf: { "@type": "WebSite", url: site.url },

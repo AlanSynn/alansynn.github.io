@@ -1,6 +1,6 @@
 #import "/src/3rd_party/mathyml/lib.typ": *
 
-_DoangJoo (Alan) Synn · alansynn\@gatech.edu_
+_DoangJoo (Alan) Synn_
 
 = Generative AI for Computational Design, Through the Lens of Automata
 
