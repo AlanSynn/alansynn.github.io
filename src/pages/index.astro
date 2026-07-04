@@ -6,8 +6,6 @@ import Socials from '@/components/Socials.astro';
 import Timeline from '@/components/Timeline.astro';
 import ProjectCard from '@/components/ProjectCard.astro';
 import ResearchStatement from '@/components/ResearchStatement.astro';
-import Email from '@/components/Email.astro';
-import CouplerCurve from '@/components/CouplerCurve.astro';
 import {
   site, researchInterests, getPapers, experience, education,
   honors, teaching, activities,
@@ -30,14 +28,12 @@ const bio = researchInterests.statements[0];
   <section id="profile" class="profile">
     <div class="profile__text">
       <h1>{site.name}</h1>
-      <p class="profile__role">{site.title} · {site.affiliation}</p>
-      <p class="profile__advisors">Advised by <strong>Prof. HyunJoo Oh</strong> &amp; <strong>Prof. Sehoon Ha</strong> · School of Interactive Computing</p>
+      <p class="profile__role">{site.title} · <a href="https://ic.gatech.edu">School of Interactive Computing</a>, <a href="https://www.gatech.edu">Georgia Tech</a></p>
+      <p class="profile__advisors">Advised by <a href="https://www.cc.gatech.edu/people/hyunjoo-oh">Prof. HyunJoo Oh</a> &amp; <a href="https://faculty.cc.gatech.edu/~sha9/">Prof. Sehoon Ha</a></p>
       <div class="profile__bio"><Markdown content={bio} /></div>
-      <Email />
       <Socials />
     </div>
     <div class="profile__portrait">
-      <CouplerCurve class="profile__coupler" />
       <img
         class="profile__photo"
         src="/profile-photo.webp"
@@ -118,7 +114,6 @@ const bio = researchInterests.statements[0];
   <section id="contact">
     <h2 class="home-head">Contact</h2>
     <p>Open to faculty conversations, research collaborations, and intern hosting on generative design, computational fabrication, and HCI.</p>
-    <Email />
     <Socials />
   </section>
 </Base>
@@ -130,16 +125,6 @@ const bio = researchInterests.statements[0];
     margin-bottom: var(--space-4);
   }
   .profile__portrait { position: relative; }
-  .profile__coupler {
-    position: absolute;
-    inset: -14px -16px -8px -8px;
-    width: calc(100% + 24px);
-    height: calc(100% + 22px);
-    color: var(--accent);
-    opacity: 0.25;
-    z-index: 0;
-    pointer-events: none;
-  }
   .profile__portrait .profile__photo { position: relative; z-index: 1; }
   .all-pubs { margin-top: var(--space-5); }
   .all-pubs > summary {
@@ -153,8 +138,6 @@ const bio = researchInterests.statements[0];
   }
   .all-pubs > summary::-webkit-details-marker { display: none; }
   .all-pubs[open] > summary { border-bottom: 1px solid var(--hairline); margin-bottom: var(--space-3); }
-  .email { font-family: var(--font-body); color: var(--accent); }
-  .email:hover { text-decoration: underline; }
   @media (max-width: 640px) {
     .profile__portrait { order: -1; }   /* photo first on mobile */
   }

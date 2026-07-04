@@ -5,19 +5,19 @@
 # ============================================================================
 
 - period: '2024 - 2025'
-  title: 'PhD Research Intern, Dolby Laboratories'
+  title: 'PhD Research Intern, [Dolby Laboratories](https://www.dolby.com)'
   location: 'Atlanta, GA, USA'
   body: |
     - Experience Delivery Lab, built a time-series, multimodal datastore supporting low-latency media analytics.
 
 - period: '2023'
-  title: 'MLOps Engineering Intern, LG Uplus Corp.'
+  title: 'MLOps Engineering Intern, [LG Uplus Corp.](https://www.lguplus.com)'
   location: 'Seoul, Korea'
   body: |
     - Led **DeepCrunch**, a model-compression library with multi-backend AI inference for efficient edge serving.
 
 - period: '2021 - 2022'
-  title: 'Research Scientist, Protopia AI Inc.'
+  title: 'Research Scientist, [Protopia AI Inc.](https://protopia.ai)'
   location: 'Austin, TX, USA'
   body: |
     - Built **Stained-Glass**, a privacy-preserving deep-learning framework enabling inference without raw-data exposure.
@@ -26,7 +26,7 @@
     - Resulted in a NeurIPS 2021 Demo publication.
 
 - period: '2020 - 2022'
-  title: 'Cloud Architect · AWS Educate Cloud Ambassador'
+  title: 'Cloud Architect · [AWS Educate](https://aws.amazon.com/education/awseducate/) Cloud Ambassador'
   location: 'Seoul, Korea'
   body: |
     - Guided 4 startups to cloud-native deployments (Kubernetes, Terraform) and shipped their services.
@@ -40,7 +40,7 @@
     - Built an ETL → Redshift analytics pipeline driving data-informed feature rollout.
 
 - period: '2017 - 2019'
-  title: 'System Engineer, AKA Intelligence Inc. (Musio)'
+  title: 'System Engineer, [AKA Intelligence](https://www.aka.ai) Inc. (Musio)'
   location: 'Seoul, Korea'
   body: |
     - Designed embedded Linux boards & firmware for the social robot **Musio**, shipping >10k units.

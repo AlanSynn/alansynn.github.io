@@ -246,26 +246,21 @@
   z-index: 0;
 }
 
-/* ---- Socials ---------------------------------------------------------- */
-.socials { display: flex; flex-wrap: nowrap; gap: var(--space-4); align-items: center; margin-top: var(--space-5); }
-.socials__link {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  flex-shrink: 0;
-  white-space: nowrap;
-  font-family: var(--font-mono);
+/* ---- Contact links (inline, danfei/sehoon-ha style) ------------------ */
+.contact-links {
+  margin-top: var(--space-4);
   font-size: var(--step--1);
-  letter-spacing: var(--tracking-mono);
-  color: var(--ink-soft);
+  line-height: 1.7;
 }
-@media (max-width: 640px) {
-  .socials { gap: var(--space-3); }
-  .socials__label { display: none; }   /* icon-only when narrow */
-  .socials__icon { width: 1.15rem; height: 1.15rem; }
+.contact-links__email,
+.contact-links__item { color: var(--accent); }
+.contact-links__email:hover,
+.contact-links__item:hover { text-decoration: underline; }
+.contact-links__sep {
+  color: var(--muted);
+  margin: 0 0.4em;
+  user-select: none;
 }
-.socials__link:hover { color: var(--accent); text-decoration: none; }
-.socials__icon { width: 1rem; height: 1rem; }
 
 /* ==========================================================================
    News list
@@ -523,9 +518,9 @@
   border-radius: var(--radius-md);
   background: var(--paper-raised);
   overflow: hidden;
-  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+  transition: border-color var(--dur) var(--ease);
 }
-.project-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--hairline-strong); }
+.project-card:hover { border-color: var(--hairline-strong); }
 .project-card__media { aspect-ratio: 16 / 9; background: var(--paper-sunken); overflow: hidden; }
 .project-card__media img, .project-card__media video { width: 100%; height: 100%; object-fit: cover; }
 .project-card__body { padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-2); flex: 1; }
