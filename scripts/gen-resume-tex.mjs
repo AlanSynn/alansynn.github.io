@@ -33,10 +33,8 @@ if (doc !== 'resume' && doc !== 'cv') {
   console.error(`--doc must be 'resume' or 'cv' (got '${doc}')`);
   process.exit(2);
 }
-if (target && !(target in TARGET_KEYWORDS)) {
-  console.error(`Unknown --target '${target}'. Known targets: ${Object.keys(TARGET_KEYWORDS).join(', ')}.`);
-  process.exit(2);
-}
+// NOTE: --target validation runs after TARGET_KEYWORDS is declared (below) to
+// avoid the temporal-dead-zone ReferenceError when a target is passed.
 
 // ---------------------------------------------------------------------------
 // 2. Load shared data
@@ -78,6 +76,11 @@ const TARGET_BLURB = {
     'distributed computing to make ML training and deployment faster, more ' +
     'resource-efficient, and easier to use.',
 };
+
+if (target && !(target in TARGET_KEYWORDS)) {
+  console.error(`Unknown --target '${target}'. Known targets: ${Object.keys(TARGET_KEYWORDS).join(', ')}.`);
+  process.exit(2);
+}
 
 // Split into {matched, rest}, preserving order within each.
 function matchPubs(list, targetName) {
@@ -192,7 +195,7 @@ function researchBlurb(docName, targetName) {
 // {period, title, location?, body} → Entry block
 function entryBlock(e) {
   const lines = ['\\Entry'];
-  const title = `\\textbf{${esc(e.title || '')}}`;
+  const title = `\\textbf{${mdInline(e.title || '')}}`;
   const period = esc(e.period || '');
   lines.push(period ? `${title}\\hfill ${period}` : title);
   const detail = [];

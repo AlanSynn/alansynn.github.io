@@ -97,6 +97,17 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
   letter-spacing: var(--tracking-mono);
 }
 .cpub__thumb img, .cpub__thumb video { width: 100%; height: 100%; object-fit: cover; }
+
+/* LazyVideo: poster <img> overlays the <video> so the resting frame is always
+   the poster (never a white/black video frame after play+reset). */
+.lazy-video { display: block; position: relative; width: 100%; height: 100%; }
+.lazy-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.lazy-video__poster {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  transition: opacity 0.2s ease;
+}
+.lazy-video.is-playing .lazy-video__poster { opacity: 0; }
 .cpub__line { display: flex; align-items: baseline; gap: var(--space-3); }
 .cpub__title { font-weight: 600; color: var(--ink); font-size: var(--step-0); line-height: var(--leading-snug); flex: 1; }
 .cpub__title a { color: inherit; }
