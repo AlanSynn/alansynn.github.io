@@ -1,0 +1,20 @@
+# ============================================================================
+# Student activities & service (verbatim from old _includes/student_activities.liquid).
+# ============================================================================
+
+- period: '2023 – 2024'
+  title: 'Georgia Tech Korean Student Association'
+  body: |
+    - President of Korean Students in the College of Computing.
+
+- period: '2014 – 2019'
+  title: 'Hardware & Software Community, Korea University'
+  body: |
+    - President.
+    - Grew the engineering community at Korea University from 10 members to over 200 active participants, spanning both hardware and software specialties.
+
+- period: '2015 – 2016'
+  title: 'TEDxKoreaUniversity, Korea University'
+  body: |
+    - Founder & Chief Organizer.
+    - Organized a TEDx event with 200 guests, 7 speakers, 47 team members, and a $4k budget. Responsibilities included fundraising, sponsorships, editorial decisions, communication planning, and production & media.

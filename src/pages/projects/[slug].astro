@@ -1,0 +1,58 @@
+---
+import Base from '@/layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((p) => ({ params: { slug: p.id }, props: { project: p } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const d = project.data;
+const isLocalVideo = !!d.video && /\.(mp4|webm|ogg)$/i.test(d.video);
+---
+<Base title={d.title} wide>
+  <article>
+    <header class="post-header">
+      <div class="hero__eyebrow">{[d.period, d.org].filter(Boolean).join(' · ')}</div>
+      <h1>{d.title}</h1>
+    </header>
+
+    {d.video && isLocalVideo && (
+      <div class="video-frame">
+        <video controls preload="metadata" poster={d.image} title={d.title}>
+          <source src={d.video} />
+        </video>
+      </div>
+    )}
+    {d.video && !isLocalVideo && (
+      <div class="video-frame">
+        <iframe
+          src={`https://www.youtube.com/embed/${d.video}`}
+          title={d.title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+        ></iframe>
+      </div>
+    )}
+    {d.image && !d.video && (
+      <img src={d.image} alt={d.title} style="border-radius: var(--radius-md); border: 1px solid var(--hairline); margin-bottom: var(--space-5);" />
+    )}
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {d.links && d.links.length > 0 && (
+      <div class="pub__links" style="margin-top: var(--space-6);">
+        {d.links.map((l: { label: string; url: string }) => (
+          <a class="pub-link" href={l.url} target="_blank" rel="noopener">{l.label} ↗</a>
+        ))}
+      </div>
+    )}
+
+    <a class="back-link" href="/projects">← All projects</a>
+  </article>
+</Base>

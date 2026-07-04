@@ -1,0 +1,65 @@
+---
+// SiteChrome.astro — reading-progress bar, back-to-top, image lightbox.
+// Progressive enhancement; respects reduced motion.
+---
+<div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
+
+<button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top" title="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19V5M5 12l7-7 7 7" />
+  </svg>
+</button>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox__close" id="lightbox-close" aria-label="Close">✕</button>
+  <img id="lightbox-img" alt="" />
+</div>
+
+<script is:inline>
+  (function () {
+    /* ---- Reading progress + back to top ---- */
+    var bar = document.getElementById('reading-progress');
+    var btn = document.getElementById('back-to-top');
+    function onScroll() {
+      var h = document.documentElement;
+      var scrolled = h.scrollTop || document.body.scrollTop;
+      var height = h.scrollHeight - h.clientHeight;
+      if (bar && height > 0) bar.style.transform = 'scaleX(' + (scrolled / height) + ')';
+      if (btn) btn.classList.toggle('visible', scrolled > 600);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    if (btn) btn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ---- Lightbox for prose images (blog, project bodies, research) ---- */
+    var lb = document.getElementById('lightbox');
+    var lbImg = document.getElementById('lightbox-img');
+    var lbClose = document.getElementById('lightbox-close');
+    if (lb && lbImg) {
+      function open(src, alt) {
+        lbImg.src = src;
+        lbImg.alt = alt || '';
+        lb.classList.add('open');
+        lb.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      }
+      function close() {
+        lb.classList.remove('open');
+        lb.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+      document.addEventListener('click', function (e) {
+        var img = e.target.closest && e.target.closest('.prose img, .lightbox-target');
+        if (img && img.src) {
+          e.preventDefault();
+          open(img.src, img.alt);
+        }
+      });
+      if (lbClose) lbClose.addEventListener('click', close);
+      lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+    }
+  })();
+</script>

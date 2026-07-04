@@ -1,0 +1,66 @@
+---
+// Hero.astro — homepage hero. Name, role, tagline, focus chips, CTAs, socials,
+// portrait with a petrol offset outline frame (editorial, not gimmicky).
+import { site, researchInterests } from '@/lib/data';
+import Socials from './Socials.astro';
+
+const focus = (researchInterests.focus_areas ?? []) as string[];
+---
+<section class="hero" id="top">
+  <div class="hero__text">
+    <div class="hero__eyebrow">{site.title} · {site.affiliation}</div>
+    <h1 class="hero__name">{site.name}</h1>
+    <p class="hero__role">
+      <strong>{site.nick_name}</strong> is a PhD researcher in
+      <strong>computer graphics</strong>, <strong>motion synthesis</strong>, and
+      <strong>computational design</strong> — with eight years of software &
+      systems engineering behind the work. He builds end-to-end: from generative
+      models of motion to the systems that ship them.
+    </p>
+    <p class="hero__tagline">{site.tagline}</p>
+
+    {focus.length > 0 && (
+      <div class="focus-chips">
+        {focus.map((f) => <span class="chip">{f}</span>)}
+      </div>
+    )}
+
+    <div class="hero__cta">
+      <a class="btn btn--primary" href="/publications">Publications</a>
+      <a class="btn" href="/cv">CV</a>
+      <a class="btn btn--ghost" href="/research">Research</a>
+    </div>
+
+    <Socials />
+  </div>
+
+  <div class="hero__portrait">
+    <img
+      class="profile-photo"
+      src="/profile-photo.webp"
+      alt={`Portrait of ${site.name}`}
+      width="336"
+      height="420"
+      loading="eager"
+    />
+  </div>
+</section>
+
+<style>
+  .hero__portrait {
+    position: relative;
+  }
+  .hero__portrait::before {
+    content: "";
+    position: absolute;
+    inset: 14px -14px -14px 14px;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-lg);
+    opacity: 0.55;
+    z-index: 0;
+  }
+  .hero__portrait .profile-photo {
+    position: relative;
+    z-index: 1;
+  }
+</style>

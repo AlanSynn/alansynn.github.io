@@ -1,45 +1,45 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import { typst } from "astro-typst";
-import sitemap from "@astrojs/sitemap";
+import { typst } from 'astro-typst';
+import sitemap from '@astrojs/sitemap';
+import yaml from '@modyfi/vite-plugin-yaml';
 
+// Alan Synn — academic homepage. Deploys to alansynn.com (root path).
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://ahxt.github.io/academic-homepage-typst',
-  base: '/academic-homepage-typst/',
-  
+  site: 'https://alansynn.com',
+  base: '/',
+
   integrations: [
     sitemap({
-      // Basic sitemap configuration
       changefreq: 'weekly',
       priority: 0.7,
-      lastmod: new Date(),
     }),
     typst({
-      target: (id) => {
-        return "html";
-      }
+      target: () => 'html',
     }),
   ],
-  
-  // Build configuration
-  build: {
-    inlineStylesheets: 'auto',
-  },
-  
-  // Vite configuration
+
   vite: {
+    plugins: [yaml()],
     build: {
       cssCodeSplit: true,
       minify: 'esbuild',
       sourcemap: false,
     },
+    resolve: {
+      alias: {
+        '@': '/src',
+      },
+    },
   },
-  
-  // Output configuration
+
+  build: {
+    inlineStylesheets: 'auto',
+  },
+
   output: 'static',
-  
-  // Markdown configuration
+
   markdown: {
     shikiConfig: {
       theme: 'github-light',

@@ -1,0 +1,150 @@
+/* ============================================================================
+   tokens.css — "Drafting Bench" design system for Alan Synn.
+   Subject: kinematic automata / generative computational design.
+   Light/dark via [data-theme]. No-flash inline script in Base.astro resolves
+   stored pref or system preference BEFORE first paint.
+   ========================================================================== */
+
+:root {
+  /* ---- Color: light (default) ------------------------------------------- */
+  --paper: #ffffff;            /* clean white — academic, light-first         */
+  --paper-raised: #ffffff;     /* cards, elevated surfaces                    */
+  --paper-sunken: #f5f6f8;     /* wells, code blocks, thumbnail placeholder   */
+  --ink: #15171c;              /* primary text — near-black                    */
+  --ink-soft: #3a3f47;         /* secondary text                              */
+  --muted: #6b7178;            /* tertiary / metadata                         */
+  --faint: #99a0a8;            /* very low-emphasis                           */
+  --hairline: #e8eaee;         /* dividers, borders                           */
+  --hairline-strong: #d3d7dd;  /* emphasized rules                            */
+  --grid-line: transparent;    /* grid removed for a clean academic surface   */
+
+  --accent: #0e5a6b;           /* petrol / blueprint ink                      */
+  --accent-strong: #094552;    /* hover / pressed                             */
+  --accent-soft: rgba(14, 90, 107, 0.10);
+  --accent-softer: rgba(14, 90, 107, 0.05);
+  --accent-contrast: #fbfaf7;  /* text on accent fill                         */
+
+  --link: var(--accent);
+  --link-hover: var(--accent-strong);
+  --selection: rgba(14, 90, 107, 0.18);
+
+  /* ---- Typography ------------------------------------------------------- */
+  --font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --font-body: "Hanken Grotesk", "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Modular type scale (1.250 — major third), base 1rem ≈ 17px             */
+  --step--2: clamp(0.69rem, 0.67rem + 0.10vw, 0.74rem);
+  --step--1: clamp(0.83rem, 0.81rem + 0.12vw, 0.90rem);
+  --step-0:  clamp(1.00rem, 0.96rem + 0.20vw, 1.06rem);
+  --step-1:  clamp(1.25rem, 1.20rem + 0.25vw, 1.33rem);
+  --step-2:  clamp(1.56rem, 1.47rem + 0.45vw, 1.77rem);
+  --step-3:  clamp(1.95rem, 1.79rem + 0.80vw, 2.36rem);
+  --step-4:  clamp(2.44rem, 2.18rem + 1.30vw, 3.15rem);
+  --step-5:  clamp(3.05rem, 2.64rem + 2.05vw, 4.20rem);
+
+  --leading-tight: 1.12;
+  --leading-snug: 1.32;
+  --leading-normal: 1.6;
+  --leading-loose: 1.75;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-mono: 0.02em;
+
+  /* ---- Spacing (4px base) ---------------------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  /* ---- Layout ---------------------------------------------------------- */
+  --measure: 46rem;            /* comfortable prose measure (~736px)         */
+  --measure-wide: 64rem;       /* gallery / grid pages                       */
+  --gutter: clamp(1rem, 0.6rem + 2vw, 2rem);
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* ---- Elevation ------------------------------------------------------- */
+  --shadow-sm: 0 1px 2px rgba(26, 26, 23, 0.04), 0 1px 3px rgba(26, 26, 23, 0.06);
+  --shadow-md: 0 4px 12px rgba(26, 26, 23, 0.06), 0 2px 4px rgba(26, 26, 23, 0.04);
+  --shadow-lg: 0 12px 32px rgba(26, 26, 23, 0.10), 0 4px 8px rgba(26, 26, 23, 0.05);
+  --ring: 0 0 0 3px var(--accent-soft);
+
+  /* ---- Motion ---------------------------------------------------------- */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 140ms;
+  --dur: 240ms;
+  --dur-slow: 520ms;
+
+  /* ---- Z-index --------------------------------------------------------- */
+  --z-header: 100;
+  --z-overlay: 200;
+
+  color-scheme: light;
+}
+
+/* ---- Dark theme --------------------------------------------------------- */
+:root[data-theme="dark"] {
+  --paper: #13171a;            /* cool tinted near-black                     */
+  --paper-raised: #1b2126;
+  --paper-sunken: #1f262c;
+  --ink: #e9e6e0;
+  --ink-soft: #cfcbc3;
+  --muted: #93989d;
+  --faint: #6b7177;
+  --hairline: #2a3137;
+  --hairline-strong: #3a444c;
+  --grid-line: rgba(255, 255, 255, 0.028);
+
+  --accent: #56c5d0;           /* bright petrol for contrast on dark         */
+  --accent-strong: #7ed6df;
+  --accent-soft: rgba(86, 197, 208, 0.14);
+  --accent-softer: rgba(86, 197, 208, 0.07);
+  --accent-contrast: #0b1416;
+
+  --link: var(--accent);
+  --link-hover: var(--accent-strong);
+  --selection: rgba(86, 197, 208, 0.22);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35), 0 2px 4px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45), 0 4px 8px rgba(0, 0, 0, 0.3);
+
+  color-scheme: dark;
+}
+
+/* No-JS fallback: honor system preference when no explicit choice stored.  */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --paper: #13171a;
+    --paper-raised: #1b2126;
+    --paper-sunken: #1f262c;
+    --ink: #e9e6e0;
+    --ink-soft: #cfcbc3;
+    --muted: #93989d;
+    --faint: #6b7177;
+    --hairline: #2a3137;
+    --hairline-strong: #3a444c;
+    --accent: #56c5d0;
+    --accent-strong: #7ed6df;
+    --accent-soft: rgba(86, 197, 208, 0.14);
+    --accent-softer: rgba(86, 197, 208, 0.07);
+    --accent-contrast: #0b1416;
+    --selection: rgba(86, 197, 208, 0.22);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45);
+    color-scheme: dark;
+  }
+}

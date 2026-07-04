@@ -1,0 +1,105 @@
+---
+// PublicationItem.astro — a single paper row.
+// Thumbnail/video supported via the .bib `preview` / `video` fields; falls back
+// to an elegant mono placeholder until artwork is added. Authors: owner bolded,
+// known coauthors hyperlinked. Resource links + collapsible abstract + BibTeX.
+import { me, coauthorUrl, venueInfo, type Paper } from '@/lib/data';
+import clipManifest from '@/data/video-clips.json';
+import LazyVideo from './LazyVideo.astro';
+
+interface Props { paper: Paper }
+const { paper } = Astro.props;
+
+const authors = paper.authors;
+const last = authors.length - 1;
+
+const vinfo = venueInfo(paper.abbr);
+const titleHref = paper.url ?? (paper.doi ? `https://doi.org/${paper.doi}` : paper.pdf) ?? null;
+
+const videoUrl = paper.video
+  ? /^(https?:)?\/\//.test(paper.video) || /\.(mp4|webm|ogg)$/i.test(paper.video)
+    ? paper.video
+    : `https://www.youtube.com/watch?v=${paper.video}`
+  : null;
+
+// Thumbnail media: lazy 0-15s clip (from build pipeline) > preview image > placeholder.
+const clip = paper.video
+  ? (clipManifest as Record<string, { clip: string; poster?: string }>)[paper.video]
+  : null;
+
+const links: { label: string; url: string }[] = [];
+if (paper.pdf) links.push({ label: 'PDF', url: paper.pdf });
+if (paper.website) links.push({ label: 'Project', url: paper.website });
+if (paper.code) links.push({ label: 'Code', url: paper.code });
+if (videoUrl) links.push({ label: 'Video', url: videoUrl });
+if (paper.slides) links.push({ label: 'Slides', url: paper.slides });
+if (paper.doi) links.push({ label: 'DOI', url: `https://doi.org/${paper.doi}` });
+else if (paper.url) links.push({ label: 'Link', url: paper.url });
+---
+<article class="pub" data-selected={paper.selected ? 'true' : 'false'} data-year={paper.year}>
+  <div
+    class="pub__thumb"
+    class:list={[!clip && !paper.preview && 'pub__thumb--placeholder']}
+  >
+    {clip ? (
+      <LazyVideo src={clip.clip} poster={clip.poster ?? paper.preview ?? undefined} alt={paper.title} />
+    ) : paper.preview ? (
+      <img src={paper.preview} alt="" loading="lazy" />
+    ) : (
+      <span>{paper.abbr ?? paper.type.slice(0, 4)}</span>
+    )}
+  </div>
+
+  <div class="pub__body">
+    <h3 class="pub__title">
+      {titleHref ? <a href={titleHref}>{paper.title}</a> : paper.title}
+    </h3>
+
+    <div class="pub__authors">
+      {authors.map((a, i) => {
+        const sep = i === 0 ? '' : i === last && last > 0 ? ' & ' : ', ';
+        const text = a.given ? `${a.given} ${a.family}` : a.family;
+        const isMe = a.family.toLowerCase() === me.family.toLowerCase();
+        const url = isMe ? null : coauthorUrl(a.family, a.given);
+        return (
+          <>
+            {sep}
+            {isMe ? <strong class="me">{text}</strong> : url ? <a href={url}>{text}</a> : text}
+          </>
+        );
+      })}
+    </div>
+
+    <div class="pub__venue">
+      {paper.abbr && (
+        vinfo?.url ? (
+          <a class="badge" style={vinfo.color ? `--badge-color:${vinfo.color}` : undefined} href={vinfo.url} target="_blank" rel="noopener">{paper.abbr}</a>
+        ) : (
+          <span class="badge">{paper.abbr}</span>
+        )
+      )}
+      <span>{paper.venue}</span>
+    </div>
+
+    {links.length > 0 && (
+      <div class="pub__links">
+        {links.map((l) => (
+          <a class="pub-link" href={l.url} target="_blank" rel="noopener">{l.label} ↗</a>
+        ))}
+      </div>
+    )}
+
+    {paper.abstract && (
+      <details class="pub__abstract">
+        <summary>Abstract</summary>
+        <div class="pub__abstract__body">{paper.abstract}</div>
+      </details>
+    )}
+
+    <details class="pub__bibtex">
+      <summary>BibTeX</summary>
+      <pre><code>{paper.raw}</code></pre>
+      <button class="copy-btn" type="button" data-copy-target="bibtex">copy</button>
+    </details>
+  </div>
+</article>

@@ -1,0 +1,31 @@
+---
+// NewsList.astro — renders news collection entries (newest first by caller).
+import { render } from 'astro:content';
+interface Props { items: import('astro:content').CollectionEntry<'news'>[] }
+const { items } = Astro.props;
+
+const rendered = await Promise.all(
+  items.map(async (item) => {
+    const { Content } = await render(item);
+    return { item, Content };
+  })
+);
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', timeZone: 'UTC' });
+---
+{rendered.length === 0 ? (
+  <p class="empty-state">No news yet.</p>
+) : (
+  <ul class="news-list">
+    {rendered.map(({ item, Content }) => (
+      <li class="news-item">
+        <div class="news-item__date">{fmt(item.data.date)}</div>
+        <div class="news-item__body">
+          <Content />
+          {item.data.link && (
+            <a href={item.data.link} target="_blank" rel="noopener" aria-label="Related link">↗</a>
+          )}
+        </div>
+      </li>
+    ))}
+  </ul>
+)}

@@ -1,0 +1,101 @@
+---
+// Base.astro — the single document shell for every page.
+// Owns: <head>, fonts, SEO, no-flash theme init, header, main slot, footer.
+import '../styles/main.css';
+import Header from '../components/Header.astro';
+import SiteChrome from '../components/SiteChrome.astro';
+import { site } from '@/lib/data';
+
+interface Props {
+  title?: string;
+  description?: string;
+  wide?: boolean;
+  /* set false to render <main> without the centered container wrapper */
+  contained?: boolean;
+}
+const { title, description, wide = false, contained = true } = Astro.props;
+
+const pageTitle = title ? `${title} — ${site.short_name}` : `${site.name} · ${site.title}`;
+const desc = description ?? site.description;
+const year = new Date().getFullYear();
+
+const sameAs = (site.socials ?? [])
+  .map((s: { url: string }) => s.url)
+  .filter((u: string) => !u.startsWith('mailto:'));
+const jsonld = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: site.name,
+  jobTitle: site.title,
+  url: site.url,
+  email: `mailto:${site.email}`,
+  image: `${site.url}/og.png`,
+  worksFor: { "@type": "Organization", name: site.affiliation },
+  subjectOf: { "@type": "WebSite", url: site.url },
+  sameAs,
+});
+const canonical = new URL(Astro.url.pathname, site.url).href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={desc} />
+    {site.keywords?.length ? <meta name="keywords" content={site.keywords.join(', ')} /> : null}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={site.url} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:image" content={`${site.url}/og.png`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={`${site.url}/og.png`} />
+
+    <link rel="canonical" href={canonical} />
+    <script is:inline type="application/ld+json" set:html={jsonld} />
+
+    <link rel="alternate" type="application/rss+xml" title={`${site.short_name} — Blog`} href="/rss.xml" />
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://fred-wang.github.io/MathFonts/NewComputerModern/mathfonts.css" />
+
+    <script is:inline>
+      // No-flash theme init: resolve stored pref or system preference BEFORE paint.
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main" data-pagefind-body>
+      {contained ? <div class:list={["container", wide && "container--wide"]}><slot /></div> : <slot />}
+    </main>
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <span>© {year} {site.name}</span>
+        <span>
+          <a href={site.url}>{site.domain}</a> · typeset with typst + astro
+        </span>
+      </div>
+    </footer>
+    <SiteChrome />
+  </body>
+</html>

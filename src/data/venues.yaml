@@ -1,0 +1,28 @@
+# ============================================================================
+# Venue badges: abbr → { url, color }. Keys match `abbr` fields in papers.bib.
+# Colors preserved from old _data/venues.yml (Alan's entries).
+# ============================================================================
+
+'CHI':
+  url: 'https://chi2026.acm.org/'
+  color: '#E91E63'
+
+'IEEE Access':
+  url: 'https://ieeeaccess.ieee.org/'
+  color: '#0066CC'
+
+'NeurIPS':
+  url: 'https://neurips.cc/'
+  color: '#673AB7'
+
+'arXiv':
+  url: 'https://arxiv.org/'
+  color: '#B71C1C'
+
+'ACK':
+  url: 'https://www.kips.or.kr/'
+  color: '#2E7D32'
+
+'KIPS':
+  url: 'https://www.kips.or.kr/'
+  color: '#FF9800'

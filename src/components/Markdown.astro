@@ -1,0 +1,16 @@
+---
+// Markdown.astro — render a markdown fragment string to HTML at build time.
+// Used for CV timeline bodies and project bodies where mixed content (bold,
+// links, nested lists) is easiest to author as markdown.
+import { marked } from 'marked';
+
+marked.setOptions({ gfm: true, breaks: false });
+
+interface Props {
+  content: string;
+  class?: string;
+}
+const { content, class: cls = 'md' } = Astro.props;
+const html = content ? (marked.parse(content) as string) : '';
+---
+{content ? <div class={cls} set:html={html} /> : null}

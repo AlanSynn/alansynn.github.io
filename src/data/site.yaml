@@ -1,0 +1,59 @@
+# ============================================================================
+# Site identity & global config. Single source of truth for name, contact,
+# socials, and navigation. Edit freely.
+# ============================================================================
+
+name: 'DoangJoo "Alan" Synn'
+short_name: 'Alan Synn'
+first_name: 'DoangJoo'
+nick_name: 'Alan'
+last_name: 'Synn'
+
+title: 'PhD Student in Computer Science'
+affiliation: 'Georgia Institute of Technology'
+department: 'School of Interactive Computing / School of Industrial Design'
+location: 'Atlanta, GA, USA'
+
+email: 'alansynn@gatech.edu'
+email_obfuscated: 'alansynn [at] gatech [dot] edu'
+phone: '***REMOVED***'
+
+url: 'https://alansynn.com'
+domain: 'alansynn.com'
+
+description: >-
+  DoangJoo (Alan) Synn — Computer Science PhD Student at Georgia Tech.
+  Research at the intersection of generative AI and computational design:
+  automata, kinematics, and human-AI collaboration.
+
+keywords:
+  - computational design
+  - generative AI
+  - automata
+  - kinematics
+  - human-AI collaboration
+  - ML systems
+  - HCI
+
+# Short hero copy (also rendered on the homepage hero).
+tagline: >-
+  Computer graphics, motion synthesis, and computational design — building
+  generative systems that turn human intent into expressive, controllable motion
+  for automata, kinematics, and creative tools.
+
+# Verified profiles (found 2026-07-04).
+socials:
+  - { label: 'Email', url: 'mailto:alansynn@gatech.edu', icon: 'email' }
+  - { label: 'Scholar', url: 'https://scholar.google.com/citations?user=tAfkWYcAAAAJ', icon: 'scholar' }
+  - { label: 'GitHub', url: 'https://github.com/AlanSynn', icon: 'github' }
+  - { label: 'LinkedIn', url: 'https://www.linkedin.com/in/alansynn', icon: 'linkedin' }
+  - { label: 'ORCID', url: 'https://orcid.org/0000-0002-8992-4634', icon: 'orcid' }
+  - { label: 'ResearchGate', url: 'https://www.researchgate.net/profile/Doangjoo_Synn', icon: 'website' }
+
+# Primary navigation. `home` is rendered separately.
+nav:
+  - { label: 'Publications', href: '/publications' }
+  - { label: 'Projects', href: '/projects' }
+  - { label: 'CV', href: '/cv' }
+  - { label: 'Research', href: '/research' }
+  - { label: 'Blog', href: '/blog' }

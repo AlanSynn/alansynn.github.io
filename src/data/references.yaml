@@ -1,0 +1,26 @@
+# ============================================================================
+# References (verbatim from old _includes/references.liquid).
+# ============================================================================
+
+- name: 'Professor HyunJoo Oh'
+  role: 'Assistant Professor'
+  affiliation: 'Georgia Institute of Technology'
+  department: 'School of Industrial Design & School of Interactive Computing'
+
+- name: 'Professor Sehoon Ha'
+  role: 'Assistant Professor'
+  affiliation: 'Georgia Institute of Technology'
+  department: 'College of Computing, School of Interactive Computing'
+
+- name: 'Dr. ByungHoon Ahn'
+  role: 'Senior Software Engineer, Apple Inc.'
+  email: 'bhahn@ucsd.edu'
+
+- name: 'Dr. Eiman Ebrahimi'
+  role: 'CEO, Protopia AI Inc.'
+  url: 'http://eimanebrahimi.com'
+
+- name: 'Professor Hadi Esmaeilzadeh'
+  role: 'CTO, Protopia AI Inc.'
+  affiliation: 'Associate Professor, University of California San Diego'
+  url: 'http://cseweb.ucsd.edu/~hadi/'
