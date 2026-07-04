@@ -1,8 +1,8 @@
 ---
-// CompactPub.astro — dense one-line publication row for the homepage's
-// "selected" list. Small thumbnail, title (link), self-bolded authors,
-// venue badge + year, resource links. Full gallery (abstract/BibTeX) lives
-// on /publications via PublicationItem.
+// CompactPub.astro — dense publication row for the single-page CV. Small
+// thumbnail, title (link), self-bolded authors, venue badge + year, resource
+// links, and collapsible Abstract + BibTeX (copy) so the full detail lives
+// inline without a separate page.
 import { me, coauthorUrl, venueInfo, type Paper } from '@/lib/data';
 
 interface Props { paper: Paper }
@@ -62,5 +62,16 @@ const last = paper.authors.length - 1;
         </span>
       )}
     </div>
+    {paper.abstract && (
+      <details class="pub__abstract">
+        <summary>Abstract</summary>
+        <div class="pub__abstract__body">{paper.abstract}</div>
+      </details>
+    )}
+    <details class="pub__bibtex">
+      <summary>BibTeX</summary>
+      <pre><code>{paper.raw}</code></pre>
+      <button class="copy-btn" type="button">copy</button>
+    </details>
   </div>
 </div>

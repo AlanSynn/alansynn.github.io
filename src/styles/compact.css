@@ -1,15 +1,31 @@
 /* ============================================================================
-   compact.css — homepage single-page profile (danfei/sha9-style, one-glance).
-   Profile strip + dense publication rows + mini timeline.
+   compact.css — single-page interactive CV.
+   Profile strip (photo RIGHT, aside) + dense publication rows + collapsibles
+   + mini timeline + scroll-reveal.
    ========================================================================== */
 
-/* ---- Profile strip ---------------------------------------------------- */
+/* ---- Scroll reveal (progressive enhancement) -------------------------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  will-change: opacity, transform;
+}
+[data-reveal].in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1 !important; transform: none !important; transition: none; }
+}
+
+/* anchor sections clear the floating toggle */
+main :is(section, .cv-section) { scroll-margin-top: 5rem; }
+
+/* ---- Profile strip (text left, photo right aside) --------------------- */
 .profile {
   display: grid;
-  grid-template-columns: 168px 1fr;
+  grid-template-columns: 1fr 168px;
   gap: var(--space-6);
   align-items: start;
-  padding-block: var(--space-6);
+  padding-block: var(--space-7) var(--space-5);
 }
 .profile__photo {
   width: 168px;
@@ -108,3 +124,32 @@
 @media (max-width: 480px) {
   .mini-timeline li { grid-template-columns: 1fr; gap: 0; }
 }
+
+/* ---- Research statement (inline collapsible) -------------------------- */
+.rs {
+  margin-top: var(--space-5);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+  background: var(--paper-sunken);
+  overflow: hidden;
+}
+.rs > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 500;
+  color: var(--ink);
+}
+.rs > summary::-webkit-details-marker { display: none; }
+.rs > summary:hover .rs__summary-text { color: var(--accent); }
+.rs__summary-text { transition: color var(--dur-fast) var(--ease); }
+.rs__summary-mark { color: var(--accent); font-size: var(--step--1); transition: transform var(--dur) var(--ease); }
+.rs[open] > summary { border-bottom: 1px solid var(--hairline); }
+.rs[open] > summary .rs__summary-mark { transform: rotate(180deg); }
+.rs__body { padding: var(--space-5); }
