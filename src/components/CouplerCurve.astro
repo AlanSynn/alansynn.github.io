@@ -15,11 +15,7 @@ const d = "M 40 60 C 18 34 52 14 98 20 C 142 26 198 10 208 46 C 215 70 176 80 13
   <circle class="coupler-link" cx="8" cy="90" r="3" />
   <circle class="coupler-link" cx="232" cy="90" r="3" />
   <path id={id} class="coupler-path" d={d} />
-  <circle r="3.5" class="coupler-node">
-    <animateMotion dur="7s" repeatCount="indefinite" rotate="0">
-      <mpath href={`#${id}`} />
-    </animateMotion>
-  </circle>
+  <circle r="3.5" class="coupler-node" cx="40" cy="60"></circle>
 </svg>
 
 <style>

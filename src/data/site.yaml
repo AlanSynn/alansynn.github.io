@@ -50,9 +50,4 @@ socials:
   - { label: 'ORCID', url: 'https://orcid.org/0000-0002-8992-4634', icon: 'orcid' }
   - { label: 'ResearchGate', url: 'https://www.researchgate.net/profile/Doangjoo_Synn', icon: 'website' }
 
-# Primary navigation. `home` is rendered separately.
-nav:
-  - { label: 'Publications', href: '/publications' }
-  - { label: 'Projects', href: '/projects' }
-  - { label: 'CV', href: '/cv' }
-  - { label: 'Research', href: '/research' }
+# (No header nav - single-page CV. Legacy slugs redirect to /#anchors.)
