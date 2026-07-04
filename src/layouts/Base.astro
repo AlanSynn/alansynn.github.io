@@ -1,8 +1,8 @@
 ---
-// Base.astro — the single document shell for every page.
-// Owns: <head>, fonts, SEO, no-flash theme init, header, main slot, footer.
+// Base.astro — document shell. Headerless by design (the site is a single
+// interactive CV page); a floating theme toggle replaces the nav bar.
 import '../styles/main.css';
-import Header from '../components/Header.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
 import SiteChrome from '../components/SiteChrome.astro';
 import { site } from '@/lib/data';
 
@@ -84,7 +84,6 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <Header />
     <main id="main" data-pagefind-body>
       {contained ? <div class:list={["container", wide && "container--wide"]}><slot /></div> : <slot />}
     </main>
@@ -98,6 +97,7 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
         </span>
       </div>
     </footer>
+    <ThemeToggle />
     <SiteChrome />
   </body>
 </html>

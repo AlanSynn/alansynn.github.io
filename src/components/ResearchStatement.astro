@@ -1,0 +1,14 @@
+---
+// ResearchStatement.astro — the full research statement, inline + collapsible
+// (no separate page). Closed by default; click "My research statement" to read.
+import ResearchContent from '../../content/research-statement.typ?html&body';
+---
+<details class="rs">
+  <summary>
+    <span class="rs__summary-text">My research statement</span>
+    <span class="rs__summary-mark" aria-hidden="true">▾</span>
+  </summary>
+  <div class="prose rs__body">
+    <ResearchContent />
+  </div>
+</details>

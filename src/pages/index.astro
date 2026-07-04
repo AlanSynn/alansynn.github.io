@@ -3,18 +3,37 @@ import Base from '@/layouts/Base.astro';
 import CompactPub from '@/components/CompactPub.astro';
 import NewsList from '@/components/NewsList.astro';
 import Socials from '@/components/Socials.astro';
-import { site, researchInterests, getPapers, experience } from '@/lib/data';
+import Timeline from '@/components/Timeline.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
+import Markdown from '@/components/Markdown.astro';
+import ResearchStatement from '@/components/ResearchStatement.astro';
+import {
+  site, researchInterests, getPapers, experience, education,
+  honors, teaching, activities,
+} from '@/lib/data';
 import { getCollection } from 'astro:content';
 
-// Single-page profile: compact, scannable in a glance (danfei/sha9-style).
-const allNews = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const latestNews = allNews.slice(0, 4);
-const selected = getPapers().filter((p) => p.selected).slice(0, 6);
-const topExperience = experience.slice(0, 4);
+// One page = the whole CV. Scroll-only, no nav.
+const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 5);
+const projects = (await getCollection('projects')).sort((a, b) => (b.data.order ?? 0) - (a.data.order ?? 0));
+const papers = getPapers();
 const bio = researchInterests.statements[0];
+const systemsNote = researchInterests.statements[1];
 ---
 <Base>
-  <section class="profile">
+  {/* ---- Profile (text left, photo right aside) ---- */}
+  <section id="profile" class="profile">
+    <div class="profile__text">
+      <h1>{site.name}</h1>
+      <p class="profile__role">{site.title} · {site.affiliation}</p>
+      <p class="profile__bio">{bio}</p>
+      <div class="profile__links">
+        <a class="btn btn--primary" href="/pdfs/cv.pdf" target="_blank" rel="noopener">CV</a>
+        <a class="btn" href="/pdfs/resume.pdf" target="_blank" rel="noopener">Resume</a>
+        <a class="btn btn--ghost" href={`mailto:${site.email}`}>Email</a>
+      </div>
+      <Socials />
+    </div>
     <img
       class="profile__photo"
       src="/profile-photo.webp"
@@ -23,37 +42,85 @@ const bio = researchInterests.statements[0];
       height="420"
       loading="eager"
     />
-    <div class="profile__text">
-      <h1>{site.name}</h1>
-      <p class="profile__role">{site.title} · {site.affiliation}</p>
-      <p class="profile__bio">{bio}</p>
-      <div class="profile__links">
-        <a class="btn btn--primary" href="/pdfs/cv.pdf" target="_blank" rel="noopener">CV (PDF)</a>
-        <a class="btn" href="/publications">Publications</a>
-        <a class="btn btn--ghost" href="/research">Research</a>
-      </div>
-      <Socials />
+  </section>
+
+  {/* ---- Research (interests + collapsible statement) ---- */}
+  <section id="research" data-reveal>
+    <h2 class="home-head">Research</h2>
+    <p>{bio}</p>
+    <p class="muted">{systemsNote}</p>
+    <ResearchStatement />
+  </section>
+
+  {/* ---- News ---- */}
+  <section id="news" data-reveal>
+    <h2 class="home-head">News</h2>
+    <NewsList items={news} />
+  </section>
+
+  {/* ---- Publications (all, compact, collapsible details) ---- */}
+  <section id="publications" data-reveal>
+    <h2 class="home-head">Publications</h2>
+    <div class="cpubs">
+      {papers.map((p) => <CompactPub paper={p} />)}
     </div>
   </section>
 
-  <h2 class="home-head">News</h2>
-  <NewsList items={latestNews} />
-  <a class="back-link" href="/news">All news →</a>
+  {/* ---- Projects ---- */}
+  <section id="projects" data-reveal>
+    <h2 class="home-head">Projects</h2>
+    <div class="project-grid">
+      {projects.map((p) => <ProjectCard project={p} />)}
+    </div>
+  </section>
 
-  <h2 class="home-head">Selected Publications</h2>
-  <div class="cpubs">
-    {selected.map((p) => <CompactPub paper={p} />)}
-  </div>
-  <a class="back-link" href="/publications">All publications →</a>
+  {/* ---- Experience ---- */}
+  <section id="experience" data-reveal>
+    <h2 class="home-head">Experience</h2>
+    <Timeline items={experience} />
+  </section>
 
-  <h2 class="home-head">Experience</h2>
-  <ul class="mini-timeline">
-    {topExperience.map((e: { period?: string; title: string }) => (
-      <li>
-        <span class="mini-timeline__period">{e.period}</span>
-        <span>{e.title}</span>
-      </li>
+  {/* ---- Education ---- */}
+  <section id="education" data-reveal>
+    <h2 class="home-head">Education</h2>
+    <Timeline items={education} />
+  </section>
+
+  {/* ---- Honors ---- */}
+  <section id="honors" data-reveal>
+    <h2 class="home-head">Honors &amp; Awards</h2>
+    {honors.map((g: { group: string; items: string[] }) => (
+      <div class="honor-group">
+        <div class="honor-group__label">{g.group}</div>
+        <ul class="honor-group__list">
+          {g.items.map((it: string) => <li><Markdown content={it} /></li>)}
+        </ul>
+      </div>
     ))}
-  </ul>
-  <a class="back-link" href="/cv">Full CV →</a>
+  </section>
+
+  {/* ---- Teaching ---- */}
+  <section id="teaching" data-reveal>
+    <h2 class="home-head">Teaching</h2>
+    <Timeline items={teaching} />
+  </section>
+
+  {/* ---- Activities & Service ---- */}
+  <section id="service" data-reveal>
+    <h2 class="home-head">Activities &amp; Service</h2>
+    <Timeline items={activities} />
+  </section>
+
+  {/* ---- Contact ---- */}
+  <section id="contact" data-reveal>
+    <h2 class="home-head">Contact</h2>
+    <p class="muted">Best reached by email.</p>
+    <p><a class="contact-mail" href={`mailto:${site.email}`}>{site.email}</a></p>
+    <Socials />
+  </section>
 </Base>
+
+<style>
+  .muted { color: var(--ink-soft); font-size: var(--step--1); margin-top: var(--space-2); }
+  .contact-mail { font-family: var(--font-mono); font-size: var(--step-1); color: var(--accent); }
+</style>

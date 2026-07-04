@@ -61,5 +61,38 @@
       lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
     }
+
+    /* ---- Scroll reveal (IntersectionObserver, once) ---- */
+    var reveals = document.querySelectorAll('[data-reveal]');
+    if (reveals.length && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) {
+            var el = en.target;
+            var delay = el.getAttribute('data-reveal-delay');
+            if (delay) el.style.transitionDelay = delay + 'ms';
+            el.classList.add('in');
+            io.unobserve(el);
+          }
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      reveals.forEach(function (el) { io.observe(el); });
+    } else {
+      reveals.forEach(function (el) { el.classList.add('in'); });
+    }
+
+    /* ---- BibTeX copy (delegated) ---- */
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest && e.target.closest('.copy-btn');
+      if (!btn) return;
+      var pre = btn.parentElement.querySelector('pre');
+      var text = pre ? pre.innerText : '';
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(text).then(function () {
+        btn.setAttribute('data-copied', 'true');
+        btn.textContent = 'copied';
+        setTimeout(function () { btn.setAttribute('data-copied', 'false'); btn.textContent = 'copy'; }, 1500);
+      });
+    });
   })();
 </script>
