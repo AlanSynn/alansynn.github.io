@@ -1,6 +1,8 @@
 ---
 // Timeline.astro - renders CV entry lists (education, experience, teaching,
 // activities). Entry model: { period, title, location?, body(markdown) }.
+// Title may contain inline markdown (institution/advisor hyperlinks).
+import { marked } from 'marked';
 import Markdown from './Markdown.astro';
 
 interface Entry {
@@ -11,16 +13,15 @@ interface Entry {
 }
 interface Props { items: Entry[]; }
 const { items } = Astro.props;
+const inline = (s: string) => (s ? (marked.parseInline(s) as string) : '');
 ---
 <ul class="timeline">
   {items.map((e) => (
     <li class="timeline__item">
       {e.period && <div class="timeline__period">{e.period}</div>}
       <div>
-        <div class="timeline__title">
-          {e.title}
-          {e.location && <span class="timeline__location">{e.location}</span>}
-        </div>
+        <div class="timeline__title" set:html={inline(e.title)} />
+        {e.location && <span class="timeline__location">{e.location}</span>}
         {e.body && <Markdown class="timeline__body" content={e.body} />}
       </div>
     </li>

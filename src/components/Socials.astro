@@ -1,31 +1,34 @@
 ---
-// Socials.astro - inline icon link list (email, github, scholar, …).
+// Socials.astro - inline contact row in the danfei/sehoon-ha academic style:
+// "Email · Scholar · GitHub · …", plain text links separated by middle-dots.
+// No icons, no bullets. Email is obfuscated (base64 halves, JS-decoded mailto)
+// so the raw address never appears in the served HTML.
 import { site } from '@/lib/data';
-const socials = ((site.socials ?? []) as { label: string; url: string; icon: string }[])
-  .filter((s) => !s.url.startsWith('mailto:'));  // email shown via <Email/> (obfuscated)
 
-const Icons: Record<string, string> = {
-  email: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>',
-  github: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49v-1.7c-2.78.62-3.37-1.36-3.37-1.36-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.36 1.12 2.94.86.09-.66.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05A9.4 9.4 0 0 1 12 6.84c.85 0 1.71.12 2.51.34 1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9v2.82c0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>',
-  scholar: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 1 8l11 6 9-4.91V17h2V8L12 2zM5 13.18v3.64L12 21l7-4.18v-3.64l-7 3.82-7-3.82z"/></svg>',
-  twitter: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 4h2.7l-5.9 6.7L23 20h-5.4l-4.2-5.5L8.4 20H5.7l6.3-7.2L5 4h5.5l3.8 5L18.9 4zm-.9 14.4h1.5L9.1 5.5H7.5l10.5 12.9z"/></svg>',
-  linkedin: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 0 3.5a2.5 2.5 0 0 1 4.98 0zM0 8h5v16H0V8zm7.5 0H12v2.2h.07c.63-1.2 2.17-2.46 4.46-2.46C21.3 7.74 24 10 24 14.6V24h-5v-8.4c0-2-.04-4.6-2.8-4.6-2.8 0-3.2 2.18-3.2 4.44V24h-5V8z"/></svg>',
-  orcid: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm-3.46 4.462a.615.615 0 1 1 0 1.23.615.615 0 0 1 0-1.23zm-.491 1.846h.982v7.384h-.982V8.308zm3.384 0h2.708c2.046 0 3.265 1.6 3.265 3.692s-1.219 3.692-3.265 3.692H11.43V8.308zm.982.877v5.63h1.596c1.6 0 2.41-1.2 2.41-2.815s-.81-2.815-2.41-2.815z"/></svg>',
-  website: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg>',
-};
+const [user, domain] = site.email.split('@');
+const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
+
+const socials = ((site.socials ?? []) as { label: string; url: string; icon: string }[])
+  .filter((s) => !s.url.startsWith('mailto:'));
 ---
-{socials.length ? (
-  <ul class="socials">
-    {socials.map((s) => {
-      const external = !s.url.startsWith('mailto:') && !s.url.startsWith('/');
-      return (
-        <li>
-          <a class="socials__link" href={s.url} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined} aria-label={s.label}>
-            <span class="socials__icon" set:html={Icons[s.icon] ?? Icons.website} />
-            <span class="socials__label">{s.label}</span>
-          </a>
-        </li>
-      );
-    })}
-  </ul>
-) : null}
+<nav class="contact-links" aria-label="Contact and links">
+  <a class="contact-links__email" href="#" data-u={enc(user)} data-d={enc(domain)}>Email</a>
+  {socials.map((s) => (
+    <>
+      <span class="contact-links__sep" aria-hidden="true">·</span>
+      <a class="contact-links__item" href={s.url} target="_blank" rel="noopener">{s.label}</a>
+    </>
+  ))}
+</nav>
+<script is:inline>
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a.contact-links__email[data-u]');
+    if (!a) return;
+    e.preventDefault();
+    try {
+      var u = atob(a.getAttribute('data-u'));
+      var d = atob(a.getAttribute('data-d'));
+      window.location.href = 'mailto:' + u + '@' + d;
+    } catch (err) { /* noop */ }
+  });
+</script>

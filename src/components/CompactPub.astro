@@ -3,13 +3,14 @@
 // thumbnail, title (link), self-bolded authors, venue badge + year, resource
 // links, and collapsible Abstract + BibTeX (copy) so the full detail lives
 // inline without a separate page.
-import { me, coauthorUrl, type Paper } from '@/lib/data';
+import { me, coauthorUrl, venueInfo, type Paper } from '@/lib/data';
 import clipManifest from '@/data/video-clips.json';
 import LazyVideo from './LazyVideo.astro';
 
 interface Props { paper: Paper }
 const { paper } = Astro.props;
 const titleHref = paper.url ?? (paper.doi ? `https://doi.org/${paper.doi}` : paper.pdf) ?? paper.website ?? null;
+const vinfo = paper.abbr ? venueInfo(paper.abbr) : null;
 
 const videoLink = paper.video
   ? /^(https?:)?\/\//.test(paper.video) || /\.(mp4|webm|ogg)$/i.test(paper.video)
@@ -56,7 +57,9 @@ const clip = paper.video ? (clipManifest as Record<string, { clip: string; poste
       })}
     </div>
     <div class="cpub__meta">
-      {paper.abbr && <span class="cpub__venue">{paper.abbr}</span>}
+      {paper.abbr && (vinfo?.url
+        ? <a class="cpub__venue" href={vinfo.url} target="_blank" rel="noopener">{paper.abbr}</a>
+        : <span class="cpub__venue">{paper.abbr}</span>)}
       {links.length > 0 && (
         <span class="cpub__links">
           {links.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.label}</a>)}

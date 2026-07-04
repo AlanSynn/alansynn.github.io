@@ -18,3 +18,15 @@ Derkani:
 Ebrahimi:
   - firstname: ['Eiman', 'E.']
     url: 'http://eimanebrahimi.com/'
+
+Oh:
+  - firstname: ['HyunJoo', 'H.', 'Hyunjoo']
+    url: 'https://www.cc.gatech.edu/people/hyunjoo-oh'
+
+Ha:
+  - firstname: ['Sehoon', 'S.']
+    url: 'https://faculty.cc.gatech.edu/~sha9/'
+
+Kim:
+  - firstname: ['Jong-Kook', 'J.-K.']
+    url: 'https://hpic.korea.ac.kr/professor'
