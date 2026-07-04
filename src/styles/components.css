@@ -247,15 +247,22 @@
 }
 
 /* ---- Socials ---------------------------------------------------------- */
-.socials { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center; margin-top: var(--space-5); }
+.socials { display: flex; flex-wrap: nowrap; gap: var(--space-4); align-items: center; margin-top: var(--space-5); }
 .socials__link {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
+  flex-shrink: 0;
+  white-space: nowrap;
   font-family: var(--font-mono);
   font-size: var(--step--1);
   letter-spacing: var(--tracking-mono);
   color: var(--ink-soft);
+}
+@media (max-width: 640px) {
+  .socials { gap: var(--space-3); }
+  .socials__label { display: none; }   /* icon-only when narrow */
+  .socials__icon { width: 1.15rem; height: 1.15rem; }
 }
 .socials__link:hover { color: var(--accent); text-decoration: none; }
 .socials__icon { width: 1rem; height: 1rem; }

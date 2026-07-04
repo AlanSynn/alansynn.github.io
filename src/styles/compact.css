@@ -78,15 +78,15 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
 /* ---- Compact publication row ------------------------------------------ */
 .cpub {
   display: grid;
-  grid-template-columns: 56px 1fr;
+  grid-template-columns: clamp(96px, 24%, 150px) 1fr;
   gap: var(--space-4);
-  padding: var(--space-3) 0;
+  padding: var(--space-4) 0;
   border-top: 1px solid var(--hairline);
 }
 .cpub:first-child { border-top: none; }
 .cpub__thumb {
-  width: 56px;
-  aspect-ratio: 4 / 3;
+  width: 100%;
+  aspect-ratio: 16 / 10;
   border-radius: var(--radius-sm);
   background: var(--paper-sunken);
   border: 1px solid var(--hairline);
@@ -98,7 +98,7 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
   color: var(--accent);
   letter-spacing: var(--tracking-mono);
 }
-.cpub__thumb img { width: 100%; height: 100%; object-fit: cover; }
+.cpub__thumb img, .cpub__thumb video { width: 100%; height: 100%; object-fit: cover; }
 .cpub__line { display: flex; align-items: baseline; gap: var(--space-3); }
 .cpub__title { font-weight: 600; color: var(--ink); font-size: var(--step-0); line-height: var(--leading-snug); flex: 1; }
 .cpub__title a { color: inherit; }

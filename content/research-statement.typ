@@ -1,86 +1,31 @@
 #import "/src/3rd_party/mathyml/lib.typ": *
 
-_DoangJoo (Alan) Synn - alansynn\@gatech.edu_
+_DoangJoo (Alan) Synn · alansynn\@gatech.edu_
 
-= The Intersection of Generative AI and Computational Design
+= Generative AI for Computational Design, Through the Lens of Automata
 
-Foundation models such as generative AI (GenAI) and large language models (LLMs) have revolutionized creative processes, particularly in computational design. These models can produce thousands of visual and textual outputs, offering unprecedented inspiration for creative endeavors. While we have rapidly adopted these technologies as collaborative tools, I argue that we have yet to harness their full potential. Current interaction paradigms often guide users toward premature convergence on a limited set of ideas, rather than empowering them to explore the vast latent design spaces that generative models offer.
+A maker sits down to build an automaton of an elephant that lifts its trunk. She can picture the motion, but to make it real she must choose a mechanism (a cam? a four-bar linkage?), size its links, and fabricate parts that fit together. Today's generative tools are little help here: they produce *images* of mechanisms, not working ones, and they pull her toward whatever the model finds easy to draw rather than toward what she set out to make. My research asks how we build generative systems that respect a maker's intent all the way from a sketch to a fabricable, moving object.
 
-My research focuses on the transformative potential of generative AI in computational design, particularly in creative processes like building automata and kinematics. These foundation models are revolutionizing the field by enabling the rapid production of diverse mechanical and computational designs, thus serving as invaluable tools for innovation and problem-solving.
+I work on this at the intersection of *computer graphics*, *motion synthesis*, and *computational design*, with mechanical automata as my primary testbed. Automata are an unusually demanding domain: the design has to be expressive (it moves the way the maker imagined), mechanically sound (it actually works), and fabricable (a hobbyist can make it). That triple constraint is exactly where current generative AI is weakest and where good tools would matter most.
 
-= Mechanical Automata: A Compelling Research Domain
+== What I have built: MotionSmith
 
-Mechanical crafts, commonly known as automata, represent an interdisciplinary medium that combines mechanical engineering, art, craft, and storytelling. Historically rooted in the intricate craftsmanship of clockwork and timepieces, automata have evolved into modern expressions of kinetic art and engaging learning tools. Their interdisciplinary nature makes automata a powerful medium for creative expression and education, appealing to makers of all ages.
+MotionSmith (CHI 2026) is a sketch-based design system for automata making, built with three expert makers over a year. A maker sketches the motion path she wants; MotionSmith generates candidate mechanisms (four-bar, cam-follower, gear), lets her compare and refine them on the canvas, and exports fabrication-ready files. The lesson I keep returning to is that generative AI helps most when it stays inside the maker's loop: proposing options, explaining trade-offs, and getting out of the way of judgment. It helps least when it tries to own the design.
 
-Building automata is an engaging yet complex process that blends creativity with problem-solving. Makers begin by ideating what to create - often a character or object, such as an elephant - and identifying which parts to animate, like its legs or trunk. Next, they design the mechanisms needed to achieve the desired motion, such as combining gears, joints, or linkages. Once the design is finalized, the fabrication process demands thorough planning and precision to successfully create a functional automaton.
+That lesson drives the three problems I am working on next.
 
-This domain presents unique challenges that generative AI can address, while also serving as an ideal testbed for exploring human-AI collaboration in design.
+== Direction 1: Keeping human intent in the loop
 
-= AI in Computational Design: Capabilities and Limitations
+When a maker asks for "an automaton whose trunk lifts slowly and pauses," a language model often returns something close-but-wrong, and the maker adapts her goal to the output instead of pushing back. Over a design session, intent drifts. I am building interaction models that keep the maker's original goal visible: surfacing what changed between her request and the result, and making it cheap to say "no, that is not what I meant" and steer back. The hard part is measuring intent and preserving it when the generative surface is seductive.
 
-AI in computational design acts as a transformative auxiliary, significantly enhancing efficiency and innovation through multiple roles:
+== Direction 2: Generative models for motion and mechanism design
 
-+ *Concept Generation*: AI excels in rapidly ideating diverse concepts, enabling designers to explore a wide range of creative possibilities quickly. This function streamlines the brainstorming process by providing initial ideas based on predefined parameters, constraints, and design goals.
-+ *Generation of Design Variants*: AI facilitates the rapid production of diverse design alternatives, eliminating extensive manual effort and reducing dependency on iterative trial-and-error methods.
-+ *Automation of Repetitive Tasks*: AI automates routine tasks such as parametric modeling and base template creation, liberating creators to focus on more creative and complex challenges.
-+ *Trend Prediction and Analysis*: By analyzing historical data and current industry trends, AI can forecast emerging design patterns, offering creators a competitive edge in anticipating market needs.
+Most generative work targets pixels and text; motion and mechanism design are under-served. I want models that generate not just an image of a mechanism but its *kinematics*: given a desired motion curve, propose linkages that produce it, and let the maker explore the space (faster or slower, simpler or stranger). This is a graphics-and-kinematics problem, and automata are a tractable sandbox before tackling full mechanical assemblies.
 
-These functions are encapsulated in the concept of *Generative Design*, where AI uses specified parameters to autonomously generate a range of design options. This capability positions AI not merely as a tool, but as an integral collaborator in the creative process.
+== Direction 3: Tools for non-expert makers
 
-== Benefits of AI in Computational Design
+Prompting is a poor interface for mechanical design: it is brittle, it hides the relationship between input and output, and it asks the maker to speak the model's language. I want domain-specific interfaces that meet makers where they are: sketch-first, direct-manipulation, with the model steered by drawing rather than by rewording. Tangible-MakeCode (CHI 2025), which bridged physical coding blocks with a web interface for collaborative learning, informs this direction: the right physical-and-digital coupling can make computational ideas legible to people who would never write code.
 
-- *Efficiency*: AI can save countless hours of brainstorming, sketching, and iterative design, handling repetitive tasks while designers focus on creative aspects.
-- *Precision*: AI can significantly reduce the margin of error by analyzing vast amounts of data and making accurate predictions, whether for design optimization or structural analysis.
-- *Personalization*: AI excels at creating highly personalized user experiences by analyzing behavior and preferences, increasing engagement and effectiveness.
+== Why this matters
 
-== Limitations and Challenges
-
-- *Complexity in Implementation*: AI integration into design workflows requires a deep understanding of both AI mechanisms and user intent. AI and systems researchers often focus primarily on enhancing model performance rather than supporting creative co-creation processes with designers.
-- *Dependability Issues*: AI effectiveness is inherently tied to the quality of underlying data. The principle of "garbage in, garbage out" holds true - flawed data results in flawed outputs. Users may not detect how data quality affects outcomes.
-- *Loss of Human Touch*: AI cannot replicate the nuanced creativity and emotional depth imparted by human designers. AI-generated designs often lack the distinctive artistic touch that defines compelling aesthetics and resonates on a human level.
-
-= Research Agenda
-
-My research aims to address both the "human touch" limitations and reduce "complexity" in AI-assisted design, with a particular focus on mechanical automata and kinematics. I am exploring three interconnected research directions:
-
-== Learning to Learn: AI in Creative Processes
-
-How can we effectively teach designers to use AI in their creative environment while balancing dependability and originality? This research direction involves developing educational frameworks and tools that help designers understand how to effectively collaborate with AI while maintaining their creative vision. Key questions include:
-
-- How can we measure originality in AI-assisted creation?
-- What constitutes the core of the design thought process when working with AI?
-- How can we develop tools that educate users about AI capabilities while encouraging creative exploration?
-
-== Computational Design with Human Intent
-
-There is growing concern about designers relying heavily on AI-generated content at the expense of creative authenticity. When designers request specific features (e.g., an automaton with particular movement characteristics), AI might generate something different. Instead of revisiting their original intent, designers often adapt to the AI output, potentially compromising their creative vision.
-
-My research explores methods to:
-
-- Preserve human intent throughout the AI-assisted design process.
-- Develop interaction models that keep designers' original goals at the forefront.
-- Create feedback mechanisms that help designers recognize when they're diverging from their initial vision.
-
-== Software Toolkits for AI-Assisted Mechanical Design
-
-Despite the accessibility of natural language interfaces for LLMs ("prompting"), crafting effective prompts remains challenging and often results in brittle interactions. My research aims to develop specialized tools for non-expert users working on mechanical design projects, with a focus on:
-
-- Creating domain-specific interfaces for automata and kinematic design.
-- Developing visual programming approaches that combine natural language with direct manipulation.
-- Building tools that help users understand the relationship between their inputs and AI-generated outputs.
-
-= Conclusion
-
-The integration of generative AI into computational design, particularly for mechanical systems like automata, represents a frontier with immense potential. By addressing the current limitations in human-AI creative collaboration, my research aims to develop new paradigms, tools, and methodologies that empower designers to fully leverage AI capabilities while maintaining their creative vision and intent.
-
-Through this work, I seek to transform how designers interact with AI - not as a replacement for human creativity, but as a powerful collaborator that expands the boundaries of what is possible in computational design.
-
-= References
-
-+ Wang, Bryan, Gang Li, and Yang Li. "Enabling conversational interaction with mobile UI using large language models." _Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems._ 2023.
-+ Zamfirescu-Pereira, J. D., et al. "Why Johnny can't prompt: how non-AI experts try (and fail) to design LLM prompts." _Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems._ 2023.
-+ Hohman, Fred, et al. "Talaria: Interactively Optimizing Machine Learning Models for Efficient Inference." To appear 2024 CHI.
-+ Suh, Sangho, et al. "Structured Generation and Exploration of Design Space with Large Language Models for Human-AI Co-Creation." To appear 2024 CHI.
-+ Feng, K. J., et al. "Canvil: Designerly Adaptation for LLM-Powered User Experiences." To appear 2024 CHI.
-+ Huang, Qirui, et al. "GraphiMind: LLM-centric Interface for Information Graphics Design." To appear 2024 CHI.
-+ Ulanoff, L. (n.d.). "Midjourney just changed the generative image game and showed me how comics, film, and TV might never be the same." _TechRadar._
+Generative AI is being sold as a way to bypass craft. I think the more interesting use is to support it: to help a maker get from an idea in her head to a working object in her hands, with her judgment intact at every step. Automata are where I am working that out, but the same loop (sketch to fabricable motion, under human intent) generalizes to robotics, animation, and design education.
