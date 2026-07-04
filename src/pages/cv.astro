@@ -1,0 +1,80 @@
+---
+import Base from '@/layouts/Base.astro';
+import Section from '@/components/Section.astro';
+import Timeline from '@/components/Timeline.astro';
+import Markdown from '@/components/Markdown.astro';
+import {
+  education, experience, honors, teaching, activities,
+  references, researchInterests, skills,
+} from '@/lib/data';
+---
+<Base title="CV">
+  <div class="download-bar">
+    <a class="btn btn--primary" href="/pdfs/cv.pdf" target="_blank" rel="noopener">CV — PDF</a>
+    <a class="btn" href="/pdfs/resume.pdf" target="_blank" rel="noopener">Resume — PDF</a>
+    <a class="btn btn--ghost" href="/pdfs/resume-graphics.pdf" target="_blank" rel="noopener">Resume · Graphics</a>
+    <a class="btn btn--ghost" href="/pdfs/cv-ml-systems.pdf" target="_blank" rel="noopener">CV · ML Systems</a>
+  </div>
+
+  <Section index="01" title="Research Interests">
+    <div class="stack">
+      {researchInterests.statements.map((s: string) => <p>{s}</p>)}
+    </div>
+  </Section>
+
+  <Section index="02" title="Education" divider={true}>
+    <Timeline items={education} />
+  </Section>
+
+  <Section index="03" title="Experience">
+    <Timeline items={experience} />
+  </Section>
+
+  <Section index="04" title="Systems & Engineering" meta="8+ yrs">
+    <p class="section-intro">Eight years building production software and ML systems — the engineering depth behind the research.</p>
+    <div class="skill-groups">
+      {skills.map((g: { category: string; items: string[] }) => (
+        <div class="skill-group">
+          <div class="skill-group__label">{g.category}</div>
+          <div class="skill-group__items">
+            {g.items.map((i: string) => <span class="chip">{i}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section index="05" title="Honors & Awards">
+    {honors.map((g: { group: string; items: string[] }) => (
+      <div class="honor-group">
+        <div class="honor-group__label">{g.group}</div>
+        <ul class="honor-group__list">
+          {g.items.map((it: string) => <li><Markdown content={it} /></li>)}
+        </ul>
+      </div>
+    ))}
+  </Section>
+
+  <Section index="06" title="Teaching">
+    <Timeline items={teaching} />
+  </Section>
+
+  <Section index="07" title="Activities & Service">
+    <Timeline items={activities} />
+  </Section>
+
+  <Section index="08" title="References">
+    <div class="ref-grid">
+      {references.map((r: any) => (
+        <div class="ref-card">
+          <div class="ref-card__name">{r.name}</div>
+          <div class="ref-card__role">{r.role}</div>
+          {r.affiliation && <div class="ref-card__affil">{r.affiliation}</div>}
+          {r.department && <div class="ref-card__affil">{r.department}</div>}
+          {r.email && <div class="ref-card__affil"><a href={`mailto:${r.email}`}>{r.email}</a></div>}
+          {r.url && <div class="ref-card__affil"><a href={r.url} target="_blank" rel="noopener">{r.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}</a></div>}
+        </div>
+      ))}
+    </div>
+  </Section>
+</Base>

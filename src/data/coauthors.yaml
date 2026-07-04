@@ -1,0 +1,20 @@
+# ============================================================================
+# Coauthors: lastname → [{ firstname variants, url }]. Used to hyperlink author
+# names in publication lists. Verbatim from old _data/coauthors.yml.
+# ============================================================================
+
+Ahn:
+  - firstname: ['Byung Hoon', 'B.', 'B. H.']
+    url: 'https://buzzahn.info'
+
+Esmaeilzadeh:
+  - firstname: ['Hadi', 'H.']
+    url: 'https://cseweb.ucsd.edu/~hadi'
+
+Derkani:
+  - firstname: ['Masih', 'M.']
+    url: 'https://derkani.org/'
+
+Ebrahimi:
+  - firstname: ['Eiman', 'E.']
+    url: 'http://eimanebrahimi.com/'

@@ -1,0 +1,20 @@
+# ============================================================================
+# Engineering skills. Derived from documented professional experience (edit
+# freely). Surfaced on the CV "Systems & Engineering" section to make the
+# software/systems depth scannable — a strength, not filler.
+# ============================================================================
+
+- category: Languages
+  items: [Python, TypeScript, Java, C, SQL]
+
+- category: ML / Systems
+  items: [PyTorch, distributed training, model compression, multi-backend inference, dataloader/systems tuning]
+
+- category: Infrastructure
+  items: [Kubernetes, Terraform, AWS, CI/CD, Redshift / ETL]
+
+- category: Robotics / Embedded
+  items: [Embedded Linux, Android / AOSP, device drivers, Arduino, production QA]
+
+- category: Product / Web
+  items: [Node.js, Astro, Typst, Linux]

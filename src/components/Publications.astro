@@ -1,0 +1,81 @@
+---
+// Publications.astro — the publications gallery.
+// Renders ALL papers grouped by year (descending). "selected only" is an
+// OPTIONAL toggle (default off → everything shows, per the brief). Includes
+// BibTeX copy buttons. One instance per page.
+import { getPapers } from '@/lib/data';
+import PublicationItem from './PublicationItem.astro';
+
+const papers = getPapers();
+const selectedCount = papers.filter((p) => p.selected).length;
+
+const byYear = new Map<number, typeof papers>();
+for (const p of papers) {
+  if (!byYear.has(p.year)) byYear.set(p.year, []);
+  byYear.get(p.year)!.push(p);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+---
+<div class="publications">
+  <div class="pub-toolbar">
+    <span class="pub-count" data-count>
+      {papers.length} publications{selectedCount ? ` · ${selectedCount} selected` : ''}
+    </span>
+    <label class="toggle">
+      <input type="checkbox" id="selected-only" />
+      <span class="toggle__track"></span>
+      selected only
+    </label>
+  </div>
+
+  <div class="pub-list" id="pub-list">
+    {years.map((y) => (
+      <div class="pub-year-group">
+        <div class="pub-year">{y}</div>
+        {byYear.get(y)!.map((p) => <PublicationItem paper={p} />)}
+      </div>
+    ))}
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var list = document.getElementById('pub-list');
+    var cb = document.getElementById('selected-only');
+    if (!list || !cb) return;
+
+    function applyFilter() {
+      var groups = list.querySelectorAll('.pub-year-group');
+      groups.forEach(function (g) {
+        var anyVisible = false;
+        g.querySelectorAll('.pub').forEach(function (el) {
+          var sel = el.getAttribute('data-selected') === 'true';
+          var show = !cb.checked || sel;
+          el.style.display = show ? '' : 'none';
+          if (show) anyVisible = true;
+        });
+        var year = g.querySelector('.pub-year');
+        if (year) year.style.display = anyVisible ? '' : 'none';
+      });
+    }
+    cb.addEventListener('change', applyFilter);
+
+    document.querySelectorAll('.copy-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var pre = btn.parentElement.querySelector('pre');
+        var text = pre ? pre.innerText : '';
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(done, done);
+        } else { done(); }
+        function done() {
+          btn.setAttribute('data-copied', 'true');
+          btn.textContent = 'copied';
+          setTimeout(function () {
+            btn.setAttribute('data-copied', 'false');
+            btn.textContent = 'copy';
+          }, 1500);
+        }
+      });
+    });
+  })();
+</script>

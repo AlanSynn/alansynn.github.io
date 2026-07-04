@@ -1,82 +1,43 @@
 ---
-import { getCollection } from "astro:content";
-import Header from "../../components/Header.astro";
-import "../../styles/main.css";
+import Base from '@/layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+import { site } from '@/lib/data';
 
 export async function getStaticPaths() {
-  const blogPosts = await getCollection("blog");
-  
-  // Import each blog post's content with the special Typst query
-  const postsWithContent = await Promise.all(
-    blogPosts.map(async (post) => {
-      try {
-        const contentModule = await import(`../../../content/blog/${post.id}.typ?html&body`);
-        return {
-          params: { slug: post.id },
-          props: { 
-            post,
-            Content: contentModule.default
-          },
-        };
-      } catch (error) {
-        console.error(`Failed to load content for ${post.id}:`, error);
-        return {
-          params: { slug: post.id },
-          props: { 
-            post,
-            Content: null
-          },
-        };
-      }
-    })
-  );
-  
-  return postsWithContent;
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
 }
 
-const { post, Content } = Astro.props;
+const { post } = Astro.props;
+const { Content } = await render(post);
+const tags = (post.data.tags ?? []) as string[];
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 ---
+<Base title={post.data.title}>
+  <article>
+    <header class="post-header">
+      <h1>{post.data.title}</h1>
+      <div class="post-meta">
+        <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+        {post.data.author && <span>by {post.data.author}</span>}
+        {tags.length > 0 && <span>{tags.join(' · ')}</span>}
+      </div>
+    </header>
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{post.data.title} - Academic Homepage</title>
+    <div class="prose">
+      <Content />
+    </div>
 
-		<link rel="stylesheet" href="https://fred-wang.github.io/MathFonts/NewComputerModern/mathfonts.css">
-	</head>
-	<body class="blog-post">
-		<Header />
-		<main>
-            <div>
-			<article>
-				<div class="post-header">
-					<h4>{post.data.title}</h4>
-					<div class="post-meta">
-						<div class="date">
-							{post.data.date.toLocaleDateString('en-US', {
-								year: 'numeric',
-								month: 'long',
-								day: 'numeric'
-							})}
-						</div>
-						{post.data.author && (
-							<div class="author">by {post.data.author}</div>
-						)}
-					</div>
-				</div>
-				
-				<div class="content">
-					{Content ? <Content /> : <p>Content could not be loaded.</p>}
-				</div>
-				
-				<footer>
-					<a href={`${import.meta.env.BASE_URL}blog`} class="back-link">← Back to Blog</a>
-				</footer>
-			</article>
-        </div>
-		</main>
-	</body>
-</html> 
+    {tags.length > 0 && (
+      <ul class="tag-list">
+        {tags.map((t) => <li><a href="/blog">#{t}</a></li>)}
+      </ul>
+    )}
+
+    <a class="back-link" href="/blog">← All posts</a>
+
+    <section class="reply">
+      <p>Thoughts? Reply by email — <a href={`mailto:${site.email}?subject=${encodeURIComponent('Re: ' + post.data.title)}`}>{site.email}</a>.</p>
+    </section>
+  </article>
+</Base>

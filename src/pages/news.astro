@@ -1,0 +1,13 @@
+---
+import Base from '@/layouts/Base.astro';
+import Section from '@/components/Section.astro';
+import NewsList from '@/components/NewsList.astro';
+import { getCollection } from 'astro:content';
+
+const news = (await getCollection('news')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<Base title="News">
+  <Section index="01" title="News & Updates" meta={`${news.length} ${news.length === 1 ? 'entry' : 'entries'}`}>
+    <NewsList items={news} />
+  </Section>
+</Base>

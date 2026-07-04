@@ -1,0 +1,63 @@
+/* ============================================================================
+   blog.css — blog list + comments.
+   ========================================================================== */
+
+.blog-list { list-style: none; padding: 0; margin: 0; }
+.blog-list > li {
+  padding: var(--space-5) 0;
+  border-top: 1px solid var(--hairline);
+}
+.blog-list > li:first-child { border-top: none; }
+.blog-list__title {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 500;
+  line-height: var(--leading-tight);
+  margin: 0;
+}
+.blog-list__title a { color: var(--ink); }
+.blog-list__title a:hover { color: var(--accent); text-decoration: none; }
+.blog-list__meta {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  color: var(--muted);
+  margin-top: var(--space-2);
+  letter-spacing: var(--tracking-mono);
+}
+.blog-list__desc {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  margin-top: var(--space-2);
+  max-width: 40rem;
+}
+
+.comments {
+  margin-top: var(--space-8);
+  border-top: 1px solid var(--hairline);
+  padding-top: var(--space-6);
+}
+
+/* ---- Reply (blog posts) — replaces comments; lean on email ----------- */
+.reply {
+  margin-top: var(--space-8);
+  padding: var(--space-5);
+  border: 1px solid var(--hairline);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-md);
+  background: var(--paper-sunken);
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+.reply a { color: var(--accent); font-family: var(--font-mono); }
+
+/* ---- Download bar (CV page) ------------------------------------------- */
+.download-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-7);
+  padding: var(--space-4) var(--space-5);
+  background: var(--paper-sunken);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-md);
+}

@@ -1,0 +1,87 @@
+---
+// LazyVideo.astro — a build-time-generated clip shown as a lazy-loaded,
+// hover-to-play thumbnail. The <video> starts with NO src so the browser
+// downloads nothing until IntersectionObserver fires; once loaded, the clip
+// plays on hover (desktop) and stays paused otherwise. Under reduced-motion,
+// the src is still set so a tap can play, but nothing autoplays.
+//
+// Safe to drop in multiple times per page: each <video> is initialized once
+// via a data attribute, and the inline script is an idempotent IIFE.
+interface Props {
+  src: string;
+  poster?: string;
+  alt?: string;
+  class?: string;
+}
+const { src, poster, alt, class: cls } = Astro.props;
+---
+<video
+  class={cls}
+  muted
+  loop
+  playsinline
+  preload="none"
+  poster={poster}
+  aria-label={alt}
+  data-lazy-video
+  data-src={src}
+></video>
+
+<script is:inline>
+  (function () {
+    function init(root) {
+      var scope = root || document;
+      var vids = scope.querySelectorAll('video[data-lazy-video]:not([data-lazy-init])');
+      if (!vids || !vids.length) return;
+      var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      for (var i = 0; i < vids.length; i++) {
+        (function (v) {
+          v.setAttribute('data-lazy-init', '');
+          var src = v.getAttribute('data-src');
+          if (!src) return;
+          var loaded = false;
+          // Lazy-load: only set src once the element scrolls near the viewport.
+          if ('IntersectionObserver' in window) {
+            var io = new IntersectionObserver(function (entries) {
+              for (var k = 0; k < entries.length; k++) {
+                if (entries[k].isIntersecting && !loaded) {
+                  loaded = true;
+                  v.src = src;
+                  v.load();
+                  io.disconnect();
+                }
+              }
+            }, { rootMargin: '200px' });
+            io.observe(v);
+          } else {
+            // No IO support: fall back to loading immediately.
+            loaded = true;
+            v.src = src;
+            v.load();
+          }
+          // Hover-to-play (desktop pointer). Skipped under reduced-motion so
+          // nothing autoplays; the loaded src still allows tap-to-play.
+          if (!reduced) {
+            v.addEventListener('mouseenter', function () {
+              if (!loaded) return;
+              var p = v.play();
+              if (p && p.catch) p.catch(function () { /* ignore autoplay rejections */ });
+            });
+            v.addEventListener('mouseleave', function () {
+              if (!loaded) return;
+              v.pause();
+              try { v.currentTime = 0; } catch (e) { /* ignore */ }
+            });
+          }
+        })(vids[i]);
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () { init(document); });
+    } else {
+      init(document);
+    }
+    // Re-init on Astro view transitions / client-side navigation.
+    document.addEventListener('astro:page-load', function () { init(document); });
+  })();
+</script>

@@ -1,0 +1,17 @@
+{
+  "/videos/motionsmith-demo.mp4": {
+    "id": "5ab3bb1adb5cbc78d0b4c537caee4d64624246a7",
+    "clip": "/video-clips/5ab3bb1adb5cbc78d0b4c537caee4d64624246a7.mp4",
+    "poster": "/video-clips/5ab3bb1adb5cbc78d0b4c537caee4d64624246a7.jpg"
+  },
+  "VySKmLawlAI": {
+    "id": "91c46e737367c4080f23a08b5d875f3d6b30b811",
+    "clip": "/video-clips/91c46e737367c4080f23a08b5d875f3d6b30b811.mp4",
+    "poster": "/video-clips/91c46e737367c4080f23a08b5d875f3d6b30b811.jpg"
+  },
+  "jRvl7rQdG-M": {
+    "id": "ca35410a769830640d57ea34fa928c4df39f3e69",
+    "clip": "/video-clips/ca35410a769830640d57ea34fa928c4df39f3e69.mp4",
+    "poster": "/video-clips/ca35410a769830640d57ea34fa928c4df39f3e69.jpg"
+  }
+}
