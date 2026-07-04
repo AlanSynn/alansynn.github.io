@@ -34,10 +34,6 @@ const bio = researchInterests.statements[0];
       <p class="profile__role">{site.title} · {site.affiliation}</p>
       <p class="profile__advisors">Advised by <strong>Prof. HyunJoo Oh</strong> &amp; <strong>Prof. Sehoon Ha</strong> · School of Interactive Computing</p>
       <div class="profile__bio"><Markdown content={bio} /></div>
-      <div class="profile__links">
-        <a class="btn btn--primary" href="/pdfs/cv.pdf" target="_blank" rel="noopener">CV</a>
-        <a class="btn" href={`mailto:${site.email}`}>Email</a>
-      </div>
       <Socials />
     </div>
     <div class="profile__portrait">

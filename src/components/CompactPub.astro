@@ -4,6 +4,8 @@
 // links, and collapsible Abstract + BibTeX (copy) so the full detail lives
 // inline without a separate page.
 import { me, coauthorUrl, venueInfo, type Paper } from '@/lib/data';
+import clipManifest from '@/data/video-clips.json';
+import LazyVideo from './LazyVideo.astro';
 
 interface Props { paper: Paper }
 const { paper } = Astro.props;
@@ -24,10 +26,17 @@ if (paper.code) links.push({ label: 'Code', url: paper.code });
 if (videoLink) links.push({ label: 'Video', url: videoLink });
 
 const last = paper.authors.length - 1;
+const clip = paper.video ? (clipManifest as Record<string, { clip: string; poster?: string }>)[paper.video] : null;
 ---
 <div class="cpub" id={paper.key}>
-  <div class="cpub__thumb" class:list={[!paper.preview && 'cpub__thumb--placeholder']}>
-    {paper.preview ? <img src={paper.preview} alt="" loading="lazy" /> : <span>{paper.abbr ?? paper.type.slice(0, 4)}</span>}
+  <div class="cpub__thumb" class:list={[!clip && !paper.preview && 'cpub__thumb--placeholder']}>
+    {clip ? (
+      <LazyVideo src={clip.clip} poster={clip.poster ?? paper.preview ?? undefined} alt={paper.title} />
+    ) : paper.preview ? (
+      <img src={paper.preview} alt="" loading="lazy" />
+    ) : (
+      <span>{paper.abbr ?? paper.type.slice(0, 4)}</span>
+    )}
   </div>
   <div class="cpub__body">
     <div class="cpub__line">

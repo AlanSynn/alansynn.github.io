@@ -19,9 +19,9 @@ const Icons: Record<string, string> = {
       const external = !s.url.startsWith('mailto:') && !s.url.startsWith('/');
       return (
         <li>
-          <a class="socials__link" href={s.url} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined}>
+          <a class="socials__link" href={s.url} target={external ? '_blank' : undefined} rel={external ? 'noopener' : undefined} aria-label={s.label}>
             <span class="socials__icon" set:html={Icons[s.icon] ?? Icons.website} />
-            {s.label}
+            <span class="socials__label">{s.label}</span>
           </a>
         </li>
       );
