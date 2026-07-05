@@ -8,7 +8,7 @@ summary: "Curated noise that safeguards inference data, plus the internal traini
 video: "jRvl7rQdG-M"
 links:
   - { label: "Protopia AI", url: "https://www.protopia.ai" }
-  - { label: "NeurIPS '21 Demo", url: "https://protopia.ai/neurips2021demo/" }
+  - { label: "NeurIPS '21 Demo", url: "https://neurips.cc/virtual/2021/30633" }
 ---
 
 Protopia generates curated noise around the source signal, safeguarding data from unauthorized inference.

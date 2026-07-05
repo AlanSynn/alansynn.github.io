@@ -47,7 +47,5 @@ socials:
   - { label: 'Scholar', url: 'https://scholar.google.com/citations?user=tAfkWYcAAAAJ', icon: 'scholar' }
   - { label: 'GitHub', url: 'https://github.com/AlanSynn', icon: 'github' }
   - { label: 'LinkedIn', url: 'https://www.linkedin.com/in/alansynn', icon: 'linkedin' }
-  - { label: 'ORCID', url: 'https://orcid.org/0000-0002-8992-4634', icon: 'orcid' }
-  - { label: 'ResearchGate', url: 'https://www.researchgate.net/profile/Doangjoo_Synn', icon: 'website' }
 
 # (No header nav - single-page CV. Legacy slugs redirect to /#anchors.)

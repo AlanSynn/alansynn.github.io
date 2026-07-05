@@ -5,6 +5,7 @@ import CompactPub from '@/components/CompactPub.astro';
 import Socials from '@/components/Socials.astro';
 import Timeline from '@/components/Timeline.astro';
 import ProjectCard from '@/components/ProjectCard.astro';
+import NewsList from '@/components/NewsList.astro';
 import {
   site, researchInterests, getPapers, experience, education,
   honors, teaching, activities,
@@ -19,6 +20,11 @@ const selectedPubs = papers.filter((p) => highlighted.includes(p.key));
 const otherPubs = papers.filter((p) => !highlighted.includes(p.key));
 
 const projects = (await getCollection('projects')).sort((a, b) => (b.data.order ?? 0) - (a.data.order ?? 0));
+
+// News: newest first, capped to the 8 most recent on the homepage.
+const news = (await getCollection('news'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 8);
 
 const bio = researchInterests.statements[0];
 ---
@@ -42,6 +48,12 @@ const bio = researchInterests.statements[0];
         loading="eager"
       />
     </div>
+  </section>
+
+  {/* ---- News ---- */}
+  <section id="news">
+    <h2 class="home-head">News</h2>
+    <NewsList items={news} />
   </section>
 
   {/* ---- Publications (Selected + All) ---- */}
@@ -106,7 +118,7 @@ const bio = researchInterests.statements[0];
   {/* ---- Contact ---- */}
   <section id="contact">
     <h2 class="home-head">Contact</h2>
-    <p>Feel free to reach out — always happy to talk.</p>
+    <p>I'm always up for a coffee chat about research, collaborations, internships, or wherever graphics meets design. <a href="#profile">Say hi</a> anytime.</p>
     <Socials />
   </section>
 </Base>
