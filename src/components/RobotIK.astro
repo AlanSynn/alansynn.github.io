@@ -1,30 +1,25 @@
 ---
-// RobotIK.astro — real-time IK engine for the mechanism motifs. Each frame solves
-// closed-form IK (src/lib/ik.ts) for every rigged chain and writes `rotate()`
-// transforms onto the SVG joint groups. One rAF loop, IntersectionObserver-gated;
-// prefers-reduced-motion skips it entirely (each rig ships a static rest pose).
+// RobotIK.astro — boots the real-time IK engine (src/scripts/robot-ik.ts), which
+// solves closed-form IK (src/lib/ik.ts) per frame and writes `rotate()` onto SVG
+// joint groups. One rAF loop, IntersectionObserver-gated; prefers-reduced-motion
+// skips it (each rig ships a static rest pose).
 //
-// Two rigs: [data-rig="legs"] (index) and [data-rig="arm"] (footer). Both are
-// scroll-driven AND drag-reactive. End-effectors (foot tip, wrist, fingertip) use
-// a PULL model: grab → chain target tracks the pointer; release → offset springs
-// back to the scroll pose. Mid-joints (knee, elbow) use a DANGLE model: grab →
-// tracks the pointer with the distal chain following rigidly; release → blends
-// back to the IK solve (no discrete flip).
+// Two rigs: [data-rig="legs"] (index hero) + [data-rig="arm"] (footer). Both
+// scroll-driven + drag-reactive. End-effectors (foot/wrist/fingertip) = PULL
+// (tracks pointer, springs back on release); mid-joints (knee/elbow) = DANGLE
+// (tracks pointer with distal chain rigid, blends back to the IK solve).
 //
-// Rigging convention: a chain's ROOT joint rotates by (absoluteAngle − rest),
-// where rest is the angle its first link is drawn at (+π/2 for +Y-drawn chains
-// like the legs, −π/2 for −Y-drawn chains like the arm + fingers, 0 for relative
-// joints). Composes identically to fkLeg/fk2 — confirmed by the DOM-FK test.
+// Rigging convention: a ROOT joint rotates by (absAngle − rest), where rest is
+// the angle its first link is drawn at (+π/2 for +Y chains like legs, −π/2 for
+// −Y chains like arm + fingers, 0 for relative joints). Matches fkLeg/fk2
+// (confirmed by the DOM-FK test).
 ---
 <script>
-  // Lazy-load the IK engine off the critical path. Dynamic-import it when a rig
-  // is about to be seen — IntersectionObserver is the primary trigger (homepage
-  // hero legs are in view at load → fires near-instantly). IO alone is fragile
-  // (some layouts/scroll paths don't deliver late callbacks), so two fallbacks
-  // also arm it: requestIdleCallback shortly after load, and the FIRST user
-  // interaction (scroll/wheel/pointerdown/touchmove/key). On mobile the rigs are
-  // display:none so the IO never fires, but an idle/interaction still loads the
-  // engine for the hero legs. Reduced-motion: skip entirely (static rest pose).
+  // Lazy-load the IK engine off the critical path. Triggered when a rig nears
+  // the viewport (IntersectionObserver), with two fallbacks: requestIdleCallback
+  // after load, and the first user interaction (scroll/wheel/pointer/touch/key).
+  // IO alone is fragile on some scroll paths; the fallbacks cover mobile (rigs
+  // are display:none there, so IO never fires). Reduced-motion: skip entirely.
   (function () {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const rigs = document.querySelectorAll('[data-rig]');

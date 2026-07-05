@@ -1,10 +1,7 @@
-// robot-ik.ts — the real-time IK engine, lazily imported by RobotIK.astro's
-// bootstrap (on idle / when a rig nears the viewport). Running it is gated there
-// by prefers-reduced-motion and by the rigs actually existing on the page, so by
-// the time this module loads it should always run. See RobotIK.astro for the
-// rigging convention and drag (pull / dangle) models.
-// @ts-nocheck — DOM glue (DOMPoint, getScreenCTM, rAF). Correctness is proven by
-// the Playwright DOM-FK test + ik.ts, not by static types.
+// robot-ik.ts — real-time IK engine, lazily imported by RobotIK.astro (on idle
+// / when a rig nears the viewport). Rigging convention + drag (pull/dangle)
+// models live in RobotIK.astro. @ts-nocheck: DOM glue (DOMPoint, getScreenCTM,
+// rAF); correctness proven by the Playwright DOM-FK test + ik.ts, not types.
 import { ikLeg, ikLegPole, gaitFoot, V, add, sub, fkLeg } from '@/lib/ik';
 
 const PI2 = Math.PI / 2;
@@ -44,12 +41,9 @@ const FINGERS = [
 // ---- pointer + drag state ------------------------------------------------
 const ptr = { x: 0, y: 0, rx: 0, ry: 0 };
 let lastDt = 16;
-// pull model (end-effectors): per-chain offset in the chain's solve frame,
-// eased to the pointer while dragged and to 0 on release.
-const drag = { active: null, pull: new Map() };
-// dangle model (mid-joints knee/elbow): per-chain blend toward a dragged pose.
-const overrides = {};
-const lastSolves = {};   // for capturing frozen angles at drag start
+const drag = { active: null, pull: new Map() };   // end-effector pull: offset eases to pointer, then 0
+const overrides = {};                             // mid-joint dangle: blend toward a dragged pose
+const lastSolves = {};   // frozen angles at drag start
 
 function screenToFrame(el, x, y) {
   const ctm = el && el.getScreenCTM && el.getScreenCTM();
@@ -74,9 +68,8 @@ function chainTarget(id, home, frame) {
   return add(home, np);
 }
 
-// Apply a dangle override for a mid-joint (knee/elbow). Returns blended
-// {hip,knee,ankle} angles. `ikShin`/`ikTip` are the current IK shin-abs angle
-// and mid-joint position to ease back toward; `footAbs` is the IK distal angle.
+// dangle override for a mid-joint (knee/elbow); returns blended {hip,knee,ankle}.
+// ikShin/ikMid = IK shin-abs angle + mid-joint pos to ease back to; footAbs = IK distal angle.
 function dangleAngles(id, frame, piv, l1, ikSol, ikShin, ikMid, footAbs) {
   const ov = overrides[id];
   if (!ov) return ikSol;
@@ -132,30 +125,24 @@ function driveArm(rig, rise, t) {
   rig.style.setProperty('--arm', rise.toFixed(4));
   document.documentElement.style.setProperty('--arm', rise.toFixed(4));
   const svg = rig.querySelector('svg');
-  // Bent "waving" stance, centered on the footer line — hand up, palm forward. It never
-  // tracks the "Say hi" link on screen, so it can never slide onto the text;
-  // the Say-hi underline (CSS, driven by --arm) ties the arm to the link.
-  const WSLOW = Math.PI / 1000;                          // π rad/s → 2s period (brisk greeting)
-  // NOTE: ikLegPole's `foot` is the END-EFFECTOR TIP (end of lHand), so this
-  // target is where the hand-tip reaches — the wrist sits lHand below it. Set
-  // high so the hand is raised (waving), not hanging low in the viewBox.
+  // waving stance on the footer line; the hand never tracks the "Say hi" link
+  // (the CSS underline, driven by --arm, ties them).
+  const WSLOW = Math.PI / 1000;                          // π rad/s → 2s wave period
+  // ikLegPole's `foot` = END-EFFECTOR TIP (end of lHand); wrist sits lHand below.
   const wristHome = V(96 + 4 * Math.sin(t * 0.0008), 140);
   const wristTarget = chainTarget('arm:wrist', wristHome, svg);
   const handDir = -PI2 + 0.10 * Math.sin(t * 0.0011);    // hand points up, gentle sway
   const a = ikLegPole(ARM.shoulder, wristTarget, ARM.l1, ARM.l2, ARM.lHand, handDir, elbowPoleDefault);
 
-  // Elbow dangle (draggable like the knee): blend toward pointer while grabbed,
-  // ease back to the IK solve on release.
+  // elbow dangle (draggable, like the knee)
   const eid = 'arm:elbow';
   const ikMid = fkLeg(ARM.shoulder, a.hip, a.knee, 0, ARM.l1, ARM.l2, 0).knee;
   const sol = dangleAngles(eid, svg, ARM.shoulder, ARM.l1, a, a.hip + a.knee, ikMid, handDir);
 
-  // Shoulder SWAYS (slow breath) so the whole rig is alive, not frozen.
-  const shoulderSway = 0.06 * Math.sin(t * 0.0014);
+  const shoulderSway = 0.06 * Math.sin(t * 0.0014);   // slow shoulder breath
   setJ(rig.querySelector('.j-shoulder'), sol.hip + shoulderSway, ARM.shoulder, -PI2);
   setJ(rig.querySelector('.j-elbow'), sol.knee, elbowPivot, 0);
-  // THE WAVE: side-to-side wrist rotation (±~22°, 2s period) = the greeting.
-  const wave = 0.38 * Math.sin(t * WSLOW);
+  const wave = 0.38 * Math.sin(t * WSLOW);             // ±22° wrist wave (2s)
   setJ(rig.querySelector('.j-wrist'), sol.ankle + wave, wristPivot, 0);
   setHandle(rig.querySelector('.h-arm-wrist'), wristTarget);
   const elbowPos = fkLeg(ARM.shoulder, sol.hip, sol.knee, 0, ARM.l1, ARM.l2, 0).knee;
@@ -164,10 +151,8 @@ function driveArm(rig, rise, t) {
   const hand = rig.querySelector('.hand');
   const open = clamp01(rise);
   FINGERS.forEach((f, idx) => {
-    // ALL four fingers curl-wave IN SYNC with the wrist (greeting fingers open
-    // and close together), each with a small phase offset so they stay lively.
-    // ext stays high (fingers mostly extended) with a small sync modulation so
-    // the PIP/DIP curl gently (~30–60°), not clench.
+    // fingers curl-wave in sync with the wrist (phase-offset per finger); ext
+    // stays high so PIP/DIP curl gently, not clench.
     const sync = 0.5 + 0.5 * Math.sin(t * WSLOW + idx * 0.4);
     const ext = (0.85 + 0.12 * open) - 0.07 * sync;
     const dir = f.base + 0.03 * Math.sin(t * 0.0012 + idx);
@@ -186,13 +171,9 @@ function driveArm(rig, rise, t) {
   lastSolves[eid] = { shinAbs: a.hip + a.knee, footAbs: handDir };
 }
 
-// Hydration smoothing: the engine loads lazily (on idle / when a rig nears the
-// viewport), which can be MID-SCROLL on inner pages where the footer arm is the
-// only rig. Without this, --arm would jump to its scroll value on load and the
-// arm would pop half-risen into view. `boot` ramps the ARM's rise 0→1 over the
-// first ~420ms after the engine starts, so it rises smoothly out of the ground
-// line instead. The legs are left at full strength (their engine loads almost
-// immediately on the homepage hero, so there's nothing to smooth).
+// Ramp the arm's rise 0→1 over the first ~420ms after engine start, so --arm
+// doesn't jump to its scroll value on load (lazy load can land mid-scroll on
+// inner pages). Legs need no smoothing (hero rig loads near-instantly).
 let bootStart = 0;
 function boot(t) {
   if (!bootStart) bootStart = t;
