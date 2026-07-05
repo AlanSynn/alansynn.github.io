@@ -2,16 +2,17 @@
 
 #let main(
   title: "Untitled",
-  desc: [This is a blog post.],
+  desc: "This is a blog post.",
   date: "2025-06-08",
   tags: (),
   show-outline: true,
+  draft: false,
   body,
   author: "Max Baker",
 ) = {
 
   show: it => {
-    
+
 
     // Generate metadata for Astro content collections
     [
@@ -21,6 +22,7 @@
         description: desc,
         date: date,
         tags: tags,
+        draft: draft,
       )) <frontmatter>
     ]
 
