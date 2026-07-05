@@ -1,11 +1,17 @@
 // ============================================================================
 // lib.typ — shared CV/resume template, built on @preview/cv-soft-and-hard.
 //
-// Page style (margins + link underline), section headers (heading + accent
-// rule), and the two-column entry grid come from the cv-soft-and-hard
-// package. Layered on top: the markdown-inline parser, "me"-author bolding,
-// publication classification (journal / conference / preprint), and the
-// per-target variant logic.
+// STRICT PACKAGE ADHERENCE: page style (margins + link underline), section
+// headers (heading + accent rule), and the two-column entry grid all come from
+// cv-soft-and-hard's own `styling` / `section` / `entry`. We deliberately do
+// NOT override Typst's default text font (Libertinus Serif), size, or paragraph
+// leading/spacing — those defaults ARE the package's typography, and overriding
+// them (an earlier version set New Computer Modern + 0.9em leading) was the
+// source of the line-spacing mismatch against the reference template.
+//
+// Layered on top of the package, unchanged: the markdown-inline parser,
+// "me"-author bolding, publication classification (journal / conference /
+// preprint), and the per-target variant logic.
 //
 // Reads the SAME content source the Astro web reads (src/data/*.yaml +
 // papers.json), so editing a YAML field updates web + CV + resume together.
@@ -24,14 +30,7 @@
 //   typst compile --root . resume/typst/cv.typ public/pdfs/cv-graphics.pdf --input target=graphics
 // ============================================================================
 
-#import "@preview/cv-soft-and-hard:0.1.0": styling, section, entry
-
-// NOTE: cv-soft-and-hard 0.1.0 exposes an `accent-color` parameter on
-// `styling`, but it is broken in this version (the state update that
-// propagates the color is discarded, so reading it crashes). We therefore
-// use the package's default (black) accent for section rules + link
-// underlines, which is also the academic-CV norm. Section/entry/styling
-// below are the package's own functions.
+#import "@preview/cv-soft-and-hard:0.1.0": styling, section, entry, global-theme
 
 // ---- 1. Load shared data (root-relative via --root .) ---------------------
 #let site        = yaml("/src/data/site.yaml")
@@ -73,7 +72,6 @@
 #let me-family = lower(site.last_name)
 
 // ---- 3. Markdown inline → Typst content -----------------------------------
-// Ports scripts/gen-resume-tex.mjs mdInline() 1:1, emitting Typst content.
 // Handles [label](url), **bold**, *italic*, recursively (bold/italic inside a
 // link label, links inside bold, etc.). UTF-8 chars (—, ·, →, &) render
 // literally — no LaTeX escaping, which removes the markdown-leak bug class.
@@ -133,9 +131,7 @@
 
 // ---- 5. Bullet body parsing (indent-level aware) --------------------------
 // Splits a markdown bullet body into (level, text) lines by leading indent
-// (mirrors gen-resume-tex.mjs mdBody indent thresholds: 4 → level 1, 8 → 2).
-#let bullet-markers = ("•", "◦", "▸")
-
+// (4-space indent → level 1, 8 → 2), mirroring the original LaTeX generator.
 #let parse-body-lines = body => {
   if body == none { return () }
   let out = ()
@@ -143,7 +139,7 @@
     let pos = raw.position(regex("\S"))
     if pos == none { continue }
     let trimmed = raw.slice(pos)
-    let level = calc.min(bullet-markers.len() - 1, calc.floor(pos / 4))
+    let level = calc.floor(pos / 4)
     let text = if trimmed.starts-with("- ") { trimmed.slice(2) } else { trimmed }
     out.push((level: level, text: text))
   }
@@ -162,11 +158,14 @@
   s
 }
 
-// ---- 6. Entry (title + period + body bullets) on the package grid --------
-// Uses cv-soft-and-hard's entry(left, right, description): bold title left,
-// period right, bullets in `description` (package renders it full-width via
-// grid.cell colspan: 2 — avoids the empty column of whitespace beside the
-// right-aligned period that you get when bullets live in `left`).
+// ---- 6. Entry on the package grid (cv-soft-and-hard idiom) ----------------
+// Mirrors template/main.typ: entry(left-text, right-text) where left-text is
+// markup — a bold title followed by a native bullet list — and right-text is
+// the italic period. Bullets live in the LEFT (1fr) column by design (the
+// package template does the same); the right (auto) column carries only the
+// date. (An earlier version put bullets in `description` colspan-2 — that is a
+// real package feature, but the reference template does not use it, and using
+// it diverged from the canonical spacing.)
 #let cv-entry = e => {
   if not entry-visible(e) { return [] }
   let period = format-period(e.at("period", default: ""))
@@ -177,27 +176,27 @@
   let lead = ()
   if location != none and location != "" { lead.push((level: 0, text: location)) }
   let items = lead + lines
-  let desc = if items.len() == 0 { none } else { {
-    v(0.25em)
-    list(
-      marker: ([•], [◦], [▸]),
-      indent: 0.6em,
-      body-indent: 0.5em,
-      spacing: 0.5em,
-      ..items.map(l => {
-        if l.level == 0 { md-inline(l.text) }
-        else { emph[#md-inline(l.text)] }
-      }),
-    )
-  } }
-  entry(text(weight: "bold")[#md-inline(title)], period, description: desc)
+
+  let left = {
+    text(weight: "bold")[#md-inline(title)]
+    if items.len() > 0 {
+      v(0.3em)
+      list(
+        marker: [•],
+        indent: 1.2em,
+        body-indent: 0.5em,
+        ..items.map(l => {
+          if l.level == 0 { md-inline(l.text) }
+          else { emph[#md-inline(l.text)] }
+        }),
+      )
+    }
+  }
+  entry(left, emph[#period])
 }
 
 #let entries = list => {
-  for (i, e) in list.enumerate() {
-    cv-entry(e)
-    if i < list.len() - 1 { v(0.5em) }
-  }
+  for e in list { cv-entry(e) }
 }
 
 // ---- 7. Publications ------------------------------------------------------
@@ -351,10 +350,9 @@
     text(weight: "bold")[#md-inline(g.group)]
     v(0.2em)
     list(
-      marker: ([•], [◦], [▸]),
-      indent: 0.6em,
+      marker: [•],
+      indent: 1.2em,
       body-indent: 0.5em,
-      spacing: 0.45em,
       ..g.items.map(it => md-inline(it)),
     )
     v(0.3em)
@@ -395,19 +393,14 @@
   }
 }
 
-// ---- 10. Title block (centered name + role/affiliation + contact line) ---
-// Mirrors the reference CVs (Sehoon Ha, Danfei Xu), which put the role +
-// institution directly under the name so a reviewer sees affiliation before
-// scrolling to Education.
+// ---- 10. Title block (package idiom: = Name heading + metadata lines) -----
+// Mirrors template/main.typ: a level-1 heading carries the name, with the
+// role/affiliation and a contact line beneath. No manual size/weight on the
+// name — the heading style is the title typography, per the package template.
 #let title-block = align(center)[
-  #text(size: 18pt, weight: "bold")[#site.name]
-  #v(0.15em)
-  #text(size: 10.5pt)[#md-inline(site.title) · #md-inline(site.affiliation)]
-  #v(0.2em)
-  #text(size: 10pt)[
-    #link("mailto:" + site.email)[#site.email] • #site.phone • #link(site.url)[#site.url]
-  ]
-  #v(0.4em)
+  = #site.name
+  #md-inline(site.title) · #md-inline(site.affiliation) \
+  #link("mailto:" + site.email)[#site.email] · #site.phone · #link(site.url)[#site.url]
 ]
 
 // ---- 11. PDF metadata title ----------------------------------------------
@@ -422,6 +415,12 @@
 
 // ---- 12. Body assembly ----------------------------------------------------
 #let cv-body = doc => [
+  // cv-soft-and-hard 0.1.0's `styling(accent-color:)` parameter is broken: its
+  // state-update lambda returns none (dict.insert returns none), so the theme
+  // state collapses and reading it later crashes. Update global-theme directly
+  // with a lambda that returns the mutated dict. The color is the web --accent
+  // navy (#1d4e89), so section rules + link underlines carry the site brand.
+  #global-theme.update(t => { t.insert("accent-color", rgb("1d4e89")); t })
   #title-block
   #section("Research Interests")
   #research-blurb(doc)
@@ -444,18 +443,27 @@
 ]
 
 // ---- 13. Document entry points (used by resume.typ / cv.typ) --------------
-// Page numbering "1 / 1" = current / total (both ref CVs number pages).
+// NO `set text(font/size)` and NO `set par(leading/spacing)`: Typst's defaults
+// (Libertinus Serif, 11pt, default leading/spacing) ARE cv-soft-and-hard's
+// typography. The earlier override (`set par(leading: 0.9em, spacing: 0.6em)`
+// + New Computer Modern) was the source of the line-spacing mismatch —
+// measured against the package template, default settings now reproduce its
+// within-paragraph and between-block gaps to within 0.1pt.
+//
+// Consequence: with template-matching spacing the resume is ~2 pages (the
+// content — 11 publications, 8 experience entries — is genuinely 2 pages
+// worth). The previous 1-page resume only achieved that via denser-than-
+// template block spacing, which is exactly the mismatch this migration fixes.
+// `lang: "en"` enables smart quotes / hyphenation. Page numbering "1 / 1".
 #let resume-doc = it => {
-  set text(font: "New Computer Modern", size: 10.5pt, lang: "en")
-  set par(leading: 0.9em, spacing: 0.6em, justify: false)
+  set text(lang: "en")
   set page(numbering: "1 / 1")
   set document(title: doc-title-str("resume"), author: site.name)
   styling(cv-body("resume"))
 }
 
 #let cv-doc = it => {
-  set text(font: "New Computer Modern", size: 10.5pt, lang: "en")
-  set par(leading: 0.9em, spacing: 0.6em, justify: false)
+  set text(lang: "en")
   set page(numbering: "1 / 1")
   set document(title: doc-title-str("cv"), author: site.name)
   styling(cv-body("cv"))
