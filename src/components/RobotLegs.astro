@@ -1,12 +1,8 @@
 ---
-// RobotLegs.astro — a pair of humanoid legs, rigged for the RobotIK engine. Two
-// 3-DOF chains (hip/knee/ankle) per leg with an explicit foot below the ankle
-// (the "foot below ankle" look from the earlier design, retained). Links drawn
-// along +Y so the engine's rest convention (root offset +π/2) holds. The pelvis
-// sits visible at the top of the rig (not tucked behind the photo); the legs
-// dangle below the portrait and walk with scroll + idle drift, foot tapping,
-// and they lean toward the cursor when pulled. Hairline accent line-art, the
-// mechanism idiom. Reduced-motion: engine never runs → inline rest pose shows.
+// RobotLegs.astro — a pair of humanoid legs for the RobotIK engine. Two 3-DOF
+// chains (hip/knee/ankle) per leg + a foot below the ankle. Links drawn +Y
+// (root offset +π/2). Dangles below the portrait; walks with scroll + idle drift,
+// foot tap, leans toward the cursor when pulled. Reduced-motion: inline rest pose.
 //
 // Geometry contract (must match RobotIK.astro): viewBox 0 0 140 260;
 // hips (50,10)+(90,10); l1=92 → knee rest y=102; l2=86 → ankle rest y=188.

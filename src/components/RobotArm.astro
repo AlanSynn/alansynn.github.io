@@ -1,24 +1,17 @@
 ---
-// RobotArm.astro — a humanoid robot arm rigged for the RobotIK engine. A 3-DOF
-// chain (shoulder/elbow/wrist) carries a hand with four fingers (thumb + three),
-// each itself a 3-DOF chain (MCP/PIP/DIP). Same hairline-mechanism language as
-// RobotLegs: thin solid links, dashed tendons, small solid-accent joints, a slim
-// pelvis-like palm bracket (no heavy fill). Links drawn along −Y (reaching up) so
-// the engine's rest convention holds (root offset −π/2). Lives inside the footer,
-// CENTERED on its top border line — that gray hairline is the GROUND: the stage
-// clips at the line, and the arm rises up from below it (translateY driven by
-// --arm, set by the engine over the last stretch of scroll), like a robot
-// climbing out of the floor. At rest it stands on the line and the hand WAVES —
-// a slow side-to-side wrist rotation with the fingers curling open in sync —
-// with its hand just below the "Say hi" link (sized so it never snags the link).
-// Every joint is alive: shoulder sways, elbow pumps, wrist waves, fingers curl;
-// shoulder/elbow/wrist + each fingertip are grab handles that follow the pointer
-// and spring back. Reduced-motion: engine never runs → calm static standing pose.
+// RobotArm.astro — humanoid arm for the RobotIK engine. 3-DOF chain
+// (shoulder/elbow/wrist) + a hand of four fingers, each a 3-DOF chain
+// (MCP/PIP/DIP). Hairline-mechanism idiom (links drawn −Y → root offset −π/2).
+// Lives in the footer, centered on its top border = the GROUND: the stage clips
+// at the line and the arm rises from below it on scroll (--arm, set by the
+// engine). Joints are alive; shoulder/elbow/wrist + fingertips are grab handles.
+// Sized in CSS (.robot-arm-stage) to clear the content above. Reduced-motion:
+// static standing pose.
 //
 // Geometry contract (must match RobotIK.astro): viewBox 0 0 180 360;
-// shoulder (90,340); l1=95 → elbow rest y=245; l2=88 → wrist rest y=170→157;
-// lHand=33 → hand-tip rest y=124. Fingers (hand-local): thumb .f-t mcp(78,150);
-// index .f-i mcp(88,146); middle .f-m mcp(98,145); ring .f-r mcp(108,147).
+// shoulder (90,340); l1=95 → elbow rest y=245; l2=88 → wrist rest y=157;
+// lHand=33 → hand-tip rest y=124. Fingers (hand-local): .f-t mcp(78,150),
+// .f-i (88,146), .f-m (98,145), .f-r (108,147).
 interface Props { zone?: string }
 const { zone = 'floor' } = Astro.props;
 // rest pivots (links drawn −Y, so child pivot = parent pivot − link length)
