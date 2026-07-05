@@ -18,15 +18,15 @@
   --hairline-strong: #d3d7dd;  /* emphasized rules                            */
   --grid-line: transparent;    /* grid removed for a clean academic surface   */
 
-  --accent: #0e5a6b;           /* petrol / blueprint ink                      */
-  --accent-strong: #094552;    /* hover / pressed                             */
-  --accent-soft: rgba(14, 90, 107, 0.10);
-  --accent-softer: rgba(14, 90, 107, 0.05);
+  --accent: #1d4e89;           /* royal blue — avatar's blue spoke band       */
+  --accent-strong: #163a6b;    /* hover / pressed (deeper navy)               */
+  --accent-soft: rgba(29, 78, 137, 0.10);
+  --accent-softer: rgba(29, 78, 137, 0.05);
   --accent-contrast: #fbfaf7;  /* text on accent fill                         */
 
   --link: var(--accent);
   --link-hover: var(--accent-strong);
-  --selection: rgba(14, 90, 107, 0.18);
+  --selection: rgba(29, 78, 137, 0.18);
 
   /* ---- Typography ------------------------------------------------------- */
   --font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
@@ -107,15 +107,15 @@
   --hairline-strong: #3a444c;
   --grid-line: rgba(255, 255, 255, 0.028);
 
-  --accent: #56c5d0;           /* bright petrol for contrast on dark         */
-  --accent-strong: #7ed6df;
-  --accent-soft: rgba(86, 197, 208, 0.14);
-  --accent-softer: rgba(86, 197, 208, 0.07);
+  --accent: #6ba8ff;           /* sky azure — lifted avatar blue, dark-bg pop */
+  --accent-strong: #8fbcff;
+  --accent-soft: rgba(107, 168, 255, 0.14);
+  --accent-softer: rgba(107, 168, 255, 0.07);
   --accent-contrast: #0b1416;
 
   --link: var(--accent);
   --link-hover: var(--accent-strong);
-  --selection: rgba(86, 197, 208, 0.22);
+  --selection: rgba(107, 168, 255, 0.22);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.25);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35), 0 2px 4px rgba(0, 0, 0, 0.25);
@@ -136,12 +136,12 @@
     --faint: #6b7177;
     --hairline: #2a3137;
     --hairline-strong: #3a444c;
-    --accent: #56c5d0;
-    --accent-strong: #7ed6df;
-    --accent-soft: rgba(86, 197, 208, 0.14);
-    --accent-softer: rgba(86, 197, 208, 0.07);
+    --accent: #6ba8ff;
+    --accent-strong: #8fbcff;
+    --accent-soft: rgba(107, 168, 255, 0.14);
+    --accent-softer: rgba(107, 168, 255, 0.07);
     --accent-contrast: #0b1416;
-    --selection: rgba(86, 197, 208, 0.22);
+    --selection: rgba(107, 168, 255, 0.22);
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
     --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45);
