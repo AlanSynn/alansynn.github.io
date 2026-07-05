@@ -171,9 +171,11 @@ function driveArm(rig, rise, t) {
   lastSolves[eid] = { shinAbs: a.hip + a.knee, footAbs: handDir };
 }
 
-// Ramp the arm's rise 0→1 over the first ~420ms after engine start, so --arm
-// doesn't jump to its scroll value on load (lazy load can land mid-scroll on
-// inner pages). Legs need no smoothing (hero rig loads near-instantly).
+// Ease the arm's --arm from its CSS default (1, visible) toward the scroll
+// rise over the first ~420ms after engine start. CSS defaults --arm to 1 so a
+// short page that can't scroll (engine may never boot) still shows the arm;
+// this blend hands control to the scroll value without a visible jump (on a
+// short page rise≈1, so nothing moves). Legs need no smoothing.
 let bootStart = 0;
 function boot(t) {
   if (!bootStart) bootStart = t;
@@ -191,9 +193,15 @@ function step(t) {
   const dh = document.documentElement.scrollHeight;
   const top = clamp01(sy / vh);
   const start = dh - vh * 1.8;
-  const rise = clamp01((sy - start) / (dh - vh - start));
+  // Rise ramps in over the last 0.8 vh of scroll (denom = dh - vh - start = 0.8·vh),
+  // reaching 1 at the very bottom. Short-page guarantee: a page ≤ ~1.2 viewports
+  // shows the footer at load and can't be scrolled to "reach" it — force rise=1 so
+  // the arm stands fully (matches the long-page scrolled-to-footer state, and keeps
+  // it visible on /blog-type pages where there's nothing to scroll).
+  const rise = dh <= vh * 1.2 ? 1 : clamp01((sy - start) / (dh - vh - start));
   document.querySelectorAll('[data-rig="legs"]').forEach((r) => driveLegs(r, top, t));
-  const armRise = rise * boot(t);
+  const b = boot(t);
+  const armRise = (1 - b) + b * rise;   // ease CSS default (1) → scroll rise
   document.querySelectorAll('[data-rig="arm"]').forEach((r) => driveArm(r, armRise, t));
 }
 

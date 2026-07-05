@@ -48,7 +48,7 @@
   font-size: var(--step--1);
   color: var(--ink-soft);
 }
-.reply a { color: var(--accent); font-family: var(--font-mono); }
+.reply a { color: var(--accent); }
 
 /* ---- Download bar (CV page) ------------------------------------------- */
 .download-bar {
