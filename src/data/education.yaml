@@ -4,14 +4,14 @@
 # ============================================================================
 
 - period: '2022 -'
-  title: '[Georgia Institute of Technology](https://www.gatech.edu), Ph.D. in Computer Science'
+  title: '[Georgia Tech](https://www.gatech.edu), Ph.D. in Computer Science'
   location: 'Atlanta, GA, USA'
   body: |
-    - [School of Interactive Computing](https://ic.gatech.edu); advised by [Prof. HyunJoo Oh](https://www.cc.gatech.edu/people/hyunjoo-oh) and [Prof. Sehoon Ha](https://faculty.cc.gatech.edu/~sha9/)
+    - [School of Interactive Computing](https://ic.gatech.edu); advised by Profs. [Oh](https://www.cc.gatech.edu/people/hyunjoo-oh) & [Ha](https://faculty.cc.gatech.edu/~sha9/)
     - Research: computational design, automata, and motion synthesis (Graphics/HCI)
 
 - period: '2020 - 2022'
-  title: '[Korea University](https://www.korea.ac.kr), M.Eng. in Electrical and Computer Engineering'
+  title: '[Korea University](https://www.korea.ac.kr), M.Eng. in ECE'
   location: 'Seoul, Korea'
   body: |
     - Advised by [Prof. Jong-Kook Kim](https://hpic.korea.ac.kr/professor)
@@ -19,7 +19,7 @@
     - Thesis: *On Efficient Data Delivery for Machine Learning Systems*
 
 - period: '2012 - 2020'
-  title: '[Korea University](https://www.korea.ac.kr), B.Eng. in Electrical Engineering'
+  title: '[Korea University](https://www.korea.ac.kr), B.Eng. in EE'
   location: 'Seoul, Korea'
   body: |
     - GPA: 3.56 (4.5 scale)

@@ -22,7 +22,7 @@
   body: |
     - Built **Stained-Glass**, a privacy-preserving deep-learning framework enabling inference without raw-data exposure.
     - Led development and infrastructure integration (Kubernetes + GPU).
-    - CEO: [Dr. Eiman Ebrahimi](http://eimanebrahimi.com); CTO: [Prof. Hadi Esmaeilzadeh](http://cseweb.ucsd.edu/~hadi).
+    - CEO: [Dr. Ebrahimi](http://eimanebrahimi.com); CTO: [Prof. Esmaeilzadeh](http://cseweb.ucsd.edu/~hadi).
     - Resulted in a NeurIPS 2021 Demo publication.
 
 - period: '2020 - 2022'
@@ -40,7 +40,7 @@
     - Built an ETL → Redshift analytics pipeline driving data-informed feature rollout.
 
 - period: '2017 - 2019'
-  title: 'System Engineer, [AKA Intelligence](https://www.aka.ai) Inc. (Musio)'
+  title: 'System Engineer, [AKA Intelligence](https://www.aka.ai) (Musio)'
   location: 'Seoul, Korea'
   body: |
     - Designed embedded Linux boards & firmware for the social robot **Musio**.
