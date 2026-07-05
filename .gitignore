@@ -2,8 +2,6 @@
 dist/
 # generated types
 .astro/
-# generated LaTeX intermediates (.tex/.aux/.log from resume pipeline; PDFs in public/pdfs are kept)
-resume/build/
 
 # dependencies
 node_modules/
