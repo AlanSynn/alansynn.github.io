@@ -1,11 +1,11 @@
 # Alan Synn — Integrated Academic Presence
 
-One repo, one source of truth → **website + resume + CV + targeted variants**, all buildable together.
+One repo, one source of truth → **website + resume + CV + targeted variants**.
 
 - **Web**: Astro + Typst (Typst compiles prose/equations to HTML/MathML).
 - **Resume / CV**: Typst (`resume/typst/`) — a native Typst template reading the same YAML data. PDFs render straight to `public/pdfs/`.
 - **Targeted variants**: `just resume graphics` / `just cv ml-systems` filter publications + re-frame research interests for a specific field.
-- **Video**: every paper/project video becomes a small muted 0-15s clip (ffmpeg/yt-dlp), lazy-loaded.
+- **Video**: every paper/project video is cut to a muted 0–15s clip (ffmpeg/yt-dlp), lazy-loaded.
 
 Live at **[alansynn.com](https://alansynn.com)**.
 
@@ -14,8 +14,8 @@ Live at **[alansynn.com](https://alansynn.com)**.
 ## Quick start
 
 ```bash
-npm install            # web deps
-just <recipe>          # see below
+npm install
+just build             # web + default resume/cv
 ```
 
 | Command                    | What it does                                                       |
@@ -75,7 +75,7 @@ justfile                   ← the build orchestrator
 
 ## Design
 
-Light-first, white, academic. Serif display (Newsreader) + Hanken Grotesk body + IBM Plex Mono labels. Petrol accent. The signature motif is a four-bar **coupler curve** (kinematics). Light/dark toggle persists + respects system pref. Tokens in `src/styles/tokens.css`.
+Light-first, white, academic. Serif display (Newsreader) + Hanken Grotesk body + IBM Plex Mono labels. Petrol accent. The signature motif is a four-bar **coupler curve** (kinematics). Light/dark toggle (persists, follows the system preference). Tokens in `src/styles/tokens.css`.
 
 ## Deploy
 
