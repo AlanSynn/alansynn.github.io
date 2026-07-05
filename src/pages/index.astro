@@ -6,6 +6,7 @@ import Socials from '@/components/Socials.astro';
 import Timeline from '@/components/Timeline.astro';
 import ProjectCard from '@/components/ProjectCard.astro';
 import NewsList from '@/components/NewsList.astro';
+import MotionLeg from '@/components/MotionLeg.astro';
 import {
   site, researchInterests, getPapers, experience, education,
   honors, teaching, activities,
@@ -52,6 +53,7 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
         height="420"
         loading="eager"
       />
+      <MotionLeg zone="photo" />
     </div>
   </section>
 
