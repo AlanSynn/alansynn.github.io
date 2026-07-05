@@ -1,11 +1,16 @@
 // ============================================================================
-// lib.typ — shared CV/resume template for the academic homepage.
+// lib.typ — shared CV/resume template, built on @preview/cv-soft-and-hard.
+//
+// Page style (margins + link underline), section headers (heading + accent
+// rule), and the two-column entry grid come from the cv-soft-and-hard
+// package. Layered on top: the markdown-inline parser, "me"-author bolding,
+// publication classification (journal / conference / preprint), and the
+// per-target variant logic.
 //
 // Reads the SAME content source the Astro web reads (src/data/*.yaml +
-// papers.json) and renders the academic CV/resume that simpleresume used to.
-// Entry files resume.typ / cv.typ import this and pick a layout via #show.
+// papers.json), so editing a YAML field updates web + CV + resume together.
 //
-// Variants (per-target show/hide, the user's "하나의 typst으로 다양한 관리"):
+// Variants (per-target show/hide):
 //   --input target=graphics | ml-systems
 //     • swaps the research-interest blurb (target-blurb below)
 //     • filters/reorders publications by keyword (matched-first on CV,
@@ -15,9 +20,18 @@
 //         except: [ml-systems] # hide for these targets
 //
 // Compile from repo root:
-//   typst compile --root . resume/typst/resume.typ public/pdfs/resume.pdf
-//   typst compile --root . resume/typst/resume.typ public/pdfs/resume-graphics.pdf --input target=graphics
+//   typst compile --root . resume/typst/cv.typ public/pdfs/cv.pdf
+//   typst compile --root . resume/typst/cv.typ public/pdfs/cv-graphics.pdf --input target=graphics
 // ============================================================================
+
+#import "@preview/cv-soft-and-hard:0.1.0": styling, section, entry
+
+// NOTE: cv-soft-and-hard 0.1.0 exposes an `accent-color` parameter on
+// `styling`, but it is broken in this version (the state update that
+// propagates the color is discarded, so reading it crashes). We therefore
+// use the package's default (black) accent for section rules + link
+// underlines, which is also the academic-CV norm. Section/entry/styling
+// below are the package's own functions.
 
 // ---- 1. Load shared data (root-relative via --root .) ---------------------
 #let site        = yaml("/src/data/site.yaml")
@@ -36,8 +50,14 @@
 #let target-keywords = (
   graphics: ("motion", "automata", "kinematic", "sketch", "graphics",
              "animation", "tangible", "makecode", "creativity", "design"),
+  // NOTE: "system" / "cloud" were dropped from ml-systems — substring match
+  // caught "Design System" (MotionSmith title), "Computing Systems" (CHI venue
+  // boilerplate → Tangible), and "Point Cloud" (FBS title), pulling graphics
+  // papers to the TOP of the ml-systems resume. Every legit ML-systems paper
+  // here has a stronger keyword (dataloader / distributed / training / batch /
+  // streaming / privacy / inference), so dropping the two ambiguous ones is safe.
   "ml-systems": ("training", "dataloader", "batch", "distributed", "streaming",
-                 "privacy", "inference", "system", "cloud", "kubernetes"),
+                 "privacy", "inference", "kubernetes"),
 )
 
 #let target-blurb = (
@@ -56,7 +76,7 @@
 // Ports scripts/gen-resume-tex.mjs mdInline() 1:1, emitting Typst content.
 // Handles [label](url), **bold**, *italic*, recursively (bold/italic inside a
 // link label, links inside bold, etc.). UTF-8 chars (—, ·, →, &) render
-// literally — no LaTeX escaping, which removes the r6 markdown-leak bug class.
+// literally — no LaTeX escaping, which removes the markdown-leak bug class.
 #let md-inline(s, depth: 0) = {
   if s == none { return [] }
   if type(s) != str { s = str(s) }
@@ -111,26 +131,11 @@
   true
 }
 
-// ---- 5. Bullet rendering (indent-level aware) -----------------------------
+// ---- 5. Bullet body parsing (indent-level aware) --------------------------
+// Splits a markdown bullet body into (level, text) lines by leading indent
+// (mirrors gen-resume-tex.mjs mdBody indent thresholds: 4 → level 1, 8 → 2).
 #let bullet-markers = ("•", "◦", "▸")
 
-#let bullet-line(body, level: 0) = {
-  let marker = bullet-markers.at(level, default: "•")
-  block(width: 100%, spacing: 0.45em, breakable: true)[
-    #pad(left: level * 1.3em)[
-      #grid(
-        columns: (0.9em, 1fr),
-        column-gutter: 0.35em,
-        align: (right + top, left + top),
-        [#marker],
-        [#body],
-      )
-    ]
-  ]
-}
-
-// Split a markdown bullet body into (level, text) lines by leading indent
-// (mirrors gen-resume-tex.mjs mdBody indent thresholds: 4 → level 1, 8 → 2).
 #let parse-body-lines = body => {
   if body == none { return () }
   let out = ()
@@ -145,53 +150,57 @@
   out
 }
 
-#let render-detail = (loc, body) => {
-  let lines = parse-body-lines(body)
-  let lead = ()
-  if loc != none and loc != "" { lead.push((level: 0, text: loc)) }
-  [
-    #for l in lead + lines {
-      bullet-line(md-inline(l.text), level: l.level)
-    }
-  ]
+// PDF-only period tidy: open-ended ranges ("2022 -" / "2022-") become
+// "2022 – Present", and mid hyphens ("2020 - 2022") use an en-dash. Web shows
+// the raw YAML period; this keeps the academic-CV typographic norm local to
+// the PDF without touching the shared data source.
+#let format-period = p => {
+  if p == none or p == "" { return "" }
+  let s = p
+  s = s.replace(regex(" *-$"), " – Present")
+  s = s.replace(regex(" *-+ *"), " – ")
+  s
 }
 
-// ---- 6. Entry block (title \hfill period + detail bullets) ----------------
-#let entry = e => {
+// ---- 6. Entry (title + period + body bullets) on the package grid --------
+// Uses cv-soft-and-hard's entry(left, right, description): bold title left,
+// period right, bullets in `description` (package renders it full-width via
+// grid.cell colspan: 2 — avoids the empty column of whitespace beside the
+// right-aligned period that you get when bullets live in `left`).
+#let cv-entry = e => {
   if not entry-visible(e) { return [] }
-  let period = e.at("period", default: "")
+  let period = format-period(e.at("period", default: ""))
   let title = e.at("title", default: "")
   let location = e.at("location", default: none)
   let body = e.at("body", default: none)
-  block(width: 100%, spacing: 0.45em)[
-    #grid(
-      columns: (1fr, auto),
-      align: (left, right),
-      column-gutter: 0.8em,
-      [#text(weight: "bold")[#md-inline(title)]],
-      [#period],
+  let lines = parse-body-lines(body)
+  let lead = ()
+  if location != none and location != "" { lead.push((level: 0, text: location)) }
+  let items = lead + lines
+  let desc = if items.len() == 0 { none } else { {
+    v(0.25em)
+    list(
+      marker: ([•], [◦], [▸]),
+      indent: 0.6em,
+      body-indent: 0.5em,
+      spacing: 0.5em,
+      ..items.map(l => {
+        if l.level == 0 { md-inline(l.text) }
+        else { emph[#md-inline(l.text)] }
+      }),
     )
-    #render-detail(location, body)
-  ]
+  } }
+  entry(text(weight: "bold")[#md-inline(title)], period, description: desc)
 }
 
-#let entries = list => [
-  #for (i, e) in list.enumerate() {
-    entry(e)
-    if i < list.len() - 1 { v(0.55em) }
+#let entries = list => {
+  for (i, e) in list.enumerate() {
+    cv-entry(e)
+    if i < list.len() - 1 { v(0.5em) }
   }
-]
+}
 
-// ---- 7. Section header (bold title + rule) --------------------------------
-#let section = name => block(width: 100%, spacing: 0pt)[
-  #v(0.9em)
-  #text(weight: "bold")[#name]
-  #v(0.1em)
-  #line(length: 100%, stroke: 0.5pt)
-  #v(0.3em)
-]
-
-// ---- 8. Publications ------------------------------------------------------
+// ---- 7. Publications ------------------------------------------------------
 #let months = ("", "Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.",
                "Jul.", "Aug.", "Sep.", "Oct.", "Nov.", "Dec.")
 
@@ -203,8 +212,12 @@
   }
 }
 
+// Surname + initial (e.g. "D. Synn") — the convention both reference CVs
+// (Sehoon Ha, Danfei Xu) use; full given names are unusual in publication lists.
 #let format-name = a => {
-  if a.given != none and a.given != "" [#a.given~#a.family] else { a.family }
+  if a.given != none and a.given != "" {
+    [#(a.given.first() + ".")~#a.family]
+  } else { a.family }
 }
 
 #let format-authors = authors => {
@@ -225,20 +238,64 @@
   }
 }
 
+// Sort key: negative year+month so an ascending sort yields newest-first
+// (and ties keep source order). Month-less pubs sort as "earliest" in-year.
+// When a target is set, matched pubs get a large offset so they sort to the
+// TOP of their journal/conference/preprint group — otherwise the per-group
+// date sort would wipe the matched-first ordering that pubs-for("cv")
+// establishes (regression caught in review: v1 iterated matched+rest as-is).
+#let pub-sort-key = p => {
+  let m = if p.month == none { 0 } else { p.month }
+  let base = 0 - (p.year * 12 + m)
+  if target != "" and target in target-keywords {
+    let abbr = if p.abbr == none { "" } else { p.abbr }
+    let hay = lower(p.title + " " + p.venue + " " + abbr)
+    if target-keywords.at(target).any(k => hay.contains(k)) { base - 1000000 }
+    else { base }
+  } else { base }
+}
+
+// Classify a paper by venue string → "journal" | "conference" | "preprint".
+// Heuristic on venue + abbr; update papers.json with explicit fields if the
+// heuristic ever misfires.
+#let pub-type = p => {
+  let abbr = if p.abbr == none { "" } else { p.abbr }
+  let hay = lower(p.venue + " " + abbr)
+  if hay.contains("arxiv") or hay.contains("preprint") { return "preprint" }
+  if (
+    hay.contains("access") or hay.contains("transactions") or hay.contains("journal")
+    or hay.contains("tkips") or hay.contains("ktsde")
+  ) { return "journal" }
+  "conference"
+}
+
+// Numbered publication item: hanging indent so wrapped lines clear the [n].
 #let pub-item = (n, p) => {
   let venue = if p.abbr != none and p.abbr != "" { p.abbr } else { p.venue }
-  block(width: 100%, spacing: 0.45em, breakable: true)[
+  block(width: 100%, spacing: 0.5em)[
     #grid(
       columns: (1.5em, 1fr),
       column-gutter: 0.3em,
-      align: (left + top, left + top),
-      [#[#n]],
+      align: (right + top, left + top),
+      [#text(weight: "bold")[#n]],
       [#format-authors(p.authors), "#p.title," #emph[#venue], #datestamp(p).],
     )
   ]
 }
 
-// Split into (matched, rest) by target keyword; preserves order within each.
+// Split a paper list into (journal, conference, preprint) preserving order.
+#let split-by-type = list => {
+  let j = (); let c = (); let p = ()
+  for paper in list {
+    let t = pub-type(paper)
+    if t == "journal" { j.push(paper) }
+    else if t == "conference" { c.push(paper) }
+    else { p.push(paper) }
+  }
+  (journal: j, conference: c, preprint: p)
+}
+
+// Target keyword filter: matched-first (CV) or matched-only (resume).
 #let match-pubs = list => {
   if target == "" or target not in target-keywords { return (matched: list, rest: ()) }
   let kws = target-keywords.at(target)
@@ -252,20 +309,6 @@
   (matched: matched, rest: rest)
 }
 
-#let pubs-block = (list, group-by-year: false) => [
-  #for (i, p) in list.enumerate() {
-    let n = i + 1
-    if group-by-year {
-      let prev = if i > 0 { list.at(i - 1).year } else { none }
-      if prev != p.year {
-        if i > 0 { v(0.55em) }
-        block(width: 100%, spacing: 0.45em)[#text(weight: "bold")[#p.year]]
-      }
-    }
-    pub-item(n, p)
-  }
-]
-
 #let pubs-for = doc => {
   if doc == "resume" {
     let selected = papers.filter(p => p.selected)
@@ -278,59 +321,96 @@
   }
 }
 
-// ---- 9. Honors, References ------------------------------------------------
-#let honors-block = groups => [
-  #for g in groups {
-    bullet-line(text(weight: "bold")[#md-inline(g.group)], level: 0)
-    for item in g.items {
-      bullet-line(md-inline(item), level: 1)
+// Render publications. CV: journal / conference / preprint subsections (each
+// numbered independently, newest-first). Resume: one flat numbered list.
+#let pubs-section = doc => {
+  let list-all = pubs-for(doc)
+  if doc == "cv" {
+    let s = split-by-type(list-all)
+    for (label, group) in (
+      ("Refereed Journal Articles", s.journal),
+      ("Refereed Conference Papers", s.conference),
+      ("Preprints", s.preprint),
+    ) {
+      if group.len() == 0 { continue }
+      text(weight: "bold")[#label]
+      v(0.2em)
+      let sorted = group.sorted(key: pub-sort-key)
+      for (i, p) in sorted.enumerate() { pub-item(i + 1, p) }
+      v(0.3em)
     }
+  } else {
+    let sorted = list-all.sorted(key: pub-sort-key)
+    for (i, p) in sorted.enumerate() { pub-item(i + 1, p) }
   }
-]
+}
 
-#let references-block = refs => [
-  #for (i, r) in refs.enumerate() {
-    if i > 0 { v(0.9em) }
+// ---- 8. Honors, References ------------------------------------------------
+#let honors-block = groups => {
+  for g in groups {
+    text(weight: "bold")[#md-inline(g.group)]
+    v(0.2em)
+    list(
+      marker: ([•], [◦], [▸]),
+      indent: 0.6em,
+      body-indent: 0.5em,
+      spacing: 0.45em,
+      ..g.items.map(it => md-inline(it)),
+    )
+    v(0.3em)
+  }
+}
+
+#let references-block = refs => {
+  for (i, r) in refs.enumerate() {
     let role = r.at("role", default: none)
     let aff = r.at("affiliation", default: none)
     let dept = r.at("department", default: none)
     let email = r.at("email", default: none)
     let url = r.at("url", default: none)
-    let contact = {
-      if email != none { link("mailto:" + email)[#email] }
-      else if url != none { link(url)[#url] }
-    }
-    block(width: 100%, spacing: 0.45em)[
-      #text(weight: "bold")[#r.name]#linebreak()
-      #if role != none [#role#linebreak()]
-      #if aff != none [#aff#linebreak()]
-      #if dept != none [#dept#linebreak()]
-      #contact
-    ]
+    let contact = if email != none { link("mailto:" + email)[#email] }
+                  else if url != none { link(url)[#url] }
+                  else { none }
+    // Stack only present fields. A trailing `\` outside the conditional (the
+    // old form) emitted a line break even when aff/dept was none, leaving
+    // visible blank lines that made a reader misattribute one ref's email to
+    // the next.
+    let lines = (text(weight: "bold")[#r.name],)
+    if role != none { lines.push(role) }
+    if aff != none { lines.push(aff) }
+    if dept != none { lines.push(dept) }
+    if contact != none { lines.push(contact) }
+    block(width: 100%, spacing: 0.6em)[#lines.join(linebreak())]
   }
-]
+}
 
-// ---- 10. Research blurb (target swap + CV multi-paragraph) ----------------
-#let research-blurb = doc => [
-  #if target != "" and target in target-blurb {
+// ---- 9. Research blurb (target swap + CV multi-paragraph) ----------------
+#let research-blurb = doc => {
+  if target != "" and target in target-blurb {
     md-inline(target-blurb.at(target))
   } else if doc == "cv" and ri.statements.len() > 1 {
     for s in ri.statements { par[#md-inline(s)] }
   } else {
     md-inline(ri.statements.at(0, default: ""))
   }
-]
+}
 
-// ---- 11. Title block (centered name + email • phone • url) ----------------
+// ---- 10. Title block (centered name + role/affiliation + contact line) ---
+// Mirrors the reference CVs (Sehoon Ha, Danfei Xu), which put the role +
+// institution directly under the name so a reviewer sees affiliation before
+// scrolling to Education.
 #let title-block = align(center)[
   #text(size: 18pt, weight: "bold")[#site.name]
-  #v(0.1em)
+  #v(0.15em)
+  #text(size: 10.5pt)[#md-inline(site.title) · #md-inline(site.affiliation)]
+  #v(0.2em)
   #text(size: 10pt)[
     #link("mailto:" + site.email)[#site.email] • #site.phone • #link(site.url)[#site.url]
   ]
+  #v(0.4em)
 ]
 
-// ---- 12. PDF metadata title ----------------------------------------------
+// ---- 11. PDF metadata title ----------------------------------------------
 #let doc-title-str = doc => {
   let kind = if doc == "cv" { "CV" } else { "Resume" }
   if target != "" {
@@ -340,25 +420,17 @@
   }
 }
 
-// ---- 13. Page style + body assembly ---------------------------------------
-#let style = it => {
-  set page(paper: "us-letter", margin: (top: 0.5in, bottom: 0.5in, x: 0.55in))
-  set text(font: "New Computer Modern", size: 10.5pt, lang: "en")
-  set par(leading: 0.9em, spacing: 0.7em, justify: false)
-  it
-}
-
+// ---- 12. Body assembly ----------------------------------------------------
 #let cv-body = doc => [
   #title-block
-  #v(0.3em)
   #section("Research Interests")
   #research-blurb(doc)
   #section("Education")
   #entries(education)
-  #section("Professional Experience")
+  #section(if doc == "cv" { "Professional Experience" } else { "Experience" })
   #entries(experience)
   #section(if doc == "cv" { "Publications" } else { "Selected Publications" })
-  #pubs-block(pubs-for(doc), group-by-year: doc == "cv")
+  #pubs-section(doc)
   #if doc == "cv" [
     #section("Honors & Awards")
     #honors-block(honors)
@@ -371,19 +443,20 @@
   ]
 ]
 
-// ---- 14. Document entry points (used by resume.typ / cv.typ) --------------
+// ---- 13. Document entry points (used by resume.typ / cv.typ) --------------
+// Page numbering "1 / 1" = current / total (both ref CVs number pages).
 #let resume-doc = it => {
-  set page(paper: "us-letter", margin: (top: 0.5in, bottom: 0.5in, x: 0.55in))
   set text(font: "New Computer Modern", size: 10.5pt, lang: "en")
-  set par(leading: 0.9em, spacing: 0.7em, justify: false)
+  set par(leading: 0.9em, spacing: 0.6em, justify: false)
+  set page(numbering: "1 / 1")
   set document(title: doc-title-str("resume"), author: site.name)
-  cv-body("resume")
+  styling(cv-body("resume"))
 }
 
 #let cv-doc = it => {
-  set page(paper: "us-letter", margin: (top: 0.5in, bottom: 0.5in, x: 0.55in))
   set text(font: "New Computer Modern", size: 10.5pt, lang: "en")
-  set par(leading: 0.9em, spacing: 0.7em, justify: false)
+  set par(leading: 0.9em, spacing: 0.6em, justify: false)
+  set page(numbering: "1 / 1")
   set document(title: doc-title-str("cv"), author: site.name)
-  cv-body("cv")
+  styling(cv-body("cv"))
 }
