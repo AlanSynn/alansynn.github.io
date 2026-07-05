@@ -3,7 +3,7 @@
 One repo, one source of truth → **website + resume + CV + targeted variants**, all buildable together.
 
 - **Web**: Astro + Typst (Typst compiles prose/equations to HTML/MathML).
-- **Resume / CV**: LaTeX (`simpleresume` class, XeLaTeX) — the Overleaf format, preserved exactly — generated from the same YAML data.
+- **Resume / CV**: Typst (`resume/typst/`) — a native Typst template reading the same YAML data. PDFs render straight to `public/pdfs/`.
 - **Targeted variants**: `just resume graphics` / `just cv ml-systems` filter publications + re-frame research interests for a specific field.
 - **Video**: every paper/project video becomes a small muted 0-15s clip (ffmpeg/yt-dlp), lazy-loaded.
 
@@ -31,7 +31,7 @@ just <recipe>          # see below
 | `just clips`               | regenerate video clip thumbnails (needs ffmpeg; yt-dlp for YouTube)|
 | `just clean`               | remove `dist/`, `.astro/`                                          |
 
-Requirements: Node 22+, `just`, `typst`, `xelatex` (TeX Live), `ffmpeg`. `yt-dlp` optional (for YouTube clips).
+Requirements: Node 22+, `just`, `typst` 0.15+, `ffmpeg`. `yt-dlp` optional (for YouTube clips).
 
 ## Single source of truth
 
@@ -53,14 +53,13 @@ src/data/                  ← edit content HERE; web + resume + cv all read it
 content/                   ← longer prose (Typst) + collections
   about.typ, research-statement.typ
   blog/*.typ, news/*.md, projects/*.md
-resume/                    ← LaTeX simpleresume (Overleaf format preserved)
-  simpleresume_no_page.cls, simpleresumecv.cls, Fonts/
-  build/                     generated .tex (don't hand-edit)
+resume/typst/              ← Typst CV/resume template (PDF engine)
+  lib.typ                    shared module: data loaders, target logic, render fns
+  resume.typ, cv.typ         entry files (5-line launchers via #show)
 scripts/
-  gen-papers-json.mjs        papers.bib → papers.json (shared by resume + cv)
-  gen-resume-tex.mjs         YAML+papers.json → resume/build/*.tex
+  gen-papers-json.mjs        papers.bib → papers.json (shared by web + resume + cv)
   video-clips.mjs            video sources → public/video-clips/*.mp4
-public/pdfs/               ← generated resume/CV PDFs (committed; CI can't run xelatex)
+public/pdfs/               ← generated resume/CV PDFs (committed; CI is web-only)
 public/images/papers/      ← paper figures (downloaded)
 public/video-clips/        ← lazy 0-15s clips (generated)
 justfile                   ← the build orchestrator
@@ -71,7 +70,7 @@ justfile                   ← the build orchestrator
 - **A publication**: add an entry to `src/data/papers.bib`. Optional fields: `selected`, `abbr`, `pdf`, `code`, `website`, `video` (YouTube id/url or local mp4), `slides`, `abstract`, `preview` (figure path). Then `just build`.
 - **A news item / project / blog post**: drop a file in `content/news|projects/*.md` or `content/blog/*.typ`.
 - **A CV detail** (education/experience/…): edit the matching `src/data/*.yaml`. Web + resume + CV all update on `just build`.
-- **A targeted resume**: `just resume <target>`. Targets are keyword filters in `scripts/gen-resume-tex.mjs` (`graphics`, `ml-systems` built in; add more there).
+- **A targeted resume**: `just resume <target>`. Targets are keyword filters + research blurbs in `resume/typst/lib.typ` (`graphics`, `ml-systems` built in; add more there). Per-entry show/hide: any YAML entry may carry `only: [graphics]` or `except: [ml-systems]`.
 - **A video figure**: set `video={...}` in `papers.bib` or a project's frontmatter, run `just clips` (needs ffmpeg; yt-dlp for YouTube), commit the generated clip + manifest.
 
 ## Design
@@ -83,8 +82,8 @@ Light-first, white, academic. Serif display (Newsreader) + Hanken Grotesk body +
 Pushing to `main` triggers `.github/workflows/deploy.yml` → builds the **web** to GitHub Pages. Requirements:
 - Repo **Settings → Pages → Source = GitHub Actions**.
 - `public/CNAME` = `alansynn.com`.
-- Resume/CV **PDFs are committed** (generated locally via `just pdfs`, since CI has no XeLaTeX). Re-run `just pdfs` after content changes, then commit.
+- Resume/CV **PDFs are committed** (generated locally via `just pdfs`, since CI is web-only). Re-run `just pdfs` after content changes, then commit.
 
 ## Credits
 
-Web on [`ahxt/academic-homepage-typst`](https://github.com/ahxt/academic-homepage-typst). Resume/CV on Zach Scrivena's [`simple-resume-cv`](https://github.com/zachscrivena/simple-resume-cv) (the Overleaf format). Content migrated from an earlier `alshedivat/al-folio` Jekyll site.
+Web on [`ahxt/academic-homepage-typst`](https://github.com/ahxt/academic-homepage-typst). Resume/CV rendered by Typst (`resume/typst/lib.typ`), porting the layout of Zach Scrivena's [`simple-resume-cv`](https://github.com/zachscrivena/simple-resume-cv). Content migrated from an earlier `alshedivat/al-folio` Jekyll site.
