@@ -128,8 +128,13 @@ const FING = [
     opacity: 0.6;                             /* steady + subtle (no fade-from-bg) */
     pointer-events: none;
     /* rise from below the line: --arm=1 standing, --arm=0 fully buried (clipped).
-       100% = the arm's own height, so it translates entirely under the ground. */
-    transform: translateY(calc((1 - var(--arm, 0)) * 100%));
+       100% = the arm's own height, so it translates entirely under the ground.
+       Default 1 (not 0): on a short page that fits one viewport (e.g. /blog) the
+       footer is in view at load and the user can't scroll, so the engine's
+       scroll/idle boot triggers may never fire — defaulting to 1 keeps the arm
+       visible there. The engine eases --arm 1→rise on takeover, so long pages
+       (footer off-screen at load) are unaffected. */
+    transform: translateY(calc((1 - var(--arm, 1)) * 100%));
     will-change: transform;
   }
   .robot-arm svg { width: 100%; height: auto; overflow: visible; display: block; }
