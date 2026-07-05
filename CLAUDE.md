@@ -55,6 +55,12 @@ in `resume/typst/lib.typ` (`target-keywords`, `target-blurb`); per-entry
   making text harder to read.
 - **Verify before claiming done.** For web layout changes, measure (e.g.
   Playwright DOM geometry: line count vs. line-height), don't eyeball.
+- **News entries fill the line and carry a link.** Each `content/news/*.md`
+  item is one full sentence sized to fill the column width (never a 2–3 word
+  stub that overflows with a little text), and its frontmatter includes a
+  `link:`. Order events across separate entries by date (e.g. CHI: a January
+  "accepted" item and an April "presenting" item), don't merge them. See
+  `content/news/` for the pattern.
 
 ## Stack
 
