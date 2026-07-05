@@ -4,7 +4,8 @@
 import '../styles/main.css';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import SiteChrome from '../components/SiteChrome.astro';
-import MotionLeg from '../components/MotionLeg.astro';
+import RobotArm from '../components/RobotArm.astro';
+import RobotIK from '../components/RobotIK.astro';
 import { site } from '@/lib/data';
 
 interface Props {
@@ -105,6 +106,7 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
     </footer>
     <ThemeToggle />
     <SiteChrome />
-    <MotionLeg zone="floor" />
+    <RobotArm zone="floor" />
+    <RobotIK />
   </body>
 </html>
