@@ -101,20 +101,27 @@ const FING = [
 
 <style>
   /* The stage = the GROUND. Anchored in the footer (position: relative on
-     .site-footer); its bottom sits exactly on the footer's top border line and
-     overflow:hidden buries everything below it. The arm inside rises up through
-     it on scroll. Sized so the standing hand lands just below the "Say hi" link. */
+     .site-footer); its bottom sits exactly on the footer's top border line.
+     clip-path buries everything BELOW the line (the ground) while leaving the
+     top and sides open — so the hand/elbow can drag sideways without getting
+     clipped, and the whole arm paints above the footer content (z-index 20).
+     The engine sizes --arm-w live so the waving hand reaches the "Say hi"
+     underline (see sizeArmToSayHi in src/scripts/robot-ik.ts); the clamp below
+     is the pre-JS fallback. */
   .robot-arm-stage {
-    --arm-w: clamp(104px, 11vw, 124px);       /* hand-to-line ≈ 1.32 × arm-w ≈ 160px */
+    --arm-w: clamp(104px, 11vw, 124px);       /* pre-JS fallback; engine overrides on home */
     position: absolute;
     left: 50%;
     transform: translateX(-50%);              /* dead-center on the gray line */
     bottom: 100%;                             /* stage bottom = footer top = the line */
     width: var(--arm-w);
     height: calc(var(--arm-w) * 2);           /* room for the full standing arm */
-    overflow: hidden;                         /* the ground: clips below the line */
+    /* clip ONLY the bottom (the line) → below is buried, top/sides stay open so
+       a dragged hand never gets hidden. inset(top right bottom left); negative =
+       extend, 0 = clip flush. */
+    clip-path: inset(-300% -300% 0 -300%);
     pointer-events: none;
-    z-index: 0;
+    z-index: 20;                              /* arm paints on top of footer content */
   }
   .robot-arm {
     color: var(--accent);
