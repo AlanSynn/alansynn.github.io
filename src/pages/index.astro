@@ -27,6 +27,11 @@ const news = (await getCollection('news'))
   .slice(0, 8);
 
 const bio = researchInterests.statements[0];
+
+// Email obfuscation for the inline "Say hi" link (base64 halves, JS-decoded
+// mailto on click — same pattern as Socials.astro, caught by its handler).
+const [mailUser, mailDomain] = site.email.split('@');
+const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
 ---
 <Base>
   {/* ---- Profile (text left, photo right) ---- */}
@@ -118,8 +123,7 @@ const bio = researchInterests.statements[0];
   {/* ---- Contact ---- */}
   <section id="contact">
     <h2 class="home-head">Contact</h2>
-    <p>I'm always up for a coffee chat about research, collaborations, internships, or wherever graphics meets design. <a href="#profile">Say hi</a> anytime.</p>
-    <Socials />
+    <p>I'm always up for a coffee chat about research, collaborations, internships, or wherever graphics meets design. <a href="#" data-u={enc(mailUser)} data-d={enc(mailDomain)}>Say hi</a> anytime.</p>
   </section>
 </Base>
 

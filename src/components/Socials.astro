@@ -22,7 +22,7 @@ const socials = ((site.socials ?? []) as { label: string; url: string; icon: str
 </nav>
 <script is:inline>
   document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a.contact-links__email[data-u]');
+    var a = e.target.closest && e.target.closest('a[data-u][data-d]');
     if (!a) return;
     e.preventDefault();
     try {
