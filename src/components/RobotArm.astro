@@ -102,14 +102,14 @@ const FING = [
 <style>
   /* The stage = the GROUND. Anchored in the footer (position: relative on
      .site-footer); its bottom sits exactly on the footer's top border line.
-     clip-path buries everything BELOW the line (the ground) while leaving the
-     top and sides open — so the hand/elbow can drag sideways without getting
-     clipped, and the whole arm paints above the footer content (z-index 20).
-     The engine sizes --arm-w live so the waving hand reaches the "Say hi"
-     underline (see sizeArmToSayHi in src/scripts/robot-ik.ts); the clamp below
-     is the pre-JS fallback. */
+     clip-path buries everything BELOW the line while leaving top/sides open so
+     a dragged hand never gets clipped, and the arm paints above footer content
+     (z-index 20). --arm-w is pure CSS (no JS measurement): tuned to the footer
+     gap (main pad-block-end + footer margin-top = 2×--space-9 ≈ 192px) so the
+     waving hand clears the content above on every page; the homepage variant
+     (:has(a.say-hi)) is a touch larger so the hand hugs the "Say hi" underline. */
   .robot-arm-stage {
-    --arm-w: clamp(104px, 11vw, 124px);       /* pre-JS fallback; engine overrides on home */
+    --arm-w: 144px;                           /* fits the 192px footer gap with clearance */
     position: absolute;
     left: 50%;
     transform: translateX(-50%);              /* dead-center on the gray line */
@@ -123,6 +123,8 @@ const FING = [
     pointer-events: none;
     z-index: 20;                              /* arm paints on top of footer content */
   }
+  /* homepage: larger arm so the hand hugs the "Say hi" underline (#contact) */
+  body:has(a.say-hi) .robot-arm-stage { --arm-w: 152px; }
   .robot-arm {
     color: var(--accent);
     position: absolute;

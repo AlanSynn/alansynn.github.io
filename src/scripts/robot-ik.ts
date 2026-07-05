@@ -243,34 +243,6 @@ function onPointerUp(e) {
   }
 }
 
-// Responsive arm sizing on EVERY page. The arm waves just BELOW the content
-// ceiling directly above the footer line — it reaches up toward it without
-// crossing into the text. The ceiling is the "Say hi" underline on the homepage
-// (the link the hand greets) and main's last in-flow child everywhere else
-// (blog/notes/etc., which have no greeting link). Size to the live gap between
-// the footer line and that ceiling. The waving fingertips sit at a stable
-// ≈1.23×arm-w above the line (the wave is a rotation, so tip height barely
-// moves — ~4px over a cycle; calibrated by sampling 5s at armRise=1), so solve
-// arm-w so the fingertips land 8px below the ceiling. Re-run on resize + font
-// load; the gap is layout-stable so this needs no per-frame reflow.
-function sizeArmToCeiling() {
-  const stage  = document.querySelector('.robot-arm-stage');
-  const footer = document.querySelector('.site-footer');
-  if (!stage || !footer) return;
-  const sayHi = document.querySelector('a.say-hi');
-  const ceilingEl = sayHi ?? document.querySelector('main')?.lastElementChild;
-  if (!ceilingEl) return;
-  const gap = footer.getBoundingClientRect().top - ceilingEl.getBoundingClientRect().bottom;
-  if (!isFinite(gap) || gap < 40 || gap > 620) return;   // bail on weird layouts → keep CSS default
-  // homepage (8px) hugs the Say-hi underline by design; inner pages sit a touch
-  // lower (16px) since their ceiling is arbitrary content, giving the wave's
-  // ~4px tip variation + late font-reflow headroom so it never snags text.
-  const clearance = sayHi ? 8 : 16;
-  const armW = (gap - clearance) / 1.23;
-  const min  = sayHi ? 90 : 64;        // inner pages permit a smaller, still-legible arm
-  stage.style.setProperty('--arm-w', `${Math.max(min, Math.min(180, armW))}px`);
-}
-
 function init() {
   const rigs = [...document.querySelectorAll('[data-rig]')];
   if (!rigs.length) return;
@@ -280,11 +252,6 @@ function init() {
   addEventListener('pointermove', onPointerMove, { passive: true });
   addEventListener('pointerup', onPointerUp, { passive: true });
   addEventListener('pointercancel', onPointerUp, { passive: true });
-
-  sizeArmToCeiling();
-  addEventListener('resize', sizeArmToCeiling, { passive: true });
-  addEventListener('load', sizeArmToCeiling);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeArmToCeiling);
 
   const visible = new Set();
   let raf = 0;
