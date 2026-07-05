@@ -78,6 +78,7 @@ main {
 
 /* ---- Footer ------------------------------------------------------------ */
 .site-footer {
+  position: relative;                 /* anchor for the robot-arm stage */
   border-top: 1px solid var(--hairline);
   padding-block: var(--space-6) var(--space-8);
   margin-top: var(--space-9);

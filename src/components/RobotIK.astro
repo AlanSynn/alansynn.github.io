@@ -1,24 +1,20 @@
 ---
-// RobotIK.astro — real-time inverse-kinematics engine for the mechanism motifs.
-// Each frame it solves closed-form IK (src/lib/ik.ts) for every rigged chain and
-// writes `rotate()` transforms onto the SVG joint groups. One rAF loop,
-// IntersectionObserver-gated, prefers-reduced-motion aware (skips entirely —
-// each rig ships a static rest pose in its markup).
+// RobotIK.astro — real-time IK engine for the mechanism motifs. Each frame solves
+// closed-form IK (src/lib/ik.ts) for every rigged chain and writes `rotate()`
+// transforms onto the SVG joint groups. One rAF loop, IntersectionObserver-gated;
+// prefers-reduced-motion skips it entirely (each rig ships a static rest pose).
 //
-// Two rigs: [data-rig="legs"] (index) and [data-rig="arm"] (Base.astro, every
-// page). Both are scroll-driven (the legs walk; the arm rises into the footer to
-// brace the "Say hi" link) AND fully drag-reactive. Every end-effector (foot tip,
-// wrist, finger tip) is a grab handle: press and the chain's target follows the
-// pointer exactly; release and the offset springs back to the scroll-driven pose
-// (pull model). The mid-joints (knee, elbow) are draggable too, as DANGLE
-// targets: grab one and it tracks the pointer while the distal chain rigidly
-// follows, then blends back to the IK solve on release — smooth, no discrete
-// flip. Both rigs also idle-twitch (foot tap, finger wave) so they're never frozen.
+// Two rigs: [data-rig="legs"] (index) and [data-rig="arm"] (footer). Both are
+// scroll-driven AND drag-reactive. End-effectors (foot tip, wrist, fingertip) use
+// a PULL model: grab → chain target tracks the pointer; release → offset springs
+// back to the scroll pose. Mid-joints (knee, elbow) use a DANGLE model: grab →
+// tracks the pointer with the distal chain following rigidly; release → blends
+// back to the IK solve (no discrete flip).
 //
-// Rigging convention: a chain's ROOT joint is rotated by (absoluteAngle − rest),
-// rest = the angle its first link is drawn at (+π/2 for +Y-drawn chains like the
-// legs, −π/2 for −Y-drawn chains like the arm + fingers, 0 for relative joints).
-// Composes identically to fkLeg/fk2 — confirmed by the DOM-FK test.
+// Rigging convention: a chain's ROOT joint rotates by (absoluteAngle − rest),
+// where rest is the angle its first link is drawn at (+π/2 for +Y-drawn chains
+// like the legs, −π/2 for −Y-drawn chains like the arm + fingers, 0 for relative
+// joints). Composes identically to fkLeg/fk2 — confirmed by the DOM-FK test.
 ---
 <script>
   // @ts-nocheck — DOM glue (DOMPoint, getScreenCTM, rAF). Correctness is proven
@@ -150,7 +146,7 @@
     rig.style.setProperty('--arm', rise.toFixed(4));
     document.documentElement.style.setProperty('--arm', rise.toFixed(4));
     const svg = rig.querySelector('svg');
-    // Bent "waving" stance in the LEFT MARGIN — hand up, palm forward. It never
+    // Bent "waving" stance, centered on the footer line — hand up, palm forward. It never
     // tracks the "Say hi" link on screen, so it can never slide onto the text;
     // the Say-hi underline (CSS, driven by --arm) ties the arm to the link.
     const WSLOW = 0.0018;                                  // ~3.5s period (slow greeting)

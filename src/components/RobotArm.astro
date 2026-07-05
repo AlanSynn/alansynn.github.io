@@ -4,14 +4,16 @@
 // each itself a 3-DOF chain (MCP/PIP/DIP). Same hairline-mechanism language as
 // RobotLegs: thin solid links, dashed tendons, small solid-accent joints, a slim
 // pelvis-like palm bracket (no heavy fill). Links drawn along −Y (reaching up) so
-// the engine's rest convention holds (root offset −π/2). Site-wide (Base.astro),
-// pinned in the LEFT MARGIN (left of the centered text container — never on the
-// text), fading + lifting in over the last stretch of scroll. At the footer it
-// rises beside the "Say hi" link and the hand WAVES — a slow side-to-side wrist
-// rotation with the fingers curling open in sync (a greeting). Every joint is
-// alive: the shoulder sways, the elbow pumps, the wrist waves, all four fingers
-// curl; shoulder/elbow/wrist + each fingertip are grab handles that follow the
-// pointer and spring back. Reduced-motion: engine never runs → calm static pose.
+// the engine's rest convention holds (root offset −π/2). Lives inside the footer,
+// CENTERED on its top border line — that gray hairline is the GROUND: the stage
+// clips at the line, and the arm rises up from below it (translateY driven by
+// --arm, set by the engine over the last stretch of scroll), like a robot
+// climbing out of the floor. At rest it stands on the line and the hand WAVES —
+// a slow side-to-side wrist rotation with the fingers curling open in sync —
+// with its hand just below the "Say hi" link (sized so it never snags the link).
+// Every joint is alive: shoulder sways, elbow pumps, wrist waves, fingers curl;
+// shoulder/elbow/wrist + each fingertip are grab handles that follow the pointer
+// and spring back. Reduced-motion: engine never runs → calm static standing pose.
 //
 // Geometry contract (must match RobotIK.astro): viewBox 0 0 180 360;
 // shoulder (90,340); l1=95 → elbow rest y=245; l2=88 → wrist rest y=170→157;
@@ -31,8 +33,11 @@ const FING = [
   { cls: 'f-r', mcp: { x: 108, y: 147 }, pip: { x: 108, y: 133 }, dip: { x: 108, y: 122 }, tip: { x: 108, y: 113 }, splay: 9 },
 ];
 ---
-<div class="robot-arm" data-rig="arm" data-zone={zone} aria-hidden="true">
-  <svg viewBox="0 0 180 360" xmlns="http://www.w3.org/2000/svg">
+{/* The stage is the GROUND: its bottom = the footer border-top line, overflow
+    hidden so anything below the line is buried. The arm inside rises on scroll. */}
+<div class="robot-arm-stage" aria-hidden="true">
+  <div class="robot-arm" data-rig="arm" data-zone={zone}>
+    <svg viewBox="0 0 180 360" xmlns="http://www.w3.org/2000/svg">
     {/* floor mount + shoulder bracket (base of the rig — mirrors the legs' pelvis) */}
     <line class="ra-mount" x1="56" y1="346" x2="124" y2="346" />
     <line class="ra-mount" x1="72" y1="340" x2="108" y2="340" />
@@ -90,25 +95,40 @@ const FING = [
     {/* wrist + elbow drag handles (end-effectors / dangle poles; engine repositions) */}
     <circle class="handle h-arm-wrist" data-drag="arm:wrist" cx="90" cy="157" r="6" />
     <circle class="handle h-arm-elbow" data-drag="arm:elbow" cx="90" cy="245" r="5.5" />
-  </svg>
+    </svg>
+  </div>
 </div>
 
 <style>
+  /* The stage = the GROUND. Anchored in the footer (position: relative on
+     .site-footer); its bottom sits exactly on the footer's top border line and
+     overflow:hidden buries everything below it. The arm inside rises up through
+     it on scroll. Sized so the standing hand lands just below the "Say hi" link. */
+  .robot-arm-stage {
+    --arm-w: clamp(104px, 11vw, 124px);       /* hand-to-line ≈ 1.32 × arm-w ≈ 160px */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);              /* dead-center on the gray line */
+    bottom: 100%;                             /* stage bottom = footer top = the line */
+    width: var(--arm-w);
+    height: calc(var(--arm-w) * 2);           /* room for the full standing arm */
+    overflow: hidden;                         /* the ground: clips below the line */
+    pointer-events: none;
+    z-index: 0;
+  }
   .robot-arm {
     color: var(--accent);
-    position: fixed;
-    /* live in the LEFT MARGIN (left of the centered text container) so the arm
-       never sits on the text. --arm-w shrinks with the margin; below 960px the
-       margin is too thin and the arm hides (like the legs do on mobile). */
-    --arm-w: clamp(100px, calc(50vw - var(--measure) / 2 - 26px), 178px);
-    left: max(2px, calc(50% - var(--measure) / 2 - var(--arm-w) - 8px));
-    bottom: -8px;
-    width: var(--arm-w);
-    opacity: calc(var(--arm, 0) * 0.6);          /* fades in with scroll; light */
-    transition: opacity 0.45s var(--ease, ease);
-    z-index: 1;                                  /* above background, below text */
+    position: absolute;
+    left: 0; right: 0;
+    /* drop so the floor mount (viewBox y=346 of 360) sits ON the line, not floating */
+    bottom: calc(var(--arm-w) * -0.078);
+    width: 100%;
+    opacity: 0.6;                             /* steady + subtle (no fade-from-bg) */
     pointer-events: none;
-    transform: translateY(calc((1 - var(--arm, 0)) * 36px));  /* lifts in from below */
+    /* rise from below the line: --arm=1 standing, --arm=0 fully buried (clipped).
+       100% = the arm's own height, so it translates entirely under the ground. */
+    transform: translateY(calc((1 - var(--arm, 0)) * 100%));
+    will-change: transform;
   }
   .robot-arm svg { width: 100%; height: auto; overflow: visible; display: block; }
   /* same hairline-mechanism language as the legs (rl-link / rl-tendon / rl-joint) */
@@ -141,7 +161,7 @@ const FING = [
     fill: var(--paper);
     stroke: currentColor;
     stroke-width: 1.3;
-    pointer-events: auto;            /* rig is pointer-events:none; handles grab */
+    pointer-events: auto;            /* stage is pointer-events:none; handles grab */
     cursor: grab;
     touch-action: none;
     opacity: 0.45;
@@ -150,13 +170,13 @@ const FING = [
   .handle:hover { opacity: 1; }
   .handle:active { cursor: grabbing; }
 
-  @media (max-width: 960px) {
-    /* margin too thin for the arm — hide it (Say-hi underline still highlights) */
-    .robot-arm { display: none; }
+  @media (max-width: 900px) {
+    /* too little room above the footer / under "Say hi" — hide (underline still draws) */
+    .robot-arm-stage { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
-    /* no animation: calm static pose at low opacity; handles are inert so hide */
-    .robot-arm { opacity: 0.2; transform: none; transition: none; }
+    /* no animation: calm standing pose; handles are inert so hide them */
+    .robot-arm { opacity: 0.22; transform: none; }
     .handle { display: none; }
   }
 </style>
