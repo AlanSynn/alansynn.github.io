@@ -9,12 +9,10 @@ export type V2 = { x: number; y: number };
 export const V = (x: number, y: number): V2 => ({ x, y });
 export const add = (a: V2, b: V2): V2 => ({ x: a.x + b.x, y: a.y + b.y });
 export const sub = (a: V2, b: V2): V2 => ({ x: a.x - b.x, y: a.y - b.y });
-export const mul = (a: V2, s: number): V2 => ({ x: a.x * s, y: a.y * s });
 export const len = (a: V2): number => Math.hypot(a.x, a.y);
 export const dist = (a: V2, b: V2): number => len(sub(a, b));
 export const clamp = (x: number, lo: number, hi: number): number =>
   Math.max(lo, Math.min(hi, x));
-export const TAU = Math.PI * 2;
 
 // Rotate vector `a` by `ang` radians (standard matrix).
 export const rot = (a: V2, ang: number): V2 => {
@@ -109,5 +107,3 @@ export function gaitFoot(
   const fy = hip.y + stance - lift * swing;
   return { x: fx, y: fy };
 }
-
-export const smooth = (t: number) => t * t * (3 - 2 * t);   // smoothstep 0..1
