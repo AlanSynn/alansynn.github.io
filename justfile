@@ -10,7 +10,7 @@
 #   just resume graphics
 #   just cv ml-systems
 #   just pdfs       # resume + cv (default variants)
-#   just web        # npm run build
+#   just web        # bun run build
 # ============================================================================
 
 # default `just` with no recipe builds everything (web + default PDFs).
@@ -26,7 +26,7 @@ default: build
 resume target='':
     #!/usr/bin/env bash
     set -euo pipefail
-    node scripts/gen-papers-json.mjs
+    bun scripts/gen-papers-json.mjs
     if [ -z "{{target}}" ]; then STEM="resume"; else STEM="resume-{{target}}"; fi
     mkdir -p public/pdfs
     typst compile --root . resume/typst/resume.typ "public/pdfs/$STEM.pdf" --input target="{{target}}" \
@@ -37,7 +37,7 @@ resume target='':
 cv target='':
     #!/usr/bin/env bash
     set -euo pipefail
-    node scripts/gen-papers-json.mjs
+    bun scripts/gen-papers-json.mjs
     if [ -z "{{target}}" ]; then STEM="cv"; else STEM="cv-{{target}}"; fi
     mkdir -p public/pdfs
     typst compile --root . resume/typst/cv.typ "public/pdfs/$STEM.pdf" --input target="{{target}}" \
@@ -50,18 +50,18 @@ pdfs: resume cv
 # --- Web -------------------------------------------------------------------
 
 web:
-    npm run build
+    bun run build
 
 # Build everything: web first, then default PDFs.
 build: web pdfs
 
 dev:
-    npm run dev
+    bun run dev
 
 # --- Misc ------------------------------------------------------------------
 
 clips:
-    node scripts/video-clips.mjs
+    bun scripts/video-clips.mjs
 
 clean:
     rm -rf dist .astro
