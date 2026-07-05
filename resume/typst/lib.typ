@@ -116,7 +116,7 @@
 
 #let bullet-line(body, level: 0) = {
   let marker = bullet-markers.at(level, default: "•")
-  block(width: 100%, spacing: 0pt, breakable: true)[
+  block(width: 100%, spacing: 0.45em, breakable: true)[
     #pad(left: level * 1.3em)[
       #grid(
         columns: (0.9em, 1fr),
@@ -163,7 +163,7 @@
   let title = e.at("title", default: "")
   let location = e.at("location", default: none)
   let body = e.at("body", default: none)
-  block(width: 100%, spacing: 0pt)[
+  block(width: 100%, spacing: 0.45em)[
     #grid(
       columns: (1fr, auto),
       align: (left, right),
@@ -186,8 +186,9 @@
 #let section = name => block(width: 100%, spacing: 0pt)[
   #v(0.9em)
   #text(weight: "bold")[#name]
-  #v(-0.5em)
+  #v(0.1em)
   #line(length: 100%, stroke: 0.5pt)
+  #v(0.3em)
 ]
 
 // ---- 8. Publications ------------------------------------------------------
@@ -226,7 +227,7 @@
 
 #let pub-item = (n, p) => {
   let venue = if p.abbr != none and p.abbr != "" { p.abbr } else { p.venue }
-  block(width: 100%, spacing: 0pt, breakable: true)[
+  block(width: 100%, spacing: 0.45em, breakable: true)[
     #grid(
       columns: (1.5em, 1fr),
       column-gutter: 0.3em,
@@ -258,7 +259,7 @@
       let prev = if i > 0 { list.at(i - 1).year } else { none }
       if prev != p.year {
         if i > 0 { v(0.55em) }
-        block(width: 100%, spacing: 0pt)[#text(weight: "bold")[#p.year]]
+        block(width: 100%, spacing: 0.45em)[#text(weight: "bold")[#p.year]]
       }
     }
     pub-item(n, p)
@@ -299,7 +300,7 @@
       if email != none { link("mailto:" + email)[#email] }
       else if url != none { link(url)[#url] }
     }
-    block(width: 100%, spacing: 0pt)[
+    block(width: 100%, spacing: 0.45em)[
       #text(weight: "bold")[#r.name]#linebreak()
       #if role != none [#role#linebreak()]
       #if aff != none [#aff#linebreak()]
@@ -343,7 +344,7 @@
 #let style = it => {
   set page(paper: "us-letter", margin: (top: 0.5in, bottom: 0.5in, x: 0.55in))
   set text(font: "New Computer Modern", size: 10.5pt, lang: "en")
-  set par(leading: 0.62em, spacing: 0.6em, justify: false)
+  set par(leading: 0.9em, spacing: 0.7em, justify: false)
   it
 }
 
@@ -374,7 +375,7 @@
 #let resume-doc = it => {
   set page(paper: "us-letter", margin: (top: 0.5in, bottom: 0.5in, x: 0.55in))
   set text(font: "New Computer Modern", size: 10.5pt, lang: "en")
-  set par(leading: 0.62em, spacing: 0.6em, justify: false)
+  set par(leading: 0.9em, spacing: 0.7em, justify: false)
   set document(title: doc-title-str("resume"), author: site.name)
   cv-body("resume")
 }
@@ -382,7 +383,7 @@
 #let cv-doc = it => {
   set page(paper: "us-letter", margin: (top: 0.5in, bottom: 0.5in, x: 0.55in))
   set text(font: "New Computer Modern", size: 10.5pt, lang: "en")
-  set par(leading: 0.62em, spacing: 0.6em, justify: false)
+  set par(leading: 0.9em, spacing: 0.7em, justify: false)
   set document(title: doc-title-str("cv"), author: site.name)
   cv-body("cv")
 }
