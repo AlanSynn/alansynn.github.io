@@ -98,9 +98,14 @@ in `resume/typst/lib.typ` (`target-keywords`, `target-blurb`); per-entry
 ## Stack
 
 Astro 5 + `astro-typst` (Typst→HTML for prose/math), Vite, TypeScript. Typst
-0.15 for PDFs. Fonts: Newsreader (display) + Hanken Grotesk (body) + IBM Plex
-Mono. Design tokens in `src/styles/tokens.css`. `just` orchestrates everything
-(`justfile`).
+0.15.x for PDFs — pinned in `.tool-versions` (a reproducibility floor, not a
+ceiling; bump it intentionally to adopt new Typst features). CV layout
+primitives are first-party in `resume/typst/layout.typ` (adapted from
+`cv-soft-and-hard` 0.1.0, MIT, © Jonas Pleyer — no `@preview` runtime dep).
+Fonts: web uses Newsreader (display) + Hanken Grotesk (body) + IBM Plex Mono;
+PDFs use Typst's bundled Libertinus Serif (the academic-CV serif norm, kept by
+design). Design tokens in `src/styles/tokens.css`. `just` orchestrates
+everything (`justfile`).
 
 ## Deploy
 
