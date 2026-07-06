@@ -58,8 +58,8 @@ const clip = paper.video ? (clipManifest as Record<string, { clip: string; poste
     </div>
     <div class="cpub__meta">
       {paper.abbr && (vinfo?.url
-        ? <a class="cpub__venue" href={vinfo.url} target="_blank" rel="noopener" style={vinfo?.color ? `--venue-color:${vinfo.color}` : undefined}>{vinfo?.name ?? paper.abbr}</a>
-        : <span class="cpub__venue" style={vinfo?.color ? `--venue-color:${vinfo.color}` : undefined}>{vinfo?.name ?? paper.abbr}</span>)}
+        ? <a class="cpub__venue" href={vinfo.url} target="_blank" rel="noopener">{vinfo?.name ?? paper.abbr}</a>
+        : <span class="cpub__venue">{vinfo?.name ?? paper.abbr}</span>)}
       {links.length > 0 && (
         <span class="cpub__links">
           {links.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.label}</a>)}

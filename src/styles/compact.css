@@ -126,16 +126,14 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
 .cpub__year { font-family: var(--font-body); font-size: var(--step--1); color: var(--muted); white-space: nowrap; }
 .cpub__authors { font-size: var(--step--1); color: var(--ink-soft); margin-top: 0.1em; }
 .cpub__meta { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-1); flex-wrap: wrap; }
-/* Venue label: PLAIN text — distinct via mono font + per-venue color only. No
-   pill, no fill, no border. Colors darkened in venues.yaml where the brand hue
-   failed text-on-white contrast (KIPS orange family, CHI pink). */
+/* Venue label: PLAIN text — mono font, bold, single accent color for every
+   venue (uniform weight, no per-venue hue so none reads fainter than others). */
 .cpub__venue {
-  --venue-color: var(--accent);
   font-family: var(--font-mono);
   font-size: var(--step--2);
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 0.02em;
-  color: var(--venue-color);
+  color: var(--accent);
   text-decoration: none;
   white-space: nowrap;
 }
