@@ -112,6 +112,17 @@ export const researchInterestsSchema = z.object({
   focus_areas: z.array(z.string()),
 });
 
+// ---- news.yaml — { date, link?, highlight?, body } -------------------------
+// The single most-edited file; coerce date + URL-validate the link so a bad
+// entry fails loudly at build instead of rendering wrong or throwing deep in
+// NewsList. Mirrors the schema the old per-item Astro collection enforced.
+export const newsItemSchema = z.object({
+  date: z.coerce.date(),
+  link: z.string().url().optional(),
+  highlight: z.boolean().default(false),
+  body: z.string(),
+});
+
 // ---- Cross-reference integrity (build-time warnings) -----------------------
 // Paper shape mirrors the relevant subset of src/lib/papers.ts Paper.
 interface PaperLike {
