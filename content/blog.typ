@@ -18,6 +18,28 @@
   items.pos().map((it) => html.elem("p", it)).join(),
 )
 
+// A co-located figure: image + optional caption, emitted as a semantic
+// <figure>. The image is read at build time and embedded via html.frame, so no
+// separate static file is served — co-location (a folder next to the post's
+// .typ) is for source organization only. `src` is project-root-absolute, e.g.
+// "/content/blog/<slug>/diagram.svg"; `alt` is required (accessibility);
+// `caption` adds a <figcaption>. `width` must be an ABSOLUTE length (pt) — the
+// html export frame has no reference width, so relative `%` renders at 0.
+// Figures are capped to the column on phones via `.prose figure svg` in CSS.
+// Call as:
+//   #blogimg("/content/blog/my-post/hero.png", alt: "The rig at rest",
+//            caption: [The rig at rest.])
+#let blogimg(src, alt: "", caption: none, width: 460pt) = {
+  let img = html.frame(image(src, width: width, alt: alt))
+  // alt doesn't propagate through html.frame; expose it on the figure itself
+  // (role="img" + aria-label) so screen readers announce the image.
+  html.elem(
+    "figure",
+    attrs: ("role": "img", "aria-label": alt),
+    if caption != none { img + html.elem("figcaption", caption) } else { img },
+  )
+}
+
 #let main(
   title: "Untitled",
   desc: "This is a blog post.",

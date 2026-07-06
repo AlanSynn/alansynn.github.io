@@ -667,6 +667,10 @@ figcaption { font-family: var(--font-mono); font-size: var(--step--2); color: va
 .prose pre code { padding: 0; background: none; border: 0; font-size: inherit; }
 .prose figure { margin: var(--space-6) 0; }
 .prose figure > :not(figcaption) { margin: 0; }
+/* typst html.frame renders figures as inline <svg width="…pt">; cap them to the
+   column so they never overflow on phones (covers blogimg and native-svg
+   figures). max-width only shrinks — desktop size is unchanged. */
+.prose figure svg, .prose figure img { max-width: 100%; height: auto; }
 .prose figcaption {
   margin-top: var(--space-3);
   font-family: var(--font-mono);

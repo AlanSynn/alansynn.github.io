@@ -91,3 +91,22 @@ absolute or relative to the container:
 )
 
 That is the whole pipeline — write prose and math, get crisp typeset output.
+
+== Callouts and images
+
+A blockquote callout:
+
+#blockquote[
+This is a callout block — a left accent bar with a sunken background. Use it for illustrative sentences or key restatements.
+]
+
+A co-located image lives in a folder next to the post's `.typ` file
+(`content/blog/<slug>/`) and is embedded at build time via `#blogimg`:
+
+#blogimg(
+  "/content/blog/usage-guide/diagram.svg",
+  alt: "One source (src/data and Typst) feeds both the web and the PDF outputs.",
+  caption: [The whole site from one source. `#blogimg` embeds a co-located SVG.],
+  width: 460pt,
+)
+
