@@ -64,27 +64,29 @@
 
 .header-tools { display: flex; align-items: center; gap: var(--space-2); }
 
-/* ---- Theme toggle ------------------------------------------------------ */
+/* ---- Theme toggle ------------------------------------------------------
+   Pinned to the top-right corner on EVERY viewport as a fixed overlay —
+   occupies no layout row, sits at roughly the title-start band, and never
+   scrolls away. Lifted out of the footer (where it lives in the DOM) by
+   position: fixed, so the footer simply no longer renders it. */
 .theme-toggle {
-  position: fixed;
-  top: var(--space-4);
-  right: var(--space-4);
-  z-index: var(--z-header);
   display: inline-grid;
   place-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: var(--radius-pill);
-  border: 1px solid var(--hairline-strong);
+  border: 1px solid transparent;
   background: color-mix(in srgb, var(--paper) 80%, transparent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(4px);
   color: var(--ink-soft);
-  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+  cursor: pointer;
+  position: fixed;
+  top: var(--space-5);
+  right: var(--gutter);
+  z-index: var(--z-header);
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
 }
-.theme-toggle:hover { color: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
-.theme-toggle:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-softer); }
+.theme-toggle:hover { color: var(--accent); border-color: var(--hairline); background: var(--paper-sunken); }
 .theme-toggle svg { width: 1.1rem; height: 1.1rem; }
 .theme-toggle .icon-sun { display: none; }
 .theme-toggle .icon-moon { display: block; }
@@ -545,26 +547,157 @@ figcaption { font-family: var(--font-mono); font-size: var(--step--2); color: va
 /* ==========================================================================
    Tags
    ========================================================================== */
-.tag-list { display: flex; flex-wrap: wrap; gap: var(--space-2); list-style: none; padding: 0; margin: var(--space-2) 0 0; }
+.tag-list { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); list-style: none; padding: 0; margin: var(--space-2) 0 0; }
+/* <li> uses display:contents so the <a> is the real flex item — a list-item
+   flex child reserves an uneven marker line-box and the pills sit at different
+   heights. inline-flex + line-height:1 gives every pill a deterministic box. */
+.tag-list li { display: contents; }
 .tag-list a {
+  display: inline-flex; align-items: center;
   font-family: var(--font-mono); font-size: var(--step--2);
+  line-height: 1;
   letter-spacing: var(--tracking-mono); color: var(--ink-soft);
-  padding: 0.2em 0.6em; border-radius: var(--radius-pill);
+  padding: 0.3em 0.65em; border-radius: var(--radius-pill);
   background: var(--paper-sunken); border: 1px solid var(--hairline);
 }
 .tag-list a:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
 
 /* ==========================================================================
-   Blog post / prose
+   Blog post / prose  —  two-column reading layout (TOC rail | prose)
    ========================================================================== */
+.post-layout {
+  display: grid;
+  grid-template-columns: 15rem minmax(0, 1fr);
+  gap: var(--space-7);
+  align-items: start;
+  max-width: calc(15rem + var(--space-7) + 54rem);
+  margin-left: auto;
+  margin-right: auto;
+  padding-inline: var(--gutter);
+}
+.post-body { grid-column: 2; min-width: 0; }
+.post-body .prose { max-width: 54rem; }   /* wider than the default measure for long-form reading */
+
+/* Back-to-list breadcrumb (sits above the title). */
+.post-crumbs {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-mono);
+  color: var(--muted);
+  margin-bottom: var(--space-5);
+}
+.post-crumbs a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease);
+}
+.post-crumbs a:hover { color: var(--accent); }
+
 .post-header { margin-bottom: var(--space-6); padding-bottom: var(--space-5); border-bottom: 1px solid var(--hairline); }
-.post-header h1 { font-size: var(--step-4); }
+.post-header h1 { font-size: var(--step-4); line-height: var(--leading-tight); letter-spacing: var(--tracking-tight); }
 .post-meta { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-3); font-family: var(--font-mono); font-size: var(--step--2); color: var(--muted); letter-spacing: var(--tracking-mono); }
+
+/* ---- Prose typography ------------------------------------------------- */
 .prose { max-width: var(--measure); }
 .prose > * + * { margin-top: var(--space-4); }
-.prose h2 { margin-top: var(--space-7); }
-.prose h3 { margin-top: var(--space-6); }
+.prose h2, .prose h3, .prose h4 { scroll-margin-top: 6rem; }   /* land below the rail when jump-linked */
+.prose h2 {
+  margin-top: var(--space-7);
+  font-size: var(--step-2); line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+.prose h3 {
+  margin-top: var(--space-6);
+  font-size: var(--step-1); line-height: var(--leading-snug);
+}
+.prose p { line-height: var(--leading-loose); }       /* comfortable reading; not justified */
 .prose img { border-radius: var(--radius-md); border: 1px solid var(--hairline); }
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-thickness 0.15s var(--ease);
+}
+.prose a:hover { text-decoration-thickness: 2px; }
+.prose ul, .prose ol { padding-left: 1.4em; }
+.prose ul { list-style: disc; }
+.prose ol { list-style: decimal; }
+.prose li + li { margin-top: var(--space-2); }
+.prose blockquote {
+  margin: var(--space-5) 0;
+  padding: var(--space-3) var(--space-5);
+  border-left: 3px solid var(--accent);
+  background: var(--paper-sunken);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--ink-soft);
+  font-style: italic;
+  line-height: var(--leading-snug);   /* breathe inside the accent rail */
+}
+.prose blockquote p { margin: 0; }
+/* A list of example utterances (blockquote.examples from the `examples` Typst
+   helper): roman, not italic, one sentence per line so the eye can scan. */
+.prose blockquote.examples { font-style: normal; }
+.prose blockquote.examples p { margin: 0; }
+.prose blockquote.examples p + p { margin-top: var(--space-2); }
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--hairline);
+  margin: var(--space-6) 0;
+}
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  padding: 0.12em 0.4em;
+  border-radius: var(--radius-sm);
+  background: var(--paper-sunken);
+  border: 1px solid var(--hairline);
+}
+.prose pre {
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  background: var(--paper-sunken);
+  border: 1px solid var(--hairline);
+  overflow-x: auto;
+  font-size: var(--step--1);
+}
+.prose pre code { padding: 0; background: none; border: 0; font-size: inherit; }
+.prose figure { margin: var(--space-6) 0; }
+.prose figure > :not(figcaption) { margin: 0; }
+.prose figcaption {
+  margin-top: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  color: var(--muted);
+  text-align: center;
+  letter-spacing: var(--tracking-mono);
+}
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--step--1);
+}
+.prose th, .prose td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--hairline);
+  text-align: left;
+  vertical-align: top;
+}
+.prose thead th {
+  border-bottom: 1px solid var(--hairline-strong);
+  font-family: var(--font-mono); font-size: var(--step--2);
+  color: var(--muted); letter-spacing: var(--tracking-mono);
+}
+/* Zebra striping so the eye tracks a row across wide tables. */
+.prose tbody tr:nth-child(even) { background: color-mix(in srgb, var(--paper-sunken) 55%, transparent); }
+/* On phones a 4-col reference table can't fit — let it scroll sideways
+   instead of crushing every cell into one word per line. */
+@media (max-width: 720px) {
+  .prose table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
 
 .back-link {
   display: inline-flex; align-items: center; gap: var(--space-2);
@@ -574,11 +707,98 @@ figcaption { font-family: var(--font-mono); font-size: var(--step--2); color: va
 }
 .back-link:hover { color: var(--accent); text-decoration: none; }
 
-/* Outline (TOC) */
-.outline { margin-bottom: var(--space-5); padding: var(--space-4) var(--space-5); background: var(--paper-sunken); border: 1px solid var(--hairline); border-radius: var(--radius-md); }
-.outline ul { list-style: none; padding: 0; margin: 0; }
-.outline a { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-soft); letter-spacing: var(--tracking-mono); }
-.outline a:hover { color: var(--accent); }
+/* ---- Table of contents — desktop rail -------------------------------- */
+.toc[hidden], .toc-mobile[hidden] { display: none; }
+.toc {
+  grid-column: 1;
+  position: sticky;
+  top: var(--space-5);
+  font-family: var(--font-mono);
+}
+.toc__nav { position: relative; }
+.toc__title {
+  font-size: var(--step--2);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-mono);
+  color: var(--muted);
+  margin-bottom: var(--space-3);
+}
+.toc__scroll { position: relative; max-height: calc(100vh - 8rem); overflow-y: auto; padding-left: var(--space-4); }
+.toc__scroll::-webkit-scrollbar { width: 3px; }
+.toc__scroll::-webkit-scrollbar-thumb { background: var(--hairline); border-radius: 2px; }
+/* The sliding accent bar — JS translates it to the active item. */
+.toc__track {
+  position: absolute;
+  left: 0; top: 0;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--accent);
+  opacity: 0;
+  transform: translateY(0);
+  transition: transform 0.34s var(--ease), height 0.34s var(--ease), opacity 0.3s var(--ease);
+  pointer-events: none;
+}
+.toc__list { list-style: none; margin: 0; padding: 0; }
+.toc__item + .toc__item { margin-top: var(--space-2); }
+.toc__item--l3 { padding-left: var(--space-4); }
+.toc__link {
+  display: block;
+  padding: 0.18em 0;
+  font-size: var(--step--2);
+  line-height: var(--leading-snug);
+  color: var(--ink-soft);
+  letter-spacing: var(--tracking-mono);
+  text-decoration: none;
+  transition: color 0.2s var(--ease);
+}
+.toc__link:hover { color: var(--accent); }
+.toc__link.is-active { color: var(--accent); font-weight: 600; }
+
+/* ---- Table of contents — mobile disclosure (quiet inline trigger) ----- */
+.toc-mobile {
+  margin-bottom: var(--space-5);
+  font-family: var(--font-mono);
+}
+.toc-mobile > summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+  font-size: var(--step--2);
+  color: var(--muted);
+  letter-spacing: var(--tracking-mono);
+  transition: color var(--dur-fast) var(--ease);
+}
+.toc-mobile > summary::-webkit-details-marker { display: none; }
+.toc-mobile > summary:hover { color: var(--accent); }
+.toc-mobile[open] > summary { color: var(--ink); }
+.toc-mobile__chevron { transition: transform 0.25s var(--ease); color: var(--muted); }
+.toc-mobile[open] > summary .toc-mobile__chevron { transform: rotate(180deg); }
+/* Expanded list hangs off a left hairline — same language as the desktop rail. */
+.toc-mobile .toc__list {
+  padding: var(--space-3) 0 var(--space-2) var(--space-4);
+  margin-top: var(--space-2);
+  border-left: 1px solid var(--hairline);
+}
+.toc-mobile .toc__link { font-size: var(--step--1); color: var(--ink-soft); }
+
+/* Responsive: rail on desktop, disclosure on tablet/mobile.
+   (Reduced-motion is handled globally in base.css — transition-duration is
+   forced to ~0 and scroll-behavior to auto there.) */
+@media (max-width: 879px) {
+  /* Single column on phones + phone-landscape. No max-width cap — the prose
+     fills the viewport (its own 54rem cap only bites past ~864px, which this
+     range never reaches), so there is no centered block with empty sides. */
+  .post-layout { grid-template-columns: 1fr; }
+  .post-body { grid-column: 1; }
+  .toc { display: none; }
+}
+@media (min-width: 880px) {
+  .toc-mobile { display: none; }
+}
+
 
 /* ---- Empty state ------------------------------------------------------ */
 .empty-state { padding: var(--space-8); text-align: center; color: var(--muted); font-family: var(--font-mono); font-size: var(--step--1); }

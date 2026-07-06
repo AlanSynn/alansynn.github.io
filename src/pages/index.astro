@@ -27,7 +27,9 @@ const news = (await getCollection('news'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 8);
 
-const bio = researchInterests.statements[0];
+// Render the full statements array (one <p> per statement) so the bio can be a
+// multi-paragraph profile, not just the first entry.
+const bio = researchInterests.statements.join("\n\n");
 
 // Email obfuscation for the inline "Say hi" link (base64 halves, JS-decoded
 // mailto on click — same pattern as Socials.astro, caught by its handler).
@@ -97,19 +99,6 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     <Timeline items={education} />
   </section>
 
-  {/* ---- Honors ---- */}
-  <section id="honors">
-    <h2 class="home-head">Honors &amp; Awards</h2>
-    {honors.map((g: { group: string; items: string[] }) => (
-      <div class="honor-group">
-        <div class="honor-group__label">{g.group}</div>
-        <ul class="honor-group__list">
-          {g.items.map((it: string) => <li><Markdown content={it} /></li>)}
-        </ul>
-      </div>
-    ))}
-  </section>
-
   {/* ---- Teaching ---- */}
   <section id="teaching">
     <h2 class="home-head">Teaching</h2>
@@ -120,6 +109,19 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
   <section id="service">
     <h2 class="home-head">Activities &amp; Service</h2>
     <Timeline items={activities} />
+  </section>
+
+  {/* ---- Honors & Awards (above Contact — closes the page on achievement) ---- */}
+  <section id="honors">
+    <h2 class="home-head">Honors &amp; Awards</h2>
+    {honors.map((g: { group: string; items: string[] }) => (
+      <div class="honor-group">
+        <div class="honor-group__label">{g.group}</div>
+        <ul class="honor-group__list">
+          {g.items.map((it: string) => <li><Markdown content={it} /></li>)}
+        </ul>
+      </div>
+    ))}
   </section>
 
   {/* ---- Contact ---- */}

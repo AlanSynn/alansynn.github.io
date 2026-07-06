@@ -55,6 +55,7 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
   max-width: 42rem;
   margin-bottom: var(--space-4);
 }
+.profile__bio p + p { margin-top: var(--space-3); }
 .profile__links { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-4); }
 @media (max-width: 640px) {
   .profile { grid-template-columns: 1fr; gap: var(--space-4); }

@@ -81,7 +81,7 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
         document.documentElement.classList.remove('no-js'); // JS is on -> reveal animations active
         try {
           var t = localStorage.getItem('theme');
-          if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          if (!t) t = 'light'; // default to light; user choice (if any) persists above
           document.documentElement.setAttribute('data-theme', t);
         } catch (e) {
           document.documentElement.setAttribute('data-theme', 'light');
@@ -96,16 +96,16 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
     </main>
     <footer class="site-footer">
       <div class="site-footer__inner">
-        <span>© {year} {site.name}</span>
-        <span>
-          <a href="/pdfs/cv.pdf">cv</a>
-          · <a href="/blog">notes</a>
-          · <a href={site.url}>{site.domain}</a>
-        </span>
+        <span class="site-footer__copy">© {year} {site.name}</span>
+        <nav class="site-footer__path" aria-label="Site">
+          <a href={site.url}>{site.domain}</a>
+          <span class="site-footer__sep" aria-hidden="true">/</span>
+          <a href="/blog">blog</a>
+        </nav>
+        <ThemeToggle />
       </div>
       <RobotArm zone="floor" />
     </footer>
-    <ThemeToggle />
     <SiteChrome />
     <RobotIK />
   </body>

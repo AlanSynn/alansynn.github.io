@@ -1,14 +1,31 @@
 #import "/src/3rd_party/mathyml/lib.typ": *
 
+// ---- Semantic HTML helpers (shared by every post via `#import`: *) -------
+// Typst's default block() renders as an opaque <div> in the HTML export, which
+// the prose CSS can't target. These emit real semantic elements instead.
+#let blockquote(body) = html.elem("blockquote", body)
+#let hr = html.elem("hr")
+
+// A stack of short, related example sentences — e.g. "typical sentences sound
+// like this". Each argument becomes its own <p> inside a blockquote.examples,
+// so the reader can scan one sentence per line instead of meeting a run-on
+// italic wall. Use `blockquote` for a single pull-quote/callout, `examples`
+// for a list of example utterances. Call as:
+//   #examples("We explore a new paradigm.", "This opens a design space.")
+#let examples(..items) = html.elem(
+  "blockquote",
+  attrs: ("class": "examples"),
+  items.pos().map((it) => html.elem("p", it)).join(),
+)
+
 #let main(
   title: "Untitled",
   desc: "This is a blog post.",
   date: "2025-06-08",
   tags: (),
-  show-outline: true,
   draft: false,
   body,
-  author: "Max Baker",
+  author: "Alan Synn",
 ) = {
 
   show: it => {
@@ -49,9 +66,9 @@
     }
 
 
-    // Main body.
-    outline(title:"", indent: auto)
-    set par(justify: true)
+    // Main body. (No inline outline — the floating scroll-spy TOC is built
+    // client-side from the rendered <h2>/<h3> in Toc.astro; see src/pages/blog/[...slug].astro.)
+    // Left-aligned (not justified) — justification creates rivers on the web.
     it
 
   }
