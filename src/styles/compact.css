@@ -60,6 +60,9 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
 @media (max-width: 640px) {
   .profile { grid-template-columns: 1fr; gap: var(--space-4); }
   .profile__photo { width: 128px; height: 160px; }
+  /* reserve a dangle zone below the photo so the legs rig (56px ≈ 104px tall)
+     clears the name/bio text below it on phones */
+  .profile__portrait { margin-bottom: 112px; }
 }
 
 /* ---- Section heads (homepage) ----------------------------------------- */
