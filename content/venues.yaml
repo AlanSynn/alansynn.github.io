@@ -1,28 +1,48 @@
 # ============================================================================
-# Venue badges: abbr → { url, color }. Keys match `abbr` fields in papers.bib.
-# Colors preserved from old _data/venues.yml (Alan's entries).
+# Venue badges: abbr → { name, url, color }. Keys match `abbr` in papers.bib.
+#   name  = readable badge label (fuller than the abbr; shown on the web).
+#   url   = venue homepage (badge links here).
+#   color = text color for the venue label. Darkened where the brand hue failed
+#           text-on-white contrast (KIPS orange family, CHI pink) so the plain
+#           colored text stays readable without a pill fill.
 # ============================================================================
 
 'CHI':
+  name: 'ACM CHI'
   url: 'https://chi2026.acm.org/'
-  color: '#E91E63'
+  color: '#C2185B'
 
 'IEEE Access':
+  name: 'IEEE Access'
   url: 'https://ieeeaccess.ieee.org/'
   color: '#0066CC'
 
 'NeurIPS':
+  name: 'NeurIPS'
   url: 'https://neurips.cc/'
   color: '#673AB7'
 
 'arXiv':
+  name: 'arXiv'
   url: 'https://arxiv.org/'
   color: '#B71C1C'
 
 'ACK':
+  name: 'KIPS Conf.'
   url: 'https://www.kips.or.kr/'
   color: '#2E7D32'
 
 'KIPS':
+  name: 'KIPS'
   url: 'https://www.kips.or.kr/'
-  color: '#FF9800'
+  color: '#E65100'
+
+'TKIPS':
+  name: 'KIPS Transactions'
+  url: 'https://tkips.kips.or.kr/'
+  color: '#D84315'
+
+'KTSDE':
+  name: 'KIPS Trans. Softw. & Data'
+  url: 'https://www.kips.or.kr/'
+  color: '#BF360C'

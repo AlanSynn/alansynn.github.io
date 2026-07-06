@@ -11,15 +11,18 @@ website + resume + CV + targeted variants**. Live at alansynn.com.
 
 ## The one invariant that matters
 
-**`src/data/*.yaml` + `papers.bib` is the single content source.** Both
-renderers read it:
+**`content/` is the single content source — the only directory a human edits.**
+Both renderers read it:
 
-- **Web** → Astro components (`src/components/`, `src/pages/`).
+- **Web** → Astro components (`src/components/`, `src/pages/`); structured YAML
+  + bib are imported through the single access point `src/lib/data.ts`.
 - **PDF** → Typst (`resume/typst/lib.typ`, the shared template; `resume.typ` /
   `cv.typ` are 5-line entry files).
 
-Editing a YAML field updates the web AND the resume/CV. Don't duplicate content
-into components or `.typ` files — keep it in `src/data/`.
+Editing a file in `content/` updates the web AND the resume/CV. Don't duplicate
+content into components or `.typ` files — keep it in `content/`. Generated
+artifacts (`src/data/papers.json`, `src/data/video-clips.json`) live under
+`src/data/` and are never hand-edited.
 
 ## Build commands (`just`)
 
@@ -38,12 +41,31 @@ in `resume/typst/lib.typ` (`target-keywords`, `target-blurb`); per-entry
 
 ## Conventions (don't break these)
 
-- **Edit content in `src/data/`**, never in generated files. Generated:
-  `src/data/papers.json` (from `papers.bib` via `scripts/gen-papers-json.mjs`),
-  `src/data/video-clips.json`, `public/pdfs/*.pdf`, `dist/`.
+- **Edit content in `content/`**, never in code or generated files. Generated:
+  `src/data/papers.json` (from `content/papers.bib` via
+  `scripts/gen-papers-json.mjs`), `src/data/video-clips.json`,
+  `public/pdfs/*.pdf`, `dist/`.
 - **PDFs are committed** because CI is web-only. After changing any
-  `src/data/*` or `papers.bib`, run `just pdfs` and commit the regenerated PDFs
-  alongside the source change so web and PDF stay in sync.
+  `content/*` (incl. `papers.bib`), run `just pdfs` and commit the regenerated
+  PDFs alongside the source change so web and PDF stay in sync.
+- **Publications live in `content/papers.bib`** — one `@inproceedings`/
+  `@article` entry per paper, the single source for web + PDF. Two flags drive
+  visibility, and they mean different things — don't conflate them:
+  - `selected` → the paper prints in the resume/CV PDF (`lib.typ` filters on it).
+  - `featured` → the paper surfaces at the TOP of the homepage `#publications`;
+    every non-featured entry folds under the "All publications" toggle. Web-only;
+    the PDF ignores it.
+  **When you add or edit an entry, fill EVERY applicable field** — `preview`
+  (thumbnail image), `doi`, `pdf`, `code` (repo), `website` (project page),
+  `video` (YouTube id or `/videos/<name>.mp4`), `abstract`. Hunt the values down
+  via web search + extraction (DOI page, author/project page, GitHub, YouTube);
+  never leave a gap you can fill. Assets: preview images → `public/images/papers/`
+  (or `.../motionsmith/`), videos → `public/videos/`, committed PDFs →
+  `public/pdfs/`. Every entry's `abbr` MUST have a matching key in
+  `content/venues.yaml` (with `name`/`url`/`color`) or the venue badge renders as
+  bare text with no link/color. After editing `papers.bib`, regen
+  `src/data/papers.json` (`scripts/gen-papers-json.mjs`); if `selected` changed,
+  also run `just pdfs` and commit the new PDFs.
 - **Email stays obfuscated on the web.** Served HTML must contain 0 raw
   `mailto:alansynn@gatech.edu` links (anti-crawler). The PDF legitimately shows
   the raw address — that's fine, it's not crawler-facing. Don't de-obfuscate the
@@ -55,12 +77,13 @@ in `resume/typst/lib.typ` (`target-keywords`, `target-blurb`); per-entry
   making text harder to read.
 - **Verify before claiming done.** For web layout changes, measure (e.g.
   Playwright DOM geometry: line count vs. line-height), don't eyeball.
-- **News entries fill the line and carry a link.** Each `content/news/*.md`
-  item is one full sentence sized to fill the column width (never a 2–3 word
-  stub that overflows with a little text), and its frontmatter includes a
-  `link:`. Order events across separate entries by date (e.g. CHI: a January
-  "accepted" item and an April "presenting" item), don't merge them. See
-  `content/news/` for the pattern.
+- **News is one file, capped to 8.** `content/news.yaml` is a single YAML list
+  of `{ date, link?, highlight?, body }` items (newest first is easiest to
+  read; the homepage sorts by `date` regardless and shows the 8 most recent).
+  Each `body` is one full sentence sized to fill the column width (never a 2–3
+  word stub), markdown inline OK (`**bold**`, `_italic_`, `[label](url)`).
+  Order events across separate items by date (e.g. CHI: a January "accepted"
+  item and an April "presenting" item), don't merge them.
 
 ## Stack
 
