@@ -14,7 +14,9 @@ Each file has a header comment explaining its fields; this file is just the map.
 - `cv.yaml` — the career timeline: `education` / `experience` / `teaching` /
   `activities` as four sections in one file (they share one entry model).
   Entry: `{ period, title, location?, body, only?/except? }`. Per-entry
-  targeting for PDF variants via `only:`/`except:`.
+  targeting via `only:`/`except:` is honored on **both** web and PDF (web = the
+  default/untargeted view, so it mirrors the default CV: `only:` hides, `except:`
+  shows).
 - `honors.yaml` — grouped `{ group, items[] }`.
 - `references.yaml` — reference contacts (rendered on the CV).
 - `skills.yaml` — categorized technical skills.

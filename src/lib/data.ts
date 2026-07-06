@@ -34,10 +34,22 @@ import {
 
 // ---- Parse structured YAML through schemas --------------------------------
 const cv = cvSchema.parse(cvRaw);
-const education = cv.education;
-const experience = cv.experience;
-const teaching = cv.teaching;
-const activities = cv.activities;
+
+// Per-entry targeting (only:/except:) — mirrors resume/typst/lib.typ's
+// entry-visible at the default target "". The web is the untargeted view
+// (paired with the default CV), so an `only:`-tagged entry is target-specific
+// and hidden here; an `except:`-tagged entry is shown (the web is never the
+// excluded PDF target). Entries with neither flag show. Keeps web + default
+// CV in sync so an `only:`/`except:` edit can't silently diverge them.
+const entryVisible = (e: {
+  only?: string | string[];
+  except?: string | string[];
+}): boolean => e.only === undefined;
+
+const education = cv.education.filter(entryVisible);
+const experience = cv.experience.filter(entryVisible);
+const teaching = cv.teaching.filter(entryVisible);
+const activities = cv.activities.filter(entryVisible);
 
 const site = siteSchema.parse(siteRaw);
 const honors = honorsSchema.parse(honorsRaw);
