@@ -1,7 +1,7 @@
 # ============================================================================
 # justfile — Alan Synn's academic homepage. Drives the Typst CV/resume
-# pipeline (reads the SAME src/data/*.yaml + papers.json the Astro web reads)
-# and the Astro web build.
+# pipeline (reads the SAME content/*.yaml + src/data/papers.json the Astro web
+# reads) and the Astro web build.
 #
 # Common:
 #   just            # = just build  (web + default PDFs)

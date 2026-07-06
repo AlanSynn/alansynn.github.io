@@ -1,7 +1,8 @@
 // ============================================================================
-// Content collections. Blog = Typst (framework pattern). News + Projects =
-// Markdown, one file per item - scalable, al-folio-like, ready for a future
-// lab page (multi-author).
+// Content collections. Blog = Typst (framework pattern). Projects = Markdown,
+// one file per item - scalable, al-folio-like, ready for a future lab page
+// (multi-author). News lives in a single list file (content/news.yaml) read
+// directly, not a collection.
 // ============================================================================
 import { glob } from 'astro/loaders';
 import { defineCollection, z } from 'astro:content';
@@ -16,15 +17,6 @@ const blog = defineCollection({
     updatedDate: z.coerce.date().optional(),
     tags: z.array(z.string()).optional(),
     draft: z.boolean().default(false),
-  }),
-});
-
-const news = defineCollection({
-  loader: glob({ base: './content/news', pattern: '**/*.md' }),
-  schema: z.object({
-    date: z.coerce.date(),
-    link: z.string().url().optional(),
-    highlight: z.boolean().default(false),
   }),
 });
 
@@ -44,4 +36,4 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { blog, news, projects };
+export const collections = { blog, projects };

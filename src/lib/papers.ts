@@ -1,6 +1,6 @@
 // ============================================================================
 // papers.ts - minimal, dependency-free BibTeX parser tailored to the al-folio
-// flavour used in src/data/papers.bib. Runs at BUILD TIME only (Node fs).
+// flavour used in content/papers.bib. Runs at BUILD TIME only (Node fs).
 // Handles: @string macros, nested braces in values, {}/""/bare-word values,
 // boolean-ish fields, author splitting, month names. Preserves every field
 // and the raw entry text (for BibTeX export).
@@ -24,6 +24,7 @@ export interface Paper {
   month: number | null;
   authors: Author[];
   selected: boolean;
+  featured: boolean;        // homepage #publications highlight (web-only)
   title: string;
   venue: string;           // booktitle | journal
   abbr: string | null;     // venue badge label
@@ -189,6 +190,7 @@ export function parseBibtex(src: string): Paper[] {
     const month = MONTHS[monthRaw] ?? (/^\d+$/.test(monthRaw) ? parseInt(monthRaw, 10) : null);
     const authors = fields.author ? splitAuthors(fields.author) : [];
     const selected = (fields.selected ?? '').toLowerCase() === 'true';
+    const featured = (fields.featured ?? '').toLowerCase() === 'true';
 
     return {
       key,
@@ -199,6 +201,7 @@ export function parseBibtex(src: string): Paper[] {
       month,
       authors,
       selected,
+      featured,
       title: (fields.title ?? '').replace(/[{}]/g, ''),
       venue: fields.booktitle ?? fields.journal ?? '',
       abbr: fields.abbr ?? null,
@@ -217,7 +220,7 @@ export function parseBibtex(src: string): Paper[] {
 
 // Resolve from the project root so the path is correct in both `astro dev`
 // and the bundled `astro build` output (where import.meta.url points into dist/).
-const BIB_PATH = resolve(process.cwd(), 'src/data/papers.bib');
+const BIB_PATH = resolve(process.cwd(), 'content/papers.bib');
 
 let cache: Paper[] | null = null;
 export function getPapers(): Paper[] {

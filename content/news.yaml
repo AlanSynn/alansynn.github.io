@@ -1,0 +1,44 @@
+# ============================================================================
+# News — short, dated items shown on the homepage News section.
+#
+# One file, one list. Add a new item at the top (newest first is easiest to
+# read, though the homepage sorts by `date` regardless). The homepage shows the
+# 8 most recent; older items naturally age off the page but stay here as a
+# running log.
+#
+# Item fields:
+#   date:        YYYY-MM-DD (required). Timezone-naive; rendered as month+year.
+#   link:        URL shown as a ↗ icon after the body (optional).
+#   highlight:   true flags the item for emphasis styling (optional, default false).
+#   body:        One full sentence, markdown inline OK (**bold**, _italic_,
+#                [label](url)). Sized to fill the column width.
+#
+# Bodies are single-quoted YAML. If a body contains an apostrophe ('), double
+# it inside the quotes — e.g. body: 'Alan''s paper was accepted.'
+# ===========================================================================
+
+- date: 2026-06-15
+  link: https://www.ceismc.gatech.edu/gift
+  body: 'Hosting **Georgia Tech GIFT** (CEISMC) teachers this summer, exploring **MotionSmith** through the _Motion, Making & Mechanical Design_ GIFT Workshop (June–August).'
+
+- date: 2026-05-17
+  link: https://www.automatacon.org/programming-2026
+  highlight: true
+  body: 'Invited panelist at **AutomataCon 2026** (Morris Museum, NJ), where I demoed **MotionSmith**.'
+
+- date: 2026-04-29
+  highlight: true
+  body: 'Passed my **Graphics qualifying exam** at Georgia Tech and advanced to PhD candidacy.'
+
+- date: 2026-04-13
+  link: https://chi2026.acm.org/
+  highlight: true
+  body: 'Presenting **MotionSmith** at **CHI 2026** in Barcelona (Apr 13–17) — a sketch-based tool for designing mechanical automata.'
+
+- date: 2026-01-22
+  link: https://doi.org/10.1145/3772318.3791545
+  highlight: true
+  body: '**MotionSmith**, my sketch-based tool for designing automata, was accepted to **CHI 2026** in Barcelona.'
+
+- date: 2026-01-15
+  body: 'Gave an invited talk at **Korea University** on **systems-for-AI** frameworks and their pull toward industry.'

@@ -13,8 +13,8 @@
 // "me"-author bolding, publication classification (journal / conference /
 // preprint), and the per-target variant logic.
 //
-// Reads the SAME content source the Astro web reads (src/data/*.yaml +
-// papers.json), so editing a YAML field updates web + CV + resume together.
+// Reads the SAME content source the Astro web reads (content/*.yaml +
+// src/data/papers.json), so editing a YAML field updates web + CV + resume together.
 //
 // Variants (per-target show/hide):
 //   --input target=graphics | ml-systems
@@ -33,14 +33,14 @@
 #import "@preview/cv-soft-and-hard:0.1.0": styling, section, entry, global-theme
 
 // ---- 1. Load shared data (root-relative via --root .) ---------------------
-#let site        = yaml("/src/data/site.yaml")
-#let education   = yaml("/src/data/education.yaml")
-#let experience  = yaml("/src/data/experience.yaml")
-#let honors      = yaml("/src/data/honors.yaml")
-#let teaching    = yaml("/src/data/teaching.yaml")
-#let activities  = yaml("/src/data/activities.yaml")
-#let references  = yaml("/src/data/references.yaml")
-#let ri          = yaml("/src/data/research-interests.yaml")
+#let site        = yaml("/content/site.yaml")
+#let education   = yaml("/content/education.yaml")
+#let experience  = yaml("/content/experience.yaml")
+#let honors      = yaml("/content/honors.yaml")
+#let teaching    = yaml("/content/teaching.yaml")
+#let activities  = yaml("/content/activities.yaml")
+#let references  = yaml("/content/references.yaml")
+#let ri          = yaml("/content/research-interests.yaml")
 #let papers      = json("/src/data/papers.json")
 
 // ---- 2. Targeting ---------------------------------------------------------
