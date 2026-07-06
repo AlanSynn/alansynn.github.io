@@ -9,16 +9,17 @@ import NewsList from '@/components/NewsList.astro';
 import RobotLegs from '@/components/RobotLegs.astro';
 import {
   site, researchInterests, getPapers, experience, education,
-  honors, teaching, activities,
+  honors, teaching, activities, newsItems,
 } from '@/lib/data';
 import { getCollection } from 'astro:content';
 
 // One page = the whole CV. Scroll-only, no nav.
 const papers = getPapers();
-// Curated "Selected" for a Graphics/HCI scanner (2 CHI, NeurIPS demo, 2 first-author systems).
-const highlighted = ['synn2026motionsmith', 'yu2025tangible', 'ahn2021nips', 'synn2023distributed'];
-const selectedPubs = papers.filter((p) => highlighted.includes(p.key));
-const otherPubs = papers.filter((p) => !highlighted.includes(p.key));
+// Featured = the handful surfaced at the top of #publications; the rest collapse
+// behind "All publications". Driven by the `featured` flag in content/papers.bib.
+// (`selected` in papers.bib is PDF-only — which papers the resume/CV prints.)
+const selectedPubs = papers.filter((p) => p.featured);
+const otherPubs = papers.filter((p) => !p.featured);
 
 // Projects = work/engineering only. Research (papers) lives in #publications via
 // papers.bib — the category filter enforces the separation so a 'research' entry
@@ -27,9 +28,10 @@ const projects = (await getCollection('projects'))
   .filter((p) => p.data.category !== 'research')
   .sort((a, b) => (b.data.order ?? 0) - (a.data.order ?? 0));
 
-// News: newest first, capped to the 8 most recent on the homepage.
-const news = (await getCollection('news'))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+// News: newest first, capped to the 8 most recent on the homepage. Sourced from
+// the single content/news.yaml list (validated in lib/data.ts).
+const news = [...newsItems]
+  .sort((a, b) => b.date.valueOf() - a.date.valueOf())
   .slice(0, 8);
 
 // Render the full statements array (one <p> per statement) so the bio can be a

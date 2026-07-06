@@ -1,6 +1,23 @@
 ---
 ---
 
+% ============================================================================
+% Papers — the single publication source. Web (src/lib/papers.ts) + PDF
+% (resume/typst/lib.typ via src/data/papers.json) both read this file.
+%
+% Per-entry flags:
+%   selected = include in the resume/CV PDF (lib.typ filters on it).
+%   featured = surface at the TOP of the homepage #publications section; every
+%              non-featured entry folds under the "All publications" toggle.
+%              Web-only — the PDF ignores it.
+%
+% When adding an entry, fill EVERY applicable field (preview, doi, pdf, code,
+% website, video) via search/extraction; never leave a gap you can fill.
+% Preview images: public/images/papers/ (or .../motionsmith/). Videos:
+% public/videos/ (or a YouTube id). Committed PDFs: public/pdfs/. See
+% AGENTS.md "Publications" for the full checklist.
+% ============================================================================
+
 @string{acm = {Association for Computing Machinery,}}
 @string{ieee = {Institute of Electrical and Electronics Engineers,}}
 
@@ -18,8 +35,11 @@
   isbn={979-8-4007-2278-3/2026/04},
   selected={true},
   preview={/images/motionsmith/motionsmith-teaser.webp},
+  featured={true},
   video={/videos/motionsmith-demo.mp4},
-  pdf={/pdfs/motionsmith-chi-2026.pdf}
+  pdf={/pdfs/motionsmith-chi-2026.pdf},
+  website={https://alansynn.com/motionsmith/},
+  code={https://github.com/AlanSynn/motionsmith}
 }
 
 @inproceedings{yu2025tangible,
@@ -35,8 +55,11 @@
   doi={10.1145/3706598.3713260},
   isbn={979-8-4007-1394-1/25/04},
   selected={true},
-  website={https://www.jinyu.us/research-project-5.html},
-  preview={/images/papers/yu2025tangible.png}
+  website={https://www.codecraft.group/projects/t-mc},
+  preview={/images/papers/yu2025tangible.png},
+  featured={true},
+  video={SvataWf_iqA},
+  pdf={https://drive.google.com/file/d/1SwCHliR0WQOfaibA9MnRD7Ibrg_Wj3HI/view}
 }
 
 @article{ryu2025adapt,
@@ -53,6 +76,7 @@
   doi={10.3745/TKIPS.2025.14.1.1},
   preview={/images/papers/ryu2025adapt.jpg},
   url={https://tkips.kips.or.kr/digital-library/101925},
+  pdf={https://tkips.kips.or.kr/digital-library/manuscript/file/101925/01-CCS-24M-06-014M-%EA%B9%80%EC%A2%85%EA%B5%AD_01-08.pdf},
   selected={true},
   abstract={Recently deep learning has become widely used in many research fields and businesses. To improve the performance of deep learning, one of the critical challenges is to determine the optimal values of many parameters that can be adjusted. This paper focuses on the adjustable dataloader parameters that affect the overall training time and proposes an automated dataloader parameter tuning framework, called ADaPT, to determine the optimal values of the dataloader parameters. The proposed ADaPT uses the characteristic of the AVL tree and attempts to determine optimal dataloader parameters in a small amount of time to accelerate the data loading. The results show that the proposed method effectively accelerates the data loading speed compared to the default parameter values and values that are recommended by PyTorch and the speed is comparable to the optimal.},
   publisher={Korea Information Processing Society}
@@ -61,21 +85,23 @@
 @article{piao2023enabling,
   abbr={IEEE Access},
   title={Enabling large batch size training for dnn models beyond the memory limit while maintaining performance},
-  author={Piao, XinYu and Synn, DoangJoo and Park, JuYoung and Kim, Jong-Kook},
+  author={Piao, XinYu and Synn, DoangJoo and Park, JooYoung and Kim, Jong-Kook},
   journal={IEEE Access},
   volume={11},
   pages={102981--102990},
   year={2023},
   publisher={IEEE},
   doi={10.1109/ACCESS.2023.3312572},
+  pdf={https://arxiv.org/pdf/2110.12484},
   preview={/images/papers/piao2023enabling.png},
+  featured={true},
   selected={true}
 }
 
 @inproceedings{ahn2021nips,
   abbr={NeurIPS},
   bibtex_show={false},
-  title={Protopia AI: Taking on Missing Link in Inference Privacy},
+  title={Protopia AI: Taking on the Missing Link in AI Privacy and Data Protection},
   author={Ahn, Byung Hoon and Synn, DoangJoo and Derkani, Masih and Ebrahimi, Eiman and Esmaeilzadeh, Hadi},
   booktitle={Neural Information Processing Systems Demonstrations},
   year={2021},
@@ -83,7 +109,9 @@
   organization={Neural Information Processing Systems},
   website={https://neurips.cc/virtual/2021/30633},
   pdf={https://cseweb.ucsd.edu/~bhahn221/doc/paper/neuripsd21-protopia.pdf},
-  preview={/images/papers/ahn2021nips.png}
+  video={https://slideslive.com/38975477},
+  preview={/images/papers/ahn2021nips.png},
+  featured={true}
 }
 
 
@@ -91,7 +119,7 @@
   abbr={IEEE Access},
   author={Han, Jung-Woo and Synn, DoangJoo and Kim, Tae-Hyeong and Jung, Hae-Cheon and Kim, Jong-Kook},
   journal={IEEE Access},
-  title={Feature Based Sampling: A Fast and Robust Sampling Method for Tasks that Use Point Cloud Data},
+  title={Feature Based Sampling: A Fast and Robust Sampling Method for Tasks Using 3D Point Cloud},
   year={2022},
   volume={10},
   pages={58062--58070},
@@ -109,6 +137,7 @@
   booktitle={Proceedings of ACK 2021},
   url={https://koreascience.kr/article/CFKO202133649048975.page},
   pdf={https://koreascience.kr/article/CFKO202133649048975.pdf},
+  doi={10.3745/PKIPS.y2021m11a.446},
   preview={/images/papers/synn2021nwt.jpg},
   year={2021},
   month={10},
@@ -124,7 +153,8 @@
   author={Park, JooYoung and Synn, DoangJoo and Kim, Jong-Kook},
   booktitle={Proceedings of Korea Information Processing Society 2021},
   year={2021},
-  month={3},
+  month={5},
+  doi={10.3745/PKIPS.y2021m05a.12},
   url={https://koreascience.kr/article/CFKO202125036216312.page},
   pdf={https://koreascience.kr/article/CFKO202125036216312.pdf},
   selected={true},
@@ -151,7 +181,7 @@
   abbr={KTSDE},
   bibtex_show={false},
   title={Distributed Training of Deep Learning Models Using Micro Batch Streaming},
-  author={Synn, DoangJoo and Piao, XinYu and Park, JuYoung and Kim, Jong-Kook},
+  author={Synn, DoangJoo and Piao, XinYu and Park, JooYoung and Kim, Jong-Kook},
   journal={KIPS Transactions on Software and Data Engineering},
   volume={12},
   number={3},
@@ -168,10 +198,11 @@
 @article{park2022dataloader,
   abbr={arXiv},
   title={Dataloader Parameter Tuner: An Automated Dataloader Parameter Tuner for Deep Learning Models},
-  author={Park, JuYoung and Synn, DoangJoo and Piao, XinYu and Kim, Jong-Kook},
+  author={Park, JooYoung and Synn, DoangJoo and Piao, XinYu and Kim, Jong-Kook},
   journal={arXiv preprint arXiv:2210.05244},
   year={2022},
   selected={false},
   url={https://arxiv.org/abs/2210.05244},
+  pdf={https://arxiv.org/pdf/2210.05244},
   preview={/images/papers/park2022dataloader.jpg}
 }
