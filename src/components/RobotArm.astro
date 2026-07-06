@@ -178,8 +178,13 @@ const FING = [
   .handle:active { cursor: grabbing; }
 
   @media (max-width: 900px) {
-    /* too little room above the footer / under "Say hi" — hide (underline still draws) */
-    .robot-arm-stage { display: none; }
+    /* narrow column: shrink the arm so it stays visible without dominating the text */
+    .robot-arm-stage,
+    body:has(a.say-hi) .robot-arm-stage { --arm-w: 104px; }
+  }
+  @media (max-width: 480px) {
+    .robot-arm-stage,
+    body:has(a.say-hi) .robot-arm-stage { --arm-w: 84px; }
   }
   @media (prefers-reduced-motion: reduce) {
     /* no animation: calm standing pose; handles are inert so hide them */

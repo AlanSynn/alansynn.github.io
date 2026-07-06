@@ -114,7 +114,9 @@ const ankleY = kneeY + 86; // 188
   .handle:active { cursor: grabbing; }
 
   @media (max-width: 640px) {
-    .robot-legs { display: none; }   /* portrait stacks; legs would collide */
+    /* portrait stacks above the text: shrink so legs show in the gap the
+       portrait's margin-bottom reserves below the photo (see compact.css) */
+    .robot-legs { width: 56px; }
   }
   @media (prefers-reduced-motion: reduce) {
     .handle { display: none; }       /* engine never runs → handles are inert */
