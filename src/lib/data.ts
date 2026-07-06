@@ -2,30 +2,53 @@
 // data.ts - single access point for all structured content. YAML files live
 // in content/ (the sole user-edit zone); papers.bib is parsed at build by
 // papers.ts. Import from here in any .astro frontmatter.
+//
+// Every structured YAML is parsed through a Zod schema in content-schema.ts
+// so a typo (bad key / wrong type / missing required field) fails loudly at
+// build time with a located error instead of rendering wrong or throwing deep
+// in a component. Paper cross-references (abbr ∈ venues, featured/selected
+// asymmetry) are warned at build via warnPaperIntegrity.
 // ============================================================================
 
-import site from '@content/site.yaml';
-import education from '@content/education.yaml';
-import experience from '@content/experience.yaml';
-import honors from '@content/honors.yaml';
-import teaching from '@content/teaching.yaml';
-import activities from '@content/activities.yaml';
+import siteRaw from '@content/site.yaml';
+import cvRaw from '@content/cv.yaml';
+import honorsRaw from '@content/honors.yaml';
 import referencesData from '@content/references.yaml';
-import skills from '@content/skills.yaml';
-import researchInterests from '@content/research-interests.yaml';
+import skillsRaw from '@content/skills.yaml';
+import researchInterestsRaw from '@content/research-interests.yaml';
 import venues from '@content/venues.yaml';
 import coauthors from '@content/coauthors.yaml';
 import newsRaw from '@content/news.yaml';
 import { z } from 'astro:content';
 import { getPapers, formatAuthors, type Paper, type Author } from './papers';
+import {
+  cvSchema,
+  siteSchema,
+  honorsSchema,
+  referencesSchema,
+  skillsSchema,
+  researchInterestsSchema,
+  warnPaperIntegrity,
+} from './content-schema';
+
+// ---- Parse structured YAML through schemas --------------------------------
+const cv = cvSchema.parse(cvRaw);
+const education = cv.education;
+const experience = cv.experience;
+const teaching = cv.teaching;
+const activities = cv.activities;
+
+const site = siteSchema.parse(siteRaw);
+const honors = honorsSchema.parse(honorsRaw);
+const skills = skillsSchema.parse(skillsRaw);
+const researchInterests = researchInterestsSchema.parse(researchInterestsRaw);
+const references = referencesSchema.parse(referencesData);
 
 export {
   site, education, experience, honors, teaching, activities,
   researchInterests, venues, coauthors, getPapers, formatAuthors, skills,
 };
 export type { Paper, Author };
-
-export const references = referencesData;
 
 // "Me" - used to bold + disambiguate the owner in author lists.
 export const me = {
@@ -55,6 +78,11 @@ const newsItemSchema = z.object({
 });
 
 export const newsItems: NewsItem[] = z.array(newsItemSchema).parse(newsRaw);
+
+// Cross-reference integrity (abbr ∈ venues, featured/selected asymmetry).
+// Warns only — does not block the add-paper workflow (bib first, venue/flag
+// added next). Fires once per build at module init.
+warnPaperIntegrity(getPapers(), venues as Record<string, VenueInfo>);
 
 export function venueInfo(abbr: string | null): VenueInfo | null {
   if (!abbr) return null;

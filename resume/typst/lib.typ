@@ -14,7 +14,8 @@
 // preprint), and the per-target variant logic.
 //
 // Reads the SAME content source the Astro web reads (content/*.yaml +
-// src/data/papers.json), so editing a YAML field updates web + CV + resume together.
+// content/cv.yaml for the four timeline sections + src/data/papers.json), so
+// editing a YAML field updates web + CV + resume together.
 //
 // Variants (per-target show/hide):
 //   --input target=graphics | ml-systems
@@ -34,11 +35,12 @@
 
 // ---- 1. Load shared data (root-relative via --root .) ---------------------
 #let site        = yaml("/content/site.yaml")
-#let education   = yaml("/content/education.yaml")
-#let experience  = yaml("/content/experience.yaml")
+#let cvdata      = yaml("/content/cv.yaml")
+#let education   = cvdata.education
+#let experience  = cvdata.experience
+#let teaching    = cvdata.teaching
+#let activities  = cvdata.activities
 #let honors      = yaml("/content/honors.yaml")
-#let teaching    = yaml("/content/teaching.yaml")
-#let activities  = yaml("/content/activities.yaml")
 #let references  = yaml("/content/references.yaml")
 #let ri          = yaml("/content/research-interests.yaml")
 #let papers      = json("/src/data/papers.json")

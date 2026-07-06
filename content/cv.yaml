@@ -1,0 +1,127 @@
+# ============================================================================
+# cv.yaml — career timeline. Merges the four same-shape sections that share the
+# identical entry model and the same consumers (web homepage #experience /
+# #education / #teaching / #activities Timeline + the Typst CV/resume).
+# Splitting them across four files was over-fragmentation; one file with four
+# sections is one mental document ("my career") + one schema + one git history.
+#
+# Entry model (identical for every section):
+#   { period, title, location?, body(markdown), only?/except? }
+#
+# Per-entry targeting for PDF variants (graphics / ml-systems):
+#   only:   [graphics]      # show only for these targets
+#   except: [ml-systems]    # hide for these targets
+# Both `only` and `except` accept a single string or a list. Omitting both
+# means the entry shows everywhere (default).
+#
+# Validated at build time by src/lib/content-schema.ts (timelineEntry schema).
+# ============================================================================
+
+education:
+  - period: '2022 -'
+    title: '[Georgia Tech](https://www.gatech.edu), Ph.D. in Computer Science'
+    location: 'Atlanta, GA, USA'
+    body: |
+      - [School of Interactive Computing](https://ic.gatech.edu); advised by Profs. [Oh](https://www.cc.gatech.edu/people/hyunjoo-oh) & [Ha](https://faculty.cc.gatech.edu/~sha9/)
+      - Research: computational design, automata, and motion synthesis (Graphics/HCI)
+
+  - period: '2020 - 2022'
+    title: '[Korea University](https://www.korea.ac.kr), M.Eng. in ECE'
+    location: 'Seoul, Korea'
+    body: |
+      - Advised by [Prof. Jong-Kook Kim](https://hpic.korea.ac.kr/professor)
+      - GPA: 4.25 (4.5 scale)
+      - Thesis: *On Efficient Data Delivery for Machine Learning Systems*
+
+  - period: '2012 - 2020'
+    title: '[Korea University](https://www.korea.ac.kr), B.Eng. in EE'
+    location: 'Seoul, Korea'
+    body: |
+      - GPA: 3.56 (4.5 scale)
+      - On leave from 2016 Spring to 2019 Spring to serve alternative military service
+
+experience:
+  - period: '2024 - 2025'
+    title: 'PhD Research Intern, [Dolby Laboratories](https://www.dolby.com)'
+    location: 'Atlanta, GA, USA'
+    body: |
+      - Experience Delivery Lab, built a time-series, multimodal datastore supporting low-latency media analytics.
+
+  - period: '2023'
+    title: 'MLOps Engineering Intern, [LG Uplus Corp.](https://www.lguplus.com)'
+    location: 'Seoul, Korea'
+    body: |
+      - Led **DeepCrunch**, a model-compression library with multi-backend AI inference for efficient edge serving.
+
+  - period: '2021 - 2022'
+    title: 'Research Scientist, [Protopia AI Inc.](https://protopia.ai)'
+    location: 'Austin, TX, USA'
+    body: |
+      - Built **Stained-Glass**, a privacy-preserving deep-learning framework enabling inference without raw-data exposure.
+      - Led development and infrastructure integration (Kubernetes + GPU).
+      - CEO: [Dr. Ebrahimi](http://eimanebrahimi.com); CTO: [Prof. Esmaeilzadeh](http://cseweb.ucsd.edu/~hadi).
+      - Resulted in a NeurIPS 2021 Demo publication.
+
+  - period: '2020 - 2022'
+    title: 'Cloud Architect · [AWS Educate](https://aws.amazon.com/education/awseducate/) Cloud Ambassador'
+    location: 'Seoul, Korea'
+    body: |
+      - Guided 4 startups to cloud-native deployments (Kubernetes, Terraform) and shipped their services.
+      - Led CI/CD, observability, and cost-optimized autoscaling for social-media back-ends.
+
+  - period: '2019'
+    title: 'Server Engineer, Flysher Inc.'
+    location: 'Seoul, Korea'
+    body: |
+      - Shipped back-end features for 4 social-game titles; one reached global top-10 on Facebook.
+      - Built an ETL → Redshift analytics pipeline driving data-informed feature rollout.
+
+  - period: '2017 - 2019'
+    title: 'System Engineer, [AKA Intelligence](https://www.aka.ai) (Musio)'
+    location: 'Seoul, Korea'
+    body: |
+      - Designed embedded Linux boards & firmware for the social robot **Musio**.
+      - Coordinated HW-SW integration and production QA with overseas ODMs.
+
+teaching:
+  - period: '2024 -'
+    title: 'Head TA, CS 4496/7496 Computer Animation'
+    body: |
+      - [Georgia Tech](https://www.gatech.edu), [School of Interactive Computing](https://ic.gatech.edu).
+
+  - period: '2021 - 2022'
+    title: 'Lecturer, Korea University'
+    body: |
+      - Taught Java for 10+ undergraduate students.
+
+  - period: '2021'
+    title: 'Teaching Assistant, Korea University'
+    body: |
+      - Digital System Design
+      - Data Structure and Algorithm
+
+  - period: '2012 - 2014'
+    title: 'Lecturer, KAIST Engineering School'
+    body: |
+      - Created comprehensive coding education programs in collaboration with the **Ministry of Science and ICT** of South Korea.
+      - Developed 20+ hardware and software development curricula for programming education.
+      - Emphasized hands-on projects utilizing [Arduino](https://www.arduino.cc) to teach the principles of mobile and ubiquitous computing.
+      - Guided high-school and college-level students in exploring the third generation of computing through practical projects addressing real-world problems.
+
+activities:
+  - period: '2023 - 2024'
+    title: 'Georgia Tech Korean Student Association'
+    body: |
+      - President of Korean Students in the College of Computing.
+
+  - period: '2014 - 2019'
+    title: 'Hardware & Software Community, Korea University'
+    body: |
+      - President.
+      - Grew the engineering community at Korea University from 10 members to over 200 active participants, spanning both hardware and software specialties.
+
+  - period: '2015 - 2016'
+    title: 'TEDxKoreaUniversity, Korea University'
+    body: |
+      - Founder & Chief Organizer.
+      - Organized a TEDx event with 200 guests, 7 speakers, 47 team members, and a $4k budget. Responsibilities included fundraising, sponsorships, editorial decisions, communication planning, and production & media.
