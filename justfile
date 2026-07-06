@@ -20,6 +20,11 @@ default: build
 # resume/typst/{resume,cv}.typ import lib.typ (the shared template). Variants
 # are produced by passing --input target=<graphics|ml-systems>; lib.typ swaps
 # the research blurb + filters/reorders publications accordingly.
+#
+# Typst version is pinned in .tool-versions (currently 0.15.x). The pin is a
+# reproducibility floor, not a ceiling — bump it (and .tool-versions) when you
+# want to adopt a newer Typst release. Layout primitives are first-party in
+# resume/typst/layout.typ (no @preview runtime dependency).
 
 # Compile a one-page resume. Optional target id filters/reorders publications
 # and swaps the research-interest lead (e.g. `just resume graphics`).

@@ -1,17 +1,17 @@
 // ============================================================================
-// lib.typ — shared CV/resume template, built on @preview/cv-soft-and-hard.
+// lib.typ — shared CV/resume template. Page style (margins + link underline),
+// section headers (heading + accent rule), and the two-column entry grid come
+// from the first-party layout.typ toolkit (adapted from cv-soft-and-hard 0.1.0,
+// MIT, © Jonas Pleyer — brought in-house so the template is fully owned and
+// freely editable; no @preview runtime dependency). We deliberately do NOT
+// override Typst's default text font (Libertinus Serif), size, or paragraph
+// leading/spacing — those defaults ARE the reference template's typography, and
+// overriding them (an earlier version set New Computer Modern + 0.9em leading)
+// was the source of the line-spacing mismatch.
 //
-// STRICT PACKAGE ADHERENCE: page style (margins + link underline), section
-// headers (heading + accent rule), and the two-column entry grid all come from
-// cv-soft-and-hard's own `styling` / `section` / `entry`. We deliberately do
-// NOT override Typst's default text font (Libertinus Serif), size, or paragraph
-// leading/spacing — those defaults ARE the package's typography, and overriding
-// them (an earlier version set New Computer Modern + 0.9em leading) was the
-// source of the line-spacing mismatch against the reference template.
-//
-// Layered on top of the package, unchanged: the markdown-inline parser,
-// "me"-author bolding, publication classification (journal / conference /
-// preprint), and the per-target variant logic.
+// Layered on top of the toolkit: the markdown-inline parser, "me"-author
+// bolding, publication classification (journal / conference / preprint), and
+// the per-target variant logic.
 //
 // Reads the SAME content source the Astro web reads (content/*.yaml +
 // content/cv.yaml for the four timeline sections + src/data/papers.json), so
@@ -31,7 +31,11 @@
 //   typst compile --root . resume/typst/cv.typ public/pdfs/cv-graphics.pdf --input target=graphics
 // ============================================================================
 
-#import "@preview/cv-soft-and-hard:0.1.0": styling, section, entry, global-theme
+#import "./layout.typ": styling, section, entry, global-theme
+
+// Brand accent (web --accent navy #1d4e89) — passed to styling() so section
+// rules + link underlines carry the site brand across the CV/resume.
+#let accent = rgb("1d4e89")
 
 // ---- 1. Load shared data (root-relative via --root .) ---------------------
 #let site        = yaml("/content/site.yaml")
@@ -417,12 +421,8 @@
 
 // ---- 12. Body assembly ----------------------------------------------------
 #let cv-body = doc => [
-  // cv-soft-and-hard 0.1.0's `styling(accent-color:)` parameter is broken: its
-  // state-update lambda returns none (dict.insert returns none), so the theme
-  // state collapses and reading it later crashes. Update global-theme directly
-  // with a lambda that returns the mutated dict. The color is the web --accent
-  // navy (#1d4e89), so section rules + link underlines carry the site brand.
-  #global-theme.update(t => { t.insert("accent-color", rgb("1d4e89")); t })
+  // Accent is passed via styling(accent-color: ...) at the doc entry points
+  // (resume-doc / cv-doc); layout.typ sets it into global-theme.
   #title-block
   #section("Research Interests")
   #research-blurb(doc)
@@ -461,12 +461,12 @@
   set text(lang: "en")
   set page(numbering: "1 / 1")
   set document(title: doc-title-str("resume"), author: site.name)
-  styling(cv-body("resume"))
+  styling(cv-body("resume"), accent-color: accent)
 }
 
 #let cv-doc = it => {
   set text(lang: "en")
   set page(numbering: "1 / 1")
   set document(title: doc-title-str("cv"), author: site.name)
-  styling(cv-body("cv"))
+  styling(cv-body("cv"), accent-color: accent)
 }
