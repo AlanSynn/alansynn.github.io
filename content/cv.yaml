@@ -8,11 +8,12 @@
 # Entry model (identical for every section):
 #   { period, title, location?, body(markdown), only?/except? }
 #
-# Per-entry targeting for PDF variants (graphics / ml-systems):
-#   only:   [graphics]      # show only for these targets
-#   except: [ml-systems]    # hide for these targets
-# Both `only` and `except` accept a single string or a list. Omitting both
-# means the entry shows everywhere (default).
+# Per-entry targeting (graphics / ml-systems PDF variants), honored by BOTH the
+# Typst CV/resume AND the web homepage. The web is the untargeted/default view,
+# so it mirrors the default CV (target=""):
+#   only:   [graphics]      # show ONLY in the graphics PDF; hidden on web + default CV
+#   except: [ml-systems]    # show everywhere EXCEPT the ml-systems PDF (incl. web)
+# Both accept a single string or a list. Omit both → show everywhere.
 #
 # Validated at build time by src/lib/content-schema.ts (timelineEntry schema).
 # ============================================================================
