@@ -4,10 +4,10 @@
 // papers.ts. Import from here in any .astro frontmatter.
 //
 // Every structured YAML is parsed through a Zod schema in content-schema.ts
-// so a typo (bad key / wrong type / missing required field) fails loudly at
-// build time with a located error instead of rendering wrong or throwing deep
-// in a component. Paper cross-references (abbr ∈ venues, featured/selected
-// asymmetry) are warned at build via warnPaperIntegrity.
+// (incl. news) so a typo (bad key / wrong type / missing required field) fails
+// loudly at build time with a located error instead of rendering wrong or
+// throwing deep in a component. Paper cross-references (abbr ∈ venues,
+// featured/selected asymmetry) are warned at build via warnPaperIntegrity.
 // ============================================================================
 
 import siteRaw from '@content/site.yaml';
@@ -20,7 +20,7 @@ import venues from '@content/venues.yaml';
 import coauthors from '@content/coauthors.yaml';
 import newsRaw from '@content/news.yaml';
 import { z } from 'astro:content';
-import { getPapers, formatAuthors, type Paper, type Author } from './papers';
+import { getPapers, type Paper, type Author } from './papers';
 import {
   cvSchema,
   siteSchema,
@@ -28,6 +28,7 @@ import {
   referencesSchema,
   skillsSchema,
   researchInterestsSchema,
+  newsItemSchema,
   warnPaperIntegrity,
 } from './content-schema';
 
@@ -46,7 +47,7 @@ const references = referencesSchema.parse(referencesData);
 
 export {
   site, education, experience, honors, teaching, activities,
-  researchInterests, venues, coauthors, getPapers, formatAuthors, skills,
+  researchInterests, venues, coauthors, getPapers, skills,
 };
 export type { Paper, Author };
 
@@ -65,17 +66,6 @@ export interface NewsItem {
   highlight?: boolean;
   body: string;
 }
-
-// Validate content/news.yaml at build time so a typo in the single most-edited
-// file (bad date, malformed link, missing body) fails loudly instead of
-// rendering wrong or throwing deep in the formatter. Mirrors the schema the old
-// per-item Astro collection enforced.
-const newsItemSchema = z.object({
-  date: z.coerce.date(),
-  link: z.string().url().optional(),
-  highlight: z.boolean().default(false),
-  body: z.string(),
-});
 
 export const newsItems: NewsItem[] = z.array(newsItemSchema).parse(newsRaw);
 

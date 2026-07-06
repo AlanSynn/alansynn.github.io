@@ -232,13 +232,3 @@ export function getPapers(): Paper[] {
   cache = papers;
   return papers;
 }
-
-// ---- Formatting helpers (used by components) ------------------------------
-
-export function formatAuthors(authors: Author[], me: { family: string; givenFirst: string[] }): { text: string; isMe: boolean; family: string }[] {
-  return authors.map((a) => ({
-    text: a.given ? `${a.given} ${a.family}` : a.family,
-    isMe: a.family.toLowerCase() === me.family.toLowerCase(),
-    family: a.family,
-  }));
-}
