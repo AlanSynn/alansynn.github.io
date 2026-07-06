@@ -66,6 +66,16 @@ in `resume/typst/lib.typ` (`target-keywords`, `target-blurb`); per-entry
   bare text with no link/color. After editing `papers.bib`, regen
   `src/data/papers.json` (`scripts/gen-papers-json.mjs`); if `selected` changed,
   also run `just pdfs` and commit the new PDFs.
+- **Structured YAML is validated at build.** `src/lib/content-schema.ts`
+  holds the Zod schema for every structured YAML in `content/` (site, cv,
+  honors, references, skills, research-interests, news); `data.ts` parses each
+  through its schema so a typo (bad key / wrong type / missing field) fails the
+  build loudly with a located error. The four career-timeline sections
+  (education / experience / teaching / activities) share one entry model
+  `{ period, title, location?, body, only?/except? }` and live together in
+  **`content/cv.yaml`** — one file, one schema, one history (do not re-split).
+  `warnPaperIntegrity` (same file) warns on a paper whose `abbr` is missing
+  from `venues.yaml`, or whose `featured`/`selected` flags disagree.
 - **Email stays obfuscated on the web.** Served HTML must contain 0 raw
   `mailto:alansynn@gatech.edu` links (anti-crawler). The PDF legitimately shows
   the raw address — that's fine, it's not crawler-facing. Don't de-obfuscate the

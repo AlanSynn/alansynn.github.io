@@ -10,8 +10,11 @@ Each file has a header comment explaining its fields; this file is just the map.
 - `site.yaml` — name, title, email, phone, URL, socials, hero tagline, SEO
   description/keywords. **The single source for who you are.**
 
-## CV sections (timeline entries: `{ period, title, location?, body }`)
-- `education.yaml`, `experience.yaml`, `teaching.yaml`, `activities.yaml`
+## CV sections
+- `cv.yaml` — the career timeline: `education` / `experience` / `teaching` /
+  `activities` as four sections in one file (they share one entry model).
+  Entry: `{ period, title, location?, body, only?/except? }`. Per-entry
+  targeting for PDF variants via `only:`/`except:`.
 - `honors.yaml` — grouped `{ group, items[] }`.
 - `references.yaml` — reference contacts (rendered on the CV).
 - `skills.yaml` — categorized technical skills.
