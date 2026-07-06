@@ -20,7 +20,12 @@ const highlighted = ['synn2026motionsmith', 'yu2025tangible', 'ahn2021nips', 'sy
 const selectedPubs = papers.filter((p) => highlighted.includes(p.key));
 const otherPubs = papers.filter((p) => !highlighted.includes(p.key));
 
-const projects = (await getCollection('projects')).sort((a, b) => (b.data.order ?? 0) - (a.data.order ?? 0));
+// Projects = work/engineering only. Research (papers) lives in #publications via
+// papers.bib — the category filter enforces the separation so a 'research' entry
+// can never leak into the projects grid.
+const projects = (await getCollection('projects'))
+  .filter((p) => p.data.category !== 'research')
+  .sort((a, b) => (b.data.order ?? 0) - (a.data.order ?? 0));
 
 // News: newest first, capped to the 8 most recent on the homepage.
 const news = (await getCollection('news'))
