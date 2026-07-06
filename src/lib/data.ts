@@ -1,20 +1,22 @@
 // ============================================================================
 // data.ts - single access point for all structured content. YAML files live
-// in src/data/ (human-edited); papers.bib is parsed at build by papers.ts.
-// Import from here in any .astro frontmatter.
+// in content/ (the sole user-edit zone); papers.bib is parsed at build by
+// papers.ts. Import from here in any .astro frontmatter.
 // ============================================================================
 
-import site from '@/data/site.yaml';
-import education from '@/data/education.yaml';
-import experience from '@/data/experience.yaml';
-import honors from '@/data/honors.yaml';
-import teaching from '@/data/teaching.yaml';
-import activities from '@/data/activities.yaml';
-import referencesData from '@/data/references.yaml';
-import skills from '@/data/skills.yaml';
-import researchInterests from '@/data/research-interests.yaml';
-import venues from '@/data/venues.yaml';
-import coauthors from '@/data/coauthors.yaml';
+import site from '@content/site.yaml';
+import education from '@content/education.yaml';
+import experience from '@content/experience.yaml';
+import honors from '@content/honors.yaml';
+import teaching from '@content/teaching.yaml';
+import activities from '@content/activities.yaml';
+import referencesData from '@content/references.yaml';
+import skills from '@content/skills.yaml';
+import researchInterests from '@content/research-interests.yaml';
+import venues from '@content/venues.yaml';
+import coauthors from '@content/coauthors.yaml';
+import newsRaw from '@content/news.yaml';
+import { z } from 'astro:content';
 import { getPapers, formatAuthors, type Paper, type Author } from './papers';
 
 export {
@@ -31,7 +33,28 @@ export const me = {
   givenFirst: [site.first_name, site.nick_name, 'D.'],
 };
 
-export interface VenueInfo { url?: string; color?: string }
+export interface VenueInfo { url?: string; color?: string; name?: string }
+
+// News item shape (sourced from content/news.yaml).
+export interface NewsItem {
+  date: Date;
+  link?: string;
+  highlight?: boolean;
+  body: string;
+}
+
+// Validate content/news.yaml at build time so a typo in the single most-edited
+// file (bad date, malformed link, missing body) fails loudly instead of
+// rendering wrong or throwing deep in the formatter. Mirrors the schema the old
+// per-item Astro collection enforced.
+const newsItemSchema = z.object({
+  date: z.coerce.date(),
+  link: z.string().url().optional(),
+  highlight: z.boolean().default(false),
+  body: z.string(),
+});
+
+export const newsItems: NewsItem[] = z.array(newsItemSchema).parse(newsRaw);
 
 export function venueInfo(abbr: string | null): VenueInfo | null {
   if (!abbr) return null;

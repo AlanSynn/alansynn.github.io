@@ -6,7 +6,7 @@
 // are written under public/video-clips/ and indexed in src/data/video-clips.json.
 //
 // Sources discovered from:
-//   (a) src/data/papers.bib   -> entries' `video={...}` field
+//   (a) content/papers.bib    -> entries' `video={...}` field
 //   (b) content/projects/*.md -> frontmatter `video:` field
 //
 // Idempotent: skips sources whose clip + poster already exist on disk.
@@ -24,7 +24,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = resolve(fileURLToPath(import.meta.url), '..', '..');
 const PUBLIC = join(ROOT, 'public');
 const CLIP_DIR = join(PUBLIC, 'video-clips');
-const BIB_PATH = join(ROOT, 'src', 'data', 'papers.bib');
+const BIB_PATH = join(ROOT, 'content', 'papers.bib');
 const PROJECTS_DIR = join(ROOT, 'content', 'projects');
 const MANIFEST_PATH = join(ROOT, 'src', 'data', 'video-clips.json');
 

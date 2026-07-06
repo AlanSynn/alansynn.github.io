@@ -10,8 +10,9 @@ One repo, one source of truth → **website + resume + CV + targeted variants.**
 ```
                       edit here
                  ┌───────────────┐
-                 │ src/data/*.yaml│
-                 │  + papers.bib │ ◄─── the single content source
+                 │  content/*    │
+                 │  *.yaml       │ ◄─── the single content source
+                 │  + papers.bib │      (the ONLY dir a human edits)
                  └───────┬───────┘
           ┌──────────────┴───────────────┐
           ▼                              ▼
@@ -53,14 +54,17 @@ Requirements: `bun` 1.3+, `just`, `typst` 0.15+, `ffmpeg` (`yt-dlp` optional).
 ## Single source of truth
 
 ```
-src/data/                  ← edit content HERE; web + resume + cv all read it
+content/                   ← edit EVERYTHING here; the only dir a human edits
   site.yaml, research-interests.yaml, education.yaml, experience.yaml,
   honors.yaml, teaching.yaml, activities.yaml, references.yaml,
-  venues.yaml, coauthors.yaml
+  skills.yaml, venues.yaml, coauthors.yaml
   papers.bib                 publications (the ONLY pub source)
-  papers.json                generated from papers.bib — don't hand-edit
-content/                   longer prose (Typst) + collections
-  blog/*.typ, news/*.md, projects/*.md, about.typ, research-statement.typ
+  news.yaml                  news items (single list; homepage shows 8 most recent)
+  projects/*.md              project pages (one file per project)
+  blog/*.typ, about.typ, research-statement.typ   longer prose (Typst)
+src/data/                  generated only — never hand-edit
+  papers.json                generated from content/papers.bib
+  video-clips.json           generated from papers.bib + projects
 resume/typst/              Typst CV/resume template (PDF engine)
   lib.typ                    shared module: data loaders, target logic, render fns
   resume.typ, cv.typ         5-line entry files
@@ -71,9 +75,10 @@ justfile                   the build orchestrator
 
 ### Edit cycle
 
-- **A publication** → add an entry to `src/data/papers.bib` (`selected`, `abbr`, `pdf`, `code`, `website`, `video`, `slides`, `abstract`, `preview`). Then `just build`.
-- **A news / project / blog post** → drop a file in `content/news|projects/*.md` or `content/blog/*.typ`.
-- **A CV detail** → edit the matching `src/data/*.yaml`. Web + resume + CV all update.
+- **A publication** → add an entry to `content/papers.bib` (`selected`, `abbr`, `pdf`, `code`, `website`, `video`, `slides`, `abstract`, `preview`). Then `just build`.
+- **A news item** → add a `{ date, link?, highlight?, body }` entry to `content/news.yaml`.
+- **A project / blog post** → drop a file in `content/projects/*.md` or `content/blog/*.typ`.
+- **A CV detail** → edit the matching `content/*.yaml`. Web + resume + CV all update.
 - **A targeted resume** → `just resume <target>` (`graphics`, `ml-systems` built in; add more in `resume/typst/lib.typ`). Per-entry show/hide: any YAML entry may carry `only: [graphics]` or `except: [ml-systems]`.
 - **A video figure** → set `video={...}` in `papers.bib` or a project's frontmatter, run `just clips`, commit the clip + manifest.
 
