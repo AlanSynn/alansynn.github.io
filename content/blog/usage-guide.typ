@@ -10,7 +10,6 @@
   desc: "A short usage guide: how posts are authored in Typst and what the build pipeline renders.",
   date: "2026-07-04",
   tags: ("meta", "typst"),
-  show-outline: true,
   draft: true,
 )
 
@@ -25,7 +24,7 @@ publications, and `Typst` for prose. Edit the source, rebuild, and the web and
 PDF outputs both update. There is no second copy to drift.
 
 A blog post is a single `.typ` file under `content/blog/`. The header wires up
-the title, description, date, tags, and outline:
+the title, description, date, and tags:
 
 ```typst
 #import "/content/blog.typ": *
@@ -37,7 +36,6 @@ the title, description, date, tags, and outline:
   desc: [One-line description for the blog list.],
   date: "2026-07-04",
   tags: ("research",),
-  show-outline: true,
 )
 
 Body prose starts here.
