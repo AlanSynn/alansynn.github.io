@@ -1,0 +1,168 @@
+---
+// Toc.astro — floating scroll-spy table of contents for blog posts.
+//
+// The list is built CLIENT-SIDE from the article's rendered <h2>/<h3> (the
+// Typst headings), so it always matches the prose exactly — no second source
+// of truth to drift. Desktop: a sticky left rail whose accent bar slides to
+// mark the section currently in view. Mobile (<880px): a disclosure that
+// collapses to a single "On this page" row.
+//
+// Markup is empty until JS runs; the rail is hidden under [data-no-toc] / no-JS
+// so a non-JS reader simply gets the prose (TOC is enhancement, not content).
+---
+
+<aside class="toc" aria-label="Table of contents" data-toc-rail hidden>
+  <nav class="toc__nav" aria-label="On this page">
+    <p class="toc__title">On this page</p>
+    <div class="toc__scroll">
+      <span class="toc__track" aria-hidden="true"></span>
+      <ol class="toc__list" id="toc-list"></ol>
+    </div>
+  </nav>
+</aside>
+
+<details class="toc-mobile" data-toc-mobile hidden>
+  <summary>
+    <span>On this page</span>
+    <svg class="toc-mobile__chevron" viewBox="0 0 16 16" aria-hidden="true" width="14" height="14">
+      <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </summary>
+  <ol class="toc__list toc__list--mobile" id="toc-list-mobile"></ol>
+</details>
+
+<script is:inline>
+  // Runs after the DOM is parsed — this component renders before .prose in the
+  // markup, so we can't query .prose at the script's parse position.
+  function initBlogToc() {
+    var prose = document.querySelector('.prose');
+    if (!prose) return;
+    var heads = Array.prototype.slice.call(prose.querySelectorAll('h2, h3'));
+    if (!heads.length) return;
+
+    // Document title (from <h1> in the post header) — a body heading that just
+    // repeats it (a known duplication in some essays) is skipped so it doesn't
+    // appear as a noise entry at the top of the TOC.
+    var docTitle = '';
+    var h1 = document.querySelector('.post-header h1, article h1');
+    if (h1) docTitle = (h1.textContent || '').trim();
+
+    function slug(i, text) {
+      var s = text.toLowerCase()
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/&[a-z]+;/g, ' ')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+      return s || ('sec-' + (i + 1));
+    }
+
+    var seen = Object.create(null);
+    var entries = [];
+    heads.forEach(function (h, i) {
+      var txt = (h.textContent || '').trim();
+      if (!txt) return;
+      if (txt === docTitle) return;            // dedupe repeated title
+      var id = h.id || slug(i, txt);
+      if (seen[id]) id = id + '-' + i;
+      seen[id] = 1;
+      h.id = id;
+      entries.push({ id: id, level: h.tagName === 'H2' ? 2 : 3, text: txt });
+    });
+    if (!entries.length) return;
+
+    function build(listEl) {
+      if (!listEl) return;
+      var frag = document.createDocumentFragment();
+      entries.forEach(function (e) {
+        var li = document.createElement('li');
+        li.className = 'toc__item toc__item--l' + e.level;
+        var a = document.createElement('a');
+        a.href = '#' + e.id;
+        a.className = 'toc__link';
+        a.textContent = e.text;
+        a.setAttribute('data-toc-link', e.id);
+        li.appendChild(a);
+        frag.appendChild(li);
+      });
+      listEl.innerHTML = '';
+      listEl.appendChild(frag);
+    }
+    var listDesktop = document.getElementById('toc-list');
+    var listMobile = document.getElementById('toc-list-mobile');
+    build(listDesktop);
+    build(listMobile);
+
+    // Reveal now that there's something to show.
+    var rail = document.querySelector('[data-toc-rail]');
+    var mobile = document.querySelector('[data-toc-mobile]');
+    if (rail) rail.removeAttribute('hidden');
+    if (mobile) mobile.removeAttribute('hidden');
+
+    var railLinks = listDesktop
+      ? Array.prototype.slice.call(listDesktop.querySelectorAll('.toc__link'))
+      : [];
+    var track = document.querySelector('.toc__track');
+    var current = null;
+
+    function setActive(id) {
+      railLinks.forEach(function (a) {
+        a.classList.toggle('is-active', a.getAttribute('data-toc-link') === id);
+      });
+      var mobileLinks = listMobile
+        ? Array.prototype.slice.call(listMobile.querySelectorAll('.toc__link'))
+        : [];
+      mobileLinks.forEach(function (a) {
+        a.classList.toggle('is-active', a.getAttribute('data-toc-link') === id);
+      });
+      if (track) {
+        var activeLink = railLinks.filter(function (a) { return a.classList.contains('is-active'); })[0];
+        var activeLi = activeLink ? activeLink.parentElement : null;
+        if (activeLi) {
+          track.style.transform = 'translateY(' + activeLi.offsetTop + 'px)';
+          track.style.height = activeLi.offsetHeight + 'px';
+          track.style.opacity = '1';
+        } else {
+          track.style.opacity = '0';
+        }
+      }
+    }
+
+    // Scroll-spy: the active section is the last heading whose top has crossed
+    // ~30% down the viewport. Simple, predictable, beats IO edge cases here.
+    function recompute() {
+      var line = window.innerHeight * 0.3;
+      var active = entries[0].id;
+      for (var i = 0; i < entries.length; i++) {
+        var el = document.getElementById(entries[i].id);
+        if (!el) continue;
+        if (el.getBoundingClientRect().top - 96 <= line) active = entries[i].id;
+      }
+      if (active !== current) {
+        current = active;
+        setActive(active);
+      }
+    }
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () { recompute(); ticking = false; });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    recompute();
+
+    // Click any TOC link: native #hash jump (CSS smooth-scrolls), then close
+    // the mobile disclosure so it doesn't cover the destination.
+    document.querySelectorAll('.toc__link').forEach(function (a) {
+      a.addEventListener('click', function () {
+        if (mobile && mobile.open) mobile.removeAttribute('open');
+      });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBlogToc);
+  } else {
+    initBlogToc();
+  }
+</script>

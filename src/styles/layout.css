@@ -98,6 +98,9 @@ main {
   letter-spacing: var(--tracking-mono);
 }
 .site-footer__inner a { color: var(--ink-soft); }
+.site-footer__path { display: inline-flex; align-items: center; gap: var(--space-2); }
+/* Faint path separator — present but barely, so the eye reads a URL path. */
+.site-footer__sep { color: color-mix(in srgb, var(--muted) 45%, transparent); }
 
 /* ---- Coupler-curve divider (signature element, static variant) --------- */
 .coupler-divider {
