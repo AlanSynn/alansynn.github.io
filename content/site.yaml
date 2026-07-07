@@ -50,6 +50,6 @@ socials:
   - { label: 'Scholar', url: 'https://scholar.google.com/citations?user=tAfkWYcAAAAJ', icon: 'scholar' }
   - { label: 'GitHub', url: 'https://github.com/AlanSynn', icon: 'github' }
   - { label: 'LinkedIn', url: 'https://www.linkedin.com/in/alansynn', icon: 'linkedin' }
-  - { label: 'CV', url: '/pdfs/cv.pdf', icon: 'cv' }
+  - { label: 'CV', url: '/pdfs/alansynn-cv.pdf', icon: 'cv' }
 
 # (No header nav - single-page CV. Legacy slugs redirect to /#anchors.)
