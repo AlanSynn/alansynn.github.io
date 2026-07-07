@@ -10,37 +10,47 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 export interface Author {
-  raw: string;     // "Synn, DoangJoo" or "DoangJoo Synn"
-  given: string;   // "DoangJoo"
-  family: string;  // "Synn"
+  raw: string; // "Synn, DoangJoo" or "DoangJoo Synn"
+  given: string; // "DoangJoo"
+  family: string; // "Synn"
 }
 
 export interface Paper {
   key: string;
-  type: string;            // inproceedings | article | ...
+  type: string; // inproceedings | article | ...
   fields: Record<string, string>;
-  raw: string;             // original entry text for BibTeX export
+  raw: string; // original entry text for BibTeX export
   year: number;
   month: number | null;
   authors: Author[];
   selected: boolean;
-  featured: boolean;        // homepage #publications highlight (web-only)
+  featured: boolean; // homepage #publications highlight (web-only)
   title: string;
-  venue: string;           // booktitle | journal
-  abbr: string | null;     // venue badge label
+  venue: string; // booktitle | journal
+  abbr: string | null; // venue badge label
   doi: string | null;
   url: string | null;
   pdf: string | null;
   code: string | null;
-  website: string | null;  // project page
+  website: string | null; // project page
   video: string | null;
   abstract: string | null;
-  preview: string | null;  // thumbnail image path
+  preview: string | null; // thumbnail image path
 }
 
 const MONTHS: Record<string, number> = {
-  jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6,
-  jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12,
+  jan: 1,
+  feb: 2,
+  mar: 3,
+  apr: 4,
+  may: 5,
+  jun: 6,
+  jul: 7,
+  aug: 8,
+  sep: 9,
+  oct: 10,
+  nov: 11,
+  dec: 12,
 };
 
 function findClose(src: string, open: number): number {
@@ -87,15 +97,21 @@ function parseValue(token: string, strings: Record<string, string>): string {
   if (Object.prototype.hasOwnProperty.call(strings, t)) return strings[t];
   // Concatenation with # - e.g., acm # " Inc."
   if (t.includes('#')) {
-    return t.split('#').map((p) => parseValue(p, strings)).join('');
+    return t
+      .split('#')
+      .map((p) => parseValue(p, strings))
+      .join('');
   }
   return t;
 }
 
-function parseBody(body: string, strings: Record<string, string>): { key: string; fields: Record<string, string> } {
+function parseBody(
+  body: string,
+  strings: Record<string, string>,
+): { key: string; fields: Record<string, string> } {
   // First token up to ',' is the cite key.
   const keyMatch = body.match(/^([^,]+),/);
-  const key = keyMatch ? keyMatch[1].trim() : body.match(/^([^\s,]+)/)?.[1] ?? '';
+  const key = keyMatch ? keyMatch[1].trim() : (body.match(/^([^\s,]+)/)?.[1] ?? '');
   let rest = keyMatch ? body.slice(keyMatch[0].length) : body;
 
   const fields: Record<string, string> = {};
@@ -120,11 +136,14 @@ function parseBody(body: string, strings: Record<string, string>): { key: string
         val += c;
         if (c === inStr) inStr = null;
       } else if (c === '{') {
-        depth++; val += c;
+        depth++;
+        val += c;
       } else if (c === '}') {
-        depth--; val += c;
+        depth--;
+        val += c;
       } else if (c === '"') {
-        inStr = '"'; val += c;
+        inStr = '"';
+        val += c;
       } else if (c === ',' && depth === 0) {
         break;
       } else {
@@ -165,7 +184,10 @@ export function parseBibtex(src: string): Paper[] {
     while (j < clean.length && /[A-Za-z]/.test(clean[j])) j++;
     const type = clean.slice(at + 1, j).toLowerCase();
     while (j < clean.length && /\s/.test(clean[j])) j++;
-    if (clean[j] !== '{' && clean[j] !== '(') { i = j; continue; }
+    if (clean[j] !== '{' && clean[j] !== '(') {
+      i = j;
+      continue;
+    }
     const close = findClose(clean, j);
     const body = clean.slice(j + 1, close);
     const full = clean.slice(at, close + 1);

@@ -3,6 +3,7 @@ import Base from '@/layouts/Base.astro';
 import CouplerCurve from '@/components/CouplerCurve.astro';
 import { site } from '@/lib/data';
 ---
+
 <Base title="Not found" description="This page moved or never existed.">
   <div class="not-found">
     <div class="coupler-divider"><CouplerCurve /></div>
@@ -28,6 +29,10 @@ import { site } from '@/lib/data';
     color: var(--accent);
     letter-spacing: var(--tracking-mono);
   }
-  .not-found__title { font-size: var(--step-3); }
-  .not-found__text { color: var(--ink-soft); }
+  .not-found__title {
+    font-size: var(--step-3);
+  }
+  .not-found__text {
+    color: var(--ink-soft);
+  }
 </style>

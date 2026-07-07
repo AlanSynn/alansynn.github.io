@@ -77,13 +77,9 @@ export const siteSchema = z
     description: z.string(),
     keywords: z.array(z.string()).default([]),
     // PhD advisors — rendered on the hero + CV/resume title block.
-    advisors: z
-      .array(z.object({ name: z.string(), url: z.string().url() }).strict())
-      .default([]),
+    advisors: z.array(z.object({ name: z.string(), url: z.string().url() }).strict()).default([]),
     socials: z
-      .array(
-        z.object({ label: z.string(), url: z.string(), icon: z.string() }).strict(),
-      )
+      .array(z.object({ label: z.string(), url: z.string(), icon: z.string() }).strict())
       .default([]),
   })
   .strict();

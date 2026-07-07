@@ -57,7 +57,10 @@ const activities = cv.activities.filter(entryVisible);
 const site = siteSchema.parse(siteRaw);
 const honors = honorsSchema.parse(honorsRaw);
 const researchInterests = researchInterestsSchema.parse(researchInterestsRaw);
-const references = referencesSchema.parse(referencesData);
+// Parsed purely for validation — the CV (Typst) reads references.yaml directly;
+// the web never renders it. Validating here means CI (web-only) catches a
+// malformed references.yaml before a bad PDF is generated locally.
+referencesSchema.parse(referencesData);
 
 // Lookup files (venue badges + coauthor links) — now schema-validated, so a
 // malformed entry fails the build instead of casting silently.

@@ -3,24 +3,36 @@
 // A four-bar linkage coupler point traces this closed curve. The thin links +
 // ground pivots evoke the mechanism; a node rides the path (SMIL animateMotion).
 // Reduced-motion users get the static traced curve (animation hidden).
-interface Props { class?: string }
+interface Props {
+  class?: string;
+}
 const { class: cls = '' } = Astro.props;
-const id = 'coupler-' + (crypto.randomUUID().slice(0, 8));
+const id = 'coupler-' + crypto.randomUUID().slice(0, 8);
 // Graceful asymmetric coupler path (viewBox 0 0 240 96).
-const d = "M 40 60 C 18 34 52 14 98 20 C 142 26 198 10 208 46 C 215 70 176 80 138 71 C 102 62 80 86 60 77 C 50 73 42 68 40 60 Z";
+const d =
+  'M 40 60 C 18 34 52 14 98 20 C 142 26 198 10 208 46 C 215 70 176 80 138 71 C 102 62 80 86 60 77 C 50 73 42 68 40 60 Z';
 ---
-<svg class:list={["coupler-curve", cls]} viewBox="0 0 240 96" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <line class="coupler-link" x1="8" y1="90" x2="40" y2="60" />
-  <line class="coupler-link" x1="232" y1="90" x2="208" y2="46" />
-  <circle class="coupler-link" cx="8" cy="90" r="3" />
-  <circle class="coupler-link" cx="232" cy="90" r="3" />
-  <path id={id} class="coupler-path" d={d} />
+
+<svg
+  class:list={['coupler-curve', cls]}
+  viewBox="0 0 240 96"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+>
+  <line class="coupler-link" x1="8" y1="90" x2="40" y2="60"></line>
+  <line class="coupler-link" x1="232" y1="90" x2="208" y2="46"></line>
+  <circle class="coupler-link" cx="8" cy="90" r="3"></circle>
+  <circle class="coupler-link" cx="232" cy="90" r="3"></circle>
+  <path id={id} class="coupler-path" d={d}></path>
   <circle r="3.5" class="coupler-node" cx="40" cy="60"></circle>
 </svg>
 
 <style>
   @media (prefers-reduced-motion: reduce) {
     .coupler-curve :global(animateMotion),
-    .coupler-curve :global(animate) { display: none !important; }
+    .coupler-curve :global(animate) {
+      display: none !important;
+    }
   }
 </style>

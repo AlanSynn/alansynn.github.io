@@ -11,19 +11,24 @@ interface Entry {
   location?: string;
   body?: string;
 }
-interface Props { items: Entry[]; }
+interface Props {
+  items: Entry[];
+}
 const { items } = Astro.props;
 const inline = (s: string) => (s ? (marked.parseInline(s) as string) : '');
 ---
+
 <ul class="timeline">
-  {items.map((e) => (
-    <li class="timeline__item">
-      {e.period && <div class="timeline__period">{e.period}</div>}
-      <div>
-        <div class="timeline__title" set:html={inline(e.title)} />
-        {e.location && <span class="timeline__location">{e.location}</span>}
-        {e.body && <Markdown class="timeline__body" content={e.body} />}
-      </div>
-    </li>
-  ))}
+  {
+    items.map((e) => (
+      <li class="timeline__item">
+        {e.period && <div class="timeline__period">{e.period}</div>}
+        <div>
+          <div class="timeline__title" set:html={inline(e.title)} />
+          {e.location && <span class="timeline__location">{e.location}</span>}
+          {e.body && <Markdown class="timeline__body" content={e.body} />}
+        </div>
+      </li>
+    ))
+  }
 </ul>

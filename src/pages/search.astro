@@ -2,11 +2,17 @@
 import Base from '@/layouts/Base.astro';
 import Section from '@/components/Section.astro';
 ---
+
 <Base title="Search">
   <Section index="01" title="Search">
     <div class="search">
       <label class="sr-only" for="search-input">Search</label>
-      <input id="search-input" type="search" placeholder="Search publications, projects, posts…" autocomplete="off" />
+      <input
+        id="search-input"
+        type="search"
+        placeholder="Search publications, projects, posts…"
+        autocomplete="off"
+      />
       <div id="search-results" class="search-results" data-pagefind-ignore></div>
       <p id="search-hint" class="empty-state">Type to search. Index built by Pagefind.</p>
     </div>
@@ -25,25 +31,43 @@ import Section from '@/components/Section.astro';
       if (hint) hint.textContent = 'Type to search.';
       input.addEventListener('input', async function () {
         var q = input.value.trim();
-        if (!q) { results.innerHTML = ''; return; }
+        if (!q) {
+          results.innerHTML = '';
+          return;
+        }
         var search = await pagefind.search(q);
         var top = search.results.slice(0, 10);
-        var data = await Promise.all(top.map(function (r) { return r.data(); }));
+        var data = await Promise.all(
+          top.map(function (r) {
+            return r.data();
+          }),
+        );
         if (data.length === 0) {
           results.innerHTML = '<p class="empty-state">No results.</p>';
           return;
         }
-        results.innerHTML = data.map(function (d) {
-          var title = (d.meta && d.meta.title) ? d.meta.title : d.url;
-          return '<article class="search-result"><a href="' + d.url + '">'
-            + '<div class="search-result__title">' + title + '</div>'
-            + '<div class="search-result__excerpt">' + (d.excerpt || '') + '</div>'
-            + '</a></article>';
-        }).join('');
+        results.innerHTML = data
+          .map(function (d) {
+            var title = d.meta && d.meta.title ? d.meta.title : d.url;
+            return (
+              '<article class="search-result"><a href="' +
+              d.url +
+              '">' +
+              '<div class="search-result__title">' +
+              title +
+              '</div>' +
+              '<div class="search-result__excerpt">' +
+              (d.excerpt || '') +
+              '</div>' +
+              '</a></article>'
+            );
+          })
+          .join('');
       });
       input.focus();
     } catch (e) {
-      if (hint) hint.textContent = 'Search index is generated after build - run `npm run build` first.';
+      if (hint)
+        hint.textContent = 'Search index is generated after build - run `npm run build` first.';
     }
   })();
 </script>

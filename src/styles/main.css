@@ -3,13 +3,13 @@
    Pages import `../styles/main.css`; this pulls the layers in order.
    ========================================================================== */
 
-@import "./tokens.css";
-@import "./base.css";
-@import "./layout.css";
-@import "./components.css";
-@import "./compact.css";
-@import "./blog.css";
-@import "./site-chrome.css";
+@import './tokens.css';
+@import './base.css';
+@import './layout.css';
+@import './components.css';
+@import './compact.css';
+@import './blog.css';
+@import './site-chrome.css';
 
 /* ============================================================================
    Coupler-curve signature animation.
@@ -19,8 +19,12 @@
    ========================================================================== */
 
 @keyframes coupler-trace {
-  from { stroke-dashoffset: 600; }
-  to   { stroke-dashoffset: 0; }
+  from {
+    stroke-dashoffset: 600;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
 .coupler-curve .coupler-path {
@@ -43,6 +47,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .coupler-curve .coupler-path { animation: none; stroke-dasharray: none; }
-  .coupler-curve .coupler-node { animation: none; }
+  .coupler-curve .coupler-path {
+    animation: none;
+    stroke-dasharray: none;
+  }
+  .coupler-curve .coupler-node {
+    animation: none;
+  }
 }

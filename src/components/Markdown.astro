@@ -13,4 +13,5 @@ interface Props {
 const { content, class: cls = 'md' } = Astro.props;
 const html = content ? (marked.parse(content) as string) : '';
 ---
+
 {content ? <div class={cls} set:html={html} /> : null}

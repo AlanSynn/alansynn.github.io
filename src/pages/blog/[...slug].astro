@@ -12,7 +12,13 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 const tags = (post.data.tags ?? []) as string[];
-const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
 
 // Obfuscate the reply address the same way Socials.astro does (base64 halves,
 // JS-decoded) so the raw email never appears in the served HTML.
@@ -20,6 +26,7 @@ const [mailUser, mailDomain] = site.email.split('@');
 const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
 const replySubject = encodeURIComponent('Re: ' + post.data.title);
 ---
+
 <Base title={post.data.title} contained={false}>
   <article class="post">
     <div class="post-layout">
@@ -41,33 +48,47 @@ const replySubject = encodeURIComponent('Re: ' + post.data.title);
           <Content />
         </div>
 
-        {tags.length > 0 && (
-          <ul class="tag-list">
-            {tags.map((t) => <li><a href="/blog">#{t}</a></li>)}
-          </ul>
-        )}
+        {
+          tags.length > 0 && (
+            <ul class="tag-list">
+              {tags.map((t) => (
+                <li>
+                  <a href="/blog">#{t}</a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
 
         <a class="back-link" href="/blog">← All posts</a>
 
         <section class="reply">
-          <p>Thoughts? <a class="reply__email" href="#"
-            data-u={enc(mailUser)} data-d={enc(mailDomain)}
-            data-s={enc(replySubject)}>Reply by email</a>.</p>
+          <p>
+            Thoughts? <a
+              class="reply__email"
+              href="#"
+              data-u={enc(mailUser)}
+              data-d={enc(mailDomain)}
+              data-s={enc(replySubject)}>Reply by email</a
+            >.
+          </p>
         </section>
       </div>
     </div>
   </article>
-<script is:inline>
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest && e.target.closest('a.reply__email[data-u]');
-    if (!a) return;
-    e.preventDefault();
-    try {
-      var u = atob(a.getAttribute('data-u'));
-      var d = atob(a.getAttribute('data-d'));
-      var s = a.getAttribute('data-s');
-      window.location.href = 'mailto:' + u + '@' + d + (s ? '?subject=' + atob(s) : '');
-    } catch (err) { /* noop */ }
-  });
-</script>
+  <script is:inline>
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a.reply__email[data-u]');
+      if (!a) return;
+      e.preventDefault();
+      try {
+        var u = atob(a.getAttribute('data-u'));
+        var d = atob(a.getAttribute('data-d'));
+        var s = a.getAttribute('data-s');
+        window.location.href = 'mailto:' + u + '@' + d + (s ? '?subject=' + atob(s) : '');
+      } catch (err) {
+        /* noop */
+      }
+    });
+  </script>
 </Base>
