@@ -1,7 +1,6 @@
 ---
-// Timeline.astro - renders CV entry lists (education, experience, teaching,
-// activities). Entry model: { period, title, location?, body(markdown) }.
-// Title may contain inline markdown (institution/advisor hyperlinks).
+// Timeline.astro — CV entry lists. Model: { period, title, location?, body(md) }.
+// Title may carry inline markdown (institution/advisor links).
 import { marked } from 'marked';
 import Markdown from './Markdown.astro';
 

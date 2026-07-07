@@ -1,26 +1,20 @@
 ---
 // RobotIK.astro — boots the real-time IK engine (src/scripts/robot-ik.ts), which
 // solves closed-form IK (src/lib/ik.ts) per frame and writes `rotate()` onto SVG
-// joint groups. One rAF loop, IntersectionObserver-gated; prefers-reduced-motion
-// skips it (each rig ships a static rest pose).
-//
-// Two rigs: [data-rig="legs"] (index hero) + [data-rig="arm"] (footer). Both
-// scroll-driven + drag-reactive. End-effectors (foot/wrist/fingertip) = PULL
-// (tracks pointer, springs back on release); mid-joints (knee/elbow) = DANGLE
-// (tracks pointer with distal chain rigid, blends back to the IK solve).
-//
-// Rigging convention: a ROOT joint rotates by (absAngle − rest), where rest is
-// the angle its first link is drawn at (+π/2 for +Y chains like legs, −π/2 for
-// −Y chains like arm + fingers, 0 for relative joints). Matches fkLeg/fk2
-// (confirmed by the DOM-FK test).
+// joint groups. One rAF loop, IntersectionObserver-gated; reduced-motion skips it
+// (each rig ships a static rest pose). Two rigs: [data-rig="legs"] (hero) +
+// [data-rig="arm"] (footer), both scroll-driven + drag-reactive.
+//   End-effectors (foot/wrist/fingertip) = PULL (tracks pointer, springs back).
+//   Mid-joints (knee/elbow) = DANGLE (distal chain rigid, blends back to IK solve).
+//   Root rotates by (absAngle − rest): rest = first-link draw angle (+π/2 for +Y
+//   chains, −π/2 for −Y, 0 for relative). Matches fkLeg/fk2 (DOM-FK test).
 ---
 
 <script>
-  // Lazy-load the IK engine off the critical path. Triggered when a rig nears
-  // the viewport (IntersectionObserver), with two fallbacks: requestIdleCallback
-  // after load, and the first user interaction (scroll/wheel/pointer/touch/key).
-  // IO alone is fragile on some scroll paths; the fallbacks cover mobile (rigs
-  // are display:none there, so IO never fires). Reduced-motion: skip entirely.
+  // Lazy-load the engine off the critical path: IO when a rig nears the viewport,
+  // else requestIdleCallback, else first user interaction. IO alone is fragile on
+  // some scroll paths; the fallbacks cover mobile (rigs are display:none → IO never
+  // fires). Reduced-motion: skip entirely.
   (function () {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const rigs = document.querySelectorAll('[data-rig]');

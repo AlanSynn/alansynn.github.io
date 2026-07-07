@@ -1,8 +1,6 @@
 ---
-// CompactPub.astro - dense publication row for the single-page CV. Small
-// thumbnail, title (link), self-bolded authors, venue badge + year, resource
-// links, and collapsible Abstract + BibTeX (copy) so the full detail lives
-// inline without a separate page.
+// CompactPub.astro — dense pub row for the single-page CV. Thumb, title, self-
+// bolded authors, venue+year, links, collapsible Abstract + BibTeX (inline copy).
 import { me, coauthorUrl, venueInfo, type Paper } from '@/lib/data';
 import clipManifest from '@/data/video-clips.json';
 import LazyVideo from './LazyVideo.astro';

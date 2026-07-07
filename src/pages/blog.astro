@@ -3,8 +3,7 @@ import Base from '@/layouts/Base.astro';
 import Section from '@/components/Section.astro';
 import { getCollection } from 'astro:content';
 
-// Drafts are excluded from the public feed (draft: true) but still build at
-// their own URL — the usage guide is reachable but not promoted as a post.
+// Drafts excluded from the feed but still build at their own URL (reachable, not promoted).
 const posts = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());

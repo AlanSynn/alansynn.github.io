@@ -1,40 +1,15 @@
-// ============================================================================
-// content-schema.ts — single source of truth for the SHAPE of every structured
-// YAML in content/. Mirrors and generalizes the newsItemSchema pattern already
-// used in data.ts.
-//
-// Why this exists (independent of file count): the structured YAMLs were
-// imported as untyped `as Record<...>` objects, so a typo (bad key, wrong
-// type, missing required field) rendered wrong or threw deep in a component
-// with zero signal. Parsing through Zod here turns those into loud, located
-// build errors. This is the actual fix for the "management cost" pain —
-// schema coverage is orthogonal to how many files hold the data.
-//
-// Every object schema is `.strict()`: an UNKNOWN key (a typo, or a field that
-// has no consumer) fails the build loudly instead of being silently stripped.
-// This is what makes "edit content/ and you're done" trustworthy — a dead
-// field can never again hide as a no-op (the failure mode that left tagline /
-// skills.yaml / bibtex_show silently ignored for months).
-//
-// Two cross-reference rules are enforced here at build time:
-//   1. every paper's `abbr` should have a matching key in venues.yaml
-//      (else the venue badge renders as bare text) → WARN (cosmetic; the
-//      add-paper workflow adds the bib entry before the venue key).
-//   2. a paper flagged `featured` (web-top) without `selected` (PDF) is
-//      ALWAYS an oversight — the homepage would surface a paper the CV omits.
-//      → THROW (fail the build; the fix is one line in papers.bib).
-// ============================================================================
+// content-schema.ts — strict Zod schemas for every structured YAML in content/.
+// .strict(): an unknown key (typo / dead field) fails the build loudly, not
+// silently — the failure mode that once left tagline/skills.yaml/bibtex_show
+// edited-but-ignored. Two cross-ref rules at the bottom (abbr∈venues=warn,
+// featured-without-selected=throw).
 
 import { z } from 'astro/zod';
 
-// ---- Per-entry targeting (only: / except: on any CV timeline entry) --------
-// Accepts a single target string or a list. Mirrors lib.typ's entry-visible.
+// only:/except: on any CV entry — string or list (mirrors lib.typ entry-visible).
 const targetList = z.union([z.string(), z.array(z.string())]);
 
-// ---- Timeline entry: { period, title, location?, body?, only?/except? } -----
-// Shared by every section of content/cv.yaml (education / experience /
-// teaching / activities). `body` is optional because a future title-only
-// entry is valid; `location` is optional (teaching/activities often omit it).
+// Shared timeline entry for all 4 cv.yaml sections. body/location optional.
 export const timelineEntry = z
   .object({
     period: z.string(),
@@ -55,7 +30,6 @@ export const cvSchema = z
   })
   .strict();
 
-// ---- site.yaml — identity / contact / socials / SEO ------------------------
 export const siteSchema = z
   .object({
     name: z.string(),
@@ -76,7 +50,6 @@ export const siteSchema = z
     domain: z.string().optional(),
     description: z.string(),
     keywords: z.array(z.string()).default([]),
-    // PhD advisors — rendered on the hero + CV/resume title block.
     advisors: z.array(z.object({ name: z.string(), url: z.url() }).strict()).default([]),
     socials: z
       .array(z.object({ label: z.string(), url: z.string(), icon: z.string() }).strict())
@@ -84,7 +57,6 @@ export const siteSchema = z
   })
   .strict();
 
-// ---- honors.yaml — { group, items: [markdown], only?/except? } -------------
 export const honorsSchema = z.array(
   z
     .object({
@@ -96,7 +68,6 @@ export const honorsSchema = z.array(
     .strict(),
 );
 
-// ---- references.yaml — CV reference contacts -------------------------------
 export const referencesSchema = z.array(
   z
     .object({
@@ -110,7 +81,6 @@ export const referencesSchema = z.array(
     .strict(),
 );
 
-// ---- research-interests.yaml — { statements[], focus_areas[] } -------------
 export const researchInterestsSchema = z
   .object({
     statements: z.array(z.string()),
@@ -118,10 +88,7 @@ export const researchInterestsSchema = z
   })
   .strict();
 
-// ---- news.yaml — { date, link?, highlight?, body } -------------------------
-// The single most-edited file; coerce date + URL-validate the link so a bad
-// entry fails loudly at build instead of rendering wrong or throwing deep in
-// NewsList. Mirrors the schema the old per-item Astro collection enforced.
+// news: coerce date + validate link so a bad entry fails the build, not NewsList.
 export const newsItemSchema = z
   .object({
     date: z.coerce.date(),
@@ -131,11 +98,8 @@ export const newsItemSchema = z
   })
   .strict();
 
-// ---- venues.yaml — abbr → { name, url, type? } -----------------------------
-// `type` drives the CV publication grouping (journal/conference/preprint);
-// lib.typ falls back to a heuristic only when it is absent. (Per-venue `color`
-// was retired when publication labels were unified to the accent color; not
-// re-added here to avoid reviving a field with no consumer.)
+// `type` drives CV pub grouping (journal/conference/preprint); lib.typ heuristics
+// only when absent. `color` retired when labels unified to accent — not re-added.
 export const venueSchema = z
   .object({
     name: z.string(),
@@ -145,7 +109,6 @@ export const venueSchema = z
   .strict();
 export const venuesSchema = z.record(z.string(), venueSchema);
 
-// ---- coauthors.yaml — lastname → [{ firstname[], url }] --------------------
 export const coauthorSchema = z
   .object({
     firstname: z.array(z.string()),
@@ -154,8 +117,7 @@ export const coauthorSchema = z
   .strict();
 export const coauthorsSchema = z.record(z.string(), z.array(coauthorSchema));
 
-// ---- targets.yaml — target id → { blurb, keywords[] } ----------------------
-// Targeted PDF variants (graphics / ml-systems). Web ignores this file.
+// target id → { blurb, keywords } for targeted PDF variants. Web ignores it.
 export const targetSchema = z
   .object({
     blurb: z.string(),
@@ -164,8 +126,7 @@ export const targetSchema = z
   .strict();
 export const targetsSchema = z.record(z.string(), targetSchema);
 
-// ---- Cross-reference integrity (build-time) --------------------------------
-// Paper shape mirrors the relevant subset of src/lib/papers.ts Paper.
+// Cross-reference integrity (build-time). Mirrors src/lib/papers.ts Paper subset.
 interface PaperLike {
   title: string;
   abbr: string | null;
@@ -180,13 +141,9 @@ interface VenueLike {
   type?: 'journal' | 'conference' | 'preprint';
 }
 
-/**
- * Enforce two documented cross-reference rules:
- *   - abbr with no matching venues.yaml key → badge renders bare. WARN only
- *     (cosmetic, and the add-paper workflow adds the bib entry first).
- *   - featured without selected → homepage surfaces a paper the CV omits.
- *     THROW — this is always an oversight and the fix is one line in papers.bib.
- */
+// abbr with no venues.yaml key → badge renders bare: WARN (cosmetic; add-paper
+// workflow adds the bib entry first). featured without selected → homepage
+// surfaces a paper the CV omits: THROW (always an oversight, 1-line fix in bib).
 export function enforcePaperIntegrity(
   papers: PaperLike[],
   venues: Record<string, VenueLike>,

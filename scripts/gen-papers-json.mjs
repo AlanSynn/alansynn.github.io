@@ -1,19 +1,11 @@
-// ============================================================================
-// gen-papers-json.mjs — bridge between the BibTeX parser (src/lib/papers.ts)
-// and the Typst resume/CV templates. Typst cannot parse .bib, so we emit a
-// JSON array the templates can read via json("...").
-//
-// Reuses getPapers() from src/lib/papers.ts (the SAME parser the Astro site
-// uses), so the web + resume + CV always agree.
-//
-// Run from the project root:  node scripts/gen-papers-json.mjs
-// ============================================================================
+// gen-papers-json.mjs — bridges the BibTeX parser (src/lib/papers.ts) to Typst
+// (which can't read .bib): emits a JSON array via json("..."). Reuses getPapers()
+// so web + resume + CV agree. Usage: node scripts/gen-papers-json.mjs
 import { writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-// Pin cwd to the project root so getPapers() (which resolves papers.bib via
-// process.cwd()) works regardless of where node is invoked from.
+// Pin cwd to project root so getPapers() (resolves papers.bib via cwd) works from anywhere.
 const __dirname = dirname(fileURLToPath(import.meta.url));
 process.chdir(resolve(__dirname, '..'));
 
@@ -21,7 +13,7 @@ const { getPapers } = await import('../src/lib/papers.ts');
 
 const papers = getPapers();
 
-// Project to exactly the fields the Typst templates need.
+// Project to just the fields Typst templates need.
 const out = papers.map((p) => ({
   key: p.key,
   year: p.year,

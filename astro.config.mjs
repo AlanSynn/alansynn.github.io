@@ -26,6 +26,8 @@ export default defineConfig({
       cssCodeSplit: true,
       minify: 'esbuild',
       sourcemap: false,
+      target: 'es2022', // modern browsers only — skip ES5/ES2015 transpilation
+      reportCompressedSize: false, // skip brotli/gzip size reporting → faster builds
     },
     resolve: {
       alias: {

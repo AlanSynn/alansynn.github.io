@@ -1,8 +1,6 @@
-// ik.ts — closed-form inverse kinematics for the mechanism motifs.
-// Pure math, no DOM. Angles in radians; coordinates are SVG user units (y-down).
-// Rotation uses the standard matrix; with y-down coords a positive angle reads
-// clockwise on screen, matching SVG `rotate(+deg)`, so solver output maps 1:1
-// to the transform attribute the engine writes onto each joint group.
+// ik.ts — closed-form inverse kinematics for the mechanism motifs. Pure math,
+// no DOM. Angles in radians; coords are SVG user units (y-down). Standard matrix
+// rotation: +angle reads clockwise on screen (y-down), maps 1:1 to SVG rotate(+deg).
 
 export type V2 = { x: number; y: number };
 
@@ -20,11 +18,9 @@ export const rot = (a: V2, ang: number): V2 => {
   return { x: a.x * c - a.y * s, y: a.x * s + a.y * c };
 };
 
-// 2-link IK: root --l1--> mid --l2--> tip, solve so tip ≡ target.
-// Returns a1 (absolute angle at root) and a2 (relative angle at mid).
-// elbowSign ∈ {-1,+1} picks which side the mid joint folds toward. Canonical
-// closed form — FK with (a1, a1+a2) reaches `target` exactly for in-reach
-// targets; out-of-reach targets clamp cos to ±1 and the chain extends straight.
+// 2-link IK: root --l1--> mid --l2--> tip, solve so tip ≡ target. Returns a1
+// (absolute at root) + a2 (relative at mid). elbowSign picks the fold side.
+// In-reach targets reach exactly; out-of-reach clamp cos→±1 (chain extends straight).
 export function ik2(root: V2, target: V2, l1: number, l2: number, elbowSign = 1) {
   const dx = target.x - root.x,
     dy = target.y - root.y;
@@ -35,18 +31,16 @@ export function ik2(root: V2, target: V2, l1: number, l2: number, elbowSign = 1)
   return { a1, a2 };
 }
 
-// Forward 2-link: positions of mid + tip from root + angles (verification helper).
+// Forward 2-link: mid + tip positions from root + angles (verification helper).
 export function fk2(root: V2, a1: number, a2: number, l1: number, l2: number) {
   const mid = add(root, rot(V(l1, 0), a1));
   const tip = add(mid, rot(V(l2, 0), a1 + a2));
   return { mid, tip };
 }
 
-// 2-link IK with a pole vector: solves both elbow signs and returns the one
-// whose mid (elbow/knee) lies nearest `pole`. This is what makes a mid-joint
-// draggable — grab the elbow/knee handle, drag it, and the chain bends to
-// follow while the tip still tracks its own target. For a target exactly on the
-// root–pole line both mids are equidistant; we break ties toward `pole`'s side.
+// 2-link IK with a pole vector: solves both elbow signs, returns the one whose mid
+// lies nearest `pole`. Lets a mid-joint be dragged (grab elbow/knee → chain follows
+// while the tip still tracks its own target). Ties break toward `pole`'s side.
 export function ik2Pole(root: V2, target: V2, l1: number, l2: number, pole: V2) {
   const s1 = ik2(root, target, l1, l2, 1);
   const s2 = ik2(root, target, l1, l2, -1);
@@ -57,11 +51,10 @@ export function ik2Pole(root: V2, target: V2, l1: number, l2: number, pole: V2) 
   return d1 <= d2 ? { ...s1, mid: m1 } : { ...s2, mid: m2 };
 }
 
-// 3-link leg IK with a foot-direction constraint:
-// hip --l1--> knee --l2--> ankle, then a foot of length lFoot whose WORLD
-// direction is `footAng`. Solves hip+knee as a 2-link to the ankle position,
-// then sets the ankle joint so the foot points at footAng. Returns absolute
-// hip, relative knee, relative ankle (apply as nested group rotates).
+// 3-link leg IK with a foot-direction constraint: hip --l1--> knee --l2--> ankle,
+// then foot of length lFoot whose WORLD direction is `footAng`. Solves hip+knee as
+// 2-link to the ankle, then sets the ankle so the foot points at footAng. Returns
+// absolute hip, relative knee, relative ankle.
 export function ikLeg(
   hip: V2,
   footTip: V2,
@@ -79,7 +72,6 @@ export function ikLeg(
 }
 
 // 3-link leg IK with a knee POLE (drag the knee to set bend direction).
-// Like ikLeg but the knee folds toward `kneePole` instead of a fixed sign.
 export function ikLegPole(
   hip: V2,
   footTip: V2,
@@ -112,9 +104,8 @@ export function fkLeg(
   return { knee, ankle, toe };
 }
 
-// Gait foot target for one leg. `phase` advances with scroll (+ idle time);
-// two legs offset by π alternate steps. y-down: `stance` extends the foot
-// downward from the hip, `lift` raises it (smaller y) during the forward swing.
+// Gait foot target for one leg. `phase` advances with scroll + idle time; two legs
+// offset by π alternate steps. y-down: stance extends the foot down, lift raises it.
 export function gaitFoot(hip: V2, phase: number, stride: number, stance: number, lift: number): V2 {
   const fx = hip.x + stride * Math.sin(phase);
   const swing = Math.max(0, Math.sin(phase)); // 0 except during the forward swing

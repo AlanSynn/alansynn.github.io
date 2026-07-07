@@ -20,8 +20,7 @@ const fmt = (d: Date) =>
     timeZone: 'UTC',
   });
 
-// Obfuscate the reply address the same way Socials.astro does (base64 halves,
-// JS-decoded) so the raw email never appears in the served HTML.
+// Reply email obfuscation — same as Socials.astro (base64 halves, JS-decoded).
 const [mailUser, mailDomain] = site.email.split('@');
 const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
 const replySubject = encodeURIComponent('Re: ' + post.data.title);

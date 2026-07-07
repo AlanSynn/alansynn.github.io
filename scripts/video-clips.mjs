@@ -1,18 +1,8 @@
 #!/usr/bin/env node
-// scripts/video-clips.mjs
-//
-// Build-time pipeline that turns every publication/project video into a small,
-// muted, ~0-15s clip used as a LAZY-LOADED thumbnail. Output clips + posters
-// are written under public/video-clips/ and indexed in src/data/video-clips.json.
-//
-// Sources discovered from:
-//   (a) content/papers.bib    -> entries' `video={...}` field
-//   (b) content/projects/*.md -> frontmatter `video:` field
-//
-// Idempotent: skips sources whose clip + poster already exist on disk.
-// Graceful: if yt-dlp is missing, YouTube sources are skipped with a warning.
-//
-// Usage:  node scripts/video-clips.mjs
+// video-clips.mjs — build-time pipeline: each paper/project video → small muted
+// ~0-15s clip (lazy thumbnail). Output: public/video-clips/ + src/data/video-clips.json.
+// Sources: papers.bib `video={}` + projects/*.md `video:` frontmatter.
+// Idempotent (skips existing); skips YouTube if yt-dlp missing. Usage: node scripts/video-clips.mjs
 
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs';
@@ -20,7 +10,6 @@ import { join, resolve } from 'node:path';
 import { execSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
-// --- paths -----------------------------------------------------------------
 const ROOT = resolve(fileURLToPath(import.meta.url), '..', '..');
 const PUBLIC = join(ROOT, 'public');
 const CLIP_DIR = join(PUBLIC, 'video-clips');
@@ -28,17 +17,15 @@ const BIB_PATH = join(ROOT, 'content', 'papers.bib');
 const PROJECTS_DIR = join(ROOT, 'content', 'projects');
 const MANIFEST_PATH = join(ROOT, 'src', 'data', 'video-clips.json');
 
-// --- tunables --------------------------------------------------------------
 const MAX_SECS = 15;
-const POSTER_AT = 1.5; // seconds into the clip used for the poster frame
-const WIDTH = 480; // output width (height auto, -2 keeps it even)
-const CRF = 30; // high = small file; 30 is aggressive but fine for thumbnails
+const POSTER_AT = 1.5; // poster frame timestamp (s)
+const WIDTH = 480; // output width; height auto (-2 keeps even)
+const CRF = 30; // high = small; 30 is aggressive but fine for thumbs
 const PRESET = 'veryfast';
 const PER_FILE_TIMEOUT_MS = 180_000;
 const YOUTUBE_ID = /^[A-Za-z0-9_-]{11}$/;
 const SIZE_BUDGET_BYTES = 800 * 1024; // soft per-clip target
 
-// --- helpers ---------------------------------------------------------------
 function sha1(s) {
   return createHash('sha1').update(s).digest('hex');
 }
@@ -62,19 +49,19 @@ function classify(source) {
   return 'direct';
 }
 
-// Turn a youtube source (url or bare id) into a canonical watch URL.
+// youtube source (url or bare id) → canonical watch URL.
 function youtubeUrl(source) {
   if (YOUTUBE_ID.test(source)) return `https://www.youtube.com/watch?v=${source}`;
   return source;
 }
 
-// Resolve a 'direct' source to an ffmpeg-readable input path/URL.
+// 'direct' source → ffmpeg-readable input.
 function resolveInput(source) {
   if (source.startsWith('/')) return join(PUBLIC, source); // local public asset
   return source; // remote URL
 }
 
-// Run a shell command, swallowing output on success, surfacing it on failure.
+// run cmd: swallow output on success, surface on failure.
 function run(cmd, timeoutMs = PER_FILE_TIMEOUT_MS) {
   try {
     execSync(cmd, { stdio: 'pipe', timeout: timeoutMs });
@@ -91,12 +78,8 @@ function fmtSize(bytes) {
   return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
 }
 
-// --- discovery -------------------------------------------------------------
-
-// Tiny brace-aware bibtex extractor: scans top-level @entries, returns the
-// citekey + video field for any entry that has one. Intentionally minimal —
-// does NOT reuse the main parser. @string / @comment entries are skipped
-// naturally (they carry no `video` field).
+// Minimal brace-aware bibtex extractor: citekey + video field per entry that has one.
+// Doesn't reuse the main parser. @string/@comment skipped (no video field).
 function discoverFromBib() {
   if (!existsSync(BIB_PATH)) return [];
   const text = readFileSync(BIB_PATH, 'utf8');
@@ -111,7 +94,7 @@ function discoverFromBib() {
       continue;
     }
     const openBrace = at + typeMatch[0].length - 1; // index of '{'
-    // find the matching close brace by depth counting
+    // matching close brace via depth count
     let depth = 1;
     let j = openBrace + 1;
     while (j < text.length && depth > 0) {
@@ -123,7 +106,7 @@ function discoverFromBib() {
     if (depth !== 0) break; // unbalanced bib — stop
     const inner = text.slice(openBrace + 1, j - 1);
     i = j;
-    // citekey is everything up to the first comma
+    // citekey = up to first comma
     const comma = inner.indexOf(',');
     const citekey = (comma >= 0 ? inner.slice(0, comma) : inner).trim();
     if (!citekey) continue;
@@ -136,8 +119,7 @@ function discoverFromBib() {
   return out;
 }
 
-// Parse content/projects/*.md frontmatter for a `video:` field without pulling
-// in a YAML dependency. Handles quoted and unquoted single-line values.
+// Parse projects/*.md frontmatter `video:` without a YAML dep (quoted + unquoted).
 function discoverFromProjects() {
   if (!existsSync(PROJECTS_DIR)) return [];
   const out = [];
@@ -155,7 +137,6 @@ function discoverFromProjects() {
   return out;
 }
 
-// --- pipeline --------------------------------------------------------------
 function main() {
   mkdirSync(CLIP_DIR, { recursive: true });
 
@@ -166,9 +147,7 @@ function main() {
   }
   const hasYtDlp = which('yt-dlp');
 
-  // Dedupe by source string. The manifest is keyed by source, so duplicate
-  // references (e.g. a paper + its project page sharing one video) collapse
-  // to a single clip.
+  // Dedupe by source (manifest keyed by source; paper + project sharing a video → one clip).
   const discovered = [...discoverFromBib(), ...discoverFromProjects()];
   const bySource = new Map();
   for (const d of discovered) {
@@ -247,8 +226,7 @@ function main() {
         run(cmd);
       }
 
-      // Poster frame from the freshly made clip (works for both youtube + direct,
-      // and avoids re-reading a remote/youtube source).
+      // Poster from the fresh clip (works for both kinds; avoids re-reading remote source).
       run(
         `ffmpeg -y -ss ${POSTER_AT} -i "${clipPath}" -frames:v 1 -vf scale=${WIDTH}:-2 "${posterPath}"`,
         60_000,
@@ -275,11 +253,9 @@ function main() {
     }
   }
 
-  // Manifest is recreated fully each run from successfully processed sources,
-  // so videos removed from bib/projects naturally drop out.
+  // Manifest rebuilt from scratch each run → removed videos drop out naturally.
   writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + '\n');
 
-  // --- size summary --------------------------------------------------------
   console.log('\nvideo-clips: size summary');
   let totalClip = 0;
   let totalPoster = 0;

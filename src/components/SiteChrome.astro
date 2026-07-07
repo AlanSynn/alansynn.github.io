@@ -1,6 +1,5 @@
 ---
-// SiteChrome.astro - reading-progress bar, back-to-top, image lightbox.
-// Progressive enhancement; respects reduced motion.
+// SiteChrome.astro — reading-progress, back-to-top, lightbox. Progressive enhancement.
 ---
 
 <div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
@@ -32,7 +31,7 @@
 
 <script is:inline>
   (function () {
-    /* ---- Reading progress + back to top ---- */
+    /* reading progress + back to top */
     var bar = document.getElementById('reading-progress');
     var btn = document.getElementById('back-to-top');
     function onScroll() {
@@ -50,7 +49,7 @@
         window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
       });
 
-    /* ---- Lightbox for prose images (blog, project bodies, research) ---- */
+    /* lightbox for prose images */
     var lb = document.getElementById('lightbox');
     var lbImg = document.getElementById('lightbox-img');
     var lbClose = document.getElementById('lightbox-close');
@@ -83,7 +82,7 @@
       });
     }
 
-    /* ---- Scroll reveal (IntersectionObserver, once) ---- */
+    /* scroll reveal (IO, once) */
     var reveals = document.querySelectorAll('[data-reveal]');
     if (reveals.length && 'IntersectionObserver' in window) {
       var io = new IntersectionObserver(
@@ -109,7 +108,7 @@
       });
     }
 
-    /* ---- BibTeX copy (delegated) ---- */
+    /* bibtex copy (delegated) */
     document.addEventListener('click', function (e) {
       var btn = e.target.closest && e.target.closest('.copy-btn');
       if (!btn) return;

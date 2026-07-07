@@ -1,9 +1,7 @@
 // @ts-nocheck
-// robot-ik.ts — real-time IK engine, lazily imported by RobotIK.astro (on idle
-// / when a rig nears the viewport). Rigging convention + drag (pull/dangle)
-// models live in RobotIK.astro. @ts-nocheck (above): DOM glue (DOMPoint,
-// getScreenCTM, rAF); correctness proven by the Playwright DOM-FK test + ik.ts,
-// not types. Directive must be line 1 or TS ignores it.
+// robot-ik.ts — real-time IK engine, lazily imported by RobotIK.astro.
+// @ts-nocheck (line 1): DOM glue (DOMPoint/getScreenCTM/rAF); correctness proven
+// by the Playwright DOM-FK test + ik.ts, not types. Directive MUST be line 1.
 import { ikLeg, ikLegPole, gaitFoot, V, add, sub, fkLeg } from '@/lib/ik';
 
 const PI2 = Math.PI / 2;
@@ -20,16 +18,15 @@ const setHandle = (el, p) => {
   el.setAttribute('cy', p.y.toFixed(2));
 };
 
-// ---- legs: two 3-DOF chains (hip/knee/ankle + foot), links drawn +Y --------
-const LEG_HIPS = [V(50, 10), V(90, 10)]; // viewBox 0 0 140 260
+// legs: two 3-DOF chains (hip/knee/ankle + foot), links drawn +Y. viewBox 140×260.
+const LEG_HIPS = [V(50, 10), V(90, 10)];
 const LEG = { l1: 92, l2: 86, lFoot: 22, stride: 14, stance: 186, lift: 14 };
 const kneePivot = (hip) => V(hip.x, hip.y + LEG.l1); // rest y = 102
 const anklePivot = (hip) => V(hip.x, hip.y + LEG.l1 + LEG.l2); // rest y = 188
-// default knee pole: modestly left of each leg → the knee bends to face LEFT
-const kneePoleDefault = (hip) => V(hip.x - 16, hip.y + 50);
+const kneePoleDefault = (hip) => V(hip.x - 16, hip.y + 50); // knee bends LEFT
 
-// ---- arm: 3-DOF chain (shoulder/elbow/wrist + hand), links drawn −Y --------
-const ARM = { shoulder: V(90, 340), l1: 95, l2: 88, lHand: 33 }; // viewBox 0 0 180 360
+// arm: 3-DOF (shoulder/elbow/wrist + hand), links drawn −Y. viewBox 180×360.
+const ARM = { shoulder: V(90, 340), l1: 95, l2: 88, lHand: 33 };
 const elbowPivot = V(ARM.shoulder.x, ARM.shoulder.y - ARM.l1); // rest y = 245
 const wristPivot = V(ARM.shoulder.x, ARM.shoulder.y - ARM.l1 - ARM.l2); // rest y = 157
 const elbowPoleDefault = V(ARM.shoulder.x + 30, ARM.shoulder.y - 60); // elbow folds right
@@ -40,21 +37,33 @@ const FINGERS = [
   { sel: '.f-r', mcp: V(108, 147), l1: 14, l2: 11, l3: 9, base: 0.18, sign: 1 },
 ];
 
-// ---- pointer + drag state ------------------------------------------------
+// pointer + drag state. PULL = end-effector tracks pointer + springs back; mid-joint
+// (knee/elbow) = DANGLE: distal chain rigid, blends back to the IK solve.
 const ptr = { x: 0, y: 0, rx: 0, ry: 0 };
 let lastDt = 16;
-const drag = { active: null, pull: new Map() }; // end-effector pull: offset eases to pointer, then 0
-const overrides = {}; // mid-joint dangle: blend toward a dragged pose
-const lastSolves = {}; // frozen angles at drag start
+const drag = { active: null, pull: new Map() };
+const overrides = {}; // mid-joint dangle blend state
+const lastSolves = {}; // frozen angles at drag start (seeds the dangle)
 
+// per-frame CTM cache: the CTM is immutable within one rAF callback, so multiple
+// screenToFrame calls on the same svg in a frame reuse one getScreenCTM().inverse().
+// _frame++ each step → stale after a frame (correct once scroll/resize re-lays-out).
+let _frame = 0;
+const _ctm = new WeakMap();
 function screenToFrame(el, x, y) {
-  const ctm = el && el.getScreenCTM && el.getScreenCTM();
-  if (!ctm || typeof DOMPoint === 'undefined') return V(0, 0);
-  const p = new DOMPoint(x, y).matrixTransform(ctm.inverse());
+  if (!el || !el.getScreenCTM || typeof DOMPoint === 'undefined') return V(0, 0);
+  let e = _ctm.get(el);
+  if (!e || e.frame !== _frame) {
+    const ctm = el.getScreenCTM();
+    if (!ctm) return V(0, 0);
+    e = { frame: _frame, inv: ctm.inverse() };
+    _ctm.set(el, e);
+  }
+  const p = new DOMPoint(x, y).matrixTransform(e.inv);
   return V(p.x, p.y);
 }
 
-// end-effector target: pointer while dragged, home + decaying pull otherwise.
+// end-effector target: pointer while dragged; home + decaying pull otherwise.
 function chainTarget(id, home, frame) {
   if (drag.active && drag.active.id === id) {
     const np = sub(screenToFrame(frame, ptr.x, ptr.y), home);
@@ -73,8 +82,7 @@ function chainTarget(id, home, frame) {
   return add(home, np);
 }
 
-// dangle override for a mid-joint (knee/elbow); returns blended {hip,knee,ankle}.
-// ikShin/ikMid = IK shin-abs angle + mid-joint pos to ease back to; footAbs = IK distal angle.
+// dangle override for a mid-joint (knee/elbow); blends IK solve toward a dragged pose.
 function dangleAngles(id, frame, piv, l1, ikSol, ikShin, ikMid, footAbs) {
   const ov = overrides[id];
   if (!ov) return ikSol;
@@ -108,41 +116,43 @@ function dangleAngles(id, frame, piv, l1, ikSol, ikShin, ikMid, footAbs) {
   };
 }
 
-function driveLegs(rig, topScroll, t) {
-  const svg = rig.querySelector('svg');
+function driveLegs(c, topScroll, t) {
+  const svg = c.svg;
   const phaseBase = topScroll * Math.PI * 3 + t * 0.0006;
-  rig.querySelectorAll('[data-side]').forEach((leg, i) => {
+  c.legs.forEach((leg, i) => {
     const hip = LEG_HIPS[i] ?? LEG_HIPS[0];
     const phase = phaseBase + (i ? Math.PI : 0);
     const f = gaitFoot(hip, phase, LEG.stride, LEG.stance, LEG.lift);
     const footAng = PI2 + 0.22 * Math.sin(t * 0.004 + phase * 0.5); // foot below ankle, idle tap
-    const footHome = V(f.x, f.y);
-    const footTip = chainTarget(`leg:${i}:foot`, footHome, svg);
+    const footTip = chainTarget(`leg:${i}:foot`, V(f.x, f.y), svg);
     const s = ikLegPole(hip, footTip, LEG.l1, LEG.l2, LEG.lFoot, footAng, kneePoleDefault(hip));
     const kid = `leg:${i}:knee`;
     const ikMid = fkLeg(hip, s.hip, s.knee, 0, LEG.l1, LEG.l2, 0).knee;
     const sol = dangleAngles(kid, svg, hip, LEG.l1, s, s.hip + s.knee, ikMid, footAng);
-    setJ(leg.querySelector('.j-hip'), sol.hip, hip, PI2);
-    setJ(leg.querySelector('.j-knee'), sol.knee, kneePivot(hip), 0);
-    setJ(leg.querySelector('.j-ankle'), sol.ankle, anklePivot(hip), 0);
+    setJ(leg.hip, sol.hip, hip, PI2);
+    setJ(leg.knee, sol.knee, kneePivot(hip), 0);
+    setJ(leg.ankle, sol.ankle, anklePivot(hip), 0);
     const kneePos = fkLeg(hip, sol.hip, sol.knee, 0, LEG.l1, LEG.l2, 0).knee;
     const toePos = fkLeg(hip, sol.hip, sol.knee, sol.ankle, LEG.l1, LEG.l2, LEG.lFoot).toe;
-    setHandle(rig.querySelector(`.h-leg-${i}-foot`), toePos);
-    setHandle(rig.querySelector(`.h-leg-${i}-knee`), kneePos);
+    setHandle(leg.footH, toePos);
+    setHandle(leg.kneeH, kneePos);
     lastSolves[kid] = { shinAbs: s.hip + s.knee, footAbs: footAng };
   });
 }
 
-function driveArm(rig, rise, t) {
-  rig.style.setProperty('--arm', rise.toFixed(4));
-  document.documentElement.style.setProperty('--arm', rise.toFixed(4));
-  const svg = rig.querySelector('svg');
-  // waving stance on the footer line; the hand never tracks the "Say hi" link
-  // (the CSS underline, driven by --arm, ties them).
+function driveArm(c, rise, t) {
+  // --arm drives the rig transform AND the footer "Say hi" underline (not a rig
+  // descendant → inherits from :root). Delta-gate: toFixed(4) is bit-identical on
+  // idle frames, so skip both writes when unchanged (kills style recalc when still).
+  const css = rise.toFixed(4);
+  if (css !== _lastArm) {
+    c.el.style.setProperty('--arm', css);
+    document.documentElement.style.setProperty('--arm', css);
+    _lastArm = css;
+  }
+  const svg = c.svg;
   const WSLOW = Math.PI / 1000; // π rad/s → 2s wave period
-  // ikLegPole's `foot` = END-EFFECTOR TIP (end of lHand); wrist sits lHand below.
-  const wristHome = V(96 + 4 * Math.sin(t * 0.0008), 140);
-  const wristTarget = chainTarget('arm:wrist', wristHome, svg);
+  const wristTarget = chainTarget('arm:wrist', V(96 + 4 * Math.sin(t * 0.0008), 140), svg);
   const handDir = -PI2 + 0.1 * Math.sin(t * 0.0011); // hand points up, gentle sway
   const a = ikLegPole(
     ARM.shoulder,
@@ -154,56 +164,65 @@ function driveArm(rig, rise, t) {
     elbowPoleDefault,
   );
 
-  // elbow dangle (draggable, like the knee)
   const eid = 'arm:elbow';
   const ikMid = fkLeg(ARM.shoulder, a.hip, a.knee, 0, ARM.l1, ARM.l2, 0).knee;
   const sol = dangleAngles(eid, svg, ARM.shoulder, ARM.l1, a, a.hip + a.knee, ikMid, handDir);
 
   const shoulderSway = 0.06 * Math.sin(t * 0.0014); // slow shoulder breath
-  setJ(rig.querySelector('.j-shoulder'), sol.hip + shoulderSway, ARM.shoulder, -PI2);
-  setJ(rig.querySelector('.j-elbow'), sol.knee, elbowPivot, 0);
+  setJ(c.shoulder, sol.hip + shoulderSway, ARM.shoulder, -PI2);
+  setJ(c.elbow, sol.knee, elbowPivot, 0);
   const wave = 0.38 * Math.sin(t * WSLOW); // ±22° wrist wave (2s)
-  setJ(rig.querySelector('.j-wrist'), sol.ankle + wave, wristPivot, 0);
-  setHandle(rig.querySelector('.h-arm-wrist'), wristTarget);
-  const elbowPos = fkLeg(ARM.shoulder, sol.hip, sol.knee, 0, ARM.l1, ARM.l2, 0).knee;
-  setHandle(rig.querySelector('.h-arm-elbow'), elbowPos);
+  setJ(c.wrist, sol.ankle + wave, wristPivot, 0);
+  setHandle(c.wristH, wristTarget);
+  setHandle(c.elbowH, fkLeg(ARM.shoulder, sol.hip, sol.knee, 0, ARM.l1, ARM.l2, 0).knee);
 
-  const hand = rig.querySelector('.hand');
+  // fingers curl-wave synced with the wrist (phase-offset per finger); ext stays
+  // high so PIP/DIP curl gently. footAng = dir − π/2 (dir is angle-from-up, ikLeg's
+  // footAng is absolute) so the distal points up and PIP/DIP actually fold.
   const open = clamp01(rise);
-  FINGERS.forEach((f, idx) => {
-    // fingers curl-wave in sync with the wrist (phase-offset per finger); ext
-    // stays high so PIP/DIP curl gently, not clench.
+  c.fingers.forEach((fng, idx) => {
+    const f = fng.spec;
     const sync = 0.5 + 0.5 * Math.sin(t * WSLOW + idx * 0.4);
     const ext = 0.85 + 0.12 * open - 0.07 * sync;
     const dir = f.base + 0.03 * Math.sin(t * 0.0012 + idx);
     const reachLen = (f.l1 + f.l2 + f.l3) * ext;
-    const tipHome = V(f.mcp.x + Math.sin(dir) * reachLen, f.mcp.y - Math.cos(dir) * reachLen);
-    const tip = chainTarget(`finger:${f.sel}`, tipHome, hand);
-    // footAng = dir − π/2: `dir` is angle-from-up (0 = up), but ikLeg's footAng
-    // is an absolute angle (0 = +X). Convert so the distal link points up and
-    // the PIP/DIP actually fold (a straight finger means a convention clash).
+    const tip = chainTarget(
+      `finger:${f.sel}`,
+      V(f.mcp.x + Math.sin(dir) * reachLen, f.mcp.y - Math.cos(dir) * reachLen),
+      c.hand,
+    );
     const r = ikLeg(f.mcp, tip, f.l1, f.l2, f.l3, dir - PI2, f.sign);
-    setJ(hand?.querySelector(`${f.sel} .j-mcp`), r.hip, f.mcp, -PI2);
-    setJ(hand?.querySelector(`${f.sel} .j-pip`), r.knee, V(f.mcp.x, f.mcp.y - f.l1), 0);
-    setJ(hand?.querySelector(`${f.sel} .j-dip`), r.ankle, V(f.mcp.x, f.mcp.y - f.l1 - f.l2), 0);
-    setHandle(hand?.querySelector(`.h-${f.sel.slice(1)}`), tip);
+    setJ(fng.mcp, r.hip, f.mcp, -PI2);
+    setJ(fng.pip, r.knee, V(f.mcp.x, f.mcp.y - f.l1), 0);
+    setJ(fng.dip, r.ankle, V(f.mcp.x, f.mcp.y - f.l1 - f.l2), 0);
+    setHandle(fng.tipH, tip);
   });
   lastSolves[eid] = { shinAbs: a.hip + a.knee, footAbs: handDir };
 }
 
-// Ease the arm's --arm from its CSS default (1, visible) toward the scroll
-// rise over the first ~420ms after engine start. CSS defaults --arm to 1 so a
-// short page that can't scroll (engine may never boot) still shows the arm;
-// this blend hands control to the scroll value without a visible jump (on a
-// short page rise≈1, so nothing moves). Legs need no smoothing.
+// Ease --arm from its CSS default (1) toward the scroll rise over ~420ms after
+// start. CSS defaults --arm to 1 so a short unscrollable page still shows the arm;
+// this hands control to scroll without a jump (short page: rise≈1, nothing moves).
 let bootStart = 0;
 function boot(t) {
   if (!bootStart) bootStart = t;
   return Math.min(1, (t - bootStart) / 420);
 }
 
+let _lastArm = '';
+// scrollHeight cache: reading it after a frame's setAttribute writes can force a
+// layout flush. It changes only on resize/font-load → cache + invalidate on resize,
+// re-read every 1s as a staleness fallback for late web-font swap.
+let _dh = 0,
+  _dhAt = 0;
+// rig partition + per-rig cached DOM refs (rig markup is static post-boot). Built
+// once in init(); step() iterates these instead of re-querying every frame.
+let LEG_RIGS = [],
+  ARM_RIGS = [];
+
 let last = 0;
 function step(t) {
+  _frame++;
   const dt = Math.min(48, t - last) || 16;
   last = t;
   lastDt = dt;
@@ -213,19 +232,21 @@ function step(t) {
 
   const vh = innerHeight,
     sy = scrollY;
-  const dh = document.documentElement.scrollHeight;
+  if (!_dh || t - _dhAt > 1000) {
+    _dh = document.documentElement.scrollHeight;
+    _dhAt = t;
+  }
+  const dh = _dh;
   const top = clamp01(sy / vh);
   const start = dh - vh * 1.8;
-  // Rise ramps in over the last 0.8 vh of scroll (denom = dh - vh - start = 0.8·vh),
-  // reaching 1 at the very bottom. Short-page guarantee: a page ≤ ~1.2 viewports
-  // shows the footer at load and can't be scrolled to "reach" it — force rise=1 so
-  // the arm stands fully (matches the long-page scrolled-to-footer state, and keeps
-  // it visible on /blog-type pages where there's nothing to scroll).
+  // Rise ramps in over the last 0.8 vh (reaches 1 at the bottom). Short-page guard:
+  // a page ≤ ~1.2 viewports can't scroll to the footer → force rise=1 so the arm
+  // stands fully (matches long-page scrolled-to-footer; keeps it visible on /blog).
   const rise = dh <= vh * 1.2 ? 1 : clamp01((sy - start) / (dh - vh - start));
-  document.querySelectorAll('[data-rig="legs"]').forEach((r) => driveLegs(r, top, t));
+  for (const c of LEG_RIGS) driveLegs(c, top, t);
   const b = boot(t);
   const armRise = 1 - b + b * rise; // ease CSS default (1) → scroll rise
-  document.querySelectorAll('[data-rig="arm"]').forEach((r) => driveArm(r, armRise, t));
+  for (const c of ARM_RIGS) driveArm(c, armRise, t);
 }
 
 function onPointerDown(e) {
@@ -279,6 +300,50 @@ function init() {
   addEventListener('pointermove', onPointerMove, { passive: true });
   addEventListener('pointerup', onPointerUp, { passive: true });
   addEventListener('pointercancel', onPointerUp, { passive: true });
+  addEventListener(
+    'resize',
+    () => {
+      _dh = 0;
+    },
+    { passive: true },
+  );
+
+  // build per-rig caches + partition into legs/arm arrays (DOM is static post-boot).
+  for (const rig of rigs) {
+    const svg = rig.querySelector('svg');
+    if (rig.getAttribute('data-rig') === 'legs') {
+      LEG_RIGS.push({
+        svg,
+        legs: [...rig.querySelectorAll('[data-side]')].map((leg, i) => ({
+          hip: leg.querySelector('.j-hip'),
+          knee: leg.querySelector('.j-knee'),
+          ankle: leg.querySelector('.j-ankle'),
+          footH: rig.querySelector(`.h-leg-${i}-foot`),
+          kneeH: rig.querySelector(`.h-leg-${i}-knee`),
+        })),
+      });
+    } else {
+      const hand = rig.querySelector('.hand');
+      ARM_RIGS.push({
+        el: rig,
+        svg,
+        hand,
+        shoulder: rig.querySelector('.j-shoulder'),
+        elbow: rig.querySelector('.j-elbow'),
+        wrist: rig.querySelector('.j-wrist'),
+        wristH: rig.querySelector('.h-arm-wrist'),
+        elbowH: rig.querySelector('.h-arm-elbow'),
+        fingers: FINGERS.map((f) => ({
+          spec: f,
+          mcp: hand ? hand.querySelector(`${f.sel} .j-mcp`) : null,
+          pip: hand ? hand.querySelector(`${f.sel} .j-pip`) : null,
+          dip: hand ? hand.querySelector(`${f.sel} .j-dip`) : null,
+          tipH: hand ? hand.querySelector(`.h-${f.sel.slice(1)}`) : null,
+        })),
+      });
+    }
+  }
+  if (!LEG_RIGS.length && !ARM_RIGS.length) return;
 
   const visible = new Set();
   let raf = 0;

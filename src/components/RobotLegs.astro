@@ -1,11 +1,6 @@
 ---
-// RobotLegs.astro — a pair of humanoid legs for the RobotIK engine. Two 3-DOF
-// chains (hip/knee/ankle) per leg + a foot below the ankle. Links drawn +Y
-// (root offset +π/2). Dangles below the portrait; walks with scroll + idle drift,
-// foot tap, leans toward the cursor when pulled. Reduced-motion: inline rest pose.
-//
-// Geometry contract (must match RobotIK.astro): viewBox 0 0 140 260;
-// hips (50,10)+(90,10); l1=92 → knee rest y=102; l2=86 → ankle rest y=188.
+// RobotLegs.astro — humanoid legs (2x 3-DOF hip/knee/ankle chains) for RobotIK.
+// Geometry contract must match RobotIK.astro: viewBox 0 0 140 260; hips (50,10)+(90,10).
 interface Props {
   zone?: string;
 }
@@ -17,7 +12,6 @@ const ankleY = kneeY + 86; // 188
 
 <div class="robot-legs" data-rig="legs" data-zone={zone} aria-hidden="true">
   <svg viewBox="0 0 140 260" xmlns="http://www.w3.org/2000/svg">
-    {/* pelvis bracket (visible at the top of the rig — the hips mount here) */}
     <path
       class="rl-pelvis"
       d="M 32 10 Q 32 3 39 3 L 101 3 Q 108 3 108 10 Q 108 17 101 17 L 39 17 Q 32 17 32 10 Z"></path>
@@ -26,22 +20,18 @@ const ankleY = kneeY + 86; // 188
     {
       HIP_X.map((hx, i) => (
         <g class="leg" data-side={i === 0 ? 'l' : 'r'}>
-          {/* hip: rotates around (hx,10) — thigh drawn +Y to knee (hx,102) */}
           <g class="j-hip" transform={`rotate(${i === 0 ? 5 : -5} ${hx} 10)`}>
             <line class="rl-link" x1={hx} y1="10" x2={hx} y2={kneeY} />
             <line class="rl-tendon" x1={hx - 3.5} y1="14" x2={hx - 3.5} y2={kneeY - 4} />
             <line class="rl-tendon" x1={hx + 3.5} y1="14" x2={hx + 3.5} y2={kneeY - 4} />
             <circle class="rl-joint" cx={hx} cy="10" r="4.4" />
-            {/* knee: rotates around (hx,102) — shin drawn +Y to ankle (hx,188) */}
             <g class="j-knee" transform={`rotate(${i === 0 ? 11 : 10} ${hx} ${kneeY})`}>
               <line class="rl-link" x1={hx} y1={kneeY} x2={hx} y2={ankleY} />
               <line class="rl-tendon" x1={hx - 3.5} y1={kneeY + 4} x2={hx - 3.5} y2={ankleY - 4} />
               <line class="rl-tendon" x1={hx + 3.5} y1={kneeY + 4} x2={hx + 3.5} y2={ankleY - 4} />
               <circle class="rl-joint" cx={hx} cy={kneeY} r="3.8" />
-              {/* ankle: rotates around (hx,188) — humanoid foot below the ankle */}
               <g class="j-ankle" transform={`rotate(${i === 0 ? 8 : 6} ${hx} ${ankleY})`}>
-                {/* foot below the ankle — a downward peg that flares to a rounded sole.
-                  Drawn along +Y so it renders pointing down at footAng ≈ π/2. */}
+                {/* foot: +Y peg, points down at footAng ≈ π/2 */}
                 <path
                   class="rl-foot"
                   d={`M ${hx - 3} ${ankleY} L ${hx - 4} ${ankleY + 8} Q ${hx - 4} ${ankleY + 18} ${hx} ${ankleY + 20} Q ${hx + 4} ${ankleY + 18} ${hx + 4} ${ankleY + 8} L ${hx + 3} ${ankleY} Z`}
@@ -56,9 +46,7 @@ const ankleY = kneeY + 86; // 188
     }
 
     {
-      /* drag handles — engine repositions each frame at the solved foot tip + knee
-        (knee drags as a pole vector). pointer-events:auto so they're grabbable
-        even though the rig itself is pointer-events:none. Hidden when reduced. */
+      /* drag handles: engine moves to solved foot/knee each frame; pointer-events:auto; hidden when reduced */
     }
     <circle class="handle h-leg-0-foot" data-drag="leg:0:foot" cx="50" cy="210" r="6"></circle>
     <circle class="handle h-leg-0-knee" data-drag="leg:0:knee" cx="50" cy="102" r="5.5"></circle>
@@ -139,8 +127,7 @@ const ankleY = kneeY + 86; // 188
   }
 
   @media (max-width: 640px) {
-    /* portrait stacks above the text: shrink so legs show in the gap the
-       portrait's margin-bottom reserves below the photo (see compact.css) */
+    /* shrink to fit the gap below the stacked photo (compact.css) */
     .robot-legs {
       width: 56px;
     }

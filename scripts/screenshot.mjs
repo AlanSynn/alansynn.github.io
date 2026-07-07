@@ -1,5 +1,4 @@
-// Captures full-page screenshots of every route in light + dark.
-// Run while `npm run preview` is serving dist on :4321.
+// Full-page screenshots of every route, light + dark. Run during `npm run preview` (:4321).
 import { chromium } from 'playwright';
 import { mkdirSync } from 'node:fs';
 

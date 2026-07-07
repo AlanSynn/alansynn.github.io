@@ -1,7 +1,5 @@
 ---
-// Markdown.astro - render a markdown fragment string to HTML at build time.
-// Used for CV timeline bodies and project bodies where mixed content (bold,
-// links, nested lists) is easiest to author as markdown.
+// Markdown.astro — build-time markdown→HTML for CV/project bodies (mixed content).
 import { marked } from 'marked';
 
 marked.setOptions({ gfm: true, breaks: false });
