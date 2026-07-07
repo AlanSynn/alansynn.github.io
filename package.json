@@ -37,7 +37,7 @@
     "playwright": "^1.61.1",
     "prettier": "^3.9.4",
     "prettier-plugin-astro": "^0.14.1",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "resolutions": {
     "js-yaml": "4.3.0",
