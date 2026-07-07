@@ -34,7 +34,6 @@ export interface Paper {
   code: string | null;
   website: string | null;  // project page
   video: string | null;
-  slides: string | null;
   abstract: string | null;
   preview: string | null;  // thumbnail image path
 }
@@ -211,7 +210,6 @@ export function parseBibtex(src: string): Paper[] {
       code: fields.code ?? null,
       website: fields.website ?? null,
       video: fields.video ?? null,
-      slides: fields.slides ?? null,
       abstract: fields.abstract ?? null,
       preview: fields.preview ?? null,
     } as Paper;

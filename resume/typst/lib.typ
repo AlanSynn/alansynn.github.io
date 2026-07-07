@@ -19,7 +19,8 @@
 //
 // Variants (per-target show/hide):
 //   --input target=graphics | ml-systems
-//     • swaps the research-interest blurb (target-blurb below)
+//     • swaps the research blurb + publication keyword filter for this target
+//       (both defined in content/targets.yaml — add a target there, no code edit)
 //     • filters/reorders publications by keyword (matched-first on CV,
 //       matched-only on resume)
 //     • honors per-entry visibility: any yaml entry may carry
@@ -47,31 +48,19 @@
 #let honors      = yaml("/content/honors.yaml")
 #let references  = yaml("/content/references.yaml")
 #let ri          = yaml("/content/research-interests.yaml")
+#let venues      = yaml("/content/venues.yaml")
+#let targets     = yaml("/content/targets.yaml")
 #let papers      = json("/src/data/papers.json")
 
 // ---- 2. Targeting ---------------------------------------------------------
+// Targeted variants (id → { blurb, keywords }) live in content/targets.yaml,
+// validated on the web side by targetsSchema. Adding a target there is the only
+// step — this file reads it automatically (no code edit, no separate keyword
+// list to keep in sync).
 #let target = sys.inputs.at("target", default: "")
 
-#let target-keywords = (
-  graphics: ("motion", "automata", "kinematic", "sketch", "graphics",
-             "animation", "tangible", "makecode", "creativity", "design"),
-  // NOTE: "system" / "cloud" were dropped from ml-systems — substring match
-  // caught "Design System" (MotionSmith title), "Computing Systems" (CHI venue
-  // boilerplate → Tangible), and "Point Cloud" (FBS title), pulling graphics
-  // papers to the TOP of the ml-systems resume. Every legit ML-systems paper
-  // here has a stronger keyword (dataloader / distributed / training / batch /
-  // streaming / privacy / inference), so dropping the two ambiguous ones is safe.
-  "ml-systems": ("training", "dataloader", "batch", "distributed", "streaming",
-                 "privacy", "inference", "kubernetes"),
-)
-
-#let target-blurb = (
-  graphics: "My research explores computational design and creativity, with a focus on representing and supporting creative intent in generative and interactive systems. I build models and interfaces that translate high-level human intent into expressive, controllable outcomes, spanning domains such as computer graphics, motion synthesis, and kinematic design.",
-  "ml-systems": "My research builds high-efficiency and scalable machine learning systems, with a focus on automated dataloader tuning, memory-aware and distributed training, and privacy-preserving inference. I work across cloud and distributed computing to make ML training and deployment faster, more resource-efficient, and easier to use.",
-)
-
-#if target != "" and target not in target-keywords {
-  panic("Unknown --input target=\"" + target + "\". Known: " + target-keywords.keys().join(", ") + ".")
+#if target != "" and target not in targets {
+  panic("Unknown --input target=\"" + target + "\". Known: " + targets.keys().join(", ") + ".")
 }
 
 // Owner family name (lower-cased) — used to bold + underline "me" in author lists.
@@ -252,24 +241,27 @@
 #let pub-sort-key = p => {
   let m = if p.month == none { 0 } else { p.month }
   let base = 0 - (p.year * 12 + m)
-  if target != "" and target in target-keywords {
+  if target != "" and target in targets {
     let abbr = if p.abbr == none { "" } else { p.abbr }
     let hay = lower(p.title + " " + p.venue + " " + abbr)
-    if target-keywords.at(target).any(k => hay.contains(k)) { base - 1000000 }
+    if targets.at(target).keywords.any(k => hay.contains(k)) { base - 1000000 }
     else { base }
   } else { base }
 }
 
-// Classify a paper by venue string → "journal" | "conference" | "preprint".
-// Heuristic on venue + abbr; update papers.json with explicit fields if the
-// heuristic ever misfires.
+// Classify a paper → "journal" | "conference" | "preprint". Prefers the
+// explicit `type` on its venue in content/venues.yaml (the source of truth);
+// falls back to a string heuristic on venue + abbr only when the venue lacks a
+// type (or the paper has no abbr). New venues classify by editing venues.yaml.
 #let pub-type = p => {
   let abbr = if p.abbr == none { "" } else { p.abbr }
+  if abbr != "" and abbr in venues and "type" in venues.at(abbr) {
+    return venues.at(abbr).at("type")
+  }
   let hay = lower(p.venue + " " + abbr)
   if hay.contains("arxiv") or hay.contains("preprint") { return "preprint" }
   if (
     hay.contains("access") or hay.contains("transactions") or hay.contains("journal")
-    or hay.contains("tkips") or hay.contains("ktsde")
   ) { return "journal" }
   "conference"
 }
@@ -302,8 +294,8 @@
 
 // Target keyword filter: matched-first (CV) or matched-only (resume).
 #let match-pubs = list => {
-  if target == "" or target not in target-keywords { return (matched: list, rest: ()) }
-  let kws = target-keywords.at(target)
+  if target == "" or target not in targets { return (matched: list, rest: ()) }
+  let kws = targets.at(target).keywords
   let matched = ()
   let rest = ()
   for p in list {
@@ -352,7 +344,7 @@
 
 // ---- 8. Honors, References ------------------------------------------------
 #let honors-block = groups => {
-  for g in groups {
+  for g in groups.filter(entry-visible) {
     text(weight: "bold")[#md-inline(g.group)]
     v(0.2em)
     list(
@@ -390,8 +382,8 @@
 
 // ---- 9. Research blurb (target swap + CV multi-paragraph) ----------------
 #let research-blurb = doc => {
-  if target != "" and target in target-blurb {
-    md-inline(target-blurb.at(target))
+  if target != "" and target in targets {
+    md-inline(targets.at(target).blurb)
   } else if doc == "cv" and ri.statements.len() > 1 {
     for s in ri.statements { par[#md-inline(s)] }
   } else {
@@ -403,10 +395,34 @@
 // Mirrors template/main.typ: a level-1 heading carries the name, with the
 // role/affiliation and a contact line beneath. No manual size/weight on the
 // name — the heading style is the title typography, per the package template.
+// Every line is content-driven (site.yaml): title · affiliation, an optional
+// "Advised by …" line, then email · phone · location · url. (The department
+// field renders on the web hero and in the Education section below; omitted
+// here to keep the centered title on one line.) The hero on the web renders
+// from the SAME fields, so editing site.yaml updates both surfaces in lockstep.
+#let advisor-line() = {
+  let arr = if "advisors" in site and type(site.advisors) == array { site.advisors } else { () }
+  if arr.len() != 0 {
+    let linked = arr.map(a => link(a.url)[#a.name])
+    let n = linked.len()
+    let joined = if n == 1 { linked.at(0) }
+    else if n == 2 { [#linked.at(0) and #linked.at(1)] }
+    else {
+      let out = linked.at(0)
+      for i in range(1, n - 1) { out = [#out, #linked.at(i)] }
+      [#out, and #linked.at(n - 1)]
+    }
+    [Advised by #joined]
+  }
+}
+
 #let title-block = align(center)[
   = #site.name
   #md-inline(site.title) · #md-inline(site.affiliation) \
-  #link("mailto:" + site.email)[#site.email] · #site.phone · #link(site.url)[#site.url]
+  #if ("advisors" in site and site.advisors.len() > 0) [
+    #advisor-line() \
+  ]
+  #link("mailto:" + site.email)[#site.email] · #site.phone · #if site.location != none [#site.location · ]#link(site.url)[#site.url]
 ]
 
 // ---- 11. PDF metadata title ----------------------------------------------

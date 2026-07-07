@@ -1,0 +1,54 @@
+# ============================================================================
+# Targeted resume/CV variants. Each id becomes `just resume <id>` / `just cv <id>`
+# (e.g. `just resume graphics`). The web is the default/untargeted view and
+# ignores this file.
+#   blurb    = research statement swapped into this target's PDF. The DEFAULT
+#              blurb lives in research-interests.yaml (used by web + default CV).
+#   keywords = substring match against each paper's title + venue + abbr
+#              (lowercased). Matched pubs sort to the TOP of the CV and are the
+#              ONLY pubs on the resume.
+# Adding a target here is the only step — resume/typst/lib.typ picks it up
+# automatically (no code edit). Validated at build by targetsSchema
+# (src/lib/content-schema.ts), so a typo fails loudly.
+# ============================================================================
+
+graphics:
+  blurb: >-
+    My research explores computational design and creativity, with a focus on
+    representing and supporting creative intent in generative and interactive
+    systems. I build models and interfaces that translate high-level human
+    intent into expressive, controllable outcomes, spanning domains such as
+    computer graphics, motion synthesis, and kinematic design.
+  keywords:
+    - motion
+    - automata
+    - kinematic
+    - sketch
+    - graphics
+    - animation
+    - tangible
+    - makecode
+    - creativity
+    - design
+
+ml-systems:
+  # NOTE: "system" / "cloud" are intentionally omitted — the substring match
+  # caught "Design System" (MotionSmith title), "Computing Systems" (CHI venue
+  # boilerplate → Tangible), and "Point Cloud" (FBS title), pulling graphics
+  # papers to the TOP of the ml-systems resume. Every legit ML-systems paper
+  # here has a stronger keyword, so the two ambiguous ones are dropped.
+  blurb: >-
+    My research builds high-efficiency and scalable machine learning systems,
+    with a focus on automated dataloader tuning, memory-aware and distributed
+    training, and privacy-preserving inference. I work across cloud and
+    distributed computing to make ML training and deployment faster, more
+    resource-efficient, and easier to use.
+  keywords:
+    - training
+    - dataloader
+    - batch
+    - distributed
+    - streaming
+    - privacy
+    - inference
+    - kubernetes

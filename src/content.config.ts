@@ -26,6 +26,10 @@ const projects = defineCollection({
     title: z.string(),
     period: z.string().optional(),
     org: z.string().optional(),
+    // 'work' (default) appears in the homepage project grid; 'research' is
+    // filtered OUT of the grid (index.astro) because research output lives in
+    // #publications via papers.bib. Use 'research' for files you want routed
+    // at /projects/<slug> but NOT surfaced on the homepage.
     category: z.string().default('work'),
     order: z.number().default(0),
     date: z.coerce.date().optional(),

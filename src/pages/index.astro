@@ -9,7 +9,7 @@ import NewsList from '@/components/NewsList.astro';
 import RobotLegs from '@/components/RobotLegs.astro';
 import {
   site, researchInterests, getPapers, experience, education,
-  honors, teaching, activities, newsItems,
+  honors, teaching, activities, newsItems, entryVisible,
 } from '@/lib/data';
 import { getCollection } from 'astro:content';
 
@@ -48,8 +48,21 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
   <section id="profile" class="profile">
     <div class="profile__text">
       <h1>{site.name}</h1>
-      <p class="profile__role">{site.title} · <a href="https://ic.gatech.edu">School of Interactive Computing</a>, <a href="https://www.gatech.edu">Georgia Tech</a></p>
-      <p class="profile__advisors">Advised by <a href="https://www.cc.gatech.edu/people/hyunjoo-oh">Prof. HyunJoo Oh</a> &amp; <a href="https://faculty.cc.gatech.edu/~sha9/">Prof. Sehoon Ha</a></p>
+      <p class="profile__role">
+        {site.title} ·{' '}
+        {site.department && site.department_url && (
+          <Fragment><a href={site.department_url}>{site.department}</a>, </Fragment>
+        )}
+        <a href={site.affiliation_url}>{site.affiliation}</a>
+      </p>
+      {site.advisors.length > 0 && (
+        <p class="profile__advisors">Advised by {site.advisors.map((a, i) => (
+          <Fragment>
+            {i > 0 && (i === site.advisors.length - 1 ? ' & ' : ', ')}
+            <a href={a.url}>{a.name}</a>
+          </Fragment>
+        ))}</p>
+      )}
       <div class="profile__bio"><Markdown content={bio} /></div>
       <Socials />
     </div>
@@ -121,7 +134,7 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
   {/* ---- Honors & Awards (above Contact — closes the page on achievement) ---- */}
   <section id="honors">
     <h2 class="home-head">Honors &amp; Awards</h2>
-    {honors.map((g: { group: string; items: string[] }) => (
+    {honors.filter(entryVisible).map((g: { group: string; items: string[] }) => (
       <div class="honor-group">
         <div class="honor-group__label">{g.group}</div>
         <ul class="honor-group__list">

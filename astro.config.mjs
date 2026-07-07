@@ -44,7 +44,7 @@ export default defineConfig({
   // The site is a single interactive-CV page; these legacy slugs collapse
   // into anchor sections on /. (Static build emits meta-refresh redirects.)
   redirects: {
-    '/research': '/#research',
+    '/research': '/#publications',
     '/projects': '/#projects',
     '/news': '/#news',
     '/publications': '/#publications',

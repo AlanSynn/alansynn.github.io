@@ -36,8 +36,9 @@ artifacts (`src/data/papers.json`, `src/data/video-clips.json`) live under
 | `just pdfs` | resume + cv (defaults) |
 
 Targets: `graphics` \| `ml-systems` (filter pubs + swap research blurb). Defined
-in `resume/typst/lib.typ` (`target-keywords`, `target-blurb`); per-entry
-`only:` / `except:` flags on any YAML entry.
+in `content/targets.yaml` (id → `{ blurb, keywords }`); adding a target there is
+the only step, no code edit. Per-entry `only:` / `except:` flags on any YAML
+entry.
 
 ## Conventions (don't break these)
 
@@ -54,7 +55,9 @@ in `resume/typst/lib.typ` (`target-keywords`, `target-blurb`); per-entry
   - `selected` → the paper prints in the resume/CV PDF (`lib.typ` filters on it).
   - `featured` → the paper surfaces at the TOP of the homepage `#publications`;
     every non-featured entry folds under the "All publications" toggle. Web-only;
-    the PDF ignores it.
+    the PDF ignores it. A `featured` paper MUST also be `selected` —
+    `enforcePaperIntegrity` fails the build otherwise (a homepage-top paper must
+    appear in the CV).
   **When you add or edit an entry, fill EVERY applicable field** — `preview`
   (thumbnail image), `doi`, `pdf`, `code` (repo), `website` (project page),
   `video` (YouTube id or `/videos/<name>.mp4`), `abstract`. Hunt the values down
@@ -62,20 +65,23 @@ in `resume/typst/lib.typ` (`target-keywords`, `target-blurb`); per-entry
   never leave a gap you can fill. Assets: preview images → `public/images/papers/`
   (or `.../motionsmith/`), videos → `public/videos/`, committed PDFs →
   `public/pdfs/`. Every entry's `abbr` MUST have a matching key in
-  `content/venues.yaml` (with `name`/`url`/`color`) or the venue badge renders as
-  bare text with no link/color. After editing `papers.bib`, regen
+  `content/venues.yaml` (with `name`/`url`/`type`) or the venue badge renders as
+  bare text with no link. After editing `papers.bib`, regen
   `src/data/papers.json` (`scripts/gen-papers-json.mjs`); if `selected` changed,
   also run `just pdfs` and commit the new PDFs.
 - **Structured YAML is validated at build.** `src/lib/content-schema.ts`
-  holds the Zod schema for every structured YAML in `content/` (site, cv,
-  honors, references, skills, research-interests, news); `data.ts` parses each
-  through its schema so a typo (bad key / wrong type / missing field) fails the
-  build loudly with a located error. The four career-timeline sections
-  (education / experience / teaching / activities) share one entry model
+  holds a **strict** Zod schema for every structured YAML in `content/` (site,
+  cv, honors, references, research-interests, news, venues, coauthors,
+  targets); `data.ts` parses each through its schema so a typo (bad key / wrong
+  type / missing field) **or an unknown key** fails the build loudly with a
+  located error — a dead field can never silently do nothing (the failure mode
+  that once left `tagline` / `skills.yaml` / `bibtex_show` edited-but-ignored).
+  The four career-timeline sections (education / experience / teaching /
+  activities) share one entry model
   `{ period, title, location?, body, only?/except? }` and live together in
   **`content/cv.yaml`** — one file, one schema, one history (do not re-split).
-  `warnPaperIntegrity` (same file) warns on a paper whose `abbr` is missing
-  from `venues.yaml`, or whose `featured`/`selected` flags disagree.
+  `enforcePaperIntegrity` (same file) warns on a paper whose `abbr` is missing
+  from `venues.yaml`, and **throws** on a `featured`/`selected` mismatch.
 - **Email stays obfuscated on the web.** Served HTML must contain 0 raw
   `mailto:alansynn@gatech.edu` links (anti-crawler). The PDF legitimately shows
   the raw address — that's fine, it's not crawler-facing. Don't de-obfuscate the
