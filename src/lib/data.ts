@@ -20,7 +20,7 @@ import venuesRaw from '@content/venues.yaml';
 import coauthorsRaw from '@content/coauthors.yaml';
 import targetsRaw from '@content/targets.yaml';
 import newsRaw from '@content/news.yaml';
-import { z } from 'astro:content';
+import { z } from 'astro/zod';
 import { getPapers, type Paper, type Author } from './papers';
 import {
   cvSchema,

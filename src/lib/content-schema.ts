@@ -25,7 +25,7 @@
 //      → THROW (fail the build; the fix is one line in papers.bib).
 // ============================================================================
 
-import { z } from 'astro:content';
+import { z } from 'astro/zod';
 
 // ---- Per-entry targeting (only: / except: on any CV timeline entry) --------
 // Accepts a single target string or a list. Mirrors lib.typ's entry-visible.
