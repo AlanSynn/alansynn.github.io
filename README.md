@@ -13,6 +13,10 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/AlanSynn/alansynn.github.io/actions/workflows/deploy.yml"><img src="https://img.shields.io/github/actions/workflow/status/AlanSynn/alansynn.github.io/deploy.yml?branch=main&label=deploy&logo=githubactions&logoColor=white" alt="Deploy status"></a>
+</p>
+
+<p align="center">
   <a href="https://astro.build"><img src="https://img.shields.io/badge/Astro-7-ff5d01?logo=astro&logoColor=fff" alt="Astro"></a>
   <a href="https://typst.app"><img src="https://img.shields.io/badge/Typst-0.15-239dad?logo=typst&logoColor=fff" alt="Typst"></a>
   <a href="https://bun.sh"><img src="https://img.shields.io/badge/bun-1.3-000?logo=bun&logoColor=fff" alt="bun"></a>
