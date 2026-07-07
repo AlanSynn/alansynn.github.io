@@ -1,48 +1,51 @@
 # ============================================================================
-# Venue badges: abbr → { name, url, color }. Keys match `abbr` in papers.bib.
-#   name  = readable badge label (fuller than the abbr; shown on the web).
-#   url   = venue homepage (badge links here).
-#   color = text color for the venue label. Darkened where the brand hue failed
-#           text-on-white contrast (KIPS orange family, CHI pink) so the plain
-#           colored text stays readable without a pill fill.
+# Venue badges: abbr → { name, url, type }. Keys match `abbr` in papers.bib.
+#   name = readable badge label (fuller than the abbr; shown on the web).
+#   url  = venue homepage (badge links here).
+#   type = journal | conference | preprint. Drives the CV's publication
+#          grouping (Refereed Journals / Conferences / Preprints). The PDF
+#          classifies from this field and falls back to a string heuristic
+#          only when it is absent.
+# (Per-venue color was retired when publication labels were unified to the
+# accent color — kept out to avoid a field with no consumer.)
 # ============================================================================
 
 'CHI':
   name: 'ACM CHI'
   url: 'https://chi2026.acm.org/'
-  color: '#C2185B'
+  type: conference
 
 'IEEE Access':
   name: 'IEEE Access'
   url: 'https://ieeeaccess.ieee.org/'
-  color: '#0066CC'
+  type: journal
 
 'NeurIPS':
   name: 'NeurIPS'
   url: 'https://neurips.cc/'
-  color: '#673AB7'
+  type: conference
 
 'arXiv':
   name: 'arXiv'
   url: 'https://arxiv.org/'
-  color: '#B71C1C'
+  type: preprint
 
 'ACK':
   name: 'KIPS Conf.'
   url: 'https://www.kips.or.kr/'
-  color: '#2E7D32'
+  type: conference
 
 'KIPS':
   name: 'KIPS'
   url: 'https://www.kips.or.kr/'
-  color: '#E65100'
+  type: conference
 
 'TKIPS':
   name: 'KIPS Transactions'
   url: 'https://tkips.kips.or.kr/'
-  color: '#D84315'
+  type: journal
 
 'KTSDE':
-  name: 'KIPS Trans. Softw. & Data'
+  name: 'KIPS Trans. Softw. & data'
   url: 'https://www.kips.or.kr/'
-  color: '#BF360C'
+  type: journal

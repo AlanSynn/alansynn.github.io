@@ -11,8 +11,17 @@ last_name: 'Synn'
 
 title: 'PhD Candidate in Computer Science'
 affiliation: 'Georgia Institute of Technology'
+affiliation_url: 'https://www.gatech.edu'
 department: 'School of Interactive Computing / School of Industrial Design'
+department_url: 'https://ic.gatech.edu'
 location: 'Atlanta, GA, USA'
+
+# PhD advisors — rendered on the homepage hero and the CV/resume title block.
+# The most-likely-to-change CV fact, so it lives here (not hardcoded in a
+# template). Add/remove entries freely; the hero joins them with '&'.
+advisors:
+  - { name: 'Prof. HyunJoo Oh', url: 'https://www.cc.gatech.edu/people/hyunjoo-oh' }
+  - { name: 'Prof. Sehoon Ha', url: 'https://faculty.cc.gatech.edu/~sha9/' }
 
 email: 'alansynn@gatech.edu'
 email_obfuscated: 'alansynn [at] gatech [dot] edu'
@@ -34,12 +43,6 @@ keywords:
   - human-AI collaboration
   - ML systems
   - HCI
-
-# Short hero copy (also rendered on the homepage hero).
-tagline: >-
-  Computer graphics, motion synthesis, and computational design, building
-  generative systems that turn human intent into expressive, controllable motion
-  for automata, kinematics, and creative tools.
 
 # Verified profiles (found 2026-07-04).
 socials:
