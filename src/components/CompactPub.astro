@@ -7,9 +7,12 @@ import { me, coauthorUrl, venueInfo, type Paper } from '@/lib/data';
 import clipManifest from '@/data/video-clips.json';
 import LazyVideo from './LazyVideo.astro';
 
-interface Props { paper: Paper }
+interface Props {
+  paper: Paper;
+}
 const { paper } = Astro.props;
-const titleHref = paper.url ?? (paper.doi ? `https://doi.org/${paper.doi}` : paper.pdf) ?? paper.website ?? null;
+const titleHref =
+  paper.url ?? (paper.doi ? `https://doi.org/${paper.doi}` : paper.pdf) ?? paper.website ?? null;
 const vinfo = paper.abbr ? venueInfo(paper.abbr) : null;
 
 const videoLink = paper.video
@@ -25,53 +28,97 @@ if (paper.code) links.push({ label: 'Code', url: paper.code });
 if (videoLink) links.push({ label: 'Video', url: videoLink });
 
 const last = paper.authors.length - 1;
-const clip = paper.video ? (clipManifest as Record<string, { clip: string; poster?: string }>)[paper.video] : null;
+const clip = paper.video
+  ? (clipManifest as Record<string, { clip: string; poster?: string }>)[paper.video]
+  : null;
 ---
+
 <div class="cpub" id={paper.key}>
   <div class="cpub__thumb" class:list={[!clip && !paper.preview && 'cpub__thumb--placeholder']}>
-    {clip ? (
-      <LazyVideo src={clip.clip} poster={clip.poster ?? paper.preview ?? undefined} alt={paper.title} />
-    ) : paper.preview ? (
-      <img src={paper.preview} alt="" loading="lazy" />
-    ) : (
-      <span>{paper.abbr ?? paper.type.slice(0, 4)}</span>
-    )}
+    {
+      clip ? (
+        <LazyVideo
+          src={clip.clip}
+          poster={clip.poster ?? paper.preview ?? undefined}
+          alt={paper.title}
+        />
+      ) : paper.preview ? (
+        <img src={paper.preview} alt="" loading="lazy" />
+      ) : (
+        <span>{paper.abbr ?? paper.type.slice(0, 4)}</span>
+      )
+    }
   </div>
   <div class="cpub__body">
     <div class="cpub__line">
-      <span class="cpub__title">{titleHref ? <a href={titleHref} target="_blank" rel="noopener">{paper.title}</a> : paper.title}</span>
+      <span class="cpub__title"
+        >{
+          titleHref ? (
+            <a href={titleHref} target="_blank" rel="noopener">
+              {paper.title}
+            </a>
+          ) : (
+            paper.title
+          )
+        }</span
+      >
       <span class="cpub__year">{paper.year}</span>
     </div>
     <div class="cpub__authors">
-      {paper.authors.map((a, i) => {
-        const sep = i === 0 ? '' : i === last && last > 0 ? ', ' : ', ';
-        const text = a.given ? `${a.given} ${a.family}` : a.family;
-        const isMe = a.family.toLowerCase() === me.family.toLowerCase();
-        const url = isMe ? null : coauthorUrl(a.family, a.given);
-        return (
-          <>
-            {sep}
-            {isMe ? <strong class="me">{text}</strong> : url ? <a href={url} target="_blank" rel="noopener">{text}</a> : text}
-          </>
-        );
-      })}
+      {
+        paper.authors.map((a, i) => {
+          const sep = i === 0 ? '' : i === last && last > 0 ? ', ' : ', ';
+          const text = a.given ? `${a.given} ${a.family}` : a.family;
+          const isMe = a.family.toLowerCase() === me.family.toLowerCase();
+          const url = isMe ? null : coauthorUrl(a.family, a.given);
+          return (
+            <>
+              {sep}
+              {isMe ? (
+                <strong class="me">{text}</strong>
+              ) : url ? (
+                <a href={url} target="_blank" rel="noopener">
+                  {text}
+                </a>
+              ) : (
+                text
+              )}
+            </>
+          );
+        })
+      }
     </div>
     <div class="cpub__meta">
-      {paper.abbr && (vinfo?.url
-        ? <a class="cpub__venue" href={vinfo.url} target="_blank" rel="noopener">{vinfo?.name ?? paper.abbr}</a>
-        : <span class="cpub__venue">{vinfo?.name ?? paper.abbr}</span>)}
-      {links.length > 0 && (
-        <span class="cpub__links">
-          {links.map((l) => <a href={l.url} target="_blank" rel="noopener">{l.label}</a>)}
-        </span>
-      )}
+      {
+        paper.abbr &&
+          (vinfo?.url ? (
+            <a class="cpub__venue" href={vinfo.url} target="_blank" rel="noopener">
+              {vinfo?.name ?? paper.abbr}
+            </a>
+          ) : (
+            <span class="cpub__venue">{vinfo?.name ?? paper.abbr}</span>
+          ))
+      }
+      {
+        links.length > 0 && (
+          <span class="cpub__links">
+            {links.map((l) => (
+              <a href={l.url} target="_blank" rel="noopener">
+                {l.label}
+              </a>
+            ))}
+          </span>
+        )
+      }
     </div>
-    {paper.abstract && (
-      <details class="pub__abstract">
-        <summary>Abstract</summary>
-        <div class="pub__abstract__body">{paper.abstract}</div>
-      </details>
-    )}
+    {
+      paper.abstract && (
+        <details class="pub__abstract">
+          <summary>Abstract</summary>
+          <div class="pub__abstract__body">{paper.abstract}</div>
+        </details>
+      )
+    }
     <details class="pub__bibtex">
       <summary>BibTeX</summary>
       <pre><code>{paper.raw}</code></pre>

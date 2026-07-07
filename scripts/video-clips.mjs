@@ -30,13 +30,13 @@ const MANIFEST_PATH = join(ROOT, 'src', 'data', 'video-clips.json');
 
 // --- tunables --------------------------------------------------------------
 const MAX_SECS = 15;
-const POSTER_AT = 1.5;          // seconds into the clip used for the poster frame
-const WIDTH = 480;              // output width (height auto, -2 keeps it even)
-const CRF = 30;                 // high = small file; 30 is aggressive but fine for thumbnails
+const POSTER_AT = 1.5; // seconds into the clip used for the poster frame
+const WIDTH = 480; // output width (height auto, -2 keeps it even)
+const CRF = 30; // high = small file; 30 is aggressive but fine for thumbnails
 const PRESET = 'veryfast';
 const PER_FILE_TIMEOUT_MS = 180_000;
 const YOUTUBE_ID = /^[A-Za-z0-9_-]{11}$/;
-const SIZE_BUDGET_BYTES = 800 * 1024;  // soft per-clip target
+const SIZE_BUDGET_BYTES = 800 * 1024; // soft per-clip target
 
 // --- helpers ---------------------------------------------------------------
 function sha1(s) {
@@ -55,10 +55,10 @@ function which(bin) {
 // Classify a source string into 'youtube' | 'direct'.
 function classify(source) {
   if (/youtube\.com|youtu\.be/i.test(source)) return 'youtube';
-  if (YOUTUBE_ID.test(source)) return 'youtube';      // bare 11-char id
+  if (YOUTUBE_ID.test(source)) return 'youtube'; // bare 11-char id
   if (/^https?:\/\/.+\.(mp4)(\?.*)?$/i.test(source)) return 'direct';
-  if (/^https?:\/\//i.test(source)) return 'direct';  // remote, non-mp4 — try anyway
-  if (source.startsWith('/')) return 'direct';        // local public/ path
+  if (/^https?:\/\//i.test(source)) return 'direct'; // remote, non-mp4 — try anyway
+  if (source.startsWith('/')) return 'direct'; // local public/ path
   return 'direct';
 }
 
@@ -70,8 +70,8 @@ function youtubeUrl(source) {
 
 // Resolve a 'direct' source to an ffmpeg-readable input path/URL.
 function resolveInput(source) {
-  if (source.startsWith('/')) return join(PUBLIC, source);  // local public asset
-  return source;                                             // remote URL
+  if (source.startsWith('/')) return join(PUBLIC, source); // local public asset
+  return source; // remote URL
 }
 
 // Run a shell command, swallowing output on success, surfacing it on failure.
@@ -106,8 +106,11 @@ function discoverFromBib() {
     const at = text.indexOf('@', i);
     if (at < 0) break;
     const typeMatch = text.slice(at).match(/^@(\w+)\s*\{/);
-    if (!typeMatch) { i = at + 1; continue; }
-    const openBrace = at + typeMatch[0].length - 1;  // index of '{'
+    if (!typeMatch) {
+      i = at + 1;
+      continue;
+    }
+    const openBrace = at + typeMatch[0].length - 1; // index of '{'
     // find the matching close brace by depth counting
     let depth = 1;
     let j = openBrace + 1;
@@ -117,7 +120,7 @@ function discoverFromBib() {
       else if (c === '}') depth--;
       j++;
     }
-    if (depth !== 0) break;  // unbalanced bib — stop
+    if (depth !== 0) break; // unbalanced bib — stop
     const inner = text.slice(openBrace + 1, j - 1);
     i = j;
     // citekey is everything up to the first comma
@@ -179,7 +182,9 @@ function main() {
     return;
   }
 
-  console.log(`video-clips: ${sources.length} unique source(s). ffmpeg=ok, yt-dlp=${hasYtDlp ? 'ok' : 'MISSING'}`);
+  console.log(
+    `video-clips: ${sources.length} unique source(s). ffmpeg=ok, yt-dlp=${hasYtDlp ? 'ok' : 'MISSING'}`,
+  );
 
   const manifest = {};
   const sizeRows = []; // {ref, source, kind, clipKB, posterKB, status}
@@ -197,7 +202,10 @@ function main() {
     if (cached) {
       manifest[source] = { id, clip: clipUrl, poster: posterUrl };
       sizeRows.push({
-        ref, source, kind, tag,
+        ref,
+        source,
+        kind,
+        tag,
         clipKB: statSync(clipPath).size,
         posterKB: statSync(posterPath).size,
         status: 'cached',
@@ -210,7 +218,15 @@ function main() {
       if (kind === 'youtube') {
         if (!hasYtDlp) {
           console.warn(`  ! skip     youtube  ${tag}  (yt-dlp not installed)`);
-          sizeRows.push({ ref, source, kind, tag, clipKB: 0, posterKB: 0, status: 'skipped:no-ytdlp' });
+          sizeRows.push({
+            ref,
+            source,
+            kind,
+            tag,
+            clipKB: 0,
+            posterKB: 0,
+            status: 'skipped:no-ytdlp',
+          });
           continue;
         }
         const url = youtubeUrl(source);
@@ -240,14 +256,20 @@ function main() {
 
       manifest[source] = { id, clip: clipUrl, poster: posterUrl };
       sizeRows.push({
-        ref, source, kind, tag,
+        ref,
+        source,
+        kind,
+        tag,
         clipKB: statSync(clipPath).size,
         posterKB: statSync(posterPath).size,
         status: 'generated',
       });
       console.log(`  + made     ${kind.padEnd(7)} ${tag}`);
     } catch (e) {
-      const msg = String(e.message || e).split('\n').pop().slice(0, 200);
+      const msg = String(e.message || e)
+        .split('\n')
+        .pop()
+        .slice(0, 200);
       console.warn(`  ! failed   ${kind.padEnd(7)} ${tag}  (${msg})`);
       sizeRows.push({ ref, source, kind, tag, clipKB: 0, posterKB: 0, status: `failed:${msg}` });
     }
@@ -268,18 +290,24 @@ function main() {
     if (r.status === 'generated' || r.status === 'cached') {
       console.log(
         `    ${r.status.padEnd(9)} ${r.kind.padEnd(7)} ${fmtSize(r.clipKB).padStart(9)} clip + ` +
-        `${fmtSize(r.posterKB).padStart(8)} poster   ${r.tag}${overBudget}`,
+          `${fmtSize(r.posterKB).padStart(8)} poster   ${r.tag}${overBudget}`,
       );
     }
   }
-  console.log(`    ${'TOTAL'.padEnd(9)} ${' '.repeat(7)} ${fmtSize(totalClip).padStart(9)} clip + ${fmtSize(totalPoster).padStart(8)} poster   (${sizeRows.filter((r) => r.status === 'generated' || r.status === 'cached').length} clip(s))`);
+  console.log(
+    `    ${'TOTAL'.padEnd(9)} ${' '.repeat(7)} ${fmtSize(totalClip).padStart(9)} clip + ${fmtSize(totalPoster).padStart(8)} poster   (${sizeRows.filter((r) => r.status === 'generated' || r.status === 'cached').length} clip(s))`,
+  );
 
-  const skipped = sizeRows.filter((r) => r.status.startsWith('skipped') || r.status.startsWith('failed'));
+  const skipped = sizeRows.filter(
+    (r) => r.status.startsWith('skipped') || r.status.startsWith('failed'),
+  );
   if (skipped.length) {
     console.log(`  ! ${skipped.length} source(s) not processed:`);
     for (const r of skipped) console.log(`      - ${r.tag}  [${r.status}]`);
   }
-  console.log(`video-clips: manifest -> ${MANIFEST_PATH} (${Object.keys(manifest).length} entries)`);
+  console.log(
+    `video-clips: manifest -> ${MANIFEST_PATH} (${Object.keys(manifest).length} entries)`,
+  );
 }
 
 main();

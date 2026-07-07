@@ -1,7 +1,9 @@
+// @ts-nocheck
 // robot-ik.ts — real-time IK engine, lazily imported by RobotIK.astro (on idle
 // / when a rig nears the viewport). Rigging convention + drag (pull/dangle)
-// models live in RobotIK.astro. @ts-nocheck: DOM glue (DOMPoint, getScreenCTM,
-// rAF); correctness proven by the Playwright DOM-FK test + ik.ts, not types.
+// models live in RobotIK.astro. @ts-nocheck (above): DOM glue (DOMPoint,
+// getScreenCTM, rAF); correctness proven by the Playwright DOM-FK test + ik.ts,
+// not types. Directive must be line 1 or TS ignores it.
 import { ikLeg, ikLegPole, gaitFoot, V, add, sub, fkLeg } from '@/lib/ik';
 
 const PI2 = Math.PI / 2;
@@ -19,31 +21,31 @@ const setHandle = (el, p) => {
 };
 
 // ---- legs: two 3-DOF chains (hip/knee/ankle + foot), links drawn +Y --------
-const LEG_HIPS = [V(50, 10), V(90, 10)];            // viewBox 0 0 140 260
+const LEG_HIPS = [V(50, 10), V(90, 10)]; // viewBox 0 0 140 260
 const LEG = { l1: 92, l2: 86, lFoot: 22, stride: 14, stance: 186, lift: 14 };
-const kneePivot = (hip) => V(hip.x, hip.y + LEG.l1);          // rest y = 102
+const kneePivot = (hip) => V(hip.x, hip.y + LEG.l1); // rest y = 102
 const anklePivot = (hip) => V(hip.x, hip.y + LEG.l1 + LEG.l2); // rest y = 188
 // default knee pole: modestly left of each leg → the knee bends to face LEFT
 const kneePoleDefault = (hip) => V(hip.x - 16, hip.y + 50);
 
 // ---- arm: 3-DOF chain (shoulder/elbow/wrist + hand), links drawn −Y --------
 const ARM = { shoulder: V(90, 340), l1: 95, l2: 88, lHand: 33 }; // viewBox 0 0 180 360
-const elbowPivot = V(ARM.shoulder.x, ARM.shoulder.y - ARM.l1);        // rest y = 245
+const elbowPivot = V(ARM.shoulder.x, ARM.shoulder.y - ARM.l1); // rest y = 245
 const wristPivot = V(ARM.shoulder.x, ARM.shoulder.y - ARM.l1 - ARM.l2); // rest y = 157
-const elbowPoleDefault = V(ARM.shoulder.x + 30, ARM.shoulder.y - 60);  // elbow folds right
+const elbowPoleDefault = V(ARM.shoulder.x + 30, ARM.shoulder.y - 60); // elbow folds right
 const FINGERS = [
   { sel: '.f-t', mcp: V(78, 150), l1: 12, l2: 10, l3: 8, base: -0.55, sign: 1 },
   { sel: '.f-i', mcp: V(88, 146), l1: 14, l2: 12, l3: 9, base: -0.18, sign: 1 },
-  { sel: '.f-m', mcp: V(98, 145), l1: 15, l2: 12, l3: 10, base: 0.00, sign: 1 },
+  { sel: '.f-m', mcp: V(98, 145), l1: 15, l2: 12, l3: 10, base: 0.0, sign: 1 },
   { sel: '.f-r', mcp: V(108, 147), l1: 14, l2: 11, l3: 9, base: 0.18, sign: 1 },
 ];
 
 // ---- pointer + drag state ------------------------------------------------
 const ptr = { x: 0, y: 0, rx: 0, ry: 0 };
 let lastDt = 16;
-const drag = { active: null, pull: new Map() };   // end-effector pull: offset eases to pointer, then 0
-const overrides = {};                             // mid-joint dangle: blend toward a dragged pose
-const lastSolves = {};   // frozen angles at drag start
+const drag = { active: null, pull: new Map() }; // end-effector pull: offset eases to pointer, then 0
+const overrides = {}; // mid-joint dangle: blend toward a dragged pose
+const lastSolves = {}; // frozen angles at drag start
 
 function screenToFrame(el, x, y) {
   const ctm = el && el.getScreenCTM && el.getScreenCTM();
@@ -63,7 +65,10 @@ function chainTarget(id, home, frame) {
   if (!p) return home;
   const k = 1 - Math.exp(-lastDt / 110);
   const np = V(p.x * (1 - k), p.y * (1 - k));
-  if (Math.hypot(np.x, np.y) < 0.25) { drag.pull.delete(id); return home; }
+  if (Math.hypot(np.x, np.y) < 0.25) {
+    drag.pull.delete(id);
+    return home;
+  }
   drag.pull.set(id, np);
   return add(home, np);
 }
@@ -83,12 +88,19 @@ function dangleAngles(id, frame, piv, l1, ikSol, ikShin, ikMid, footAbs) {
     ov.shinAbs = lerp(ov.shinAbs, ikShin, k);
     ov.footAbs = lerp(ov.footAbs, footAbs, k);
   }
-  let dx = ov.target.x - piv.x, dy = ov.target.y - piv.y;
+  let dx = ov.target.x - piv.x,
+    dy = ov.target.y - piv.y;
   const dd = Math.hypot(dx, dy) || 1;
-  if (dd > l1) { dx = (dx / dd) * l1; dy = (dy / dd) * l1; }
+  if (dd > l1) {
+    dx = (dx / dd) * l1;
+    dy = (dy / dd) * l1;
+  }
   const rootAng = Math.atan2(dy, dx);
   const b = ov.blend;
-  if (b < 0.01 && !(drag.active && drag.active.id === id)) { delete overrides[id]; return ikSol; }
+  if (b < 0.01 && !(drag.active && drag.active.id === id)) {
+    delete overrides[id];
+    return ikSol;
+  }
   return {
     hip: lerp(ikSol.hip, rootAng, b),
     knee: lerp(ikSol.knee, ov.shinAbs - rootAng, b),
@@ -103,7 +115,7 @@ function driveLegs(rig, topScroll, t) {
     const hip = LEG_HIPS[i] ?? LEG_HIPS[0];
     const phase = phaseBase + (i ? Math.PI : 0);
     const f = gaitFoot(hip, phase, LEG.stride, LEG.stance, LEG.lift);
-    const footAng = PI2 + 0.22 * Math.sin(t * 0.004 + phase * 0.5);   // foot below ankle, idle tap
+    const footAng = PI2 + 0.22 * Math.sin(t * 0.004 + phase * 0.5); // foot below ankle, idle tap
     const footHome = V(f.x, f.y);
     const footTip = chainTarget(`leg:${i}:foot`, footHome, svg);
     const s = ikLegPole(hip, footTip, LEG.l1, LEG.l2, LEG.lFoot, footAng, kneePoleDefault(hip));
@@ -127,22 +139,30 @@ function driveArm(rig, rise, t) {
   const svg = rig.querySelector('svg');
   // waving stance on the footer line; the hand never tracks the "Say hi" link
   // (the CSS underline, driven by --arm, ties them).
-  const WSLOW = Math.PI / 1000;                          // π rad/s → 2s wave period
+  const WSLOW = Math.PI / 1000; // π rad/s → 2s wave period
   // ikLegPole's `foot` = END-EFFECTOR TIP (end of lHand); wrist sits lHand below.
   const wristHome = V(96 + 4 * Math.sin(t * 0.0008), 140);
   const wristTarget = chainTarget('arm:wrist', wristHome, svg);
-  const handDir = -PI2 + 0.10 * Math.sin(t * 0.0011);    // hand points up, gentle sway
-  const a = ikLegPole(ARM.shoulder, wristTarget, ARM.l1, ARM.l2, ARM.lHand, handDir, elbowPoleDefault);
+  const handDir = -PI2 + 0.1 * Math.sin(t * 0.0011); // hand points up, gentle sway
+  const a = ikLegPole(
+    ARM.shoulder,
+    wristTarget,
+    ARM.l1,
+    ARM.l2,
+    ARM.lHand,
+    handDir,
+    elbowPoleDefault,
+  );
 
   // elbow dangle (draggable, like the knee)
   const eid = 'arm:elbow';
   const ikMid = fkLeg(ARM.shoulder, a.hip, a.knee, 0, ARM.l1, ARM.l2, 0).knee;
   const sol = dangleAngles(eid, svg, ARM.shoulder, ARM.l1, a, a.hip + a.knee, ikMid, handDir);
 
-  const shoulderSway = 0.06 * Math.sin(t * 0.0014);   // slow shoulder breath
+  const shoulderSway = 0.06 * Math.sin(t * 0.0014); // slow shoulder breath
   setJ(rig.querySelector('.j-shoulder'), sol.hip + shoulderSway, ARM.shoulder, -PI2);
   setJ(rig.querySelector('.j-elbow'), sol.knee, elbowPivot, 0);
-  const wave = 0.38 * Math.sin(t * WSLOW);             // ±22° wrist wave (2s)
+  const wave = 0.38 * Math.sin(t * WSLOW); // ±22° wrist wave (2s)
   setJ(rig.querySelector('.j-wrist'), sol.ankle + wave, wristPivot, 0);
   setHandle(rig.querySelector('.h-arm-wrist'), wristTarget);
   const elbowPos = fkLeg(ARM.shoulder, sol.hip, sol.knee, 0, ARM.l1, ARM.l2, 0).knee;
@@ -154,7 +174,7 @@ function driveArm(rig, rise, t) {
     // fingers curl-wave in sync with the wrist (phase-offset per finger); ext
     // stays high so PIP/DIP curl gently, not clench.
     const sync = 0.5 + 0.5 * Math.sin(t * WSLOW + idx * 0.4);
-    const ext = (0.85 + 0.12 * open) - 0.07 * sync;
+    const ext = 0.85 + 0.12 * open - 0.07 * sync;
     const dir = f.base + 0.03 * Math.sin(t * 0.0012 + idx);
     const reachLen = (f.l1 + f.l2 + f.l3) * ext;
     const tipHome = V(f.mcp.x + Math.sin(dir) * reachLen, f.mcp.y - Math.cos(dir) * reachLen);
@@ -184,12 +204,15 @@ function boot(t) {
 
 let last = 0;
 function step(t) {
-  const dt = Math.min(48, t - last) || 16; last = t; lastDt = dt;
+  const dt = Math.min(48, t - last) || 16;
+  last = t;
+  lastDt = dt;
   const kp = 1 - Math.exp(-dt / 80);
   ptr.x += (ptr.rx - ptr.x) * kp;
   ptr.y += (ptr.ry - ptr.y) * kp;
 
-  const vh = innerHeight, sy = scrollY;
+  const vh = innerHeight,
+    sy = scrollY;
   const dh = document.documentElement.scrollHeight;
   const top = clamp01(sy / vh);
   const start = dh - vh * 1.8;
@@ -201,7 +224,7 @@ function step(t) {
   const rise = dh <= vh * 1.2 ? 1 : clamp01((sy - start) / (dh - vh - start));
   document.querySelectorAll('[data-rig="legs"]').forEach((r) => driveLegs(r, top, t));
   const b = boot(t);
-  const armRise = (1 - b) + b * rise;   // ease CSS default (1) → scroll rise
+  const armRise = 1 - b + b * rise; // ease CSS default (1) → scroll rise
   document.querySelectorAll('[data-rig="arm"]').forEach((r) => driveArm(r, armRise, t));
 }
 
@@ -215,20 +238,35 @@ function onPointerDown(e) {
   e.preventDefault();
   const frame = id.indexOf('finger:') === 0 ? rig.querySelector('.hand') : rig.querySelector('svg');
   drag.active = { id, rig, frame };
-  ptr.rx = e.clientX; ptr.ry = e.clientY; ptr.x = e.clientX; ptr.y = e.clientY;
+  ptr.rx = e.clientX;
+  ptr.ry = e.clientY;
+  ptr.x = e.clientX;
+  ptr.y = e.clientY;
   // seed the dangle override for mid-joint drags (knee, elbow) from the live solve
   const isDangle = id.endsWith(':knee') || id.endsWith(':elbow');
   if (isDangle && lastSolves[id]) {
     const s = lastSolves[id];
-    overrides[id] = { blend: 1, target: screenToFrame(frame, ptr.x, ptr.y), shinAbs: s.shinAbs, footAbs: s.footAbs };
+    overrides[id] = {
+      blend: 1,
+      target: screenToFrame(frame, ptr.x, ptr.y),
+      shinAbs: s.shinAbs,
+      footAbs: s.footAbs,
+    };
   }
-  try { h.setPointerCapture(e.pointerId); } catch {}
+  try {
+    h.setPointerCapture(e.pointerId);
+  } catch {}
 }
-function onPointerMove(e) { ptr.rx = e.clientX; ptr.ry = e.clientY; }
+function onPointerMove(e) {
+  ptr.rx = e.clientX;
+  ptr.ry = e.clientY;
+}
 function onPointerUp(e) {
   if (drag.active) {
-    try { e.target.releasePointerCapture && e.target.releasePointerCapture(e.pointerId); } catch {}
-    drag.active = null;           // pull map + overrides keep state → it decays (spring-back)
+    try {
+      e.target.releasePointerCapture && e.target.releasePointerCapture(e.pointerId);
+    } catch {}
+    drag.active = null; // pull map + overrides keep state → it decays (spring-back)
   }
 }
 
@@ -244,12 +282,20 @@ function init() {
 
   const visible = new Set();
   let raf = 0;
-  const loop = (t) => { step(t); raf = visible.size ? requestAnimationFrame(loop) : 0; };
-  const ensure = () => { if (!raf) raf = requestAnimationFrame(loop); };
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) e.isIntersecting ? visible.add(e.target) : visible.delete(e.target);
-    if (visible.size) ensure();
-  }, { rootMargin: '200px' });
+  const loop = (t) => {
+    step(t);
+    raf = visible.size ? requestAnimationFrame(loop) : 0;
+  };
+  const ensure = () => {
+    if (!raf) raf = requestAnimationFrame(loop);
+  };
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) e.isIntersecting ? visible.add(e.target) : visible.delete(e.target);
+      if (visible.size) ensure();
+    },
+    { rootMargin: '200px' },
+  );
   rigs.forEach((r) => io.observe(r));
   addEventListener('scroll', ensure, { passive: true });
   addEventListener('resize', ensure, { passive: true });

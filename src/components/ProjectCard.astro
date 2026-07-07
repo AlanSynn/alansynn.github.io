@@ -4,7 +4,9 @@
 import type { CollectionEntry } from 'astro:content';
 import clipManifest from '@/data/video-clips.json';
 import LazyVideo from './LazyVideo.astro';
-interface Props { project: CollectionEntry<'projects'> }
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
 const { project } = Astro.props;
 const d = project.data;
 const slug = project.id;
@@ -15,28 +17,38 @@ const clip = d.video
 const ytId = d.video && !/\.(mp4|webm|ogg)$/i.test(d.video) ? d.video : null;
 const imgSrc = d.image ?? (ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : null);
 ---
+
 <article class="project-card">
   <a class="project-card__media" href={`/projects/${slug}`} aria-label={d.title}>
-    {clip ? (
-      <LazyVideo src={clip.clip} poster={clip.poster ?? imgSrc ?? undefined} alt={d.title} />
-    ) : imgSrc ? (
-      <img src={imgSrc} alt="" loading="lazy" />
-    ) : (
-      <div class="pub__thumb--placeholder" style="width:100%;height:100%;display:grid;place-items:center;">
-        <span>{(d.org ?? d.title).slice(0, 8)}</span>
-      </div>
-    )}
+    {
+      clip ? (
+        <LazyVideo src={clip.clip} poster={clip.poster ?? imgSrc ?? undefined} alt={d.title} />
+      ) : imgSrc ? (
+        <img src={imgSrc} alt="" loading="lazy" />
+      ) : (
+        <div
+          class="pub__thumb--placeholder"
+          style="width:100%;height:100%;display:grid;place-items:center;"
+        >
+          <span>{(d.org ?? d.title).slice(0, 8)}</span>
+        </div>
+      )
+    }
   </a>
   <div class="project-card__body">
     <div class="project-card__period">{d.period ?? d.org}</div>
     <h3 class="project-card__title"><a href={`/projects/${slug}`}>{d.title}</a></h3>
     {d.summary && <p class="project-card__desc">{d.summary}</p>}
-    {d.links && d.links.length > 0 && (
-      <div class="project-card__links">
-        {d.links.map((l: { label: string; url: string }) => (
-          <a class="pub-link" href={l.url} target="_blank" rel="noopener">{l.label} ↗</a>
-        ))}
-      </div>
-    )}
+    {
+      d.links && d.links.length > 0 && (
+        <div class="project-card__links">
+          {d.links.map((l: { label: string; url: string }) => (
+            <a class="pub-link" href={l.url} target="_blank" rel="noopener">
+              {l.label} ↗
+            </a>
+          ))}
+        </div>
+      )
+    }
   </div>
 </article>

@@ -35,7 +35,7 @@ const projects = defineCollection({
     date: z.coerce.date().optional(),
     summary: z.string().optional(),
     image: z.string().optional(),
-    video: z.string().optional(),          // YouTube id or full URL
+    video: z.string().optional(), // YouTube id or full URL
     links: z.array(z.object({ label: z.string(), url: z.string() })).default([]),
   }),
 });

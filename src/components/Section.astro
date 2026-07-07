@@ -5,15 +5,22 @@
 import CouplerCurve from './CouplerCurve.astro';
 
 interface Props {
-  index?: string;        // e.g. "02"
+  index?: string; // e.g. "02"
   title: string;
-  meta?: string;         // right-aligned mono caption
+  meta?: string; // right-aligned mono caption
   id?: string;
-  divider?: boolean;     // render coupler divider above
+  divider?: boolean; // render coupler divider above
 }
 const { index, title, meta, id, divider = false } = Astro.props;
 ---
-{divider && <div class="coupler-divider"><CouplerCurve /></div>}
+
+{
+  divider && (
+    <div class="coupler-divider">
+      <CouplerCurve />
+    </div>
+  )
+}
 <section class="section" id={id}>
   <header class="section-head">
     {index && <span class="section-head__index">§ {index}</span>}

@@ -2,12 +2,18 @@
    blog.css - blog list + comments.
    ========================================================================== */
 
-.blog-list { list-style: none; padding: 0; margin: 0; }
+.blog-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 .blog-list > li {
   padding: var(--space-5) 0;
   border-top: 1px solid var(--hairline);
 }
-.blog-list > li:first-child { border-top: none; }
+.blog-list > li:first-child {
+  border-top: none;
+}
 .blog-list__title {
   font-family: var(--font-display);
   font-size: var(--step-2);
@@ -15,8 +21,13 @@
   line-height: var(--leading-tight);
   margin: 0;
 }
-.blog-list__title a { color: var(--ink); }
-.blog-list__title a:hover { color: var(--accent); text-decoration: none; }
+.blog-list__title a {
+  color: var(--ink);
+}
+.blog-list__title a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
 .blog-list__meta {
   font-family: var(--font-mono);
   font-size: var(--step--2);
@@ -48,7 +59,9 @@
   font-size: var(--step--1);
   color: var(--ink-soft);
 }
-.reply a { color: var(--accent); }
+.reply a {
+  color: var(--accent);
+}
 
 /* ---- Download bar (CV page) ------------------------------------------- */
 .download-bar {

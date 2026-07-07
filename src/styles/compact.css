@@ -8,18 +8,32 @@
 [data-reveal] {
   opacity: 0;
   transform: translateY(14px);
-  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  transition:
+    opacity 0.6s var(--ease-out),
+    transform 0.6s var(--ease-out);
   will-change: opacity, transform;
 }
-[data-reveal].in { opacity: 1; transform: none; }
+[data-reveal].in {
+  opacity: 1;
+  transform: none;
+}
 /* No-JS fallback: if JS fails, show everything (no trapped invisibility). */
-html.no-js [data-reveal] { opacity: 1 !important; transform: none !important; }
+html.no-js [data-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+}
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] { opacity: 1 !important; transform: none !important; transition: none; }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none;
+  }
 }
 
 /* anchor sections clear the floating toggle */
-main :is(section, .cv-section) { scroll-margin-top: 5rem; }
+main :is(section, .cv-section) {
+  scroll-margin-top: 5rem;
+}
 
 /* ---- Profile strip (text left, photo right aside) --------------------- */
 .profile {
@@ -55,11 +69,24 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
   max-width: 42rem;
   margin-bottom: var(--space-4);
 }
-.profile__bio p + p { margin-top: var(--space-3); }
-.profile__links { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-4); }
+.profile__bio p + p {
+  margin-top: var(--space-3);
+}
+.profile__links {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
 @media (max-width: 640px) {
-  .profile { grid-template-columns: 1fr; gap: var(--space-4); }
-  .profile__photo { width: 128px; height: 160px; }
+  .profile {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+  .profile__photo {
+    width: 128px;
+    height: 160px;
+  }
   /* Shrink the portrait to the photo and center it, so the legs rig (centered
      on the portrait via left:50%) hangs straight under the photo. A full-width
      portrait left the rig drifting into empty space to the right of the photo.
@@ -82,7 +109,9 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
   padding-bottom: var(--space-2);
   border-bottom: 1px solid var(--hairline);
 }
-.home-head:first-of-type { margin-top: var(--space-5); }
+.home-head:first-of-type {
+  margin-top: var(--space-5);
+}
 
 /* ---- Compact publication row ------------------------------------------ */
 .cpub {
@@ -92,7 +121,9 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
   padding: var(--space-4) 0;
   border-top: 1px solid var(--hairline);
 }
-.cpub:first-child { border-top: none; }
+.cpub:first-child {
+  border-top: none;
+}
 .cpub__thumb {
   width: 100%;
   aspect-ratio: 16 / 10;
@@ -107,25 +138,75 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
   color: var(--accent);
   letter-spacing: var(--tracking-mono);
 }
-.cpub__thumb img, .cpub__thumb video { width: 100%; height: 100%; object-fit: cover; }
+.cpub__thumb img,
+.cpub__thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 /* LazyVideo: poster <img> overlays the <video> so the resting frame is always
    the poster (never a white/black video frame after play+reset). */
-.lazy-video { display: block; position: relative; width: 100%; height: 100%; }
-.lazy-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.lazy-video {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.lazy-video video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .lazy-video__poster {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%; object-fit: cover;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   transition: opacity 0.2s ease;
 }
-.lazy-video.is-playing .lazy-video__poster { opacity: 0; }
-.cpub__line { display: flex; align-items: baseline; gap: var(--space-3); }
-.cpub__title { font-weight: 600; color: var(--ink); font-size: var(--step-0); line-height: var(--leading-snug); flex: 1; }
-.cpub__title a { color: inherit; }
-.cpub__title a:hover { color: var(--accent); text-decoration: none; }
-.cpub__year { font-family: var(--font-body); font-size: var(--step--1); color: var(--muted); white-space: nowrap; }
-.cpub__authors { font-size: var(--step--1); color: var(--ink-soft); margin-top: 0.1em; }
-.cpub__meta { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-1); flex-wrap: wrap; }
+.lazy-video.is-playing .lazy-video__poster {
+  opacity: 0;
+}
+.cpub__line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+.cpub__title {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: var(--step-0);
+  line-height: var(--leading-snug);
+  flex: 1;
+}
+.cpub__title a {
+  color: inherit;
+}
+.cpub__title a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+.cpub__year {
+  font-family: var(--font-body);
+  font-size: var(--step--1);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.cpub__authors {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  margin-top: 0.1em;
+}
+.cpub__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-1);
+  flex-wrap: wrap;
+}
 /* Venue label: PLAIN text — mono font, bold, single accent color for every
    venue (uniform weight, no per-venue hue so none reads fainter than others). */
 .cpub__venue {
@@ -137,13 +218,28 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
   text-decoration: none;
   white-space: nowrap;
 }
-.cpub__venue:hover { text-decoration: underline; }
-.cpub__links { display: flex; gap: var(--space-3); font-family: var(--font-body); font-size: var(--step--1); }
-.cpub__links a { color: var(--accent); }
-.cpub__links a:hover { text-decoration: underline; }
+.cpub__venue:hover {
+  text-decoration: underline;
+}
+.cpub__links {
+  display: flex;
+  gap: var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--step--1);
+}
+.cpub__links a {
+  color: var(--accent);
+}
+.cpub__links a:hover {
+  text-decoration: underline;
+}
 
 /* ---- Mini timeline (homepage highlights) ------------------------------ */
-.mini-timeline { list-style: none; padding: 0; margin: var(--space-2) 0 0; }
+.mini-timeline {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-2) 0 0;
+}
 .mini-timeline li {
   display: grid;
   grid-template-columns: 7rem 1fr;
@@ -153,10 +249,19 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
   font-size: var(--step--1);
   align-items: baseline;
 }
-.mini-timeline li:first-child { border-top: none; }
-.mini-timeline__period { font-family: var(--font-mono); font-size: var(--step--2); color: var(--muted); }
+.mini-timeline li:first-child {
+  border-top: none;
+}
+.mini-timeline__period {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  color: var(--muted);
+}
 @media (max-width: 480px) {
-  .mini-timeline li { grid-template-columns: 1fr; gap: 0; }
+  .mini-timeline li {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
 }
 
 /* ---- Research statement (inline collapsible) -------------------------- */
@@ -180,10 +285,26 @@ main :is(section, .cv-section) { scroll-margin-top: 5rem; }
   font-weight: 500;
   color: var(--ink);
 }
-.rs > summary::-webkit-details-marker { display: none; }
-.rs > summary:hover .rs__summary-text { color: var(--accent); }
-.rs__summary-text { transition: color var(--dur-fast) var(--ease); }
-.rs__summary-mark { color: var(--accent); font-size: var(--step--1); transition: transform var(--dur) var(--ease); }
-.rs[open] > summary { border-bottom: 1px solid var(--hairline); }
-.rs[open] > summary .rs__summary-mark { transform: rotate(180deg); }
-.rs__body { padding: var(--space-5); }
+.rs > summary::-webkit-details-marker {
+  display: none;
+}
+.rs > summary:hover .rs__summary-text {
+  color: var(--accent);
+}
+.rs__summary-text {
+  transition: color var(--dur-fast) var(--ease);
+}
+.rs__summary-mark {
+  color: var(--accent);
+  font-size: var(--step--1);
+  transition: transform var(--dur) var(--ease);
+}
+.rs[open] > summary {
+  border-bottom: 1px solid var(--hairline);
+}
+.rs[open] > summary .rs__summary-mark {
+  transform: rotate(180deg);
+}
+.rs__body {
+  padding: var(--space-5);
+}

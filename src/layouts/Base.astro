@@ -25,18 +25,19 @@ const sameAs = (site.socials ?? [])
   .map((s: { url: string }) => s.url)
   .filter((u: string) => !u.startsWith('mailto:'));
 const jsonld = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Person",
+  '@context': 'https://schema.org',
+  '@type': 'Person',
   name: site.name,
   jobTitle: site.title,
   url: site.url,
   image: `${site.url}/og.png`,
-  worksFor: { "@type": "Organization", name: site.affiliation },
-  subjectOf: { "@type": "WebSite", url: site.url },
+  worksFor: { '@type': 'Organization', name: site.affiliation },
+  subjectOf: { '@type': 'WebSite', url: site.url },
   sameAs,
 });
 const canonical = new URL(Astro.url.pathname, site.url).href;
 ---
+
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
@@ -64,8 +65,12 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
     <link rel="canonical" href={canonical} />
     <script is:inline type="application/ld+json" set:html={jsonld} />
 
-    <link rel="alternate" type="application/rss+xml" title={`${site.short_name} - Blog`} href="/rss.xml" />
-
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${site.short_name} - Blog`}
+      href="/rss.xml"
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -73,7 +78,10 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
       href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="https://fred-wang.github.io/MathFonts/NewComputerModern/mathfonts.css" />
+    <link
+      rel="stylesheet"
+      href="https://fred-wang.github.io/MathFonts/NewComputerModern/mathfonts.css"
+    />
 
     <script is:inline>
       // No-flash theme init: resolve stored pref or system preference BEFORE paint.
@@ -92,7 +100,15 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <main id="main" data-pagefind-body tabindex="-1">
-      {contained ? <div class:list={["container", wide && "container--wide"]}><slot /></div> : <slot />}
+      {
+        contained ? (
+          <div class:list={['container', wide && 'container--wide']}>
+            <slot />
+          </div>
+        ) : (
+          <slot />
+        )
+      }
     </main>
     <footer class="site-footer">
       <div class="site-footer__inner">

@@ -16,7 +16,11 @@ for (const theme of ['light', 'dark']) {
       viewport: { width: 1280, height: 900 },
       deviceScaleFactor: 2,
     });
-    await ctx.addInitScript((t) => { try { localStorage.setItem('theme', t); } catch (e) {} }, theme);
+    await ctx.addInitScript((t) => {
+      try {
+        localStorage.setItem('theme', t);
+      } catch (e) {}
+    }, theme);
     const page = await ctx.newPage();
     try {
       await page.goto(BASE + route, { waitUntil: 'networkidle', timeout: 20000 });

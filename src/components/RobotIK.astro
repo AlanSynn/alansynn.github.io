@@ -14,6 +14,7 @@
 // −Y chains like arm + fingers, 0 for relative joints). Matches fkLeg/fk2
 // (confirmed by the DOM-FK test).
 ---
+
 <script>
   // Lazy-load the IK engine off the critical path. Triggered when a rig nears
   // the viewport (IntersectionObserver), with two fallbacks: requestIdleCallback
@@ -25,7 +26,7 @@
     const rigs = document.querySelectorAll('[data-rig]');
     if (!rigs.length) return;
     let done = false;
-    const cleanup = [];
+    const cleanup: Array<() => void> = [];
     const start = () => {
       if (done) return;
       done = true;
@@ -33,9 +34,16 @@
       import('@/scripts/robot-ik');
     };
     if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver((entries) => {
-        for (const e of entries) if (e.isIntersecting) { start(); break; }
-      }, { rootMargin: '300px' });
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries)
+            if (e.isIntersecting) {
+              start();
+              break;
+            }
+        },
+        { rootMargin: '300px' },
+      );
       rigs.forEach((r) => io.observe(r));
       cleanup.push(() => io.disconnect());
     }

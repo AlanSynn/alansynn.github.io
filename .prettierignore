@@ -1,0 +1,36 @@
+# Generated / binary / non-prettier targets — never format.
+dist/
+.astro/
+.astro-typst/
+node_modules/
+src/data/
+public/
+
+# Vendored dependencies — keep upstream formatting.
+src/3rd_party/
+
+# Human-authored content + docs — the human owns these, prettier must not
+# reflow them (repo invariant: content/ is the sole hand-edited zone; the
+# top-level docs are hand-tuned).
+content/
+CLAUDE.md
+AGENTS.md
+README.md
+
+# Formats prettier doesn't speak.
+*.typ
+*.bib
+*.pdf
+*.webp
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.mp4
+*.lock
+*.lockb
+bun.lock
+bun.lockb
+package-lock.json
+pnpm-lock.yaml
+yarn.lock

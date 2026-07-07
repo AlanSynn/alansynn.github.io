@@ -4,7 +4,9 @@
 
 .reading-progress {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 2px;
   transform: scaleX(0);
   transform-origin: 0 50%;
@@ -38,12 +40,24 @@
     color var(--dur-fast) var(--ease),
     border-color var(--dur-fast) var(--ease);
 }
-.back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
-.back-to-top:hover { color: var(--accent); border-color: var(--accent); }
-.back-to-top svg { width: 1.1rem; height: 1.1rem; }
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.back-to-top:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.back-to-top svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
 
 /* ---- Search ----------------------------------------------------------- */
-.search { max-width: 40rem; }
+.search {
+  max-width: 40rem;
+}
 #search-input {
   width: 100%;
   font-family: var(--font-body);
@@ -54,16 +68,48 @@
   border: 1px solid var(--hairline-strong);
   border-radius: var(--radius-md);
 }
-#search-input:focus { outline: none; border-color: var(--accent); box-shadow: var(--ring); }
-.search-results { margin-top: var(--space-4); }
-.search-result { padding: var(--space-3) 0; border-top: 1px solid var(--hairline); }
-.search-result:first-child { border-top: none; }
-.search-result a { color: inherit; text-decoration: none; }
-.search-result a:hover { text-decoration: none; }
-.search-result__title { font-family: var(--font-display); font-weight: 500; font-size: var(--step-1); }
-.search-result a:hover .search-result__title { color: var(--accent); }
-.search-result__excerpt { font-size: var(--step--1); color: var(--ink-soft); margin-top: var(--space-1); line-height: var(--leading-snug); }
-.search-result__excerpt:global(mark) { background: var(--accent-soft); color: var(--accent); padding: 0 0.15em; border-radius: 2px; }
+#search-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--ring);
+}
+.search-results {
+  margin-top: var(--space-4);
+}
+.search-result {
+  padding: var(--space-3) 0;
+  border-top: 1px solid var(--hairline);
+}
+.search-result:first-child {
+  border-top: none;
+}
+.search-result a {
+  color: inherit;
+  text-decoration: none;
+}
+.search-result a:hover {
+  text-decoration: none;
+}
+.search-result__title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--step-1);
+}
+.search-result a:hover .search-result__title {
+  color: var(--accent);
+}
+.search-result__excerpt {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  margin-top: var(--space-1);
+  line-height: var(--leading-snug);
+}
+.search-result__excerpt:global(mark) {
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 0 0.15em;
+  border-radius: 2px;
+}
 
 .header-search {
   display: inline-grid;
@@ -73,13 +119,25 @@
   border-radius: var(--radius-pill);
   border: 1px solid var(--hairline);
   color: var(--ink-soft);
-  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+  transition:
+    color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    background var(--dur-fast) var(--ease);
 }
-.header-search:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-softer); }
-.header-search svg { width: 1.05rem; height: 1.05rem; }
+.header-search:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-softer);
+}
+.header-search svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
 
 /* ---- Lightbox --------------------------------------------------------- */
-.prose img { cursor: zoom-in; }
+.prose img {
+  cursor: zoom-in;
+}
 .lightbox {
   position: fixed;
   inset: 0;
@@ -90,9 +148,14 @@
   padding: var(--space-6);
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--dur) var(--ease), visibility var(--dur);
+  transition:
+    opacity var(--dur) var(--ease),
+    visibility var(--dur);
 }
-.lightbox.open { opacity: 1; visibility: visible; }
+.lightbox.open {
+  opacity: 1;
+  visibility: visible;
+}
 .lightbox img {
   max-width: 92vw;
   max-height: 90vh;
@@ -111,4 +174,6 @@
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
-.lightbox__close:hover { background: rgba(255, 255, 255, 0.2); }
+.lightbox__close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}

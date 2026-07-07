@@ -9,8 +9,12 @@
   margin-inline: auto;
   padding-inline: var(--gutter);
 }
-.container--wide { max-width: var(--measure-wide); }
-.container--prose { max-width: 46rem; }
+.container--wide {
+  max-width: var(--measure-wide);
+}
+.container--prose {
+  max-width: 46rem;
+}
 
 /* ---- Main ------------------------------------------------------------ */
 main {
@@ -18,7 +22,9 @@ main {
   padding-block: var(--space-8) var(--space-9);
 }
 @media (max-width: 720px) {
-  main { padding-block: var(--space-6) var(--space-8); }
+  main {
+    padding-block: var(--space-6) var(--space-8);
+  }
 }
 
 /* ---- Section + section heading ---------------------------------------- */
@@ -26,7 +32,9 @@ main {
   margin-block: var(--space-9);
   scroll-margin-top: 6rem;
 }
-.section:first-child { margin-top: var(--space-7); }
+.section:first-child {
+  margin-top: var(--space-7);
+}
 
 .section-head {
   display: flex;
@@ -60,25 +68,44 @@ main {
 }
 
 /* ---- Grid utilities ---------------------------------------------------- */
-.grid { display: grid; gap: var(--space-5); }
-.grid--2 { grid-template-columns: repeat(2, 1fr); }
-.grid--3 { grid-template-columns: repeat(3, 1fr); }
-.grid--auto { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.grid {
+  display: grid;
+  gap: var(--space-5);
+}
+.grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid--auto {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
 
 @media (max-width: 860px) {
-  .grid--3 { grid-template-columns: repeat(2, 1fr); }
+  .grid--3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 @media (max-width: 600px) {
-  .grid--2, .grid--3, .grid--auto { grid-template-columns: 1fr; }
+  .grid--2,
+  .grid--3,
+  .grid--auto {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ---- Stack helper ------------------------------------------------------ */
-.stack > * + * { margin-top: var(--space-4); }
-.stack-lg > * + * { margin-top: var(--space-6); }
+.stack > * + * {
+  margin-top: var(--space-4);
+}
+.stack-lg > * + * {
+  margin-top: var(--space-6);
+}
 
 /* ---- Footer ------------------------------------------------------------ */
 .site-footer {
-  position: relative;                 /* anchor for the robot-arm stage */
+  position: relative; /* anchor for the robot-arm stage */
   border-top: 1px solid var(--hairline);
   padding-block: var(--space-6) var(--space-8);
   margin-top: var(--space-9);
@@ -97,10 +124,18 @@ main {
   color: var(--muted);
   letter-spacing: var(--tracking-mono);
 }
-.site-footer__inner a { color: var(--ink-soft); }
-.site-footer__path { display: inline-flex; align-items: center; gap: var(--space-2); }
+.site-footer__inner a {
+  color: var(--ink-soft);
+}
+.site-footer__path {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
 /* Faint path separator — present but barely, so the eye reads a URL path. */
-.site-footer__sep { color: color-mix(in srgb, var(--muted) 45%, transparent); }
+.site-footer__sep {
+  color: color-mix(in srgb, var(--muted) 45%, transparent);
+}
 
 /* ---- Coupler-curve divider (signature element, static variant) --------- */
 .coupler-divider {
@@ -111,4 +146,7 @@ main {
   color: var(--accent);
   opacity: 0.5;
 }
-.coupler-divider svg { width: 120px; height: 28px; }
+.coupler-divider svg {
+  width: 120px;
+  height: 28px;
+}

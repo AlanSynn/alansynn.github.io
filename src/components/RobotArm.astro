@@ -12,82 +12,128 @@
 // shoulder (90,340); l1=95 → elbow rest y=245; l2=88 → wrist rest y=157;
 // lHand=33 → hand-tip rest y=124. Fingers (hand-local): .f-t mcp(78,150),
 // .f-i (88,146), .f-m (98,145), .f-r (108,147).
-interface Props { zone?: string }
+interface Props {
+  zone?: string;
+}
 const { zone = 'floor' } = Astro.props;
 // rest pivots (links drawn −Y, so child pivot = parent pivot − link length)
 const SH = { x: 90, y: 340 };
-const EL = { x: 90, y: 245 };   // SH.y − 95
-const WR = { x: 90, y: 157 };   // EL.y − 88
-const HT = { x: 90, y: 124 };   // WR.y − 33 (FK reference: hand-tip along −Y)
+const EL = { x: 90, y: 245 }; // SH.y − 95
+const WR = { x: 90, y: 157 }; // EL.y − 88
+const HT = { x: 90, y: 124 }; // WR.y − 33 (FK reference: hand-tip along −Y)
 const FING = [
-  { cls: 'f-t', mcp: { x: 78, y: 150 }, pip: { x: 78, y: 138 }, dip: { x: 78, y: 128 }, tip: { x: 78, y: 120 }, splay: -29 },
-  { cls: 'f-i', mcp: { x: 88, y: 146 }, pip: { x: 88, y: 132 }, dip: { x: 88, y: 120 }, tip: { x: 88, y: 111 }, splay: -9 },
-  { cls: 'f-m', mcp: { x: 98, y: 145 }, pip: { x: 98, y: 130 }, dip: { x: 98, y: 118 }, tip: { x: 98, y: 108 }, splay: 0 },
-  { cls: 'f-r', mcp: { x: 108, y: 147 }, pip: { x: 108, y: 133 }, dip: { x: 108, y: 122 }, tip: { x: 108, y: 113 }, splay: 9 },
+  {
+    cls: 'f-t',
+    mcp: { x: 78, y: 150 },
+    pip: { x: 78, y: 138 },
+    dip: { x: 78, y: 128 },
+    tip: { x: 78, y: 120 },
+    splay: -29,
+  },
+  {
+    cls: 'f-i',
+    mcp: { x: 88, y: 146 },
+    pip: { x: 88, y: 132 },
+    dip: { x: 88, y: 120 },
+    tip: { x: 88, y: 111 },
+    splay: -9,
+  },
+  {
+    cls: 'f-m',
+    mcp: { x: 98, y: 145 },
+    pip: { x: 98, y: 130 },
+    dip: { x: 98, y: 118 },
+    tip: { x: 98, y: 108 },
+    splay: 0,
+  },
+  {
+    cls: 'f-r',
+    mcp: { x: 108, y: 147 },
+    pip: { x: 108, y: 133 },
+    dip: { x: 108, y: 122 },
+    tip: { x: 108, y: 113 },
+    splay: 9,
+  },
 ];
 ---
-{/* The stage is the GROUND: its bottom = the footer border-top line, overflow
-    hidden so anything below the line is buried. The arm inside rises on scroll. */}
+
+{
+  /* The stage is the GROUND: its bottom = the footer border-top line, overflow
+    hidden so anything below the line is buried. The arm inside rises on scroll. */
+}
 <div class="robot-arm-stage" aria-hidden="true">
   <div class="robot-arm" data-rig="arm" data-zone={zone}>
     <svg viewBox="0 0 180 360" xmlns="http://www.w3.org/2000/svg">
-    {/* floor mount + shoulder bracket (base of the rig — mirrors the legs' pelvis) */}
-    <line class="ra-mount" x1="56" y1="346" x2="124" y2="346" />
-    <line class="ra-mount" x1="72" y1="340" x2="108" y2="340" />
-    <rect class="ra-mount" x="84" y="337" width="12" height="9" rx="1.5" />
+      {/* floor mount + shoulder bracket (base of the rig — mirrors the legs' pelvis) */}
+      <line class="ra-mount" x1="56" y1="346" x2="124" y2="346"></line>
+      <line class="ra-mount" x1="72" y1="340" x2="108" y2="340"></line>
+      <rect class="ra-mount" x="84" y="337" width="12" height="9" rx="1.5"></rect>
 
-    {/* shoulder: rotates around (90,340) — upper arm drawn −Y to elbow (90,245) */}
-    <g class="j-shoulder" transform={`rotate(0 ${SH.x} ${SH.y})`}>
-      <line class="ra-link" x1={SH.x} y1={SH.y} x2={EL.x} y2={EL.y} />
-      <line class="ra-tendon" x1={SH.x - 4} y1={SH.y - 6} x2={EL.x - 4} y2={EL.y + 6} />
-      <line class="ra-tendon" x1={SH.x + 4} y1={SH.y - 6} x2={EL.x + 4} y2={EL.y + 6} />
-      <circle class="ra-joint" cx={SH.x} cy={SH.y} r="4.4" />
-      <circle class="ra-joint" cx={EL.x} cy={EL.y} r="3.8" />
-      {/* elbow: rotates around (90,245) — forearm drawn −Y to wrist (90,157) */}
-      <g class="j-elbow" transform={`rotate(0 ${EL.x} ${EL.y})`}>
-        <line class="ra-link" x1={EL.x} y1={EL.y} x2={WR.x} y2={WR.y} />
-        <line class="ra-tendon" x1={EL.x - 4} y1={EL.y - 6} x2={WR.x - 4} y2={WR.y + 6} />
-        <line class="ra-tendon" x1={EL.x + 4} y1={EL.y - 6} x2={WR.x + 4} y2={WR.y + 6} />
-        <circle class="ra-joint" cx={WR.x} cy={WR.y} r="3.6" />
-        {/* wrist: rotates around (90,157) — the WAVE pivot. slim palm + 4 fingers */}
-        <g class="j-wrist" transform={`rotate(0 ${WR.x} ${WR.y})`}>
-          <g class="hand">
-            {/* palm bracket — slim, pelvis-like; groups the fingers without a heavy fill */}
-            <path class="ra-palm"
-              d="M 70 158 Q 68 148 78 146 L 100 145 Q 112 147 114 158 Q 92 163 70 158 Z" />
-            {FING.map((f) => (
-              <g class={f.cls}>
-                {/* MCP: rotates around mcp — proximal drawn −Y to pip */}
-                <g class="j-mcp" transform={`rotate(${f.splay} ${f.mcp.x} ${f.mcp.y})`}>
-                  <line class="ra-link" x1={f.mcp.x} y1={f.mcp.y} x2={f.pip.x} y2={f.pip.y} />
-                  <circle class="ra-knuckle" cx={f.mcp.x} cy={f.mcp.y} r="2.4" />
-                  {/* PIP: rotates around pip — middle drawn −Y to dip */}
-                  <g class="j-pip" transform={`rotate(8 ${f.pip.x} ${f.pip.y})`}>
-                    <line class="ra-link" x1={f.pip.x} y1={f.pip.y} x2={f.dip.x} y2={f.dip.y} />
-                    <circle class="ra-joint" cx={f.pip.x} cy={f.pip.y} r="2.1" />
-                    {/* DIP: rotates around dip — distal drawn −Y to tip */}
-                    <g class="j-dip" transform={`rotate(6 ${f.dip.x} ${f.dip.y})`}>
-                      <line class="ra-link" x1={f.dip.x} y1={f.dip.y} x2={f.tip.x} y2={f.tip.y} />
-                      <circle class="ra-tip" cx={f.tip.x} cy={f.tip.y} r="2.1" />
+      {/* shoulder: rotates around (90,340) — upper arm drawn −Y to elbow (90,245) */}
+      <g class="j-shoulder" transform={`rotate(0 ${SH.x} ${SH.y})`}>
+        <line class="ra-link" x1={SH.x} y1={SH.y} x2={EL.x} y2={EL.y}></line>
+        <line class="ra-tendon" x1={SH.x - 4} y1={SH.y - 6} x2={EL.x - 4} y2={EL.y + 6}></line>
+        <line class="ra-tendon" x1={SH.x + 4} y1={SH.y - 6} x2={EL.x + 4} y2={EL.y + 6}></line>
+        <circle class="ra-joint" cx={SH.x} cy={SH.y} r="4.4"></circle>
+        <circle class="ra-joint" cx={EL.x} cy={EL.y} r="3.8"></circle>
+        {/* elbow: rotates around (90,245) — forearm drawn −Y to wrist (90,157) */}
+        <g class="j-elbow" transform={`rotate(0 ${EL.x} ${EL.y})`}>
+          <line class="ra-link" x1={EL.x} y1={EL.y} x2={WR.x} y2={WR.y}></line>
+          <line class="ra-tendon" x1={EL.x - 4} y1={EL.y - 6} x2={WR.x - 4} y2={WR.y + 6}></line>
+          <line class="ra-tendon" x1={EL.x + 4} y1={EL.y - 6} x2={WR.x + 4} y2={WR.y + 6}></line>
+          <circle class="ra-joint" cx={WR.x} cy={WR.y} r="3.6"></circle>
+          {/* wrist: rotates around (90,157) — the WAVE pivot. slim palm + 4 fingers */}
+          <g class="j-wrist" transform={`rotate(0 ${WR.x} ${WR.y})`}>
+            <g class="hand">
+              {/* palm bracket — slim, pelvis-like; groups the fingers without a heavy fill */}
+              <path
+                class="ra-palm"
+                d="M 70 158 Q 68 148 78 146 L 100 145 Q 112 147 114 158 Q 92 163 70 158 Z"></path>
+              {
+                FING.map((f) => (
+                  <g class={f.cls}>
+                    {/* MCP: rotates around mcp — proximal drawn −Y to pip */}
+                    <g class="j-mcp" transform={`rotate(${f.splay} ${f.mcp.x} ${f.mcp.y})`}>
+                      <line class="ra-link" x1={f.mcp.x} y1={f.mcp.y} x2={f.pip.x} y2={f.pip.y} />
+                      <circle class="ra-knuckle" cx={f.mcp.x} cy={f.mcp.y} r="2.4" />
+                      {/* PIP: rotates around pip — middle drawn −Y to dip */}
+                      <g class="j-pip" transform={`rotate(8 ${f.pip.x} ${f.pip.y})`}>
+                        <line class="ra-link" x1={f.pip.x} y1={f.pip.y} x2={f.dip.x} y2={f.dip.y} />
+                        <circle class="ra-joint" cx={f.pip.x} cy={f.pip.y} r="2.1" />
+                        {/* DIP: rotates around dip — distal drawn −Y to tip */}
+                        <g class="j-dip" transform={`rotate(6 ${f.dip.x} ${f.dip.y})`}>
+                          <line
+                            class="ra-link"
+                            x1={f.dip.x}
+                            y1={f.dip.y}
+                            x2={f.tip.x}
+                            y2={f.tip.y}
+                          />
+                          <circle class="ra-tip" cx={f.tip.x} cy={f.tip.y} r="2.1" />
+                        </g>
+                      </g>
                     </g>
                   </g>
-                </g>
-              </g>
-            ))}
-            {/* finger-tip drag handles (hand-local; engine repositions each frame) */}
-            <circle class="handle h-f-t" data-drag="finger:.f-t" cx="78" cy="120" r="3.2" />
-            <circle class="handle h-f-i" data-drag="finger:.f-i" cx="88" cy="111" r="3.2" />
-            <circle class="handle h-f-m" data-drag="finger:.f-m" cx="98" cy="108" r="3.2" />
-            <circle class="handle h-f-r" data-drag="finger:.f-r" cx="108" cy="113" r="3.2" />
+                ))
+              }
+              {/* finger-tip drag handles (hand-local; engine repositions each frame) */}
+              <circle class="handle h-f-t" data-drag="finger:.f-t" cx="78" cy="120" r="3.2"
+              ></circle>
+              <circle class="handle h-f-i" data-drag="finger:.f-i" cx="88" cy="111" r="3.2"
+              ></circle>
+              <circle class="handle h-f-m" data-drag="finger:.f-m" cx="98" cy="108" r="3.2"
+              ></circle>
+              <circle class="handle h-f-r" data-drag="finger:.f-r" cx="108" cy="113" r="3.2"
+              ></circle>
+            </g>
+            {/* FK reference: hand tip = wrist − lHand along −Y (drawn up) */}
+            <circle class="ra-handtip" cx={HT.x} cy={HT.y} r="1.4"></circle>
           </g>
-          {/* FK reference: hand tip = wrist − lHand along −Y (drawn up) */}
-          <circle class="ra-handtip" cx={HT.x} cy={HT.y} r="1.4" />
         </g>
       </g>
-    </g>
-    {/* wrist + elbow drag handles (end-effectors / dangle poles; engine repositions) */}
-    <circle class="handle h-arm-wrist" data-drag="arm:wrist" cx="90" cy="157" r="6" />
-    <circle class="handle h-arm-elbow" data-drag="arm:elbow" cx="90" cy="245" r="5.5" />
+      {/* wrist + elbow drag handles (end-effectors / dangle poles; engine repositions) */}
+      <circle class="handle h-arm-wrist" data-drag="arm:wrist" cx="90" cy="157" r="6"></circle>
+      <circle class="handle h-arm-elbow" data-drag="arm:elbow" cx="90" cy="245" r="5.5"></circle>
     </svg>
   </div>
 </div>
@@ -102,30 +148,33 @@ const FING = [
      waving hand clears the content above on every page; the homepage variant
      (:has(a.say-hi)) is a touch larger so the hand hugs the "Say hi" underline. */
   .robot-arm-stage {
-    --arm-w: 144px;                           /* fits the 192px footer gap with clearance */
+    --arm-w: 144px; /* fits the 192px footer gap with clearance */
     position: absolute;
     left: 50%;
-    transform: translateX(-50%);              /* dead-center on the gray line */
-    bottom: 100%;                             /* stage bottom = footer top = the line */
+    transform: translateX(-50%); /* dead-center on the gray line */
+    bottom: 100%; /* stage bottom = footer top = the line */
     width: var(--arm-w);
-    height: calc(var(--arm-w) * 2);           /* room for the full standing arm */
+    height: calc(var(--arm-w) * 2); /* room for the full standing arm */
     /* clip ONLY the bottom (the line) → below is buried, top/sides stay open so
        a dragged hand never gets hidden. inset(top right bottom left); negative =
        extend, 0 = clip flush. */
     clip-path: inset(-300% -300% 0 -300%);
     pointer-events: none;
-    z-index: 20;                              /* arm paints on top of footer content */
+    z-index: 20; /* arm paints on top of footer content */
   }
   /* homepage: larger arm so the hand hugs the "Say hi" underline (#contact) */
-  body:has(a.say-hi) .robot-arm-stage { --arm-w: 152px; }
+  body:has(a.say-hi) .robot-arm-stage {
+    --arm-w: 152px;
+  }
   .robot-arm {
     color: var(--accent);
     position: absolute;
-    left: 0; right: 0;
+    left: 0;
+    right: 0;
     /* drop so the floor mount (viewBox y=346 of 360) sits ON the line, not floating */
     bottom: calc(var(--arm-w) * -0.078);
     width: 100%;
-    opacity: 0.6;                             /* steady + subtle (no fade-from-bg) */
+    opacity: 0.6; /* steady + subtle (no fade-from-bg) */
     pointer-events: none;
     /* rise from below the line: --arm=1 standing, --arm=0 fully buried (clipped).
        100% = the arm's own height, so it translates entirely under the ground.
@@ -137,7 +186,12 @@ const FING = [
     transform: translateY(calc((1 - var(--arm, 1)) * 100%));
     will-change: transform;
   }
-  .robot-arm svg { width: 100%; height: auto; overflow: visible; display: block; }
+  .robot-arm svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    display: block;
+  }
   /* same hairline-mechanism language as the legs (rl-link / rl-tendon / rl-joint) */
   .ra-link {
     stroke: currentColor;
@@ -153,10 +207,24 @@ const FING = [
     fill: none;
     opacity: 0.45;
   }
-  .ra-joint { fill: currentColor; }
-  .ra-knuckle { fill: currentColor; }
-  .ra-tip { fill: var(--accent-soft); stroke: currentColor; stroke-width: 1; }
-  .ra-mount { stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; fill: var(--accent-soft); opacity: 0.7; }
+  .ra-joint {
+    fill: currentColor;
+  }
+  .ra-knuckle {
+    fill: currentColor;
+  }
+  .ra-tip {
+    fill: var(--accent-soft);
+    stroke: currentColor;
+    stroke-width: 1;
+  }
+  .ra-mount {
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    fill: var(--accent-soft);
+    opacity: 0.7;
+  }
   .ra-palm {
     fill: var(--accent-soft);
     stroke: currentColor;
@@ -168,27 +236,40 @@ const FING = [
     fill: var(--paper);
     stroke: currentColor;
     stroke-width: 1.3;
-    pointer-events: auto;            /* stage is pointer-events:none; handles grab */
+    pointer-events: auto; /* stage is pointer-events:none; handles grab */
     cursor: grab;
     touch-action: none;
     opacity: 0.45;
     transition: opacity 0.2s var(--ease, ease);
   }
-  .handle:hover { opacity: 1; }
-  .handle:active { cursor: grabbing; }
+  .handle:hover {
+    opacity: 1;
+  }
+  .handle:active {
+    cursor: grabbing;
+  }
 
   @media (max-width: 900px) {
     /* narrow column: shrink the arm so it stays visible without dominating the text */
     .robot-arm-stage,
-    body:has(a.say-hi) .robot-arm-stage { --arm-w: 104px; }
+    body:has(a.say-hi) .robot-arm-stage {
+      --arm-w: 104px;
+    }
   }
   @media (max-width: 480px) {
     .robot-arm-stage,
-    body:has(a.say-hi) .robot-arm-stage { --arm-w: 84px; }
+    body:has(a.say-hi) .robot-arm-stage {
+      --arm-w: 84px;
+    }
   }
   @media (prefers-reduced-motion: reduce) {
     /* no animation: calm standing pose; handles are inert so hide them */
-    .robot-arm { opacity: 0.22; transform: none; }
-    .handle { display: none; }
+    .robot-arm {
+      opacity: 0.22;
+      transform: none;
+    }
+    .handle {
+      display: none;
+    }
   }
 </style>

@@ -11,12 +11,12 @@ export const add = (a: V2, b: V2): V2 => ({ x: a.x + b.x, y: a.y + b.y });
 export const sub = (a: V2, b: V2): V2 => ({ x: a.x - b.x, y: a.y - b.y });
 export const len = (a: V2): number => Math.hypot(a.x, a.y);
 export const dist = (a: V2, b: V2): number => len(sub(a, b));
-export const clamp = (x: number, lo: number, hi: number): number =>
-  Math.max(lo, Math.min(hi, x));
+export const clamp = (x: number, lo: number, hi: number): number => Math.max(lo, Math.min(hi, x));
 
 // Rotate vector `a` by `ang` radians (standard matrix).
 export const rot = (a: V2, ang: number): V2 => {
-  const c = Math.cos(ang), s = Math.sin(ang);
+  const c = Math.cos(ang),
+    s = Math.sin(ang);
   return { x: a.x * c - a.y * s, y: a.x * s + a.y * c };
 };
 
@@ -26,7 +26,8 @@ export const rot = (a: V2, ang: number): V2 => {
 // closed form — FK with (a1, a1+a2) reaches `target` exactly for in-reach
 // targets; out-of-reach targets clamp cos to ±1 and the chain extends straight.
 export function ik2(root: V2, target: V2, l1: number, l2: number, elbowSign = 1) {
-  const dx = target.x - root.x, dy = target.y - root.y;
+  const dx = target.x - root.x,
+    dy = target.y - root.y;
   const D2 = dx * dx + dy * dy;
   const cos_t2 = clamp((D2 - l1 * l1 - l2 * l2) / (2 * l1 * l2), -1, 1);
   const a2 = elbowSign * Math.acos(cos_t2);
@@ -62,21 +63,31 @@ export function ik2Pole(root: V2, target: V2, l1: number, l2: number, pole: V2) 
 // then sets the ankle joint so the foot points at footAng. Returns absolute
 // hip, relative knee, relative ankle (apply as nested group rotates).
 export function ikLeg(
-  hip: V2, footTip: V2, l1: number, l2: number, lFoot: number,
-  footAng: number, kneeSign = 1,
+  hip: V2,
+  footTip: V2,
+  l1: number,
+  l2: number,
+  lFoot: number,
+  footAng: number,
+  kneeSign = 1,
 ) {
   const ankle = sub(footTip, rot(V(lFoot, 0), footAng));
   const { a1, a2 } = ik2(hip, ankle, l1, l2, kneeSign);
   const shinAbs = a1 + a2;
-  const ankleRel = footAng - shinAbs;     // foot world dir = shinAbs + ankleRel = footAng
+  const ankleRel = footAng - shinAbs; // foot world dir = shinAbs + ankleRel = footAng
   return { hip: a1, knee: a2, ankle: ankleRel, anklePos: ankle };
 }
 
 // 3-link leg IK with a knee POLE (drag the knee to set bend direction).
 // Like ikLeg but the knee folds toward `kneePole` instead of a fixed sign.
 export function ikLegPole(
-  hip: V2, footTip: V2, l1: number, l2: number, lFoot: number,
-  footAng: number, kneePole: V2,
+  hip: V2,
+  footTip: V2,
+  l1: number,
+  l2: number,
+  lFoot: number,
+  footAng: number,
+  kneePole: V2,
 ) {
   const ankle = sub(footTip, rot(V(lFoot, 0), footAng));
   const { a1, a2 } = ik2Pole(hip, ankle, l1, l2, kneePole);
@@ -87,8 +98,13 @@ export function ikLegPole(
 
 // Forward leg (verification).
 export function fkLeg(
-  hip: V2, hipA: number, kneeA: number, ankleA: number,
-  l1: number, l2: number, lFoot: number,
+  hip: V2,
+  hipA: number,
+  kneeA: number,
+  ankleA: number,
+  l1: number,
+  l2: number,
+  lFoot: number,
 ) {
   const knee = add(hip, rot(V(l1, 0), hipA));
   const ankle = add(knee, rot(V(l2, 0), hipA + kneeA));
@@ -99,11 +115,9 @@ export function fkLeg(
 // Gait foot target for one leg. `phase` advances with scroll (+ idle time);
 // two legs offset by π alternate steps. y-down: `stance` extends the foot
 // downward from the hip, `lift` raises it (smaller y) during the forward swing.
-export function gaitFoot(
-  hip: V2, phase: number, stride: number, stance: number, lift: number,
-): V2 {
+export function gaitFoot(hip: V2, phase: number, stride: number, stance: number, lift: number): V2 {
   const fx = hip.x + stride * Math.sin(phase);
-  const swing = Math.max(0, Math.sin(phase));   // 0 except during the forward swing
+  const swing = Math.max(0, Math.sin(phase)); // 0 except during the forward swing
   const fy = hip.y + stance - lift * swing;
   return { x: fx, y: fy };
 }

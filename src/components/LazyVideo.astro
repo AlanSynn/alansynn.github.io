@@ -17,7 +17,8 @@ interface Props {
 }
 const { src, poster, alt, class: cls } = Astro.props;
 ---
-<span class:list={["lazy-video", cls]}>
+
+<span class:list={['lazy-video', cls]}>
   <video
     muted
     loop
@@ -26,11 +27,12 @@ const { src, poster, alt, class: cls } = Astro.props;
     poster={poster}
     aria-label={alt}
     data-lazy-video
-    data-src={src}
-  ></video>
-  {poster && (
-    <img class="lazy-video__poster" src={poster} alt="" loading="lazy" aria-hidden="true" />
-  )}
+    data-src={src}></video>
+  {
+    poster && (
+      <img class="lazy-video__poster" src={poster} alt="" loading="lazy" aria-hidden="true" />
+    )
+  }
 </span>
 
 <script is:inline>
@@ -52,16 +54,19 @@ const { src, poster, alt, class: cls } = Astro.props;
           }
           // Lazy-load: only set src once the element scrolls near the viewport.
           if ('IntersectionObserver' in window) {
-            var io = new IntersectionObserver(function (entries) {
-              for (var k = 0; k < entries.length; k++) {
-                if (entries[k].isIntersecting && !loaded) {
-                  loaded = true;
-                  v.src = src;
-                  v.load();
-                  io.disconnect();
+            var io = new IntersectionObserver(
+              function (entries) {
+                for (var k = 0; k < entries.length; k++) {
+                  if (entries[k].isIntersecting && !loaded) {
+                    loaded = true;
+                    v.src = src;
+                    v.load();
+                    io.disconnect();
+                  }
                 }
-              }
-            }, { rootMargin: '200px' });
+              },
+              { rootMargin: '200px' },
+            );
             io.observe(v);
           } else {
             loaded = true;
@@ -74,36 +79,63 @@ const { src, poster, alt, class: cls } = Astro.props;
             v.addEventListener('mouseenter', function () {
               if (!loaded) return;
               var p = v.play();
-              if (p && p.catch) p.catch(function () { /* ignore autoplay rejections */ });
+              if (p && p.catch)
+                p.catch(function () {
+                  /* ignore autoplay rejections */
+                });
             });
             v.addEventListener('mouseleave', function () {
               if (!loaded) return;
               v.pause();
-              try { v.currentTime = 0; } catch (e) { /* ignore */ }
+              try {
+                v.currentTime = 0;
+              } catch (e) {
+                /* ignore */
+              }
               setPlaying(false);
             });
-            v.addEventListener('play', function () { setPlaying(true); });
-            v.addEventListener('pause', function () { setPlaying(false); });
-            v.addEventListener('ended', function () { setPlaying(false); });
+            v.addEventListener('play', function () {
+              setPlaying(true);
+            });
+            v.addEventListener('pause', function () {
+              setPlaying(false);
+            });
+            v.addEventListener('ended', function () {
+              setPlaying(false);
+            });
           } else {
             // Reduced motion: tap to toggle play (no autoplay).
             v.addEventListener('click', function () {
               if (!loaded) return;
-              if (v.paused) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
-              else { v.pause(); }
+              if (v.paused) {
+                var p = v.play();
+                if (p && p.catch) p.catch(function () {});
+              } else {
+                v.pause();
+              }
             });
-            v.addEventListener('play', function () { setPlaying(true); });
-            v.addEventListener('pause', function () { setPlaying(false); });
-            v.addEventListener('ended', function () { setPlaying(false); });
+            v.addEventListener('play', function () {
+              setPlaying(true);
+            });
+            v.addEventListener('pause', function () {
+              setPlaying(false);
+            });
+            v.addEventListener('ended', function () {
+              setPlaying(false);
+            });
           }
         })(vids[i]);
       }
     }
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function () { init(document); });
+      document.addEventListener('DOMContentLoaded', function () {
+        init(document);
+      });
     } else {
       init(document);
     }
-    document.addEventListener('astro:page-load', function () { init(document); });
+    document.addEventListener('astro:page-load', function () {
+      init(document);
+    });
   })();
 </script>

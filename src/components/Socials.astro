@@ -8,17 +8,25 @@ import { site } from '@/lib/data';
 const [user, domain] = site.email.split('@');
 const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
 
-const socials = ((site.socials ?? []) as { label: string; url: string; icon: string }[])
-  .filter((s) => !s.url.startsWith('mailto:'));
+const socials = ((site.socials ?? []) as { label: string; url: string; icon: string }[]).filter(
+  (s) => !s.url.startsWith('mailto:'),
+);
 ---
+
 <nav class="contact-links" aria-label="Contact and links">
   <a class="contact-links__email" href="#" data-u={enc(user)} data-d={enc(domain)}>Email</a>
-  {socials.map((s) => (
-    <>
-      <span class="contact-links__sep" aria-hidden="true">·</span>
-      <a class="contact-links__item" href={s.url} target="_blank" rel="noopener">{s.label}</a>
-    </>
-  ))}
+  {
+    socials.map((s) => (
+      <>
+        <span class="contact-links__sep" aria-hidden="true">
+          ·
+        </span>
+        <a class="contact-links__item" href={s.url} target="_blank" rel="noopener">
+          {s.label}
+        </a>
+      </>
+    ))
+  }
 </nav>
 <script is:inline>
   document.addEventListener('click', function (e) {
@@ -29,6 +37,8 @@ const socials = ((site.socials ?? []) as { label: string; url: string; icon: str
       var u = atob(a.getAttribute('data-u'));
       var d = atob(a.getAttribute('data-d'));
       window.location.href = 'mailto:' + u + '@' + d;
-    } catch (err) { /* noop */ }
+    } catch (err) {
+      /* noop */
+    }
   });
 </script>

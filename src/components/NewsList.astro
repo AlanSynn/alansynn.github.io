@@ -7,10 +7,13 @@ import type { NewsItem } from '@/lib/data';
 
 marked.setOptions({ gfm: true, breaks: false });
 
-interface Props { items: NewsItem[] }
+interface Props {
+  items: NewsItem[];
+}
 const { items } = Astro.props;
 
-const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', timeZone: 'UTC' });
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', timeZone: 'UTC' });
 
 // marked encodes `&` as &amp;; the prior Astro (remark) pipeline used the hex
 // form &#x26;. Normalize so news output stays byte-identical to the old render().
@@ -19,20 +22,25 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month:
 const renderBody = (s: string) =>
   (marked.parse(s) as string).replace(/&amp;/g, '&#x26;').replace(/\n+$/, '');
 ---
-{items.length === 0 ? (
-  <p class="empty-state">No news yet.</p>
-) : (
-  <ul class="news-list">
-    {items.map((item) => (
-      <li class:list={['news-item', { 'news-item--highlight': item.highlight }]}>
-        <div class="news-item__date">{fmt(item.date)}</div>
-        <div class="news-item__body">
-          <Fragment set:html={renderBody(item.body)} />
-          {item.link && (
-            <a href={item.link} target="_blank" rel="noopener" aria-label="Related link">↗</a>
-          )}
-        </div>
-      </li>
-    ))}
-  </ul>
-)}
+
+{
+  items.length === 0 ? (
+    <p class="empty-state">No news yet.</p>
+  ) : (
+    <ul class="news-list">
+      {items.map((item) => (
+        <li class:list={['news-item', { 'news-item--highlight': item.highlight }]}>
+          <div class="news-item__date">{fmt(item.date)}</div>
+          <div class="news-item__body">
+            <Fragment set:html={renderBody(item.body)} />
+            {item.link && (
+              <a href={item.link} target="_blank" rel="noopener" aria-label="Related link">
+                ↗
+              </a>
+            )}
+          </div>
+        </li>
+      ))}
+    </ul>
+  )
+}
