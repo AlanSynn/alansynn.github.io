@@ -14,7 +14,6 @@ affiliation: 'Georgia Institute of Technology'
 affiliation_url: 'https://www.gatech.edu'
 department: 'School of Interactive Computing / School of Industrial Design'
 department_url: 'https://ic.gatech.edu'
-location: 'Atlanta, GA, USA'
 
 # PhD advisors — rendered on the homepage hero and the CV/resume title block.
 # The most-likely-to-change CV fact, so it lives here (not hardcoded in a
@@ -25,7 +24,6 @@ advisors:
 
 email: 'alansynn@gatech.edu'
 email_obfuscated: 'alansynn [at] gatech [dot] edu'
-phone: '***REMOVED***'
 
 url: 'https://alansynn.com'
 domain: 'alansynn.com'

@@ -10,8 +10,6 @@
 #   just resume graphics
 #   just cv ml-systems
 #   just pdfs       # resume + cv (default variants)
-#   just cv-private           # private/pdfs/alansynn-cv.pdf (PHONE FULL — not committed)
-#   just resume-private ml-systems   # private + a research target
 #   just web        # bun run build
 # ============================================================================
 
@@ -29,9 +27,7 @@ default: build
 # resume/typst/layout.typ (no @preview runtime dependency).
 
 # Compile a one-page resume. Optional target id filters/reorders publications
-# and swaps the research-interest lead (e.g. `just resume graphics`). Output is
-# phone-less (public): the contact line omits phone unless phone=true is passed
-# (see resume-private below).
+# and swaps the research-interest lead (e.g. `just resume graphics`).
 resume target='':
     #!/usr/bin/env bash
     set -euo pipefail
@@ -43,7 +39,6 @@ resume target='':
     echo "built public/pdfs/$STEM.pdf"
 
 # Compile the full academic CV. Optional target id (e.g. `just cv ml-systems`).
-# Phone-less (public) — see cv-private for a phone-full private build.
 cv target='':
     #!/usr/bin/env bash
     set -euo pipefail
@@ -56,32 +51,6 @@ cv target='':
 
 # Build the default resume + CV PDFs (no target variants).
 pdfs: resume cv
-
-# --- Private phone-full variants --------------------------------------------
-# Output to private/pdfs/ (gitignored — NEVER committed or deployed). Passes
-# --input phone=true so the contact line INCLUDES the phone number. Same optional
-# research target as the public recipes (e.g. `just cv-private graphics`).
-resume-private target='':
-    #!/usr/bin/env bash
-    set -euo pipefail
-    bun scripts/gen-papers-json.mjs
-    if [ -z "{{target}}" ]; then STEM="alansynn-resume"; else STEM="alansynn-resume-{{target}}"; fi
-    mkdir -p private/pdfs
-    typst compile --root . resume/typst/resume.typ "private/pdfs/$STEM.pdf" \
-        --input target="{{target}}" --input phone="true" \
-        || { echo "--- typst failed (resume-private $STEM) ---"; exit 1; }
-    echo "built private/pdfs/$STEM.pdf  (PHONE FULL — do NOT commit)"
-
-cv-private target='':
-    #!/usr/bin/env bash
-    set -euo pipefail
-    bun scripts/gen-papers-json.mjs
-    if [ -z "{{target}}" ]; then STEM="alansynn-cv"; else STEM="alansynn-cv-{{target}}"; fi
-    mkdir -p private/pdfs
-    typst compile --root . resume/typst/cv.typ "private/pdfs/$STEM.pdf" \
-        --input target="{{target}}" --input phone="true" \
-        || { echo "--- typst failed (cv-private $STEM) ---"; exit 1; }
-    echo "built private/pdfs/$STEM.pdf  (PHONE FULL — do NOT commit)"
 
 # --- Web -------------------------------------------------------------------
 

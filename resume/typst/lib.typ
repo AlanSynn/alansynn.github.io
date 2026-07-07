@@ -63,12 +63,6 @@
   panic("Unknown --input target=\"" + target + "\". Known: " + targets.keys().join(", ") + ".")
 }
 
-// Phone is PRIVATE: it renders ONLY when a build passes --input phone=true (the
-// *-private just recipes). The default public recipes pass no such input → phone
-// stays hidden → committed/served PDFs never expose it. Orthogonal to `target`
-// (research-focus), so a private build can still target graphics/ml-systems.
-#let show-phone = sys.inputs.at("phone", default: "false") == "true"
-
 // Owner family name (lower-cased) — used to bold + underline "me" in author lists.
 #let me-family = lower(site.last_name)
 
@@ -402,10 +396,10 @@
 // role/affiliation and a contact line beneath. No manual size/weight on the
 // name — the heading style is the title typography, per the package template.
 // Every line is content-driven (site.yaml): title · affiliation, an optional
-// "Advised by …" line, then email · phone · location · url. (The department
-// field renders on the web hero and in the Education section below; omitted
-// here to keep the centered title on one line.) The hero on the web renders
-// from the SAME fields, so editing site.yaml updates both surfaces in lockstep.
+// "Advised by …" line, then email · url. (The department field renders on the
+// web hero and in the Education section below; omitted here to keep the centered
+// title on one line.) The hero on the web renders from the SAME fields, so
+// editing site.yaml updates both surfaces in lockstep.
 #let advisor-line() = {
   let arr = if "advisors" in site and type(site.advisors) == array { site.advisors } else { () }
   if arr.len() != 0 {
@@ -428,7 +422,7 @@
   #if ("advisors" in site and site.advisors.len() > 0) [
     #advisor-line() \
   ]
-  #link("mailto:" + site.email)[#site.email] · #if show-phone [#site.phone · ]#if site.location != none [#site.location · ]#link(site.url)[#site.url]
+  #link("mailto:" + site.email)[#site.email] · #link(site.url)[#site.url]
 ]
 
 // ---- 11. PDF metadata title ----------------------------------------------
