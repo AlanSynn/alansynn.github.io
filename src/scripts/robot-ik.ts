@@ -7,23 +7,37 @@ import { ikLeg, ikLegPole, gaitFoot, V, add, sub, fkLeg } from '@/lib/ik';
 const PI2 = Math.PI / 2;
 const clamp01 = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
 const lerp = (a, b, t) => a + (b - a) * t;
+// delta-gate DOM writes: a joint's pivot is constant, so the rounded angle string
+// uniquely identifies the transform — skip the build + setAttribute when unchanged.
+// Cuts string alloc + SVG style invalidation on frames where toFixed(2) collapses
+// (sine terms near extrema) or a rig is effectively still.
+const _lastJ = new WeakMap();
+const _lastCx = new WeakMap();
+const _lastCy = new WeakMap();
 const setJ = (el, ang, piv, rest) => {
   if (!el) return;
-  const deg = ((ang - rest) * 180) / Math.PI;
-  el.setAttribute('transform', `rotate(${deg.toFixed(2)} ${piv.x} ${piv.y})`);
+  const s = (((ang - rest) * 180) / Math.PI).toFixed(2);
+  if (_lastJ.get(el) === s) return;
+  _lastJ.set(el, s);
+  el.setAttribute('transform', `rotate(${s} ${piv.x} ${piv.y})`);
 };
 const setHandle = (el, p) => {
   if (!el) return;
-  el.setAttribute('cx', p.x.toFixed(2));
-  el.setAttribute('cy', p.y.toFixed(2));
+  const cx = p.x.toFixed(2);
+  const cy = p.y.toFixed(2);
+  if (_lastCx.get(el) !== cx) {
+    _lastCx.set(el, cx);
+    el.setAttribute('cx', cx);
+  }
+  if (_lastCy.get(el) !== cy) {
+    _lastCy.set(el, cy);
+    el.setAttribute('cy', cy);
+  }
 };
 
 // legs: two 3-DOF chains (hip/knee/ankle + foot), links drawn +Y. viewBox 140×260.
 const LEG_HIPS = [V(50, 10), V(90, 10)];
 const LEG = { l1: 92, l2: 86, lFoot: 22, stride: 14, stance: 186, lift: 14 };
-const kneePivot = (hip) => V(hip.x, hip.y + LEG.l1); // rest y = 102
-const anklePivot = (hip) => V(hip.x, hip.y + LEG.l1 + LEG.l2); // rest y = 188
-const kneePoleDefault = (hip) => V(hip.x - 16, hip.y + 50); // knee bends LEFT
 
 // arm: 3-DOF (shoulder/elbow/wrist + hand), links drawn −Y. viewBox 180×360.
 const ARM = { shoulder: V(90, 340), l1: 95, l2: 88, lHand: 33 };
@@ -92,7 +106,12 @@ function dangleAngles(id, frame, piv, l1, ikSol, ikShin, ikMid, footAbs) {
   } else {
     const k = 1 - Math.exp(-lastDt / 140);
     ov.blend = lerp(ov.blend, 0, k);
-    ov.target = V(lerp(ov.target.x, ikMid.x, k), lerp(ov.target.y, ikMid.y, k));
+    // ikMid?.x — null-safe: caller passes null on the idle path; the deref only
+    // runs post-`!ov` guard, but the ?. keeps dangleAngles robust to reordering.
+    ov.target = V(
+      lerp(ov.target.x, ikMid?.x ?? ov.target.x, k),
+      lerp(ov.target.y, ikMid?.y ?? ov.target.y, k),
+    );
     ov.shinAbs = lerp(ov.shinAbs, ikShin, k);
     ov.footAbs = lerp(ov.footAbs, footAbs, k);
   }
@@ -119,25 +138,28 @@ function dangleAngles(id, frame, piv, l1, ikSol, ikShin, ikMid, footAbs) {
 function driveLegs(c, topScroll, t) {
   const svg = c.svg;
   const phaseBase = topScroll * Math.PI * 3 + t * 0.0006;
-  c.legs.forEach((leg, i) => {
-    const hip = LEG_HIPS[i] ?? LEG_HIPS[0];
+  for (let i = 0; i < c.legs.length; i++) {
+    const leg = c.legs[i];
+    const hip = leg.hip;
     const phase = phaseBase + (i ? Math.PI : 0);
     const f = gaitFoot(hip, phase, LEG.stride, LEG.stance, LEG.lift);
     const footAng = PI2 + 0.22 * Math.sin(t * 0.004 + phase * 0.5); // foot below ankle, idle tap
     const footTip = chainTarget(`leg:${i}:foot`, V(f.x, f.y), svg);
-    const s = ikLegPole(hip, footTip, LEG.l1, LEG.l2, LEG.lFoot, footAng, kneePoleDefault(hip));
+    const s = ikLegPole(hip, footTip, LEG.l1, LEG.l2, LEG.lFoot, footAng, leg.kneePole);
     const kid = `leg:${i}:knee`;
-    const ikMid = fkLeg(hip, s.hip, s.knee, 0, LEG.l1, LEG.l2, 0).knee;
+    // ikMid is read only inside dangleAngles when an override is active (else it
+    // returns ikSol by ref) → skip the fkLeg on the common idle path.
+    const ikMid = overrides[kid] ? fkLeg(hip, s.hip, s.knee, 0, LEG.l1, LEG.l2, 0).knee : null;
     const sol = dangleAngles(kid, svg, hip, LEG.l1, s, s.hip + s.knee, ikMid, footAng);
-    setJ(leg.hip, sol.hip, hip, PI2);
-    setJ(leg.knee, sol.knee, kneePivot(hip), 0);
-    setJ(leg.ankle, sol.ankle, anklePivot(hip), 0);
-    const kneePos = fkLeg(hip, sol.hip, sol.knee, 0, LEG.l1, LEG.l2, 0).knee;
-    const toePos = fkLeg(hip, sol.hip, sol.knee, sol.ankle, LEG.l1, LEG.l2, LEG.lFoot).toe;
-    setHandle(leg.footH, toePos);
-    setHandle(leg.kneeH, kneePos);
+    setJ(leg.hipJ, sol.hip, hip, PI2);
+    setJ(leg.kneeJ, sol.knee, leg.kneePiv, 0);
+    setJ(leg.ankleJ, sol.ankle, leg.anklePiv, 0);
+    // one fkLeg with full angles yields both knee + toe (knee is ankle-independent).
+    const fr = fkLeg(hip, sol.hip, sol.knee, sol.ankle, LEG.l1, LEG.l2, LEG.lFoot);
+    setHandle(leg.footH, fr.toe);
+    setHandle(leg.kneeH, fr.knee);
     lastSolves[kid] = { shinAbs: s.hip + s.knee, footAbs: footAng };
-  });
+  }
 }
 
 function driveArm(c, rise, t) {
@@ -165,7 +187,10 @@ function driveArm(c, rise, t) {
   );
 
   const eid = 'arm:elbow';
-  const ikMid = fkLeg(ARM.shoulder, a.hip, a.knee, 0, ARM.l1, ARM.l2, 0).knee;
+  // ikMid read only if an elbow override is active → skip fkLeg on the idle path.
+  const ikMid = overrides[eid]
+    ? fkLeg(ARM.shoulder, a.hip, a.knee, 0, ARM.l1, ARM.l2, 0).knee
+    : null;
   const sol = dangleAngles(eid, svg, ARM.shoulder, ARM.l1, a, a.hip + a.knee, ikMid, handDir);
 
   const shoulderSway = 0.06 * Math.sin(t * 0.0014); // slow shoulder breath
@@ -180,7 +205,8 @@ function driveArm(c, rise, t) {
   // high so PIP/DIP curl gently. footAng = dir − π/2 (dir is angle-from-up, ikLeg's
   // footAng is absolute) so the distal points up and PIP/DIP actually fold.
   const open = clamp01(rise);
-  c.fingers.forEach((fng, idx) => {
+  for (let idx = 0; idx < c.fingers.length; idx++) {
+    const fng = c.fingers[idx];
     const f = fng.spec;
     const sync = 0.5 + 0.5 * Math.sin(t * WSLOW + idx * 0.4);
     const ext = 0.85 + 0.12 * open - 0.07 * sync;
@@ -196,7 +222,7 @@ function driveArm(c, rise, t) {
     setJ(fng.pip, r.knee, V(f.mcp.x, f.mcp.y - f.l1), 0);
     setJ(fng.dip, r.ankle, V(f.mcp.x, f.mcp.y - f.l1 - f.l2), 0);
     setHandle(fng.tipH, tip);
-  });
+  }
   lastSolves[eid] = { shinAbs: a.hip + a.knee, footAbs: handDir };
 }
 
@@ -219,6 +245,11 @@ let _dh = 0,
 // once in init(); step() iterates these instead of re-querying every frame.
 let LEG_RIGS = [],
   ARM_RIGS = [];
+// IO-visible rig elements. driveLegs/driveArm are gated on membership so an
+// off-screen rig (footer arm while reading the hero, legs past the fold) is skipped
+// entirely — a level-of-detail cull. The harness forces every rig intersecting, so
+// this stays bit-exact; in production it cuts ~half the solves in single-rig bands.
+const visible = new Set();
 
 let last = 0;
 function step(t) {
@@ -243,10 +274,10 @@ function step(t) {
   // a page ≤ ~1.2 viewports can't scroll to the footer → force rise=1 so the arm
   // stands fully (matches long-page scrolled-to-footer; keeps it visible on /blog).
   const rise = dh <= vh * 1.2 ? 1 : clamp01((sy - start) / (dh - vh - start));
-  for (const c of LEG_RIGS) driveLegs(c, top, t);
+  for (const c of LEG_RIGS) if (visible.has(c.el)) driveLegs(c, top, t);
   const b = boot(t);
   const armRise = 1 - b + b * rise; // ease CSS default (1) → scroll rise
-  for (const c of ARM_RIGS) driveArm(c, armRise, t);
+  for (const c of ARM_RIGS) if (visible.has(c.el)) driveArm(c, armRise, t);
 }
 
 function onPointerDown(e) {
@@ -313,14 +344,22 @@ function init() {
     const svg = rig.querySelector('svg');
     if (rig.getAttribute('data-rig') === 'legs') {
       LEG_RIGS.push({
+        el: rig,
         svg,
-        legs: [...rig.querySelectorAll('[data-side]')].map((leg, i) => ({
-          hip: leg.querySelector('.j-hip'),
-          knee: leg.querySelector('.j-knee'),
-          ankle: leg.querySelector('.j-ankle'),
-          footH: rig.querySelector(`.h-leg-${i}-foot`),
-          kneeH: rig.querySelector(`.h-leg-${i}-knee`),
-        })),
+        legs: [...rig.querySelectorAll('[data-side]')].map((leg, i) => {
+          const hip = LEG_HIPS[i] ?? LEG_HIPS[0];
+          return {
+            hip, // hip coordinate (V2)
+            hipJ: leg.querySelector('.j-hip'),
+            kneeJ: leg.querySelector('.j-knee'),
+            ankleJ: leg.querySelector('.j-ankle'),
+            kneePiv: V(hip.x, hip.y + LEG.l1), // precomputed (was kneePivot fn)
+            anklePiv: V(hip.x, hip.y + LEG.l1 + LEG.l2),
+            kneePole: V(hip.x - 16, hip.y + 50), // knee bends LEFT
+            footH: rig.querySelector(`.h-leg-${i}-foot`),
+            kneeH: rig.querySelector(`.h-leg-${i}-knee`),
+          };
+        }),
       });
     } else {
       const hand = rig.querySelector('.hand');
@@ -345,7 +384,6 @@ function init() {
   }
   if (!LEG_RIGS.length && !ARM_RIGS.length) return;
 
-  const visible = new Set();
   let raf = 0;
   const loop = (t) => {
     step(t);
