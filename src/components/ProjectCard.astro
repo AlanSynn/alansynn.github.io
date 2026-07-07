@@ -1,6 +1,5 @@
 ---
-// ProjectCard.astro - gallery card for a project entry. Thumbnail priority:
-// explicit image → YouTube thumbnail (if video id) → mono placeholder.
+// ProjectCard.astro — project gallery card. Thumb: image → YT thumb → mono placeholder.
 import type { CollectionEntry } from 'astro:content';
 import clipManifest from '@/data/video-clips.json';
 import LazyVideo from './LazyVideo.astro';

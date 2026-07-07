@@ -1,14 +1,6 @@
 ---
-// LazyVideo.astro - build-time-generated clip shown as a lazy-loaded,
-// hover-to-play thumbnail. The clip's <video> starts with NO src so the
-// browser downloads nothing until IntersectionObserver fires; once loaded,
-// the clip plays on hover (desktop) and pauses otherwise.
-//
-// The resting "thumbnail" is a separate <img> layered over the <video>, so it
-// is always the poster frame - never the video's current/first frame (which
-// can be white/black after a play+reset). Safe to drop in multiple times per
-// page: each instance is initialized once via a data attribute, and the
-// inline script is an idempotent IIFE.
+// LazyVideo.astro — lazy hover-to-play clip thumbnail. <video> starts src-less
+// (nothing downloads until IO fires); resting frame is a separate <img> overlay.
 interface Props {
   src: string;
   poster?: string;
@@ -52,7 +44,7 @@ const { src, poster, alt, class: cls } = Astro.props;
           function setPlaying(on) {
             if (wrap) wrap.classList.toggle('is-playing', !!on);
           }
-          // Lazy-load: only set src once the element scrolls near the viewport.
+          // Lazy-load: set src only once near viewport.
           if ('IntersectionObserver' in window) {
             var io = new IntersectionObserver(
               function (entries) {
@@ -74,8 +66,7 @@ const { src, poster, alt, class: cls } = Astro.props;
             v.load();
           }
           if (!reduced) {
-            // Hover-to-play (desktop pointer). Poster overlay hides on play,
-            // returns on leave - the resting frame is always the poster img.
+            // Hover-to-play (desktop); poster overlay is the resting frame.
             v.addEventListener('mouseenter', function () {
               if (!loaded) return;
               var p = v.play();

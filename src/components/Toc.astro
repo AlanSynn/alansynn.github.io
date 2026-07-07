@@ -1,14 +1,7 @@
 ---
-// Toc.astro — floating scroll-spy table of contents for blog posts.
-//
-// The list is built CLIENT-SIDE from the article's rendered <h2>/<h3> (the
-// Typst headings), so it always matches the prose exactly — no second source
-// of truth to drift. Desktop: a sticky left rail whose accent bar slides to
-// mark the section currently in view. Mobile (<880px): a disclosure that
-// collapses to a single "On this page" row.
-//
-// Markup is empty until JS runs; the rail is hidden under [data-no-toc] / no-JS
-// so a non-JS reader simply gets the prose (TOC is enhancement, not content).
+// Toc.astro — scroll-spy TOC for blog posts. Built client-side from rendered
+// <h2>/<h3> so it never drifts from prose. Desktop: sticky rail; <880px: disclosure.
+// Empty until JS runs — TOC is enhancement, not content.
 ---
 
 <aside class="toc" aria-label="Table of contents" data-toc-rail hidden>
@@ -38,17 +31,14 @@
 </details>
 
 <script is:inline>
-  // Runs after the DOM is parsed — this component renders before .prose in the
-  // markup, so we can't query .prose at the script's parse position.
+  // Runs after DOM parse — we render before .prose, can't query it at parse time.
   function initBlogToc() {
     var prose = document.querySelector('.prose');
     if (!prose) return;
     var heads = Array.prototype.slice.call(prose.querySelectorAll('h2, h3'));
     if (!heads.length) return;
 
-    // Document title (from <h1> in the post header) — a body heading that just
-    // repeats it (a known duplication in some essays) is skipped so it doesn't
-    // appear as a noise entry at the top of the TOC.
+    // Skip a body heading that repeats the <h1> title (essay duplication) — noise entry.
     var docTitle = '';
     var h1 = document.querySelector('.post-header h1, article h1');
     if (h1) docTitle = (h1.textContent || '').trim();
@@ -99,7 +89,7 @@
     build(listDesktop);
     build(listMobile);
 
-    // Reveal now that there's something to show.
+    // Reveal now that there's content.
     var rail = document.querySelector('[data-toc-rail]');
     var mobile = document.querySelector('[data-toc-mobile]');
     if (rail) rail.removeAttribute('hidden');
@@ -136,8 +126,7 @@
       }
     }
 
-    // Scroll-spy: the active section is the last heading whose top has crossed
-    // ~30% down the viewport. Simple, predictable, beats IO edge cases here.
+    // Scroll-spy: active = last heading whose top crossed ~30% viewport. Beats IO here.
     function recompute() {
       var line = window.innerHeight * 0.3;
       var active = entries[0].id;
@@ -164,8 +153,7 @@
     window.addEventListener('resize', onScroll, { passive: true });
     recompute();
 
-    // Click any TOC link: native #hash jump (CSS smooth-scrolls), then close
-    // the mobile disclosure so it doesn't cover the destination.
+    // Click: native #hash jump, then close mobile disclosure so it won't cover target.
     document.querySelectorAll('.toc__link').forEach(function (a) {
       a.addEventListener('click', function () {
         if (mobile && mobile.open) mobile.removeAttribute('open');

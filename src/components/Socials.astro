@@ -1,8 +1,6 @@
 ---
-// Socials.astro - inline contact row in the danfei/sehoon-ha academic style:
-// "Email · Scholar · GitHub · …", plain text links separated by middle-dots.
-// No icons, no bullets. Email is obfuscated (base64 halves, JS-decoded mailto)
-// so the raw address never appears in the served HTML.
+// Socials.astro — inline contact row ("Email · Scholar · …", no icons).
+// Email obfuscated: base64 halves, JS-decoded mailto → raw address never in HTML.
 import { site } from '@/lib/data';
 
 const [user, domain] = site.email.split('@');

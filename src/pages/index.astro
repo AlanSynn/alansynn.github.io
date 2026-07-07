@@ -23,35 +23,27 @@ import { getCollection } from 'astro:content';
 
 // One page = the whole CV. Scroll-only, no nav.
 const papers = getPapers();
-// Featured = the handful surfaced at the top of #publications; the rest collapse
-// behind "All publications". Driven by the `featured` flag in content/papers.bib.
-// (`selected` in papers.bib is PDF-only — which papers the resume/CV prints.)
+// `featured` (web-only, top of #publications) vs `selected` (PDF-only) in papers.bib — don't conflate.
 const selectedPubs = papers.filter((p) => p.featured);
 const otherPubs = papers.filter((p) => !p.featured);
 
-// Projects = work/engineering only. Research (papers) lives in #publications via
-// papers.bib — the category filter enforces the separation so a 'research' entry
-// can never leak into the projects grid.
+// Projects = work/engineering only; category filter keeps 'research' in #publications.
 const projects = (await getCollection('projects'))
   .filter((p) => p.data.category !== 'research')
   .sort((a, b) => (b.data.order ?? 0) - (a.data.order ?? 0));
 
-// News: newest first, capped to the 8 most recent on the homepage. Sourced from
-// the single content/news.yaml list (validated in lib/data.ts).
+// News: newest first, capped to 8. From content/news.yaml (validated in lib/data.ts).
 const news = [...newsItems].sort((a, b) => b.date.valueOf() - a.date.valueOf()).slice(0, 8);
 
-// Render the full statements array (one <p> per statement) so the bio can be a
-// multi-paragraph profile, not just the first entry.
+// Join all statements so the bio can be multi-paragraph, not just the first.
 const bio = researchInterests.statements.join('\n\n');
 
-// Email obfuscation for the inline "Say hi" link (base64 halves, JS-decoded
-// mailto on click — same pattern as Socials.astro, caught by its handler).
+// "Say hi" email obfuscation (base64 halves, JS-decoded) — same as Socials.astro.
 const [mailUser, mailDomain] = site.email.split('@');
 const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
 ---
 
 <Base>
-  {/* ---- Profile (text left, photo right) ---- */}
   <section id="profile" class="profile">
     <div class="profile__text">
       <h1>{site.name}</h1>
@@ -95,13 +87,11 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     </div>
   </section>
 
-  {/* ---- News ---- */}
   <section id="news">
     <h2 class="home-head">News</h2>
     <NewsList items={news} />
   </section>
 
-  {/* ---- Publications (Selected + All) ---- */}
   <section id="publications">
     <h2 class="home-head">Publications</h2>
     <div class="cpubs">
@@ -121,37 +111,32 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     }
   </section>
 
-  {/* ---- Projects ---- */}
   <section id="projects">
     <h2 class="home-head">Projects</h2>
     <div class="project-grid">{projects.map((p) => <ProjectCard project={p} />)}</div>
   </section>
 
-  {/* ---- Experience ---- */}
   <section id="experience">
     <h2 class="home-head">Experience</h2>
     <Timeline items={experience} />
   </section>
 
-  {/* ---- Education ---- */}
   <section id="education">
     <h2 class="home-head">Education</h2>
     <Timeline items={education} />
   </section>
 
-  {/* ---- Teaching ---- */}
   <section id="teaching">
     <h2 class="home-head">Teaching</h2>
     <Timeline items={teaching} />
   </section>
 
-  {/* ---- Activities & Service ---- */}
   <section id="service">
     <h2 class="home-head">Activities &amp; Service</h2>
     <Timeline items={activities} />
   </section>
 
-  {/* ---- Honors & Awards (above Contact — closes the page on achievement) ---- */}
+  {/* Honors — placed above Contact to close the page on achievement */}
   <section id="honors">
     <h2 class="home-head">Honors &amp; Awards</h2>
     {
@@ -170,7 +155,6 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     }
   </section>
 
-  {/* ---- Contact ---- */}
   <section id="contact">
     <h2 class="home-head">Contact</h2>
     <p>
@@ -198,9 +182,8 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     position: relative;
     z-index: 1;
   }
-  /* "Say hi" — braced by the robot arm. As the arm rises into the footer
-     (--arm → 1, set by the engine on :root), an accent underline draws in
-     under the link so the eye lands on it. Reduced-motion: static full underline. */
+  /* "Say hi" underline: drawn in by the engine's --arm var (→1) as the arm rises.
+     Reduced-motion: static full underline. */
   .say-hi {
     position: relative;
   }

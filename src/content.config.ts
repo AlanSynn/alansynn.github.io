@@ -1,9 +1,5 @@
-// ============================================================================
-// Content collections. Blog = Typst (framework pattern). Projects = Markdown,
-// one file per item - scalable, al-folio-like, ready for a future lab page
-// (multi-author). News lives in a single list file (content/news.yaml) read
-// directly, not a collection.
-// ============================================================================
+// Content collections. Blog = Typst. Projects = Markdown (one file per item,
+// al-folio-like). News lives in content/news.yaml read directly, not a collection.
 import { glob } from 'astro/loaders';
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
@@ -27,10 +23,8 @@ const projects = defineCollection({
     title: z.string(),
     period: z.string().optional(),
     org: z.string().optional(),
-    // 'work' (default) appears in the homepage project grid; 'research' is
-    // filtered OUT of the grid (index.astro) because research output lives in
-    // #publications via papers.bib. Use 'research' for files you want routed
-    // at /projects/<slug> but NOT surfaced on the homepage.
+    // 'work' (default) → homepage grid; 'research' routed at /projects/<slug>
+    // but filtered OUT of the grid (research output lives in #publications).
     category: z.string().default('work'),
     order: z.number().default(0),
     date: z.coerce.date().optional(),

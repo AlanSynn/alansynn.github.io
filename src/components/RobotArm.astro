@@ -1,17 +1,14 @@
 ---
 // RobotArm.astro — humanoid arm for the RobotIK engine. 3-DOF chain
-// (shoulder/elbow/wrist) + a hand of four fingers, each a 3-DOF chain
-// (MCP/PIP/DIP). Hairline-mechanism idiom (links drawn −Y → root offset −π/2).
-// Lives in the footer, centered on its top border = the GROUND: the stage clips
-// at the line and the arm rises from below it on scroll (--arm, set by the
-// engine). Joints are alive; shoulder/elbow/wrist + fingertips are grab handles.
-// Sized in CSS (.robot-arm-stage) to clear the content above. Reduced-motion:
-// static standing pose.
+// (shoulder/elbow/wrist) + a hand of four 3-DOF fingers (MCP/PIP/DIP).
+// Hairline-mechanism idiom (links drawn −Y → root offset −π/2). Lives in the
+// footer; the stage's top border = the GROUND — it clips at the line and the arm
+// rises from below on scroll (--arm, set by the engine). Joints are alive;
+// shoulder/elbow/wrist + fingertips are grab handles. Reduced-motion: static pose.
 //
-// Geometry contract (must match RobotIK.astro): viewBox 0 0 180 360;
-// shoulder (90,340); l1=95 → elbow rest y=245; l2=88 → wrist rest y=157;
-// lHand=33 → hand-tip rest y=124. Fingers (hand-local): .f-t mcp(78,150),
-// .f-i (88,146), .f-m (98,145), .f-r (108,147).
+// Geometry contract (must match RobotIK.astro): viewBox 0 0 180 360; shoulder
+// (90,340); l1=95→elbow y=245; l2=88→wrist y=157; lHand=33→hand-tip y=124.
+// Fingers (hand-local): .f-t(78,150) .f-i(88,146) .f-m(98,145) .f-r(108,147).
 interface Props {
   zone?: string;
 }
@@ -57,10 +54,7 @@ const FING = [
 ];
 ---
 
-{
-  /* The stage is the GROUND: its bottom = the footer border-top line, overflow
-    hidden so anything below the line is buried. The arm inside rises on scroll. */
-}
+{/* The stage is the GROUND: bottom = footer border-top line; arm rises on scroll. */}
 <div class="robot-arm-stage" aria-hidden="true">
   <div class="robot-arm" data-rig="arm" data-zone={zone}>
     <svg viewBox="0 0 180 360" xmlns="http://www.w3.org/2000/svg">
@@ -139,14 +133,11 @@ const FING = [
 </div>
 
 <style>
-  /* The stage = the GROUND. Anchored in the footer (position: relative on
-     .site-footer); its bottom sits exactly on the footer's top border line.
-     clip-path buries everything BELOW the line while leaving top/sides open so
-     a dragged hand never gets clipped, and the arm paints above footer content
-     (z-index 20). --arm-w is pure CSS (no JS measurement): tuned to the footer
-     gap (main pad-block-end + footer margin-top = 2×--space-9 ≈ 192px) so the
-     waving hand clears the content above on every page; the homepage variant
-     (:has(a.say-hi)) is a touch larger so the hand hugs the "Say hi" underline. */
+  /* Stage = the GROUND. Bottom = footer top-border line. clip-path buries below
+     the line, leaves top/sides open so a dragged hand never clips; z-index 20
+     paints over footer content. --arm-w is pure CSS: tuned to the footer gap
+     (~192px) so the waving hand clears content on every page; homepage
+     (:has(a.say-hi)) is slightly larger so the hand hugs the "Say hi" underline. */
   .robot-arm-stage {
     --arm-w: 144px; /* fits the 192px footer gap with clearance */
     position: absolute;
@@ -155,9 +146,7 @@ const FING = [
     bottom: 100%; /* stage bottom = footer top = the line */
     width: var(--arm-w);
     height: calc(var(--arm-w) * 2); /* room for the full standing arm */
-    /* clip ONLY the bottom (the line) → below is buried, top/sides stay open so
-       a dragged hand never gets hidden. inset(top right bottom left); negative =
-       extend, 0 = clip flush. */
+    /* clip only the bottom (the line): inset(t r b l), negative = extend. */
     clip-path: inset(-300% -300% 0 -300%);
     pointer-events: none;
     z-index: 20; /* arm paints on top of footer content */
@@ -176,13 +165,9 @@ const FING = [
     width: 100%;
     opacity: 0.6; /* steady + subtle (no fade-from-bg) */
     pointer-events: none;
-    /* rise from below the line: --arm=1 standing, --arm=0 fully buried (clipped).
-       100% = the arm's own height, so it translates entirely under the ground.
-       Default 1 (not 0): on a short page that fits one viewport (e.g. /blog) the
-       footer is in view at load and the user can't scroll, so the engine's
-       scroll/idle boot triggers may never fire — defaulting to 1 keeps the arm
-       visible there. The engine eases --arm 1→rise on takeover, so long pages
-       (footer off-screen at load) are unaffected. */
+    /* rise from below the line: --arm=1 standing, 0 = buried. Default 1 keeps the
+       arm visible on short unscrollable pages (footer in view at load); the engine
+       eases 1→rise on takeover, so long pages (footer off-screen) are unaffected. */
     transform: translateY(calc((1 - var(--arm, 1)) * 100%));
     will-change: transform;
   }

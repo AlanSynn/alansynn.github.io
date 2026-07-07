@@ -1,10 +1,7 @@
-// ============================================================================
-// papers.ts - minimal, dependency-free BibTeX parser tailored to the al-folio
-// flavour used in content/papers.bib. Runs at BUILD TIME only (Node fs).
-// Handles: @string macros, nested braces in values, {}/""/bare-word values,
-// boolean-ish fields, author splitting, month names. Preserves every field
-// and the raw entry text (for BibTeX export).
-// ============================================================================
+// papers.ts — dependency-free BibTeX parser for the al-folio flavour in
+// content/papers.bib. Build-time only (Node fs). Handles @string macros,
+// nested braces, {}/""/bare values, author split, month names; preserves raw
+// entry text for BibTeX export.
 
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -238,8 +235,7 @@ export function parseBibtex(src: string): Paper[] {
   });
 }
 
-// Resolve from the project root so the path is correct in both `astro dev`
-// and the bundled `astro build` output (where import.meta.url points into dist/).
+// Resolve from cwd → correct in both `astro dev` and bundled build output.
 const BIB_PATH = resolve(process.cwd(), 'content/papers.bib');
 
 let cache: Paper[] | null = null;

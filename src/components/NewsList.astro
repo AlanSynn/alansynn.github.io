@@ -1,7 +1,5 @@
 ---
-// NewsList.astro - renders news items (newest first, already capped by caller)
-// from the content/news.yaml list. Body is markdown inline, rendered with
-// `marked` to match the rest of the site's markdown-fragment output.
+// NewsList.astro — renders content/news.yaml items; body is markdown inline (via `marked`).
 import { marked } from 'marked';
 import type { NewsItem } from '@/lib/data';
 
@@ -15,10 +13,8 @@ const { items } = Astro.props;
 const fmt = (d: Date) =>
   d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', timeZone: 'UTC' });
 
-// marked encodes `&` as &amp;; the prior Astro (remark) pipeline used the hex
-// form &#x26;. Normalize so news output stays byte-identical to the old render().
-// marked also leaves a trailing "\n" after <p>...</p>; strip it to match the
-// tight `</p><a>` concatenation the old render() produced.
+// Normalize marked's &amp; → &#x26; and strip trailing \n to stay byte-identical
+// to the old remark render().
 const renderBody = (s: string) =>
   (marked.parse(s) as string).replace(/&amp;/g, '&#x26;').replace(/\n+$/, '');
 ---
