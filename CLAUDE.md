@@ -42,6 +42,14 @@ entry.
 
 ## Conventions (don't break these)
 
+- **A pre-commit gate runs on every commit** (husky + lint-staged). It aborts
+  the commit if any of three checks fail: `lint-staged` (prettier on staged
+  code only — `content/` + generated + vendored are protected by
+  `.prettierignore`, so human edits are never reformatted), `astro check`
+  (types), and `just web` (full build = Zod strict-schema validation + render +
+  asset graph — mirrors CI, so a deploy-breaking commit is caught locally).
+  Bypass a WIP commit with `git commit --no-verify`. The hook auto-installs on
+  `bun install` via the `prepare` script, so fresh clones get it for free.
 - **Edit content in `content/`**, never in code or generated files. Generated:
   `src/data/papers.json` (from `content/papers.bib` via
   `scripts/gen-papers-json.mjs`), `src/data/video-clips.json`,
