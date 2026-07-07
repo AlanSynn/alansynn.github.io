@@ -150,6 +150,7 @@ const FING = [
     clip-path: inset(-300% -300% 0 -300%);
     pointer-events: none;
     z-index: 20; /* arm paints on top of footer content */
+    contain: layout style; /* scope per-frame setAttribute style/layout invalidation */
   }
   /* homepage: larger arm so the hand hugs the "Say hi" underline (#contact) */
   body:has(a.say-hi) .robot-arm-stage {

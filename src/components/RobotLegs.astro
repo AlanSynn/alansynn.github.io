@@ -67,6 +67,7 @@ const ankleY = kneeY + 86; // 188
     opacity: 0.6;
     z-index: 0; /* behind .profile__photo (z:1) */
     pointer-events: none;
+    contain: layout style; /* scope per-frame setAttribute style/layout invalidation */
   }
   .robot-legs svg {
     width: 100%;
