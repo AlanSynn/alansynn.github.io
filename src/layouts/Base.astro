@@ -111,7 +111,9 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
     </main>
     <footer class="site-footer">
       <div class="site-footer__inner">
-        <span class="site-footer__copy">© {year} {site.name}</span>
+        <a class="site-footer__copy" href="https://github.com/AlanSynn/alansynn.github.io#license"
+          >© {year} {site.name}</a
+        >
         <nav class="site-footer__path" aria-label="Site">
           <a href={site.url}>{site.domain}</a>
           <span class="site-footer__sep" aria-hidden="true">/</span>

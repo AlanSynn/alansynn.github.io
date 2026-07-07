@@ -1,0 +1,58 @@
+NOTICE
+======
+
+This repository is dual-licensed. The license follows the nature of each file:
+
+  Source code      MIT              → see LICENSE
+  Written content  CC BY-NC-ND 4.0  → see below
+
+
+SOURCE CODE (MIT)
+-----------------
+Templates, build scripts, the Typst CV engine, and configuration:
+
+  src/                 Astro components, layouts, lib, styles, scripts
+  resume/typst/        Typst CV/resume engine (lib.typ, layout.typ, resume.typ, cv.typ)
+  scripts/             gen-papers-json.mjs, video-clips.mjs, screenshot.mjs
+  content/blog.typ     shared Typst macro template (renders posts; not content itself)
+  justfile, *.mjs, *.json, *.ts, *.css at repo root
+
+
+WRITTEN CONTENT (CC BY-NC-ND 4.0)
+---------------------------------
+Alan Synn's authored text is © 2026 Alan Synn, licensed under Creative Commons
+Attribution-NonCommercial-NoDerivatives 4.0 International:
+https://creativecommons.org/licenses/by-nc-nd/4.0/
+
+  content/*.yaml       CV timeline, news, research statements, honors, bio
+  content/papers.bib   bibliography + abstracts + curation/annotations
+  content/projects/*   project write-ups
+  content/blog/*       long-form posts
+  public/pdfs/*        rendered resume/CV (text derivatives of the above)
+  public/images/*      figures + paper thumbnails (where Alan owns the image)
+  docs/coupler*.svg    the site's four-bar coupler-curve brand motif
+
+Generated artifacts under src/data/ (papers.json, video-clips.json) are
+mechanical derivatives of content/ and follow the content license, not MIT.
+
+Third-party paper thumbnails under public/images/papers/ are used for academic
+attribution under fair use and remain the property of their respective owners.
+
+Bibliographic facts in papers.bib (titles, author lists, venues, years, DOIs)
+are not copyrightable; only the abstracts, annotations, and curation are.
+
+
+THIRD-PARTY ATTRIBUTIONS
+------------------------
+- resume/typst/layout.typ — first-party layout primitives adapted from
+  cv-soft-and-hard 0.1.0 (MIT, © Jonas Pleyer):
+  https://github.com/typst/packages/raw/main/preview/cv-soft-and-hard/0.1.0
+- src/3rd_party/mathyml/ — vendored Typst library; retains its upstream license.
+- Fonts (web): Newsreader, Hanken Grotesk, IBM Plex Mono — SIL OFL.
+- Fonts (PDF): Libertinus Serif — SIL OFL.
+
+
+FORK NOTE
+---------
+This repo's default content/ is NOT MIT. If you fork the code, replace content/
+with your own before deploying; the default prose is CC BY-NC-ND 4.0.

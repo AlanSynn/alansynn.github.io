@@ -967,6 +967,20 @@ figcaption {
   color: var(--muted);
   letter-spacing: var(--tracking-mono);
 }
+/* Per-post license notice (content is CC BY-NC-ND 4.0); mirrors footer mono. */
+.license-note {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--hairline);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  color: var(--muted);
+  letter-spacing: var(--tracking-mono);
+  text-align: right;
+}
+.license-note a {
+  color: var(--ink-soft);
+}
 
 /* ---- Prose typography ------------------------------------------------- */
 .prose {

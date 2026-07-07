@@ -27,6 +27,8 @@
 
 > **`content/` is the only directory a human edits.** Change a file there → web, resume, and CV all update from the same source. Everything below exists to protect that one invariant.
 
+> **Dual license.** Code is MIT; written content (blog, CV, projects) is © Alan Synn under CC BY-NC-ND 4.0. See [License](#license) for the split.
+
 The curve above traces motion itself — the path a point on a moving linkage follows (a **coupler curve**, from the kinematics Alan works on). That same spare line-drawing style runs through the live site, where a robot arm waves from the footer.
 
 ```mermaid
@@ -138,3 +140,16 @@ Push `main` → `.github/workflows/deploy.yml` builds the web to GitHub Pages vi
 ## Credits
 
 Web on [`ahxt/academic-homepage-typst`](https://github.com/ahxt/academic-homepage-typst). Resume/CV layout primitives are first-party in `resume/typst/layout.typ`, adapted from [`cv-soft-and-hard`](https://github.com/typst/packages/raw/main/preview/cv-soft-and-hard/0.1.0) 0.1.0 (MIT, © Jonas Pleyer). Content migrated from an earlier `alshedivat/al-folio` Jekyll site.
+
+## License
+
+This repo is dual-licensed — the license follows the nature of each file.
+
+| Scope | License | Covers |
+|---|---|---|
+| **Source code** | [MIT](./LICENSE) | `src/`, `resume/typst/`, `scripts/`, `content/blog.typ`, root configs |
+| **Written content** | [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) © Alan Synn | `content/*.yaml`, `content/papers.bib`, `content/blog/*`, `content/projects/*`, `public/pdfs/*`, `public/images/*` |
+
+Generated artifacts (`src/data/*.json`) and rendered PDFs are derivatives of `content/` and follow the content license. Third-party layout primitives (`resume/typst/layout.typ`, adapted from `cv-soft-and-hard`, MIT) and vendored libraries (`src/3rd_party/`) retain their upstream licenses. Full details in [`NOTICE`](./NOTICE).
+
+**Forking the code?** Replace `content/` with your own — the default prose is CC BY-NC-ND, not MIT.
