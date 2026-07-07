@@ -65,19 +65,19 @@ export const siteSchema = z
     last_name: z.string(),
     title: z.string(),
     affiliation: z.string(),
-    affiliation_url: z.string().url(),
+    affiliation_url: z.url(),
     department: z.string().optional(),
-    department_url: z.string().url().optional(),
+    department_url: z.url().optional(),
     location: z.string().optional(),
     email: z.string(),
     email_obfuscated: z.string(),
     phone: z.string().optional(),
-    url: z.string().url(),
+    url: z.url(),
     domain: z.string().optional(),
     description: z.string(),
     keywords: z.array(z.string()).default([]),
     // PhD advisors — rendered on the hero + CV/resume title block.
-    advisors: z.array(z.object({ name: z.string(), url: z.string().url() }).strict()).default([]),
+    advisors: z.array(z.object({ name: z.string(), url: z.url() }).strict()).default([]),
     socials: z
       .array(z.object({ label: z.string(), url: z.string(), icon: z.string() }).strict())
       .default([]),
@@ -105,7 +105,7 @@ export const referencesSchema = z.array(
       affiliation: z.string().optional(),
       department: z.string().optional(),
       email: z.string().optional(),
-      url: z.string().url().optional(),
+      url: z.url().optional(),
     })
     .strict(),
 );
@@ -125,7 +125,7 @@ export const researchInterestsSchema = z
 export const newsItemSchema = z
   .object({
     date: z.coerce.date(),
-    link: z.string().url().optional(),
+    link: z.url().optional(),
     highlight: z.boolean().default(false),
     body: z.string(),
   })
@@ -139,7 +139,7 @@ export const newsItemSchema = z
 export const venueSchema = z
   .object({
     name: z.string(),
-    url: z.string().url(),
+    url: z.url(),
     type: z.enum(['journal', 'conference', 'preprint']).optional(),
   })
   .strict();
@@ -149,7 +149,7 @@ export const venuesSchema = z.record(z.string(), venueSchema);
 export const coauthorSchema = z
   .object({
     firstname: z.array(z.string()),
-    url: z.string().url(),
+    url: z.url(),
   })
   .strict();
 export const coauthorsSchema = z.record(z.string(), z.array(coauthorSchema));
