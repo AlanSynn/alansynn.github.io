@@ -24,7 +24,7 @@ education:
     location: 'Atlanta, GA, USA'
     body: |
       - [School of Interactive Computing](https://ic.gatech.edu); advised by Profs. [Oh](https://www.cc.gatech.edu/people/hyunjoo-oh) & [Ha](https://faculty.cc.gatech.edu/~sha9/)
-      - Research: computational design, automata, and motion synthesis (Graphics/HCI)
+      - Research: computational design, automata, and motion synthesis (HCI/Graphics)
 
   - period: '2020 - 2022'
     title: '[Korea University](https://www.korea.ac.kr), M.Eng. in ECE'
@@ -39,7 +39,7 @@ education:
     location: 'Seoul, Korea'
     body: |
       - GPA: 3.56 (4.5 scale)
-      - On leave from 2016 Spring to 2019 Spring to serve alternative military service
+      - Military service leave as a Software Engineer, 2016–2019
 
 experience:
   - period: '2024 - 2025'
@@ -59,23 +59,21 @@ experience:
     location: 'Austin, TX, USA'
     body: |
       - Built **Stained-Glass**, a privacy-preserving deep-learning framework enabling inference without raw-data exposure.
-      - Led development and infrastructure integration (Kubernetes + GPU).
       - CEO: [Dr. Ebrahimi](http://eimanebrahimi.com); CTO: [Prof. Esmaeilzadeh](http://cseweb.ucsd.edu/~hadi).
-      - Resulted in a NeurIPS 2021 Demo publication.
 
   - period: '2020 - 2022'
     title: 'Cloud Architect · [AWS Educate](https://aws.amazon.com/education/awseducate/) Cloud Ambassador'
     location: 'Seoul, Korea'
     body: |
-      - Guided 4 startups to cloud-native deployments (Kubernetes, Terraform) and shipped their services.
-      - Led CI/CD, observability, and cost-optimized autoscaling for social-media back-ends.
+      - Led engineering for 4 startup services, translating ambiguous product needs into back-end systems while mentoring early-career engineers.
+      - Built production cloud infrastructure with Kubernetes, Terraform, CI/CD, and cost-optimized autoscaling.
 
   - period: '2019'
     title: 'Server Engineer, Flysher Inc.'
     location: 'Seoul, Korea'
     body: |
       - Shipped back-end features for 4 social-game titles; one reached global top-10 on Facebook.
-      - Built an ETL → Redshift analytics pipeline driving data-informed feature rollout.
+      - Led an ETL → Redshift analytics pipeline driving data-informed feature rollout.
 
   - period: '2017 - 2019'
     title: 'System Engineer, [AKA Intelligence](https://www.aka.ai) (Musio)'
@@ -93,7 +91,7 @@ teaching:
   - period: '2021 - 2022'
     title: 'Lecturer, Korea University'
     body: |
-      - Taught Java for 10+ undergraduate students.
+      - `Java101` for 10+ undergraduate students.
 
   - period: '2021'
     title: 'Teaching Assistant, Korea University'
@@ -104,10 +102,9 @@ teaching:
   - period: '2012 - 2014'
     title: 'Lecturer, KAIST Engineering School'
     body: |
-      - Created comprehensive coding education programs in collaboration with the **Ministry of Science and ICT** of South Korea.
-      - Developed 20+ hardware and software development curricula for programming education.
-      - Emphasized hands-on projects utilizing [Arduino](https://www.arduino.cc) to teach the principles of mobile and ubiquitous computing.
-      - Guided high-school and college-level students in exploring the third generation of computing through practical projects addressing real-world problems.
+      - Co-developed national coding education programs with South Korea’s Ministry of Science and ICT.
+      - Designed 20+ project-based curricula combining Arduino, hardware prototyping, and software development.
+      - Evaluated and iterated on newly developed curricula through pilot programs with high-school and college students.
 
 activities:
   - period: '2023 - 2024'
@@ -115,11 +112,11 @@ activities:
     body: |
       - President of Korean Students in the College of Computing.
 
-  - period: '2014 - 2019'
+  - period: '2014–2019'
     title: 'Hardware & Software Community, Korea University'
     body: |
-      - President.
-      - Grew the engineering community at Korea University from 10 members to over 200 active participants, spanning both hardware and software specialties.
+      - President of Korea University’s hardware and software engineering community.
+      - Grew the community from 10 members to 200+ active participants across hardware and software tracks.
 
   - period: '2015 - 2016'
     title: 'TEDxKoreaUniversity, Korea University'
