@@ -15,17 +15,34 @@
   // else requestIdleCallback, else first user interaction. IO alone is fragile on
   // some scroll paths; the fallbacks cover mobile (rigs are display:none → IO never
   // fires). Reduced-motion: skip entirely.
+  //
+  // View-Transition re-init: Astro dedupes this module <script> so the IIFE runs
+  // once, but every client-side nav swaps the [data-rig] nodes. Once the engine
+  // is loaded we register a PERSISTENT `astro:page-load` listener on `document`
+  // (which survives swaps) that re-runs init() — init() tears down the stale
+  // instance and re-binds to the new rigs. Without this, returning to a page
+  // with rigs (homepage/footer arm) after visiting another left them frozen at
+  // the rest pose: the engine kept driving detached nodes. The gating below
+  // applies only to the FIRST load (defer the import); re-inits are cheap.
   (function () {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const rigs = document.querySelectorAll('[data-rig]');
     if (!rigs.length) return;
-    let done = false;
-    const cleanup: Array<() => void> = [];
+    let engine: { init: () => void } | null = null;
+    const reinit = () => {
+      if (engine) engine.init();
+    };
+    let started = false;
+    const gatingCleanup: Array<() => void> = [];
     const start = () => {
-      if (done) return;
-      done = true;
-      cleanup.forEach((fn) => fn());
-      import('@/scripts/robot-ik');
+      if (started) return;
+      started = true;
+      while (gatingCleanup.length) gatingCleanup.pop()!();
+      import('@/scripts/robot-ik').then((m) => {
+        engine = m;
+        m.init(); // first bind to this page's rigs
+        document.addEventListener('astro:page-load', reinit); // re-bind on every VT nav
+      });
     };
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver(
@@ -39,7 +56,7 @@
         { rootMargin: '300px' },
       );
       rigs.forEach((r) => io.observe(r));
-      cleanup.push(() => io.disconnect());
+      gatingCleanup.push(() => io.disconnect());
     }
     if ('requestIdleCallback' in window) requestIdleCallback(start, { timeout: 2200 });
     else setTimeout(start, 1400);
