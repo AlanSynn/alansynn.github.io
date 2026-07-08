@@ -4,7 +4,7 @@ import Markdown from '@/components/Markdown.astro';
 import CompactPub from '@/components/CompactPub.astro';
 import Socials from '@/components/Socials.astro';
 import Timeline from '@/components/Timeline.astro';
-import ProjectCard from '@/components/ProjectCard.astro';
+import WorkProjectRow from '@/components/WorkProjectRow.astro';
 import NewsList from '@/components/NewsList.astro';
 import RobotLegs from '@/components/RobotLegs.astro';
 import {
@@ -113,9 +113,9 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     }
   </section>
 
-  <section id="projects">
-    <h2 class="home-head">Projects</h2>
-    <div class="project-grid">{projects.map((p) => <ProjectCard project={p} />)}</div>
+  <section id="education">
+    <h2 class="home-head">Education</h2>
+    <Timeline items={education} />
   </section>
 
   <section id="experience">
@@ -123,9 +123,9 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     <Timeline items={experience} />
   </section>
 
-  <section id="education">
-    <h2 class="home-head">Education</h2>
-    <Timeline items={education} />
+  <section id="projects">
+    <h2 class="home-head">Projects</h2>
+    <div class="wcards">{projects.map((p) => <WorkProjectRow project={p} />)}</div>
   </section>
 
   <section id="teaching">
