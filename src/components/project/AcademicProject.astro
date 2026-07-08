@@ -1,0 +1,895 @@
+---
+// AcademicProject.astro — academic paper project page. A 1:1 port of the
+// motionsmith microsite DOM (github.com/AlanSynn/motionsmith index.html) using
+// the ORIGINAL class names. Renders inside MicrositeShell.astro, which loads
+// ONLY src/styles/project-page.css (the verbatim port of the microsite's 4 CSS
+// files) + Manrope — NO site main.css/tokens, NO site chrome. So the page is a
+// standalone microsite, visually identical to the original.
+//
+// Bibliographic fields (title/authors/venue/DOI/PDF/code/video/BibTeX) DERIVE
+// from the papers.bib entry linked by `paper:`. The markdown body carries the
+// Overview prose; structured media (demo/system/cases/results/comparison/
+// gallery) are frontmatter-driven. The Citation + BibTeX block is derived here.
+import { render } from 'astro:content';
+import MicrositeShell from '@/layouts/MicrositeShell.astro';
+import type { CollectionEntry } from 'astro:content';
+import { getPaperByKey, isInternalHref, webPath } from '@/lib/data';
+import ComparisonSlider from './ComparisonSlider.astro';
+import ResultsTable from './ResultsTable.astro';
+import ResultsGallery from './ResultsGallery.astro';
+import VideoComparison from './VideoComparison.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+const { project } = Astro.props;
+const { Content } = await render(project);
+const d = project.data;
+
+if (!d.paper)
+  throw new Error(`projects/${project.id}.md: academic layout needs a \`paper:\` citekey`);
+const paper = getPaperByKey(d.paper);
+if (!paper) {
+  throw new Error(
+    `projects/${project.id}.md: paper citekey "${d.paper}" not found in content/papers.bib`,
+  );
+}
+if (d.author_affil && d.author_affil.length !== paper.authors.length) {
+  throw new Error(
+    `projects/${project.id}.md: author_affil has ${d.author_affil.length} entries but ${paper.authors.length} authors in papers.bib`,
+  );
+}
+
+// Brand mark (site-mark text, BibTeX heading, footer).
+const titleMark = d.title_mark ?? '';
+const mark = titleMark ? titleMark.replace(/:$/, '') : paper.title.split(/[\s:]+/)[0];
+
+// Hero meta line: "CHI 2026, Barcelona, Spain / April 13–17, 2026". Leads with
+// the venue ABBR + year (concise, same form as the eyebrow), NOT the full
+// proceedings booktitle — the long booktitle was the widest hero__intro child
+// and bloated the whole hero column vs the original microsite.
+const metaLine = [
+  paper.abbr ? `${paper.abbr} ${paper.year}` : paper.venue,
+  paper.fields.address ? `, ${paper.fields.address}` : '',
+  d.event_dates ? ` / ${d.event_dates}` : '',
+].join('');
+
+// Clean BibTeX citation for the copy block. `paper.raw` is the verbatim
+// papers.bib entry and carries internal housekeeping flags (selected, featured,
+// preview, video, pdf, website, code, abstract, isbn, …) that must NEVER appear
+// in a citation a reader copies. Synthesize a minimal bibliographic entry
+// (type + title + author + venue + year + doi) matching the original
+// microsite's hand-curated block — anything more would bloat the panel.
+const bibType = (paper.raw.match(/@(\w+)\s*{/) || [, 'misc'])[1].toLowerCase();
+const bibRows: Array<[string, string]> = [];
+if (paper.fields.title) bibRows.push(['title', paper.fields.title]);
+if (paper.fields.author) bibRows.push(['author', paper.fields.author]);
+if (paper.fields.booktitle) bibRows.push(['booktitle', paper.fields.booktitle]);
+else if (paper.fields.journal) bibRows.push(['journal', paper.fields.journal]);
+if (paper.year) bibRows.push(['year', String(paper.year)]);
+if (paper.fields.doi) bibRows.push(['doi', paper.fields.doi]);
+const bibtex =
+  `@${bibType}{${paper.key},\n` + bibRows.map(([k, v]) => `  ${k} = {${v}}`).join(',\n') + ',\n}';
+
+// Link-chip row. Internal (same-origin / root-relative / in-page anchor) links
+// navigate client-side so View Transitions fire + local dev works; external
+// open in a new tab. Icons match the original microsite chips.
+type Chip = { label: string; href: string; icon: string; solid?: boolean };
+const chips: Chip[] = [];
+if (paper.pdf) chips.push({ label: 'Paper PDF', href: paper.pdf, icon: '📄', solid: true });
+if (paper.doi) chips.push({ label: 'DOI', href: `https://doi.org/${paper.doi}`, icon: '🔗' });
+if (paper.code) chips.push({ label: 'Code', href: paper.code, icon: 'github' });
+// Chip set mirrors the original microsite exactly (Paper PDF, DOI, Code, Demo,
+// BibTeX). Video is reachable via the Demo section; the project `website` would
+// self-link back to this page, so neither is a separate chip.
+if (d.demo) chips.push({ label: 'Demo', href: '#demo', icon: '▶' });
+chips.push({ label: 'BibTeX', href: '#bibtex-heading', icon: '❝' });
+
+const renderHref = (href: string) =>
+  href.startsWith('#') ? href : isInternalHref(href) ? (webPath(href) ?? href) : href;
+const isExternal = (href: string) => !href.startsWith('#') && !isInternalHref(href);
+
+// Sticky section-nav labels → anchor slugs (lowercase = section id).
+const navItems = (d.nav ?? []).map((label) => ({
+  label,
+  href: `#${label.toLowerCase().replace(/\s+/g, '-')}`,
+}));
+
+// Cases (stable tab/tabpanel ids).
+const cases = d.cases ?? [];
+const caseSlug = (label: string) =>
+  label
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+
+// Hero title: explicit hand-broken lines (1:1 with original) → title_mark fallback → plain.
+const titleLines = d.title_lines;
+const titleRest =
+  titleMark && paper.title.startsWith(titleMark)
+    ? paper.title.slice(titleMark.length).trim()
+    : titleMark
+      ? paper.title
+      : '';
+---
+
+<MicrositeShell paper={paper}>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header" id="top">
+    <div class="site-shell site-header__inner">
+      <a class="site-mark" href="#top">{mark}</a>
+      <button
+        class="site-menu-toggle"
+        type="button"
+        aria-label="Toggle section navigation"
+        aria-controls="site-nav"
+        aria-expanded="false"
+        data-menu-toggle
+      >
+        <span class="site-menu-toggle__icon" aria-hidden="true"
+          ><span></span><span></span><span></span></span
+        >
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Section navigation">
+        {
+          navItems.map((n) => (
+            <a href={n.href} data-nav-link>
+              {n.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    {/* ---- Hero ----------------------------------------------------------- */}
+    <section class="hero" aria-labelledby="project-title">
+      <div class="site-shell hero__inner">
+        <div class="hero__intro" data-reveal>
+          <p class="eyebrow">{d.hero_eyebrow ?? `${paper.abbr ?? 'Research'} ${paper.year}`}</p>
+          {
+            titleLines ? (
+              <h1 id="project-title">
+                {titleLines.map((ln) => (
+                  <span class:list={['hero__title-line', !ln.mark && 'hero__title-rest']}>
+                    {ln.mark ? (
+                      <>
+                        <span class="hero__title-mark">{ln.mark}</span>{' '}
+                        <span class="hero__title-rest">{ln.rest}</span>
+                      </>
+                    ) : (
+                      ln.rest
+                    )}
+                  </span>
+                ))}
+              </h1>
+            ) : titleMark ? (
+              <h1 id="project-title">
+                <span class="hero__title-mark">{titleMark}</span>{' '}
+                <span class="hero__title-rest">{titleRest}</span>
+              </h1>
+            ) : (
+              <h1 id="project-title">{paper.title}</h1>
+            )
+          }
+          {d.summary && <p class="hero__summary">{d.summary}</p>}
+          <p class="hero__authors">
+            {
+              paper.authors.map((a, i) => {
+                const text = a.given ? `${a.given} ${a.family}` : a.family;
+                const affil = d.author_affil?.[i];
+                return (
+                  <>
+                    {i > 0 && ', '}
+                    {text}
+                    {affil && <sup>{affil}</sup>}
+                  </>
+                );
+              })
+            }
+          </p>
+          {
+            d.affiliations && d.affiliations.length > 0 && (
+              <p class="hero__affiliations">
+                {d.affiliations.map((name, idx) => (
+                  <span>
+                    <sup>{idx + 1}</sup> {name}
+                  </span>
+                ))}
+              </p>
+            )
+          }
+          {metaLine && <p class="hero__meta">{metaLine}</p>}
+          <div class="link-row" aria-label="Primary links">
+            {
+              chips.map((c) => {
+                const href = renderHref(c.href);
+                const ext = isExternal(c.href);
+                return (
+                  <a
+                    class:list={['link-chip', { 'link-chip--solid': c.solid }]}
+                    href={href}
+                    {...(ext ? { target: '_blank', rel: 'noreferrer' } : {})}
+                  >
+                    <span class="link-chip__icon" aria-hidden="true">
+                      {c.icon === 'github' ? (
+                        <svg viewBox="0 0 16 16" role="img" focusable="false" aria-hidden="true">
+                          <path d="M8 .2A8 8 0 0 0 5.47 15.8c.4.08.55-.17.55-.38l-.01-1.49c-2.24.49-2.71-.95-2.71-.95-.36-.93-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.82 1.23.82.72 1.21 1.87.86 2.33.65.07-.51.28-.86.5-1.06-1.79-.2-3.67-.88-3.67-3.93 0-.87.31-1.58.82-2.14-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.52 7.52 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.14 0 3.06-1.88 3.72-3.68 3.92.29.24.55.73.55 1.48l-.01 2.19c0 .21.14.46.55.38A8 8 0 0 0 8 .2Z" />
+                        </svg>
+                      ) : (
+                        c.icon
+                      )}
+                    </span>
+                    {c.label}
+                  </a>
+                );
+              })
+            }
+          </div>
+        </div>
+
+        {
+          paper.preview && (
+            <figure class="hero__figure" data-reveal>
+              <img src={paper.preview} alt={d.teaser_caption ?? ''} loading="eager" />
+              {d.teaser_caption && <figcaption>{d.teaser_caption}</figcaption>}
+            </figure>
+          )
+        }
+      </div>
+    </section>
+
+    {/* ---- Overview ------------------------------------------------------- */}
+    <section class="section" id="overview" aria-labelledby="overview-heading">
+      <div class="site-shell section__grid section__grid--intro">
+        <div data-reveal>
+          <p class="section-kicker">Overview</p>
+          <h2 id="overview-heading">{d.overview_heading ?? 'Overview'}</h2>
+        </div>
+        <div class="rich-copy" data-reveal>
+          <Content />
+        </div>
+      </div>
+
+      {
+        d.takeaways && d.takeaways.length > 0 && (
+          <div class="site-shell">
+            <ol class="takeaway-list" data-reveal>
+              {d.takeaways.map((t, i) => (
+                <li>
+                  <p class="takeaway-list__index">{String(i + 1).padStart(2, '0')}</p>
+                  <strong>{t.title}</strong>
+                  <span>{t.text}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )
+      }
+    </section>
+
+    {/* ---- Demo (click-to-launch) ----------------------------------------- */}
+    {
+      d.demo && (
+        <section class="section" id="demo" aria-label="Demo video">
+          <div class="site-shell">
+            <div class="section__center" data-reveal>
+              <p class="section-kicker">Demo</p>
+            </div>
+            <figure class="video-figure" data-reveal>
+              <button
+                class="video-launch"
+                type="button"
+                data-video-launch
+                aria-controls="demo-video"
+                aria-label="Play demo video"
+              >
+                <img src={d.demo.poster} alt={d.demo.alt} />
+                <span class="video-launch__play">Play Demo</span>
+              </button>
+              <video
+                id="demo-video"
+                controls
+                playsinline
+                preload="none"
+                poster={d.demo.poster}
+                data-src={d.demo.src}
+                hidden
+              />
+            </figure>
+          </div>
+        </section>
+      )
+    }
+
+    {/* ---- System (feature figure + stage grid + interface lens) ----------- */}
+    {
+      d.system && (
+        <section class="section" id="system" aria-labelledby="system-heading">
+          <div class="site-shell">
+            <div class="section__center" data-reveal>
+              <p class="section-kicker">System</p>
+              <h2 id="system-heading">{d.system.heading ?? 'System'}</h2>
+              {d.system.intro && <p>{d.system.intro}</p>}
+            </div>
+
+            {d.system.workflow && (
+              <figure class="feature-figure" data-reveal>
+                <img src={d.system.workflow.src} alt={d.system.workflow.alt} loading="lazy" />
+                {d.system.workflow.caption && <figcaption>{d.system.workflow.caption}</figcaption>}
+              </figure>
+            )}
+
+            {d.system.stages && d.system.stages.length > 0 && (
+              <div class="stage-grid">
+                {d.system.stages.map((s) => (
+                  <article class="stage-panel" data-reveal>
+                    {s.index && <p class="stage-panel__index">{s.index}</p>}
+                    <h3>{s.title}</h3>
+                    <p>{s.text}</p>
+                  </article>
+                ))}
+              </div>
+            )}
+
+            {(d.system.zoom || d.system.interface) && (
+              <div class="interface-panel" data-reveal>
+                {d.system.interface && <p class="section-kicker">Interface</p>}
+                {d.system.zoom && (
+                  <figure class="feature-figure interface-figure" data-lens-root>
+                    <img
+                      src={d.system.zoom.src}
+                      alt={d.system.zoom.alt}
+                      loading="lazy"
+                      data-lens-image
+                    />
+                    <span class="interface-lens" data-lens aria-hidden="true" />
+                  </figure>
+                )}
+                {d.system.interface && (
+                  <div class="interface-copy">
+                    <h3>{d.system.interface.heading}</h3>
+                    <p>{d.system.interface.copy}</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </section>
+      )
+    }
+
+    {/* ---- Results (graphics) --------------------------------------------- */}
+    {
+      (d.results || d.ablation) && (
+        <section class="section" id="results" aria-labelledby="results-heading">
+          <div class="site-shell">
+            <div class="section__center" data-reveal>
+              <p class="section-kicker">Results</p>
+              <h2 id="results-heading">Quantitative results</h2>
+            </div>
+            {d.results && (
+              <ResultsTable
+                columns={d.results.columns}
+                rows={d.results.rows}
+                caption={d.results.caption}
+                note={d.results.note}
+              />
+            )}
+            {d.ablation && (
+              <>
+                <h3 style="font-size:clamp(1.2rem,2vw,1.55rem);font-weight:700;margin:2.5rem 0 0;">
+                  Ablation
+                </h3>
+                <ResultsTable
+                  columns={d.ablation.columns}
+                  rows={d.ablation.rows}
+                  caption={d.ablation.caption}
+                  note={d.ablation.note}
+                />
+              </>
+            )}
+          </div>
+        </section>
+      )
+    }
+
+    {/* ---- Comparison (graphics) ------------------------------------------ */}
+    {
+      ((d.comparisons && d.comparisons.length > 0) || d.video_comparison) && (
+        <section class="section" id="comparison" aria-labelledby="comparison-heading">
+          <div class="site-shell">
+            <div class="section__center" data-reveal>
+              <p class="section-kicker">Comparison</p>
+              <h2 id="comparison-heading">Side-by-side</h2>
+            </div>
+            {d.comparisons?.map((c) => (
+              <ComparisonSlider
+                before={c.before}
+                after={c.after}
+                labelBefore={c.label_before}
+                labelAfter={c.label_after}
+                caption={c.caption}
+              />
+            ))}
+            {d.video_comparison && (
+              <VideoComparison
+                left={d.video_comparison.left}
+                right={d.video_comparison.right}
+                caption={d.video_comparison.caption}
+              />
+            )}
+          </div>
+        </section>
+      )
+    }
+
+    {/* ---- Gallery (graphics) --------------------------------------------- */}
+    {
+      d.gallery && d.gallery.items.length > 0 && (
+        <section class="section" id="gallery" aria-labelledby="gallery-heading">
+          <div class="site-shell">
+            <div class="section__center" data-reveal>
+              <p class="section-kicker">Gallery</p>
+              <h2 id="gallery-heading">Result gallery</h2>
+            </div>
+            <ResultsGallery items={d.gallery.items} columns={d.gallery.columns} />
+          </div>
+        </section>
+      )
+    }
+
+    {/* ---- Cases (tabbed carousel) ---------------------------------------- */}
+    {
+      cases.length > 0 && (
+        <section class="section" id="cases" aria-labelledby="cases-heading">
+          <div class="site-shell">
+            <div class="section__center" data-reveal>
+              <p class="section-kicker">Cases</p>
+              <h2 id="cases-heading">{d.cases_heading ?? 'Cases'}</h2>
+              {d.cases_intro && <p>{d.cases_intro}</p>}
+            </div>
+
+            <div class="case-carousel" data-case-carousel data-reveal>
+              <div class="case-tabs" role="tablist" aria-label="Deployment cases">
+                {cases.map((c, i) => (
+                  <button
+                    class:list={['case-tab', { 'is-active': i === 0 }]}
+                    type="button"
+                    id={`case-tab-${caseSlug(c.tab)}`}
+                    role="tab"
+                    aria-selected={i === 0 ? 'true' : 'false'}
+                    aria-controls={`case-${caseSlug(c.tab)}`}
+                    data-case-trigger
+                  >
+                    <span class="case-tab__index">{String(i + 1).padStart(2, '0')}</span>
+                    <span class="case-tab__text">
+                      <strong>{c.tab}</strong>
+                      {c.subtitle && <span>{c.subtitle}</span>}
+                    </span>
+                  </button>
+                ))}
+              </div>
+
+              {cases.map((c, i) => (
+                <article
+                  class:list={['case-panel', { 'is-active': i === 0 }]}
+                  id={`case-${caseSlug(c.tab)}`}
+                  role="tabpanel"
+                  aria-labelledby={`case-tab-${caseSlug(c.tab)}`}
+                  data-case-panel
+                  hidden={i !== 0}
+                >
+                  <figure class="case-panel__figure">
+                    <img src={c.image} alt={c.alt} loading="lazy" />
+                    {c.caption && <figcaption>{c.caption}</figcaption>}
+                  </figure>
+                  <div class="case-panel__copy">
+                    <p class="section-kicker">Case {String(i + 1).padStart(2, '0')}</p>
+                    <h3>
+                      {c.tab}
+                      {c.subtitle ? ` / ${c.subtitle.split(' / ')[0]}` : ''}
+                    </h3>
+                    {c.lede && <p class="case-panel__lede">{c.lede}</p>}
+                    {c.facts && c.facts.length > 0 && (
+                      <ul class="case-facts">
+                        {c.facts.map((f) => (
+                          <li>
+                            <strong>{f.label}.</strong> {f.text}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </article>
+              ))}
+
+              <div class="case-carousel__footer">
+                <p class="case-carousel__status" data-case-status aria-live="polite">
+                  1 / {cases.length}
+                </p>
+                <div class="case-carousel__controls">
+                  <button class="case-arrow" type="button" data-case-prev>
+                    Previous
+                  </button>
+                  <button class="case-arrow" type="button" data-case-next>
+                    Next
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {/* ---- Citation (resource list + BibTeX) ------------------------------ */}
+    <section class="section" id="citation" aria-labelledby="citation-heading">
+      <div class="site-shell citation-grid">
+        <div data-reveal>
+          <p class="section-kicker">Citation</p>
+          <h2 id="citation-heading">{d.citation_heading ?? 'Citation'}</h2>
+          <p class="citation-copy">{d.citation_intro ?? 'Read the paper and cite this work.'}</p>
+          <div class="resource-list">
+            {
+              paper.pdf && (
+                <a
+                  class="resource-link"
+                  href={renderHref(paper.pdf)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span class="resource-link__title">Paper PDF</span>
+                  <span class="resource-link__meta">Open the full paper.</span>
+                </a>
+              )
+            }
+            {
+              paper.doi && (
+                <a
+                  class="resource-link"
+                  href={`https://doi.org/${paper.doi}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span class="resource-link__title">DOI</span>
+                  <span class="resource-link__meta">Open the DOI record.</span>
+                </a>
+              )
+            }
+            <a class="resource-link" href="#bibtex-heading">
+              <span class="resource-link__title">BibTeX</span>
+              <span class="resource-link__meta">Jump to the citation block.</span>
+            </a>
+          </div>
+        </div>
+
+        <article class="bibtex-panel" data-reveal aria-labelledby="bibtex-heading">
+          <div class="bibtex-head">
+            <div>
+              <p class="section-kicker">BibTeX</p>
+              <h2 id="bibtex-heading">{mark}</h2>
+            </div>
+            <button class="copy-button" type="button" data-copy-target="bibtex-code">Copy</button>
+          </div>
+          <pre><code id="bibtex-code">{bibtex}</code></pre>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-shell site-footer__inner">
+      <p>{paper.authors[0]?.family ?? mark} et al. {mark}, {paper.year}.</p>
+      <div class="footer-links">
+        <a href="#top">Back to top</a>
+        {
+          paper.pdf && (
+            <a href={renderHref(paper.pdf)} target="_blank" rel="noreferrer">
+              Paper PDF
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </footer>
+</MicrositeShell>
+
+<script>
+  // Verbatim port of the microsite's index.js + header.js, adapted to re-init
+  // on Astro `astro:page-load` (initial load + every View-Transition nav).
+  // Persistent window/document listeners register a teardown so re-init never
+  // double-binds. All hooks use data-* selectors (class-agnostic).
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function revealSections() {
+    const targets = document.querySelectorAll('[data-reveal]');
+    if (!targets.length) return;
+    if (prefersReducedMotion.matches || !('IntersectionObserver' in window)) {
+      targets.forEach((el) => el.classList.add('is-visible'));
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          obs.unobserve(entry.target);
+        });
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.14 },
+    );
+    targets.forEach((el) => observer.observe(el));
+  }
+
+  function setupCopyButtons() {
+    const buttons = Array.from(document.querySelectorAll<HTMLElement>('[data-copy-target]'));
+    buttons.forEach((button) => {
+      button.addEventListener('click', async () => {
+        const id = button.getAttribute('data-copy-target');
+        const target = id ? document.getElementById(id) : null;
+        if (!target || !navigator.clipboard) return;
+        const prev = button.textContent;
+        try {
+          await navigator.clipboard.writeText(target.textContent.trim());
+          button.dataset.copied = 'true';
+          button.textContent = 'Copied';
+        } catch {
+          button.textContent = 'Retry';
+        }
+        window.setTimeout(() => {
+          button.dataset.copied = 'false';
+          button.textContent = prev;
+        }, 1600);
+      });
+    });
+  }
+
+  function setupSectionTracking() {
+    const links = Array.from(document.querySelectorAll('[data-nav-link]'));
+    const sections = links
+      .map((l) => document.querySelector(l.getAttribute('href') || ''))
+      .filter(Boolean) as Element[];
+    if (!sections.length || !('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          links.forEach((l) => {
+            const isActive = l.getAttribute('href') === `#${entry.target.id}`;
+            if (isActive) l.setAttribute('aria-current', 'true');
+            else l.removeAttribute('aria-current');
+          });
+        });
+      },
+      { rootMargin: '-30% 0px -55% 0px', threshold: 0.1 },
+    );
+    sections.forEach((s) => observer.observe(s));
+  }
+
+  function setupCaseCarousel() {
+    const carousel = document.querySelector('[data-case-carousel]') as HTMLElement | null;
+    if (!carousel) return;
+    const triggers = Array.from(carousel.querySelectorAll('[data-case-trigger]')) as HTMLElement[];
+    const panels = Array.from(carousel.querySelectorAll('[data-case-panel]')) as HTMLElement[];
+    const status = carousel.querySelector('[data-case-status]');
+    const prevBtn = carousel.querySelector('[data-case-prev]');
+    const nextBtn = carousel.querySelector('[data-case-next]');
+    if (!triggers.length || triggers.length !== panels.length) return;
+
+    let activeIndex = 0;
+    const activate = (next: number, { scroll = true } = {}) => {
+      activeIndex = (next + panels.length) % panels.length;
+      triggers.forEach((trig, i) => {
+        const isActive = i === activeIndex;
+        trig.classList.toggle('is-active', isActive);
+        trig.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        trig.tabIndex = isActive ? 0 : -1;
+        if (isActive && scroll) {
+          trig.scrollIntoView({
+            behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
+            block: 'nearest',
+            inline: 'center',
+          });
+        }
+      });
+      panels.forEach((panel, i) => {
+        const isActive = i === activeIndex;
+        panel.hidden = !isActive;
+        panel.classList.toggle('is-active', isActive);
+      });
+      if (status) status.textContent = `${activeIndex + 1} / ${panels.length}`;
+    };
+
+    triggers.forEach((trig, i) => {
+      trig.addEventListener('click', () => activate(i));
+      trig.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        const dir = e.key === 'ArrowRight' ? 1 : -1;
+        const next = (i + dir + triggers.length) % triggers.length;
+        activate(next);
+        triggers[next].focus();
+      });
+    });
+    prevBtn?.addEventListener('click', () => activate(activeIndex - 1));
+    nextBtn?.addEventListener('click', () => activate(activeIndex + 1));
+    activate(activeIndex, { scroll: false });
+  }
+
+  function setupInterfaceLens() {
+    const root = document.querySelector('[data-lens-root]') as HTMLElement | null;
+    const image = root?.querySelector('[data-lens-image]') as HTMLImageElement | null;
+    const lens = root?.querySelector('[data-lens]') as HTMLElement | null;
+    if (!root || !image || !lens || !window.matchMedia('(hover: hover)').matches) return;
+
+    const zoom = 1.85;
+    const radius = 108;
+    const paint = (event: PointerEvent) => {
+      const bounds = image.getBoundingClientRect();
+      const x = Math.min(bounds.width - radius, Math.max(radius, event.clientX - bounds.left));
+      const y = Math.min(bounds.height - radius, Math.max(radius, event.clientY - bounds.top));
+      lens.style.left = `${x}px`;
+      lens.style.top = `${y}px`;
+      lens.style.backgroundImage = `url("${image.currentSrc || image.src}")`;
+      lens.style.backgroundSize = `${bounds.width * zoom}px ${bounds.height * zoom}px`;
+      lens.style.backgroundPosition = `${radius - x * zoom}px ${radius - y * zoom}px`;
+    };
+    root.addEventListener('pointerenter', (e) => {
+      root.classList.add('is-active');
+      paint(e as PointerEvent);
+    });
+    root.addEventListener('pointermove', paint);
+    root.addEventListener('pointerleave', () => root.classList.remove('is-active'));
+  }
+
+  function setupDemoVideo() {
+    const video = document.getElementById('demo-video') as HTMLVideoElement | null;
+    const launch = document.querySelector('[data-video-launch]') as HTMLElement | null;
+    const src = video?.dataset.src;
+    if (!video || !launch || !src) return () => {};
+
+    const fresh = () => `${src}${src.includes('?') ? '&' : '?'}play=${Date.now()}`;
+    const resetVideo = () => {
+      launch.hidden = false;
+      video.pause();
+      video.hidden = true;
+      video.preload = 'none';
+      video.removeAttribute('src');
+      video.load();
+    };
+    const prepare = async () => {
+      video.src = fresh();
+      video.load();
+      if (video.readyState < 1) {
+        await new Promise<void>((resolve) =>
+          video.addEventListener('loadedmetadata', () => resolve(), { once: true }),
+        );
+      }
+      try {
+        video.currentTime = 0;
+      } catch {
+        return;
+      }
+      if (video.seeking) {
+        await new Promise<void>((resolve) =>
+          video.addEventListener('seeked', () => resolve(), { once: true }),
+        );
+      }
+    };
+
+    resetVideo();
+    window.addEventListener('pageshow', resetVideo);
+    launch.addEventListener('click', async () => {
+      launch.hidden = true;
+      video.hidden = false;
+      await prepare();
+      try {
+        await video.play();
+      } catch {
+        video.pause();
+      }
+    });
+    return () => window.removeEventListener('pageshow', resetVideo);
+  }
+
+  function setupHeader() {
+    const header = document.querySelector('.site-header');
+    const toggle = document.querySelector('[data-menu-toggle]');
+    const nav = document.querySelector('.site-nav');
+    if (!header || !toggle || !nav) return () => {};
+
+    const mobileQuery = window.matchMedia('(max-width: 860px)');
+    const navLinks = Array.from(nav.querySelectorAll('a'));
+    let lastScrollY = window.scrollY;
+    let scrollFrame: number | null = null;
+    const TOP_REVEAL_OFFSET = 24;
+    const HIDE_DELTA = 8;
+
+    const syncHeader = (forceReveal = false) => {
+      const currentScrollY = window.scrollY;
+      const delta = currentScrollY - lastScrollY;
+      const hideOffset = (header as HTMLElement).offsetHeight + TOP_REVEAL_OFFSET;
+      header.classList.toggle('is-scrolled', currentScrollY > 12);
+      if (
+        forceReveal ||
+        header.classList.contains('is-menu-open') ||
+        currentScrollY < TOP_REVEAL_OFFSET
+      ) {
+        header.classList.remove('is-hidden');
+        lastScrollY = currentScrollY;
+        return;
+      }
+      if (Math.abs(delta) >= HIDE_DELTA) {
+        if (delta > 0 && currentScrollY > hideOffset) header.classList.add('is-hidden');
+        else if (delta < 0) header.classList.remove('is-hidden');
+      }
+      lastScrollY = currentScrollY;
+    };
+    const closeMenu = (restoreFocus = false) => {
+      header.classList.remove('is-menu-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      if (restoreFocus) (toggle as HTMLElement).focus();
+      syncHeader(true);
+    };
+
+    const onToggle = () => {
+      const willOpen = !header.classList.contains('is-menu-open');
+      header.classList.toggle('is-menu-open', willOpen);
+      toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      syncHeader(true);
+    };
+    const onNavLink = () => {
+      if (mobileQuery.matches) closeMenu();
+    };
+    const onDocClick = (event: Event) => {
+      if (!mobileQuery.matches || !header.classList.contains('is-menu-open')) return;
+      if (header.contains(event.target as Node)) return;
+      closeMenu();
+    };
+    const onKeydown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && header.classList.contains('is-menu-open')) closeMenu(true);
+    };
+    const onViewport = () => {
+      if (!mobileQuery.matches) closeMenu();
+      else syncHeader(true);
+    };
+    const onScroll = () => {
+      if (scrollFrame !== null) return;
+      scrollFrame = window.requestAnimationFrame(() => {
+        syncHeader();
+        scrollFrame = null;
+      });
+    };
+
+    toggle.addEventListener('click', onToggle);
+    navLinks.forEach((l) => l.addEventListener('click', onNavLink));
+    document.addEventListener('click', onDocClick);
+    document.addEventListener('keydown', onKeydown);
+    mobileQuery.addEventListener('change', onViewport);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    syncHeader(true);
+
+    return () => {
+      toggle.removeEventListener('click', onToggle);
+      navLinks.forEach((l) => l.removeEventListener('click', onNavLink));
+      document.removeEventListener('click', onDocClick);
+      document.removeEventListener('keydown', onKeydown);
+      mobileQuery.removeEventListener('change', onViewport);
+      window.removeEventListener('scroll', onScroll);
+    };
+  }
+
+  let teardown: Array<(() => void) | undefined> = [];
+  document.addEventListener('astro:page-load', () => {
+    teardown.forEach((fn) => fn && fn());
+    teardown = [setupHeader(), setupDemoVideo()];
+    revealSections();
+    setupCopyButtons();
+    setupSectionTracking();
+    setupCaseCarousel();
+    setupInterfaceLens();
+  });
+</script>

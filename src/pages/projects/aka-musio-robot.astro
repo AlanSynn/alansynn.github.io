@@ -1,0 +1,14 @@
+---
+// Static route for the aka-musio-robot WORK project (no `paper:` → site-integrated
+// layout via SimpleProject + Base). Academic/paper projects are served by
+// [slug].astro. See [slug].astro header for why the routes are split (CSS
+// isolation for academic microsite pages). Adding a new work project = copy this
+// file, change the slug; the build's footgun guard in [slug].astro will tell you
+// if you forget.
+import SimpleProject from '@/components/project/SimpleProject.astro';
+import { getProjectBySlug } from '@/lib/projects';
+
+const project = await getProjectBySlug('aka-musio-robot');
+---
+
+<SimpleProject project={project} />

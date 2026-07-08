@@ -10,6 +10,7 @@
 #   just resume graphics
 #   just cv ml-systems
 #   just pdfs       # resume + cv (default variants)
+#   just paper <citekey>  # public/pdfs/paper-<citekey>.pdf (single-paper handout)
 #   just web        # bun run build
 # ============================================================================
 
@@ -51,6 +52,19 @@ cv target='':
 
 # Build the default resume + CV PDFs (no target variants).
 pdfs: resume cv
+
+# Compile a single-paper one-pager handout (title/authors/venue/links/abstract/
+# BibTeX) from the citekey in content/papers.bib → public/pdfs/paper-<key>.pdf.
+# e.g. `just paper synn2026motionsmith`
+paper citekey:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    bun scripts/gen-papers-json.mjs
+    mkdir -p public/pdfs
+    typst compile --root . resume/typst/paper-page.typ "public/pdfs/paper-{{citekey}}.pdf" \
+        --input citekey="{{citekey}}" \
+        || { echo "--- typst failed (paper {{citekey}}) ---"; exit 1; }
+    echo "built public/pdfs/paper-{{citekey}}.pdf"
 
 # --- Web -------------------------------------------------------------------
 

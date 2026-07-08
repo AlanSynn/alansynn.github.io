@@ -22,7 +22,9 @@ import {
 import { getCollection } from 'astro:content';
 
 // One page = the whole CV. Scroll-only, no nav.
-const papers = getPapers();
+// `demo` papers (the unpublished example page's fictional entry) never appear
+// in the live publications list — they're resolvable by citekey only.
+const papers = getPapers().filter((p) => p.fields.demo !== 'true');
 // `featured` (web-only, top of #publications) vs `selected` (PDF-only) in papers.bib — don't conflate.
 const selectedPubs = papers.filter((p) => p.featured);
 const otherPubs = papers.filter((p) => !p.featured);

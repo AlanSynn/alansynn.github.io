@@ -1,0 +1,163 @@
+---
+// CaseTabs.astro — accessible tabbed case carousel. Renders from the project's
+// `cases:` frontmatter (data-driven, not bespoke markup). ARIA tablist +
+// tabpanels, arrow-key roving focus, prev/next, live "n / N" status. Ported +
+// re-skinned from the motionsmith standalone page. Each case = a maker/deployment
+// (tab) + figure + lede + facts.
+interface Case {
+  tab: string;
+  subtitle?: string;
+  image: string;
+  alt: string;
+  caption?: string;
+  lede?: string;
+  facts?: { label: string; text: string }[];
+}
+interface Props {
+  cases: Case[];
+}
+const { cases } = Astro.props;
+---
+
+{
+  cases.length > 0 && (
+    <div class="case-tabs" data-case-tabs>
+      <div class="case-tabs__bar" role="tablist" aria-label="Cases">
+        {cases.map((c, i) => (
+          <button
+            class:list={['case-tab', { 'is-active': i === 0 }]}
+            type="button"
+            role="tab"
+            id={`case-tab-${i}`}
+            aria-controls={`case-panel-${i}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
+            data-case-tab={i}
+          >
+            <span class="case-tab__index">{String(i + 1).padStart(2, '0')}</span>
+            <span class="case-tab__text">
+              <strong>{c.tab}</strong>
+              {c.subtitle && <span>{c.subtitle}</span>}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {cases.map((c, i) => (
+        <div
+          class:list={['case-panel', { 'is-active': i === 0 }]}
+          role="tabpanel"
+          id={`case-panel-${i}`}
+          aria-labelledby={`case-tab-${i}`}
+          tabindex={i === 0 ? 0 : -1}
+          hidden={i !== 0}
+          data-case-panel={i}
+        >
+          <figure class="case-panel__figure">
+            <img src={c.image} alt={c.alt} loading="lazy" />
+            {c.caption && <figcaption>{c.caption}</figcaption>}
+          </figure>
+          <div class="case-panel__copy">
+            {c.lede && <p class="case-panel__lede">{c.lede}</p>}
+            {c.facts && c.facts.length > 0 && (
+              <ul class="case-facts">
+                {c.facts.map((f) => (
+                  <li>
+                    <strong>{f.label}.</strong> {f.text}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      ))}
+
+      <div class="case-tabs__foot">
+        <p class="case-tabs__status" data-case-status aria-live="polite">
+          1 / {cases.length}
+        </p>
+        <div class="case-tabs__controls">
+          <button class="case-tabs__arrow" type="button" data-case-prev>
+            Previous
+          </button>
+          <button class="case-tabs__arrow" type="button" data-case-next>
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+<script is:inline>
+  // Tablist behavior: click or arrow-key to switch tabs; roving tabindex;
+  // prev/next buttons; live status. No-op without [data-case-tabs].
+  (function () {
+    var roots = document.querySelectorAll('[data-case-tabs]');
+    if (!roots.length) return;
+    roots.forEach(function (root) {
+      var tabs = Array.prototype.slice.call(root.querySelectorAll('[data-case-tab]'));
+      var panels = Array.prototype.slice.call(root.querySelectorAll('[data-case-panel]'));
+      var status = root.querySelector('[data-case-status]');
+      var prev = root.querySelector('[data-case-prev]');
+      var next = root.querySelector('[data-case-next]');
+      if (!tabs.length) return;
+
+      function select(idx, focus) {
+        idx = (idx + tabs.length) % tabs.length;
+        tabs.forEach(function (t, i) {
+          var on = i === idx;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          t.tabIndex = on ? 0 : -1;
+        });
+        panels.forEach(function (p, i) {
+          var on = i === idx;
+          p.classList.toggle('is-active', on);
+          if (on) p.removeAttribute('hidden');
+          else p.setAttribute('hidden', '');
+        });
+        if (status) status.textContent = idx + 1 + ' / ' + tabs.length;
+        if (focus) tabs[idx].focus();
+      }
+
+      tabs.forEach(function (t, i) {
+        t.addEventListener('click', function () {
+          select(i, false);
+        });
+        t.addEventListener('keydown', function (e) {
+          var k = e.key;
+          if (k === 'ArrowRight' || k === 'ArrowDown') {
+            e.preventDefault();
+            select(i + 1, true);
+          } else if (k === 'ArrowLeft' || k === 'ArrowUp') {
+            e.preventDefault();
+            select(i - 1, true);
+          } else if (k === 'Home') {
+            e.preventDefault();
+            select(0, true);
+          } else if (k === 'End') {
+            e.preventDefault();
+            select(tabs.length - 1, true);
+          }
+        });
+      });
+      if (prev)
+        prev.addEventListener('click', function () {
+          select(current() - 1, false);
+        });
+      if (next)
+        next.addEventListener('click', function () {
+          select(current() + 1, false);
+        });
+
+      function current() {
+        var idx = 0;
+        tabs.forEach(function (t, i) {
+          if (t.classList.contains('is-active')) idx = i;
+        });
+        return idx;
+      }
+    });
+  })();
+</script>

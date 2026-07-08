@@ -1,0 +1,128 @@
+---
+// MicrositeShell.astro — the ISOLATED document shell for academic project pages.
+// Unlike Base.astro (which loads the site's main.css/tokens + site chrome:
+// ThemeToggle, SiteChrome, RobotArm, site-footer), this shell loads ONLY the
+// ported microsite stylesheet (src/styles/project-page.css) + Manrope. The
+// academic project page is a 1:1 port of a standalone microsite, so it must NOT
+// inherit the site's global element styles (those fought the microsite CSS and
+// caused text-color/layout regressions). Light-only (the microsite is light).
+//
+// Still emits the same head essentials Base does for paper pages: Google-Scholar
+// citation_* meta, ScholarlyArticle JSON-LD, OG/Twitter, canonical, and
+// ClientRouter (so View Transitions work to/from site pages).
+import '@/styles/project-page.css';
+import { ClientRouter } from 'astro:transitions';
+import { site, type Paper } from '@/lib/data';
+
+interface Props {
+  title?: string;
+  description?: string;
+  paper?: Paper;
+}
+const { title, description, paper } = Astro.props;
+if (!paper) throw new Error('MicrositeShell requires a `paper` prop');
+
+const pageTitle = title ?? paper.title;
+const desc = description ?? paper.abstract ?? '';
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const citeDate =
+  paper.year && paper.month
+    ? `${paper.year}/${String(paper.month).padStart(2, '0')}`
+    : paper.year
+      ? String(paper.year)
+      : undefined;
+
+const abs = (u?: string | null) =>
+  u ? (/^(https?:)?\/\//.test(u) ? u : `${site.url}${u}`) : undefined;
+
+const jsonld = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'ScholarlyArticle',
+  headline: paper.title,
+  description: paper.abstract ?? undefined,
+  ...(paper.preview ? { image: abs(paper.preview) } : {}),
+  author: paper.authors.map((a) => ({
+    '@type': 'Person',
+    ...(a.given ? { givenName: a.given } : {}),
+    familyName: a.family,
+    name: a.given ? `${a.given} ${a.family}` : a.family,
+  })),
+  datePublished:
+    paper.year && paper.month
+      ? `${paper.year}-${String(paper.month).padStart(2, '0')}`
+      : paper.year
+        ? `${paper.year}`
+        : undefined,
+  isAccessibleForFree: true,
+  ...(paper.fields.publisher
+    ? { publisher: { '@type': 'Organization', name: paper.fields.publisher } }
+    : {}),
+  ...(paper.venue ? { isPartOf: { '@type': 'PublicationEvent', name: paper.venue } } : {}),
+  ...(paper.doi ? { sameAs: `https://doi.org/${paper.doi}` } : {}),
+});
+
+const ogImage = abs(paper.preview) ?? `${site.url}/og.png`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={desc} />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={paper.title} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={paper.title} />
+    <meta name="twitter:description" content={desc} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {/* Google-Scholar indexing. */}
+    <meta name="citation_title" content={paper.title} />
+    {
+      paper.authors.map((a) => (
+        <meta name="citation_author" content={a.given ? `${a.family}, ${a.given}` : a.family} />
+      ))
+    }
+    {citeDate && <meta name="citation_publication_date" content={citeDate} />}
+    <meta name="citation_conference_title" content={paper.venue} />
+    {paper.doi && <meta name="citation_doi" content={paper.doi} />}
+    {paper.abstract && <meta name="citation_abstract" content={paper.abstract} />}
+    {paper.pdf && <meta name="citation_pdf_url" content={abs(paper.pdf)} />}
+
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <ClientRouter />
+    <script is:inline type="application/ld+json" set:html={jsonld} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    {
+      /* If JS is off, reveal-on-scroll targets must be visible (they start at
+        opacity:0). The microsite has no no-JS fallback of its own. is:inline
+        emits the rule verbatim (no scoping/extraction) so it stays global. */
+    }
+    <noscript>
+      <style is:inline>
+        [data-reveal] {
+          opacity: 1;
+          transform: none;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

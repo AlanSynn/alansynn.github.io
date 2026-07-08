@@ -1,0 +1,29 @@
+---
+// ResultsGallery.astro — responsive grid of result figures with optional
+// per-tile label chips + captions. Lazy images with fixed aspect-ratio (no CLS).
+// Hover lifts the border to accent. Rendered from the project's `gallery:` frontmatter.
+// Classes are `ms-*` (scoped to the ported microsite design).
+interface Item {
+  src: string;
+  alt: string;
+  caption?: string;
+  label?: string;
+}
+interface Props {
+  items: Item[];
+  columns?: number; // default 3
+}
+const { items, columns = 3 } = Astro.props;
+---
+
+<div class="rgallery" style={`--rgallery-cols: ${columns}`}>
+  {
+    items.map((it) => (
+      <figure class="rgallery__item">
+        {it.label && <span class="rgallery__label">{it.label}</span>}
+        <img src={it.src} alt={it.alt} loading="lazy" />
+        {it.caption && <figcaption>{it.caption}</figcaption>}
+      </figure>
+    ))
+  }
+</div>

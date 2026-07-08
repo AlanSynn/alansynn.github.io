@@ -486,3 +486,129 @@
   set document(title: doc-title-str("cv"), author: site.name)
   styling(cv-body("cv"), accent-color: accent)
 }
+
+// ---- 14. Paper one-pager (paper-page.typ) --------------------------------
+// A printable single-page handout for ONE paper — title / authors / venue /
+// links / abstract / BibTeX — selected by `--input citekey=<key>`. The PDF
+// analog of the web academic project page: it reads the SAME papers.bib source
+// (via src/data/papers.json), so handout and web page stay in sync. The handout
+// a conference, application, or collaborator wants, formatted once.
+//
+// Compile from repo root:
+//   typst compile --root . resume/typst/paper-page.typ public/pdfs/paper-synn2026motionsmith.pdf \
+//       --input citekey=synn2026motionsmith
+
+// Full-name author line (papers print full given names, unlike the CV's
+// surname+initial). "me" is bolded + underlined, matching format-authors.
+#let paper-authors = authors => {
+  let parts = authors.map(a => {
+    let name = if a.given != none and a.given != "" { [#a.given #a.family] } else { a.family }
+    if lower(a.family) == me-family {
+      text(weight: "bold")[#underline[#name]]
+    } else { name }
+  })
+  let n = parts.len()
+  if n == 0 { [] }
+  else if n == 1 { parts.first() }
+  else if n == 2 { [#parts.at(0) and #parts.at(1)] }
+  else {
+    let out = parts.at(0)
+    for i in range(1, n - 1) { out = [#out, #parts.at(i)] }
+    [#out, and #parts.at(n - 1)]
+  }
+}
+
+// Web-relative URL → absolute (handout links must resolve standalone, not via
+// the site host). Passes http(s) URLs through unchanged.
+#let abs-url = u => {
+  if u == none { return none }
+  if u.starts-with("http://") or u.starts-with("https://") { return u }
+  site.url + u
+}
+
+// video field → watchable URL: a bare id is a YouTube id; anything else is a
+// path/URL (made absolute). Mirrors the web link-chip builder.
+#let paper-video-url = v => {
+  if v == none { return none }
+  let absish = v.starts-with("http://") or v.starts-with("https://") or v.ends-with(".mp4") or v.ends-with(".webm")
+  if absish { abs-url(v) } else { "https://www.youtube.com/watch?v=" + v }
+}
+
+// Find a paper by citekey; panic loudly with a re-run hint if absent (e.g. the
+// demo entry is filtered out of papers.json, or the json is stale).
+#let find-paper = key => {
+  let matches = papers.filter(p => p.key == key)
+  if matches.len() == 0 {
+    panic("paper-page: citekey \"" + key + "\" not in src/data/papers.json. " +
+          "Run `bun scripts/gen-papers-json.mjs`, or pick a non-demo citekey.")
+  }
+  matches.first()
+}
+
+#let paper-doc = it => {
+  let key = sys.inputs.at("citekey", default: "")
+  if key == "" {
+    panic("paper-page needs --input citekey=<citekey> (e.g. `just paper synn2026motionsmith`).")
+  }
+  let p = find-paper(key)
+
+  set text(lang: "en")
+  set par(justify: true)
+  set document(title: p.title, author: site.name)
+
+  // Venue · location · date line.
+  let venue-text = if p.venue != none and p.venue != "" { p.venue } else { p.abbr }
+
+  // Link row — only present fields, joined by a middot.
+  let links = ()
+  if p.pdf != none { links.push(link(abs-url(p.pdf))[PDF]) }
+  if p.doi != none { links.push(link("https://doi.org/" + p.doi)[DOI]) }
+  if p.code != none { links.push(link(abs-url(p.code))[Code]) }
+  if p.website != none { links.push(link(abs-url(p.website))[Project]) }
+  let vu = paper-video-url(p.video)
+  if vu != none { links.push(link(vu)[Video]) }
+
+  styling(
+    [
+      // Title
+      #align(center)[#text(size: 1.45em, weight: "bold")[#p.title]]
+      #v(0.5em)
+      // Authors (full names; "me" bolded)
+      #align(center)[#paper-authors(p.authors)]
+      #v(0.3em)
+      // Venue · location · date
+      #align(center)[
+        #emph[#venue-text]
+        #if p.address != none and p.address != "" [ · #p.address]
+        · #datestamp(p)
+      ]
+      #v(0.5em)
+      // Link row
+      #if links.len() > 0 [
+        #align(center)[
+          #text(size: 0.9em)[
+            #for (i, lk) in links.enumerate() {
+              lk
+              if i < links.len() - 1 [ · ]
+            }
+          ]
+        ]
+        #v(0.5em)
+      ]
+      // Abstract
+      #section("Abstract")
+      #p.abstract
+      // BibTeX
+      #section("Citation (BibTeX)")
+      #block(
+        inset: 0.8em,
+        radius: 0.4em,
+        fill: luma(247),
+        stroke: 0.5pt + luma(210),
+      )[
+        #text(size: 0.78em)[#raw(p.raw, block: true)]
+      ]
+    ],
+    accent-color: accent,
+  )
+}

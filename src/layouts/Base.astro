@@ -1,11 +1,12 @@
 ---
 // Base.astro — document shell. Headerless (single-page CV); theme toggle replaces nav.
 import '../styles/main.css';
+import { ClientRouter } from 'astro:transitions';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import SiteChrome from '../components/SiteChrome.astro';
 import RobotArm from '../components/RobotArm.astro';
 import RobotIK from '../components/RobotIK.astro';
-import { site } from '@/lib/data';
+import { site, type Paper } from '@/lib/data';
 
 interface Props {
   title?: string;
@@ -13,28 +14,77 @@ interface Props {
   wide?: boolean;
   /* set false to render <main> without the centered container wrapper */
   contained?: boolean;
+  /* present on academic paper pages → emit Google-Scholar citation_* meta and a
+     ScholarlyArticle JSON-LD, and override OG/Twitter to the paper. */
+  paper?: Paper;
 }
-const { title, description, wide = false, contained = true } = Astro.props;
+const { title, description, wide = false, contained = true, paper } = Astro.props;
 
 const pageTitle = title ? `${title} - ${site.short_name}` : `${site.name} · ${site.title}`;
-const desc = description ?? site.description;
+const desc = description ?? paper?.abstract ?? site.description;
 const year = new Date().getFullYear();
 
 const sameAs = (site.socials ?? [])
   .map((s: { url: string }) => s.url)
   .filter((u: string) => !u.startsWith('mailto:'));
-const jsonld = JSON.stringify({
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: site.name,
-  jobTitle: site.title,
-  url: site.url,
-  image: `${site.url}/og.png`,
-  worksFor: { '@type': 'Organization', name: site.affiliation },
-  subjectOf: { '@type': 'WebSite', url: site.url },
-  sameAs,
-});
+
+// Absolute-URL guard: pass through http(s)/protocol-relative URLs unchanged,
+// prefix root-relative paths with the site origin. Avoids double-prefix if a
+// field is ever absolute (e.g. an arXiv PDF).
+const abs = (u?: string | null) =>
+  u ? (/^(https?:)?\/\//.test(u) ? u : `${site.url}${u}`) : undefined;
 const canonical = new URL(Astro.url.pathname, site.url).href;
+// Scholar prefers YYYY/MM (or YYYY/MM/DD); fall back to bare year.
+const citeDate =
+  paper && paper.year && paper.month
+    ? `${paper.year}/${String(paper.month).padStart(2, '0')}`
+    : paper?.year
+      ? String(paper.year)
+      : undefined;
+
+// ScholarlyArticle for paper pages; Person for everything else.
+const jsonld = paper
+  ? JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'ScholarlyArticle',
+      headline: paper.title,
+      description: paper.abstract ?? undefined,
+      ...(paper.preview ? { image: abs(paper.preview) } : {}),
+      author: paper.authors.map((a) => ({
+        '@type': 'Person',
+        ...(a.given ? { givenName: a.given } : {}),
+        familyName: a.family,
+        name: a.given ? `${a.given} ${a.family}` : a.family,
+      })),
+      datePublished:
+        paper.year && paper.month
+          ? `${paper.year}-${String(paper.month).padStart(2, '0')}`
+          : paper.year
+            ? `${paper.year}`
+            : undefined,
+      isAccessibleForFree: true,
+      ...(paper.fields.publisher
+        ? { publisher: { '@type': 'Organization', name: paper.fields.publisher } }
+        : {}),
+      ...(paper.venue ? { isPartOf: { '@type': 'PublicationEvent', name: paper.venue } } : {}),
+      ...(paper.doi ? { sameAs: `https://doi.org/${paper.doi}` } : {}),
+    })
+  : JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: site.name,
+      jobTitle: site.title,
+      url: site.url,
+      image: `${site.url}/og.png`,
+      worksFor: { '@type': 'Organization', name: site.affiliation },
+      subjectOf: { '@type': 'WebSite', url: site.url },
+      sameAs,
+    });
+
+// OG/Twitter: paper teaser (absolute) on paper pages, default og.png otherwise.
+const ogTitle = paper ? paper.title : pageTitle;
+const ogImage = abs(paper?.preview) ?? `${site.url}/og.png`;
+const ogType = paper ? 'article' : 'website';
 ---
 
 <!doctype html>
@@ -53,15 +103,34 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
     <meta name="description" content={desc} />
     {site.keywords?.length ? <meta name="keywords" content={site.keywords.join(', ')} /> : null}
 
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={site.url} />
-    <meta property="og:title" content={pageTitle} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={desc} />
-    <meta property="og:image" content={`${site.url}/og.png`} />
+    <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content={`${site.url}/og.png`} />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {/* Google-Scholar indexing (academic paper pages only). */}
+    {
+      paper && (
+        <>
+          <meta name="citation_title" content={paper.title} />
+          {paper.authors.map((a) => (
+            <meta name="citation_author" content={a.given ? `${a.family}, ${a.given}` : a.family} />
+          ))}
+          {citeDate && <meta name="citation_publication_date" content={citeDate} />}
+          <meta name="citation_conference_title" content={paper.venue} />
+          {paper.doi && <meta name="citation_doi" content={paper.doi} />}
+          {paper.abstract && <meta name="citation_abstract" content={paper.abstract} />}
+          {paper.pdf && <meta name="citation_pdf_url" content={abs(paper.pdf)} />}
+        </>
+      )
+    }
 
     <link rel="canonical" href={canonical} />
+    <ClientRouter />
     <script is:inline type="application/ld+json" set:html={jsonld} />
 
     <link
@@ -77,6 +146,15 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
       href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
+    {/* Manrope — only on academic paper pages (the microsite port design). */}
+    {
+      paper && (
+        <link
+          href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+      )
+    }
     <link
       rel="stylesheet"
       href="https://fred-wang.github.io/MathFonts/NewComputerModern/mathfonts.css"
@@ -118,7 +196,7 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <main id="main" data-pagefind-body tabindex="-1">
+    <main id="main" class:list={[paper && 'main--project']} data-pagefind-body tabindex="-1">
       {
         contained ? (
           <div class:list={['container', wide && 'container--wide']}>
@@ -135,7 +213,7 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
           >© {year} {site.name}</a
         >
         <nav class="site-footer__path" aria-label="Site">
-          <a href={site.url}>{site.domain}</a>
+          <a href="/">{site.domain}</a>
           <span class="site-footer__sep" aria-hidden="true">/</span>
           <a href="/blog">blog</a>
         </nav>

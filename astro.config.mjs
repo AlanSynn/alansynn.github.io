@@ -51,6 +51,8 @@ export default defineConfig({
     '/news': '/#news',
     '/publications': '/#publications',
     '/cv': '/#profile',
+    // Legacy microsite URL (the old motionsmith repo) → internalized project page.
+    '/motionsmith': '/projects/motionsmith',
   },
 
   markdown: {

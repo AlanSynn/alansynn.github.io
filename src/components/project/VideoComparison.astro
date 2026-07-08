@@ -1,0 +1,110 @@
+---
+// VideoComparison.astro — two side-by-side (or stacked, on mobile) videos kept
+// in sync: one play/pause button drives both; seeking the leader seeks the
+// follower via `timeupdate`. Sources wired on first Play (lazy, like DemoVideo);
+// reduced-motion users see posters only until they press play.
+// Rendered from the project's `video_comparison:` frontmatter.
+// Classes are `ms-*`; JS hooks use `data-vcmp*` (class-agnostic) + View-Transition-safe.
+interface Side {
+  src: string;
+  poster?: string;
+  label: string;
+}
+interface Props {
+  left: Side;
+  right: Side;
+  caption?: string;
+}
+const { left, right, caption } = Astro.props;
+---
+
+<figure class="vcmp" data-vcmp>
+  <div class="vcmp__pair">
+    <div class="vcmp__side">
+      <video
+        preload="none"
+        poster={left.poster}
+        playsinline
+        data-src={left.src}
+        data-vcmp-leader
+        aria-label={left.label}></video>
+      <span class="vcmp__label">{left.label}</span>
+    </div>
+    <div class="vcmp__side">
+      <video
+        preload="none"
+        poster={right.poster}
+        playsinline
+        data-src={right.src}
+        data-vcmp-follower
+        aria-label={right.label}></video>
+      <span class="vcmp__label">{right.label}</span>
+    </div>
+  </div>
+  <div class="vcmp__bar">
+    <button
+      class="vcmp__play"
+      type="button"
+      data-vcmp-play
+      aria-label="Play synced comparison videos"
+    >
+      <span data-vcmp-play-label>Play</span>
+    </button>
+    <span class="vcmp__hint">synced playback · drag to scrub</span>
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<script is:inline>
+  // Synced side-by-side video comparison. Sources wired on first Play (lazy).
+  // No-op without [data-vcmp]. Re-runs on every Astro page-load (initial +
+  // View-Transition navigations); old listeners die with removed nodes.
+  (function () {
+    document.addEventListener('astro:page-load', function () {
+      var roots = document.querySelectorAll('[data-vcmp]');
+      if (!roots.length) return;
+      roots.forEach(function (root) {
+        if (root.dataset.vcmpInit === '1') return;
+        root.dataset.vcmpInit = '1';
+        var leader = root.querySelector('[data-vcmp-leader]');
+        var follower = root.querySelector('[data-vcmp-follower]');
+        var btn = root.querySelector('[data-vcmp-play]');
+        var label = root.querySelector('[data-vcmp-play-label]');
+        if (!leader || !follower || !btn) return;
+
+        var wired = false;
+        function wire() {
+          if (wired) return;
+          wired = true;
+          leader.src = leader.getAttribute('data-src') || '';
+          follower.src = follower.getAttribute('data-src') || '';
+        }
+
+        leader.addEventListener('timeupdate', function () {
+          if (Math.abs(leader.currentTime - follower.currentTime) > 0.15) {
+            follower.currentTime = leader.currentTime;
+          }
+        });
+        leader.addEventListener('seeking', function () {
+          follower.currentTime = leader.currentTime;
+        });
+        leader.addEventListener('play', function () {
+          follower.play().catch(function () {});
+          btn.classList.add('is-playing');
+          if (label) label.textContent = 'Pause';
+        });
+        leader.addEventListener('pause', function () {
+          follower.pause();
+          btn.classList.remove('is-playing');
+          if (label) label.textContent = 'Play';
+        });
+
+        btn.addEventListener('click', function () {
+          wire();
+          if (leader.paused) leader.play().catch(function () {});
+          else leader.pause();
+        });
+      });
+    });
+  })();
+</script>

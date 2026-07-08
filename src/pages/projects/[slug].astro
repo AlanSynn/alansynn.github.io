@@ -1,78 +1,61 @@
 ---
-import Base from '@/layouts/Base.astro';
-import { getCollection, render } from 'astro:content';
+import { existsSync } from 'node:fs';
+import { getCollection } from 'astro:content';
+import { getPaperByKey } from '@/lib/data';
+import AcademicProject from '@/components/project/AcademicProject.astro';
 
+// ACADEMIC project pages only (frontmatter `paper:` → research paper microsite).
+// Work/engineering projects (no `paper:`) are served by their own STATIC route
+// files (e.g. src/pages/projects/aka-musio-robot.astro). This split is what
+// gives academic pages TRUE CSS isolation: this route imports ONLY
+// AcademicProject → MicrositeShell → project-page.css (the verbatim microsite
+// port), with NO site main.css/base.css in the graph. When both layouts shared
+// one [slug] route, Astro bundled both stylesheets into every project page and
+// the site's global element rules + colliding class names (.site-footer, .hero,
+// .section, …) leaked into the microsite (serif headings, mono footer, 6% font
+// upscale) — and CSS load order was nondeterministic, so it broke unpredictably.
+// Separate routes = each page links only its own stylesheet. Load-order-safe.
 export async function getStaticPaths() {
-  const projects = await getCollection('projects');
-  return projects.map((p) => ({ params: { slug: p.id }, props: { project: p } }));
+  const all = await getCollection('projects');
+  // Drafts render in `just dev` only — filtered out of the production build so
+  // they never ship to the live site (the unpublished example page uses this).
+  const projects = import.meta.env.PROD ? all.filter((p) => !p.data.draft) : all;
+
+  // Build-time integrity: a `paper:` citekey MUST resolve in papers.bib.
+  const missingCitekeys = projects
+    .filter((p) => p.data.paper && !getPaperByKey(p.data.paper))
+    .map((p) => `projects/${p.id}.md → "${p.data.paper}"`);
+  if (missingCitekeys.length > 0) {
+    throw new Error(
+      `[content] ${missingCitekeys.length} project(s) reference a paper citekey not found in content/papers.bib:\n  ` +
+        missingCitekeys.join('\n  '),
+    );
+  }
+
+  // Footgun guard: every NON-paper (work) project needs a matching static route
+  // file in this directory, else it 404s. Fail the build with a precise message
+  // instead of silently dropping the page. Use process.cwd() (project root) —
+  // import.meta.url is rebased to the build chunk dir during `astro build`, so
+  // it can't locate source files.
+  const routeDir = `${process.cwd()}/src/pages/projects/`;
+  const workWithoutRoute = projects
+    .filter((p) => !p.data.paper)
+    .filter((p) => !existsSync(`${routeDir}${p.id}.astro`));
+  if (workWithoutRoute.length > 0) {
+    throw new Error(
+      `[routes] ${workWithoutRoute.length} work project(s) (no \`paper:\`) have no static route file.\n` +
+        `  Since [slug].astro serves academic pages only, each work project needs its own\n` +
+        `  src/pages/projects/<slug>.astro. Missing:\n  ` +
+        workWithoutRoute.map((p) => `${p.id}.md`).join('\n  '),
+    );
+  }
+
+  return projects
+    .filter((p) => p.data.paper)
+    .map((p) => ({ params: { slug: p.id }, props: { project: p } }));
 }
 
 const { project } = Astro.props;
-const { Content } = await render(project);
-const d = project.data;
-const isLocalVideo = !!d.video && /\.(mp4|webm|ogg)$/i.test(d.video);
 ---
 
-<Base title={d.title} wide>
-  <article>
-    <header class="post-header">
-      <div class="hero__eyebrow">{[d.period, d.org].filter(Boolean).join(' · ')}</div>
-      <h1>{d.title}</h1>
-    </header>
-
-    {
-      d.video && isLocalVideo && (
-        <div class="video-frame">
-          <video controls preload="metadata" poster={d.image} title={d.title}>
-            <source src={d.video} />
-          </video>
-        </div>
-      )
-    }
-    {
-      d.video && !isLocalVideo && (
-        <div class="video-frame">
-          <iframe
-            src={`https://www.youtube.com/embed/${d.video}`}
-            title={d.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-            loading="lazy"
-          />
-        </div>
-      )
-    }
-    {
-      d.image && !d.video && (
-        <img
-          src={d.image}
-          alt={d.title}
-          style="border-radius: var(--radius-md); border: 1px solid var(--hairline); margin-bottom: var(--space-5);"
-        />
-      )
-    }
-
-    <div class="prose">
-      <Content />
-    </div>
-
-    {
-      d.links && d.links.length > 0 && (
-        <div class="pub__links" style="margin-top: var(--space-6);">
-          {d.links.map((l: { label: string; url: string }) => (
-            <a class="pub-link" href={l.url} target="_blank" rel="noopener">
-              {l.label} ↗
-            </a>
-          ))}
-        </div>
-      )
-    }
-
-    <a class="back-link" href="/projects">← All projects</a>
-
-    <p class="license-note">
-      Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/"
-        >CC BY-NC-ND 4.0</a>
-    </p>
-  </article>
-</Base>
+<AcademicProject project={project} />

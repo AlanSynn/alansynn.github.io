@@ -11,7 +11,7 @@ process.chdir(resolve(__dirname, '..'));
 
 const { getPapers } = await import('../src/lib/papers.ts');
 
-const papers = getPapers();
+const papers = getPapers().filter((p) => p.fields.demo !== 'true');
 
 // Project to just the fields Typst templates need.
 const out = papers.map((p) => ({
@@ -29,6 +29,10 @@ const out = papers.map((p) => ({
   code: p.code,
   website: p.website,
   video: p.video,
+  // Consumed by the paper one-pager (paper-page.typ); ignored by resume/CV.
+  abstract: p.abstract,
+  raw: p.raw,
+  address: p.fields.address ?? null,
 }));
 
 const outPath = resolve(process.cwd(), 'src/data/papers.json');

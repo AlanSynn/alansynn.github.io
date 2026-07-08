@@ -113,3 +113,34 @@ export function coauthorUrl(family: string, given: string): string | null {
   );
   return (hit ?? entry[0])?.url ?? null;
 }
+
+// Lookup a paper by its bib citekey. Academic project pages DRY-link their
+// hero/citation/BibTeX to the papers.bib source via a `paper:` frontmatter
+// field; this resolves it. Linear scan over the cached list (tiny). Returns
+// null if not found — the caller in [slug].astro getStaticPaths throws on miss.
+export function getPaperByKey(key: string): Paper | null {
+  return getPapers().find((p) => p.key === key) ?? null;
+}
+
+// Site origin without trailing slash, for same-origin link detection.
+const ORIGIN = (site.url as string).replace(/\/$/, '');
+
+// True for URLs that point at a route ON THIS SITE (root-relative paths or
+// same-origin absolute). Such links must navigate client-side (same tab) so
+// Astro's ClientRouter view-transitions fire — opening them in a new tab or as
+// a full load to the production origin defeats both transitions and local dev.
+export function isInternalHref(u: string | null | undefined): boolean {
+  if (!u) return false;
+  if (u.startsWith('/')) return !u.startsWith('//'); // root-relative (not protocol-relative)
+  return u.startsWith(ORIGIN + '/') || u === ORIGIN;
+}
+
+// Normalize a same-origin absolute URL to a root-relative path (keeps
+// client-side navigation working); leaves external URLs untouched. e.g.
+// "https://alansynn.com/projects/x" → "/projects/x".
+export function webPath(u: string | null | undefined): string | null {
+  if (!u) return null;
+  if (u.startsWith(ORIGIN + '/')) return u.slice(ORIGIN.length);
+  if (u === ORIGIN) return '/';
+  return u;
+}
