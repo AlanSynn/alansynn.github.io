@@ -60,6 +60,7 @@ just build       # web + default resume/CV PDFs
 | `just resume [target]` | `public/pdfs/alansynn-resume[-target].pdf` |
 | `just cv [target]` | `public/pdfs/alansynn-cv[-target].pdf` |
 | `just pdfs` | resume + cv (defaults) |
+| `just paper <citekey>` | single-paper handout (`public/pdfs/paper-<citekey>.pdf`) |
 | `just clips` | regenerate video clips (needs ffmpeg; yt-dlp for YouTube) |
 | `just clean` | remove `dist/`, `.astro/` |
 
@@ -84,6 +85,7 @@ content/                   ← edit EVERYTHING here; the only dir a human edits
   blog/*.typ               long-form posts (Typst)
 
 src/lib/content-schema.ts  Zod schemas — the shape of every YAML above (strict)
+src/content.config.ts      Zod schema for projects/*.md + blog/*.typ frontmatter
 src/lib/data.ts            single import surface; parses each YAML through its schema
 src/lib/papers.ts          dependency-free BibTeX parser (build-time)
 src/data/                  generated only — never hand-edit (papers.json, video-clips.json)
@@ -103,7 +105,7 @@ justfile                   the build orchestrator
 
 - **A publication** → add an `@inproceedings{…}` / `@article{…}` entry to `content/papers.bib` (`selected`, `featured`, `abbr`, `pdf`, `code`, `website`, `video`, `preview`, `abstract`). Then `just build`.
 - **A news item** → add a `{ date, link?, highlight?, body }` entry to `content/news.yaml`.
-- **A project / blog post** → drop a file in `content/projects/*.md` or `content/blog/*.typ`.
+- **A project / blog post** → drop a file in `content/projects/*.md` or `content/blog/*.typ`. A *work* project (`category: work`) also needs a static route file `src/pages/projects/<slug>.astro` (copy an existing one) — the build fails with a precise message otherwise. Research/paper pages (`category: research` + a `paper:` citekey) need no route file.
 - **A CV detail** → edit the matching section in `content/cv.yaml`. Web + resume + CV all update.
 - **A targeted resume** → `just resume <target>` (`graphics`, `ml-systems` built in). Add a target in `content/targets.yaml`. Per-entry show/hide: any YAML entry may carry `only: [graphics]` or `except: [ml-systems]`, honored on **both** web and PDF.
 - **A video figure** → set `video={...}` in `papers.bib` or a project's frontmatter, run `just clips`, commit the clip + manifest.
@@ -118,10 +120,11 @@ justfile                   the build orchestrator
 - a **bad key / wrong type / missing field** → build fails with a located error;
 - an **unknown field** (a typo, or a key with no consumer) → build fails too — a dead field can never silently do nothing.
 
-Two cross-reference rules are enforced at build via `enforcePaperIntegrity`:
+Three cross-reference rules are enforced at build — **all fail the build** with a located message:
 
-- a paper whose `abbr` has no matching key in `venues.yaml` → the badge renders bare (**warn** — cosmetic, and the add-paper workflow adds the bib entry before the venue);
-- a paper flagged `featured` (web-top) without `selected` (PDF) → **build fails**. A featured paper must also appear in the CV/resume.
+- a paper whose `abbr` has no matching key in `venues.yaml` → the badge would render bare (add the venue key);
+- a paper flagged `featured` (web-top) without `selected` (PDF) → a featured paper must also appear in the CV/resume;
+- an `only:`/`except:` value on a cv/honors entry that isn't a `targets.yaml` id → a typo here would silently hide the entry on web *and* every PDF target.
 
 </details>
 
