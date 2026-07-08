@@ -51,27 +51,35 @@ export async function getStaticPaths() {
   }
 
   // PROD asset check: frontmatter image/video/src paths are free strings, so a
-  // typo renders a broken image under a green build. Walks each entry for any
-  // root-relative string and existsSync's it against public/. Skipped in dev so
-  // a project page can be drafted before its assets land.
+  // typo renders a broken image under a green build. Walks each entry and
+  // existsSync's root-relative strings against public/. Only string values whose
+  // IMMEDIATE key is a known asset-path field (src/poster/image/video/preview/
+  // pdf) are checked — walking every string would false-positive on prose fields
+  // that legitimately begin with '/' (a code snippet's path, an faq answer, a
+  // latex fallback). New path fields are covered as long as they're so-named.
+  // Skipped in dev so a project page can be drafted before its assets land.
   if (import.meta.env.PROD) {
+    const PATH_KEYS = new Set(['src', 'poster', 'image', 'video', 'preview', 'pdf']);
     const missing: string[] = [];
-    const visit = (node: unknown, trail: string) => {
+    const visit = (node: unknown, trail: string, key: string | null) => {
       if (typeof node === 'string') {
         if (
+          key &&
+          PATH_KEYS.has(key) &&
           node.startsWith('/') &&
           !node.startsWith('//') &&
           !existsSync(`${process.cwd()}/public${node}`)
         )
           missing.push(`${trail} → ${node}`);
       } else if (Array.isArray(node)) {
-        node.forEach((c, i) => visit(c, `${trail}[${i}]`));
+        // Bare strings inside arrays (e.g. nav labels) aren't paths — reset key.
+        node.forEach((c, i) => visit(c, `${trail}[${i}]`, null));
       } else if (node && typeof node === 'object') {
         for (const [k, v] of Object.entries(node as Record<string, unknown>))
-          visit(v, trail ? `${trail}.${k}` : k);
+          visit(v, trail ? `${trail}.${k}` : k, k);
       }
     };
-    for (const p of projects) visit(p.data, `${p.id}.md`);
+    for (const p of projects) visit(p.data, `${p.id}.md`, null);
     if (missing.length) {
       throw new Error(
         `[content] ${missing.length} project asset path(s) do not resolve under public/ (would render a broken image/link). Add the asset or fix the path:\n  ` +

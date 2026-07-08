@@ -126,6 +126,7 @@ export const targetsSchema = z.record(z.string(), targetSchema);
 
 // Cross-reference integrity (build-time). Mirrors src/lib/papers.ts Paper subset.
 interface PaperLike {
+  key: string;
   title: string;
   abbr: string | null;
   selected: boolean;
@@ -153,7 +154,7 @@ export function enforcePaperIntegrity(
   if (missingVenues.length > 0) {
     throw new Error(
       `[content] ${missingVenues.length} paper(s) have an abbr with no matching key in content/venues.yaml (the venue badge would render as bare, unlinked text). Add a key for each abbr:\n  ` +
-        missingVenues.map((p) => `- ${p.abbr} (${p.title.slice(0, 60)})`).join('\n  '),
+        missingVenues.map((p) => `- ${p.abbr} (${p.key}: ${p.title.slice(0, 60)})`).join('\n  '),
     );
   }
 
@@ -184,6 +185,13 @@ export function enforceTargetFlags(
       const v = e[fld];
       if (v === undefined) continue;
       const ids = Array.isArray(v) ? v : [v];
+      // An empty list (only: [] / except: []) is defined-but-empty → the entry
+      // is hidden on web (entry-visible returns false) AND every PDF target,
+      // with no build signal — the same silent-vanish class as a typo'd id.
+      if (ids.length === 0) {
+        bad.push(`${source} → ${fld}: [] (empty list hides the entry everywhere)`);
+        continue;
+      }
       for (const id of ids) if (!known.has(id)) bad.push(`${source} → ${fld}: ${id}`);
     }
   }
