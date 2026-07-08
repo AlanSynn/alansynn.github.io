@@ -2,9 +2,11 @@
 # ──────────────────────────────────────────────────────────────────────────
 # TEMPLATE / EXAMPLE PAGE — unlisted (built + reachable by direct URL, but
 # excluded from the sitemap + any listing, and emits <meta robots noindex>).
-# Exercises EVERY feature of the academic project-page system so it doubles as
-# living documentation. Every asset below is branded placeholder filler under
-# public/images/example/ (clearly not real results). Copy this file, swap the
+# Exercises every feature of the academic project-page system so it doubles as
+# living documentation. (One exception: `title_lines` — hand-broken multi-line
+# title — is shown in motionsmith.md; this template uses `title_mark`, the two
+# being alternative title treatments.) Every asset below is branded placeholder
+# filler under public/images/example/ (clearly not real results). Copy this file, swap the
 # `paper:` citekey, drop the fields you don't need, and replace the SVGs.
 # Linked paper content/papers.bib#synn2026neuralcaustic is itself a fictional
 # `demo={true}` entry (filtered out of the homepage + CV) so this template
@@ -49,7 +51,7 @@ author_affil: [1, 2, 1]
 
 # --- Overview ---------------------------------------------------------------
 # overview_heading: the section <h2> (defaults to "Overview"). `takeaways` is the
-# 3-up highlight grid atop the overview prose — each { title, text } is a card.
+# 3-up highlight grid BELOW the overview body prose — each { title, text } is a card.
 overview_heading: "Invert the caustic, keep the surface fabricable."
 takeaways:
   - title: "Differentiable ray tracing drives the inversion."
@@ -239,8 +241,8 @@ video_comparison:
 
 # --- Cases (tabbed carousel) ------------------------------------------------
 # `cases_heading`/`cases_intro` open the section; each `cases[].tab` is a
-# carousel tab. A tab carries an `image` + `alt` + `caption`, a `lede`, and a
-# `facts` list ({ label, text } key/value rows). Keyboard-accessible.
+# carousel tab. A tab carries an `image` + `alt` + `caption`, a `subtitle`, a
+# `lede`, and a `facts` list ({ label, text } key/value rows). Keyboard-accessible.
 cases_heading: "Two stress-test targets show where each component earns its keep."
 cases_intro: "Each case runs the full pipeline from a target image through surface recovery to a printed lens verified under real illumination."
 cases:
@@ -284,8 +286,9 @@ cases:
         }
 
 # --- Citation ---------------------------------------------------------------
-# `citation_heading`/`citation_intro` open the section (the abstract + BibTeX +
-# copy button below all DERIVE from the `paper:` bib entry — not restated here).
+# `citation_heading`/`citation_intro` open the section. The visible BibTeX +
+# copy button DERIVE from the `paper:` bib entry (not restated here); the
+# abstract feeds the document <head> (scholar meta + description), not this block.
 citation_heading: "Read the paper and cite NeuralCaustic."
 citation_intro: "The full paper is available as a local PDF. The DOI and BibTeX are included below for quick reference."
 # FAQ accordion (native <details> — no JS). Closing-section convention.

@@ -33,13 +33,15 @@ artifacts (`src/data/papers.json`, `src/data/video-clips.json`) live under
 | Command | What |
 |---|---|
 | `just build` | web + default resume/CV PDFs (full pipeline) |
-| `just web` | Astro build only |
+| `just web` | Astro build + Pagefind index |
 | `just dev` | dev server `localhost:4321` |
 | `just resume [target]` | `public/pdfs/alansynn-resume[-target].pdf` |
 | `just cv [target]` | `public/pdfs/alansynn-cv[-target].pdf` |
 | `just pdfs` | resume + cv (defaults) |
+| `just pdfs-all` | resume + cv for **every** target in `content/targets.yaml` |
 | `just paper <citekey>` | single-paper handout `public/pdfs/paper-<citekey>.pdf` |
 | `just clips` | regenerate video clips (needs ffmpeg) |
+| `just check-isolation` | Playwright guard: no site CSS leaks into `/projects/<slug>` |
 | `just clean` | remove `dist/`, `.astro/` |
 
 Targets: `graphics` \| `ml-systems` (filter pubs + swap research blurb). Defined
@@ -50,11 +52,14 @@ entry.
 ## Conventions (don't break these)
 
 - **A pre-commit gate runs on every commit** (husky + lint-staged). It aborts
-  the commit if any of three checks fail: `lint-staged` (prettier on staged
+  the commit if any of four checks fail: `lint-staged` (prettier on staged
   code only — `content/` + generated + vendored are protected by
   `.prettierignore`, so human edits are never reformatted), `astro check`
-  (types), and `just web` (full build = Zod strict-schema validation + render +
-  asset graph — mirrors CI, so a deploy-breaking commit is caught locally).
+  (types), `just web` (full build = Zod strict-schema validation + render +
+  asset graph — mirrors CI, so a deploy-breaking commit is caught locally), and
+  `check-pdf-sync` (fails if PDF-source content/Typst is staged without its
+  rebuilt `public/pdfs/*.pdf`, so the committed PDFs can't silently drift — CI
+  is web-only and never rebuilds them).
   Bypass a WIP commit with `git commit --no-verify`. The hook auto-installs on
   `bun install` via the `prepare` script, so fresh clones get it for free.
 - **Edit content in `content/`**, never in code or generated files. Generated:
