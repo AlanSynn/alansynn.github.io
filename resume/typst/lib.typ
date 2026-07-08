@@ -27,9 +27,13 @@
 //         only:   [graphics]   # show only for these targets
 //         except: [ml-systems] # hide for these targets
 //
-// Compile from repo root:
-//   typst compile --root . resume/typst/cv.typ public/pdfs/cv.pdf
-//   typst compile --root . resume/typst/cv.typ public/pdfs/cv-graphics.pdf --input target=graphics
+// Compile (prefer the `just` recipes — they regen src/data/papers.json first;
+// a raw `typst compile` skips that and can render against a stale JSON):
+//   just cv                    # → public/pdfs/alansynn-cv.pdf
+//   just cv graphics           # → public/pdfs/alansynn-cv-graphics.pdf
+// Equivalent raw form (run `bun scripts/gen-papers-json.mjs` first):
+//   typst compile --root . resume/typst/cv.typ public/pdfs/alansynn-cv.pdf
+//   typst compile --root . resume/typst/cv.typ public/pdfs/alansynn-cv-graphics.pdf --input target=graphics
 // ============================================================================
 
 #import "./layout.typ": styling, section, entry, global-theme
@@ -322,6 +326,16 @@
 // numbered independently, newest-first). Resume: one flat numbered list.
 #let pubs-section = doc => {
   let list-all = pubs-for(doc)
+  // Targeted resume whose keywords match zero selected papers → the section
+  // would render its header with no entries (silent empty list). Panic naming
+  // the target so content/targets.yaml keywords get widened instead of a blank
+  // "Selected Publications" shipping. (Default resume has all selected papers,
+  // so this only fires under a --input target=... that matches nothing.)
+  if doc == "resume" and target != "" and list-all.len() == 0 {
+    panic(
+      "resume target '" + target + "' matched zero selected papers — widen its keywords in content/targets.yaml, or the Selected Publications section renders empty.",
+    )
+  }
   if doc == "cv" {
     let s = split-by-type(list-all)
     for (label, group) in (

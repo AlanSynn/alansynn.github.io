@@ -1,8 +1,8 @@
 // content-schema.ts — strict Zod schemas for every structured YAML in content/.
 // .strict(): an unknown key (typo / dead field) fails the build loudly, not
 // silently — the failure mode that once left tagline/skills.yaml/bibtex_show
-// edited-but-ignored. Two cross-ref rules at the bottom (abbr∈venues=warn,
-// featured-without-selected=throw).
+// edited-but-ignored. Three cross-ref rules at the bottom (all THROW):
+// abbr∈venues, featured→selected, and only/except target ids ∈ targets.yaml.
 
 import { z } from 'astro/zod';
 
@@ -139,18 +139,21 @@ interface VenueLike {
   type?: 'journal' | 'conference' | 'preprint';
 }
 
-// abbr with no venues.yaml key → badge renders bare: WARN (cosmetic; add-paper
-// workflow adds the bib entry first). featured without selected → homepage
-// surfaces a paper the CV omits: THROW (always an oversight, 1-line fix in bib).
+// Both THROW. Each is always an oversight with a 1-line fix, and symmetry beats
+// a cosmetic-vs-structural split: when missing-venue was only a warn it lingered
+// unfixed, buried in build noise (a bare-text badge shipped). Now both fail the
+// build, naming the exact key to add.
+//   abbr ∉ venues.yaml → venue badge would render as bare text; add the key.
+//   featured without selected → homepage surfaces a paper the CV omits.
 export function enforcePaperIntegrity(
   papers: PaperLike[],
   venues: Record<string, VenueLike>,
 ): void {
   const missingVenues = papers.filter((p) => p.abbr && !(p.abbr in venues));
   if (missingVenues.length > 0) {
-    console.warn(
-      `[content] ${missingVenues.length} paper(s) have an abbr with no matching key in content/venues.yaml (badge will render as bare text):`,
-      missingVenues.map((p) => `${p.abbr} (${p.title.slice(0, 50)})`).join(' | '),
+    throw new Error(
+      `[content] ${missingVenues.length} paper(s) have an abbr with no matching key in content/venues.yaml (the venue badge would render as bare, unlinked text). Add a key for each abbr:\n  ` +
+        missingVenues.map((p) => `- ${p.abbr} (${p.title.slice(0, 60)})`).join('\n  '),
     );
   }
 
@@ -160,6 +163,36 @@ export function enforcePaperIntegrity(
       `[content] ${asymmetric.length} paper(s) are featured (web-top) but not selected (PDF) — ` +
         `a featured paper must also appear in the CV/resume. Set selected={true} (or featured={false}) in content/papers.bib for:\n  ` +
         asymmetric.map((p) => `- ${p.title.slice(0, 80)}`).join('\n  '),
+    );
+  }
+}
+
+// only:/except: on cv.yaml timeline entries + honors.yaml groups must reference
+// real target ids (keys in targets.yaml). A typo like `only: [graphcs]` HIDES
+// the entry everywhere — web (only is defined → entry hidden as target-specific)
+// AND every PDF target (no target matches the typo) — a silent vanish with no
+// build signal. Throws naming each offender + the known target ids.
+export function enforceTargetFlags(
+  entries: { only?: string | string[]; except?: string | string[] }[],
+  targetIds: string[],
+  source: string,
+): void {
+  const known = new Set(targetIds);
+  const bad: string[] = [];
+  for (const e of entries) {
+    for (const fld of ['only', 'except'] as const) {
+      const v = e[fld];
+      if (v === undefined) continue;
+      const ids = Array.isArray(v) ? v : [v];
+      for (const id of ids) if (!known.has(id)) bad.push(`${source} → ${fld}: ${id}`);
+    }
+  }
+  if (bad.length > 0) {
+    throw new Error(
+      `[content] ${bad.length} only:/except: value(s) are not target ids in content/targets.yaml ` +
+        `(a typo here hides the entry on web AND every PDF target — silent vanish). ` +
+        `Known target ids: [${targetIds.join(', ') || '(none defined)'}]. Offenders:\n  ` +
+        bad.join('\n  '),
     );
   }
 }
