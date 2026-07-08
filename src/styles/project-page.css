@@ -22,6 +22,12 @@
   --muted: #646b78;
   --accent: #5a6cff;
   --accent-soft: rgba(90, 108, 255, 0.08);
+  /* Text on a --text / --accent fill: the inverse of --bg per theme, so a solid
+     chip/button stays legible when --text flips to a light ink in dark mode
+     (a hardcoded #fff goes white-on-near-white = invisible). */
+  --on-fill: #ffffff;
+  /* Hero title muted "rest" — a step lifted from --text, readable in both themes. */
+  --title-rest: #434a59;
   /* Raised/translucent surfaces. These are token-driven (not hardcoded) so dark
      mode can flip them — the microsite hardcoded rgba(255,255,255,…) panels,
      which go invisible on a dark bg. Mirrors main --paper-raised in dark. */
@@ -54,6 +60,8 @@
   --muted: #9099a3;
   --accent: #6ba8ff;
   --accent-soft: rgba(107, 168, 255, 0.14);
+  --on-fill: #13171a; /* dark text on the now-light --text/--accent fills */
+  --title-rest: #cfcbc3; /* lifted so the hero subtitle reads clearly on dark */
   --surface: rgba(27, 33, 38, 0.92);
   --surface-header: rgba(27, 33, 38, 0.86);
   --surface-strong: rgba(27, 33, 38, 0.98);
@@ -69,6 +77,8 @@
     --muted: #9099a3;
     --accent: #6ba8ff;
     --accent-soft: rgba(107, 168, 255, 0.14);
+    --on-fill: #13171a; /* dark text on the now-light --text/--accent fills */
+    --title-rest: #cfcbc3; /* lifted so the hero subtitle reads clearly on dark */
     --surface: rgba(27, 33, 38, 0.92);
     --surface-header: rgba(27, 33, 38, 0.86);
     --surface-strong: rgba(27, 33, 38, 0.98);
@@ -170,7 +180,7 @@ p {
 
 ::selection {
   background: var(--accent);
-  color: #fff;
+  color: var(--on-fill);
 }
 
 :focus-visible {
@@ -205,7 +215,7 @@ p {
   padding: 0.72rem 1rem;
   border-radius: 999px;
   background: var(--text);
-  color: #fff;
+  color: var(--on-fill);
   transform: translateY(-160%);
   transition: transform var(--ease);
 }
@@ -288,13 +298,13 @@ p {
 .link-chip--solid {
   border-color: var(--text);
   background: var(--text);
-  color: #fff;
+  color: var(--on-fill);
 }
 
 .link-chip--solid:hover {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fff;
+  color: var(--on-fill);
 }
 
 pre {
@@ -742,7 +752,7 @@ code {
   white-space: nowrap;
 }
 .hero__title-rest {
-  color: #434a59;
+  color: var(--title-rest);
 }
 
 .hero__summary {
@@ -1189,7 +1199,7 @@ code {
   border: 1px solid var(--text);
   border-radius: 999px;
   background: var(--text);
-  color: #fff;
+  color: var(--on-fill);
   cursor: pointer;
   transition:
     background var(--ease),
@@ -1550,7 +1560,7 @@ code {
   border: 1px solid var(--text);
   border-radius: 999px;
   background: var(--text);
-  color: #fff;
+  color: var(--on-fill);
   font-weight: 800;
   cursor: pointer;
 }
