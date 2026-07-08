@@ -1,0 +1,35 @@
+---
+// LinkChips.astro — solid-primary first chip + outline rest, hover lift.
+// Reusable on any project/paper page. The caller builds the link list (the
+// academic hero derives it from the linked Paper). Same-origin links navigate
+// client-side (same tab) so Astro View Transitions fire + local dev works;
+// external links open in a new tab.
+import { isInternalHref, webPath } from '@/lib/data';
+interface Link {
+  label: string;
+  url: string;
+}
+interface Props {
+  links: Link[];
+}
+const { links } = Astro.props;
+---
+
+{
+  links.length > 0 && (
+    <nav class="link-chips" aria-label="Project links">
+      {links.map((l, i) => {
+        const internal = isInternalHref(l.url);
+        return (
+          <a
+            class:list={['link-chip', { 'link-chip--solid': i === 0 }]}
+            href={internal ? webPath(l.url) : l.url}
+            {...(!internal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          >
+            {l.label}
+          </a>
+        );
+      })}
+    </nav>
+  )
+}

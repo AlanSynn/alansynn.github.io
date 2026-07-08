@@ -1,0 +1,50 @@
+---
+// DemoVideo.astro — lazy demo video: poster + "Play" button; the <video> only
+// loads on click (a data-src swap, like the motionsmith standalone page). Saves
+// bandwidth on a media-heavy page and avoids autoplay noise. Rendered by
+// AcademicProject.astro from the project's `demo:` frontmatter.
+interface Props {
+  src: string;
+  poster: string;
+  alt?: string;
+}
+const { src, poster, alt } = Astro.props;
+---
+
+<figure class="demo-video" data-demo-video>
+  <button class="demo-video__launch" type="button" data-src={src} aria-label="Play demo video">
+    <img class="demo-video__poster" src={poster} alt={alt ?? 'Demo video poster'} loading="lazy" />
+    <span class="demo-video__play" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="30" height="30">
+        <path d="M8 5v14l11-7z" fill="currentColor"></path>
+      </svg>
+    </span>
+    <span class="demo-video__label">Play Demo</span>
+  </button>
+</figure>
+
+<script is:inline>
+  // Replace the launcher with a real <video> on click. A cache-busting query
+  // sidesteps a cached 304 on repeated launches. No-op without [data-demo-video].
+  (function () {
+    var roots = document.querySelectorAll('[data-demo-video]');
+    if (!roots.length) return;
+    roots.forEach(function (root) {
+      var btn = root.querySelector('.demo-video__launch');
+      if (!btn || btn.dataset.bound) return;
+      btn.dataset.bound = '1';
+      btn.addEventListener('click', function () {
+        var src = btn.getAttribute('data-src');
+        var bust = src + (src.indexOf('?') > -1 ? '&' : '?') + 'play=1';
+        var v = document.createElement('video');
+        v.controls = true;
+        v.autoplay = true;
+        v.playsInline = true;
+        v.src = bust;
+        root.innerHTML = '';
+        root.appendChild(v);
+        v.play().catch(function () {});
+      });
+    });
+  })();
+</script>

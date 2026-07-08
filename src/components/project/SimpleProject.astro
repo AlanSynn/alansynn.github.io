@@ -1,0 +1,77 @@
+---
+// SimpleProject.astro — work/engineering project page. The original layout that
+// lived inline in [slug].astro; extracted so [slug].astro can branch between
+// this and AcademicProject (research/paper pages). Behavior is identical for
+// the 3 existing work projects.
+import { render } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import ProjectFooter from './ProjectFooter.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+const { project } = Astro.props;
+const { Content } = await render(project);
+const d = project.data;
+const isLocalVideo = !!d.video && /\.(mp4|webm|ogg)$/i.test(d.video);
+---
+
+<Base title={d.title} wide>
+  <article>
+    <header class="post-header">
+      <div class="hero__eyebrow">{[d.period, d.org].filter(Boolean).join(' · ')}</div>
+      <h1>{d.title}</h1>
+    </header>
+
+    {
+      d.video && isLocalVideo && (
+        <div class="video-frame">
+          <video controls preload="metadata" poster={d.image} title={d.title}>
+            <source src={d.video} />
+          </video>
+        </div>
+      )
+    }
+    {
+      d.video && !isLocalVideo && (
+        <div class="video-frame">
+          <iframe
+            src={`https://www.youtube.com/embed/${d.video}`}
+            title={d.title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+            loading="lazy"
+          />
+        </div>
+      )
+    }
+    {
+      d.image && !d.video && (
+        <img
+          src={d.image}
+          alt={d.title}
+          style="border-radius: var(--radius-md); border: 1px solid var(--hairline); margin-bottom: var(--space-5);"
+        />
+      )
+    }
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      d.links && d.links.length > 0 && (
+        <div class="pub__links" style="margin-top: var(--space-6);">
+          {d.links.map((l: { label: string; url: string }) => (
+            <a class="pub-link" href={l.url} target="_blank" rel="noopener">
+              {l.label} ↗
+            </a>
+          ))}
+        </div>
+      )
+    }
+
+    <ProjectFooter />
+  </article>
+</Base>

@@ -1,0 +1,11 @@
+---
+// Static route for the protopia-privacy-dl WORK project (no `paper:` →
+// site-integrated layout via SimpleProject + Base). Academic/paper projects are
+// served by [slug].astro. See [slug].astro header for why the routes are split.
+import SimpleProject from '@/components/project/SimpleProject.astro';
+import { getProjectBySlug } from '@/lib/projects';
+
+const project = await getProjectBySlug('protopia-privacy-dl');
+---
+
+<SimpleProject project={project} />

@@ -108,6 +108,55 @@ entry.
   word stub), markdown inline OK (`**bold**`, `_italic_`, `[label](url)`).
   Order events across separate items by date (e.g. CHI: a January "accepted"
   item and an April "presenting" item), don't merge them.
+- **Academic project pages (`/projects/<slug>`, frontmatter `paper: <citekey>`)
+  are a deliberate 1:1 port of the bespoke motionsmith microsite design** — the
+  user explicitly wanted pages identical to the original microsite, NOT the site
+  system. **Do not "re-skin" this page back to Newsreader/Hanken — the bespoke
+  Manrope/indigo design is intentional.**
+  - **TRUE CSS isolation via a route split (the load-bearing part).**
+    `src/pages/projects/[slug].astro` serves academic pages ONLY and imports
+    `AcademicProject` → `MicrositeShell` → `src/styles/project-page.css` (a
+    verbatim port of the microsite's 4 CSS files, scoped under `:root` tokens:
+    Manrope, ink `#1b1f28`, indigo `#5a6cff`). NO site `main.css`/`base.css`/
+    `tokens.css` is in that route's graph, so the microsite's global element
+    rules and the 7 colliding class names it shares with the site (`.hero`,
+    `.section`, `.site-footer`, …) can never leak — isolation is structural, not
+    cascade-order-based. (The earlier one-route approach bundled BOTH
+    stylesheets into every project page and leaked nondeterministically as Astro
+    reordered chunks; the split is load-order-safe.) Work/engineering projects
+    (no `paper:`) keep site chrome via their own **static** route files —
+    `src/pages/projects/{aka-musio-robot,flysher-game-server,protopia-privacy-dl}.astro`
+    → `SimpleProject` → `Base`.
+  - **Footgun guard.** `[slug].astro` `getStaticPaths` throws at build time with
+    a precise message if (a) a `paper:` citekey doesn't resolve in
+    `content/papers.bib`, or (b) a work project (no `paper:`) has no matching
+    static route file (it would 404 otherwise). Adding a work project = copy a
+    static route file, change the slug.
+  - **Parity is verified, not eyeballed.** The port reproduces the original
+    microsite's DOM with its ORIGINAL class names + a Playwright computed-style
+    fingerprint diff (per-class color/font/spacing/box/geometry vs the rendered
+    original served locally) is the oracle: **0 style diffs, 0 site-chrome
+    leaks, 61/61 classes matched.** Body color must be the microsite ink
+    `rgb(27,31,40)` (a black body = site `base.css` leaked). Keep the `body`
+    rule free of an explicit `font-size` — it's what lets Chromium's monospace
+    default (13px) size the BibTeX `<pre>` to match the original.
+  - The interactive pieces — sticky hide-on-scroll header + mobile menu,
+    scroll-spy nav, click-to-launch demo video, 1.85× interface lens, tabbed
+    case carousel, copy button, reveal-on-scroll, and the graphics extras
+    (comparison slider, results/ablation table, gallery, synced video
+    comparison) — are wired in a single consolidated `<script>` in
+    `AcademicProject.astro` that listens to `astro:page-load`, so they re-init
+    on every View-Transition client-side nav without double-binding. All JS
+    hooks are `data-*` (class-agnostic) so class renames never break behavior.
+  - Bibliographic fields (title/authors/venue/DOI/PDF/code/video/BibTeX) all
+    **derive** from the linked `papers.bib` entry via `paper:` frontmatter —
+    never duplicate them in the `.md`. The BibTeX block is a **clean citation**
+    synthesized from the paper (type + title + author + venue + year + doi), NOT
+    a dump of `paper.raw` — `raw` carries internal housekeeping flags
+    (`selected`/`featured`/`preview`/`video`/`pdf`/`website`/`code`/`abstract`)
+    that must never appear in a citation a reader copies.
+  - `content/projects/motionsmith.md` is the live pilot; `example-graphics.md`
+    (`draft: true`, dev-only) exercises every feature as living documentation.
 
 ## Stack
 
