@@ -49,3 +49,10 @@
   name: 'KIPS Trans. Softw. & data'
   url: 'https://www.kips.or.kr/'
   type: journal
+
+# SIGGRAPH papers publish in ACM Transactions on Graphics (TOG) — a journal,
+# so type: journal drives correct CV grouping even though the venue is a conf.
+'SIGGRAPH':
+  name: 'ACM SIGGRAPH'
+  url: 'https://www.siggraph.org/'
+  type: journal

@@ -29,6 +29,8 @@ const projects = defineCollection({
       // Enum (not free string) so a typo like `catgory:` fails the build instead
       // of silently defaulting to 'work' and leaking a research page onto the grid.
       category: z.enum(['work', 'research']).default('work'),
+      // Homepage sort is DESCENDING (b.order - a.order), so a higher `order`
+      // renders EARLIER on the page. Work projects use 1/3 → order:3 shows first.
       order: z.number().default(0),
       date: z.coerce.date().optional(),
       summary: z.string().optional(),

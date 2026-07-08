@@ -26,9 +26,27 @@ import {
   targetsSchema,
   newsItemSchema,
   enforcePaperIntegrity,
+  enforceTargetFlags,
 } from './content-schema';
 
-const cv = cvSchema.parse(cvRaw);
+// Parse through a schema; on failure rethrow with the source filename so the
+// error names the YAML. Zod gives a field path but NOT the file — a bare
+// "education[0].title: Required" becomes "[content/cv.yaml] education[0].title".
+function parseFile<T>(schema: z.ZodType<T>, data: unknown, file: string): T {
+  try {
+    return schema.parse(data);
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      const paths = err.issues.map((i) => (i.path.length ? i.path.join('.') : '<root>')).join('; ');
+      throw new Error(
+        `[content/${file}] validation failed at: ${paths}\n  ${err.issues.map((i) => i.message).join('\n  ')}`,
+      );
+    }
+    throw err;
+  }
+}
+
+const cv = parseFile(cvSchema, cvRaw, 'cv.yaml');
 
 // entry-visible mirror of lib.typ at default target "". Web = untargeted view:
 // `only:` entries hidden (target-specific), `except:` shown, neither shown.
@@ -43,19 +61,24 @@ const experience = cv.experience.filter(entryVisible);
 const teaching = cv.teaching.filter(entryVisible);
 const activities = cv.activities.filter(entryVisible);
 
-const site = siteSchema.parse(siteRaw);
-const honors = honorsSchema.parse(honorsRaw);
-const researchInterests = researchInterestsSchema.parse(researchInterestsRaw);
+const site = parseFile(siteSchema, siteRaw, 'site.yaml');
+const honors = parseFile(honorsSchema, honorsRaw, 'honors.yaml');
+const researchInterests = parseFile(
+  researchInterestsSchema,
+  researchInterestsRaw,
+  'research-interests.yaml',
+);
 // Validation-only parse: CV reads references.yaml directly, web never renders
 // it. Validating here means web-only CI catches a bad file before a bad PDF.
-referencesSchema.parse(referencesData);
+parseFile(referencesSchema, referencesData, 'references.yaml');
 
-const venues = venuesSchema.parse(venuesRaw);
-const coauthors = coauthorsSchema.parse(coauthorsRaw);
+const venues = parseFile(venuesSchema, venuesRaw, 'venues.yaml');
+const coauthors = parseFile(coauthorsSchema, coauthorsRaw, 'coauthors.yaml');
 
 // Validation-only: targets.yaml is PDF-side config (web never renders it).
-// Parse so a typo fails web CI before a bad PDF is generated locally.
-targetsSchema.parse(targetsRaw);
+// Parse so a typo fails web CI before a bad PDF is generated locally. Keys are
+// reused below to cross-check only:/except: ids on cv + honors entries.
+const targetIds = Object.keys(parseFile(targetsSchema, targetsRaw, 'targets.yaml'));
 
 export {
   site,
@@ -89,10 +112,22 @@ export interface NewsItem {
   body: string;
 }
 
-export const newsItems: NewsItem[] = z.array(newsItemSchema).parse(newsRaw);
+export const newsItems: NewsItem[] = parseFile(z.array(newsItemSchema), newsRaw, 'news.yaml');
 
-// Cross-ref integrity (abbr ∈ venues, featured/selected). Throws on
-// featured-without-selected; warns on missing venue key. Fires once at init.
+// Cross-ref integrity. All THROW, fire once at init:
+//  - only:/except: ids on cv/honors entries must be real target ids (a typo
+//    otherwise hides the entry on web AND every PDF target — silent vanish).
+//  - paper abbr ∈ venues.yaml; featured → selected.
+enforceTargetFlags(
+  [...cv.education, ...cv.experience, ...cv.teaching, ...cv.activities],
+  targetIds,
+  'cv.yaml',
+);
+enforceTargetFlags(
+  honors as unknown as { only?: string | string[]; except?: string | string[] }[],
+  targetIds,
+  'honors.yaml',
+);
 enforcePaperIntegrity(getPapers(), venues as unknown as Record<string, VenueInfo>);
 
 export function venueInfo(abbr: string | null): VenueInfo | null {
