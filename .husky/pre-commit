@@ -1,16 +1,22 @@
 #!/usr/bin/env sh
-# pre-commit gate (husky). Runs three independent checks; the commit is aborted
+# pre-commit gate (husky). Runs four independent checks; the commit is aborted
 # if any fails. Together they are the repo's safety net — a typo in a content
-# schema, a type error, or a render/build regression cannot land on main.
+# schema, a type error, a render/build regression, or a PDF/content drift
+# cannot land on main.
 #
-#   1. lint-staged  — prettier --write on staged code only (content/ + generated
-#                     are ignored via .prettierignore, so human edits are safe).
-#   2. astro check  — TypeScript type errors across the whole project.
-#   3. just web     — full Astro build: Zod strict-schema validation, page
-#                     render, asset graph. This is what CI runs, so a commit
-#                     that breaks deploy is caught locally first.
+#   1. lint-staged       — prettier --write on staged code only (content/ +
+#                          generated are ignored via .prettierignore, so human
+#                          edits are safe).
+#   2. astro check       — TypeScript type errors across the whole project.
+#   3. just web          — full Astro build: Zod strict-schema validation, page
+#                          render, asset graph. This is what CI runs, so a
+#                          commit that breaks deploy is caught locally first.
+#   4. check-pdf-sync    — fails if PDF-source content (papers.bib/cv.yaml/…)
+#                          is staged without its rebuilt public/pdfs/*.pdf, so
+#                          the committed PDFs can't silently drift from source.
 #
 # Bypass for a WIP commit:  git commit --no-verify
 bun run lint-staged
 bun run check
 just web
+node scripts/check-pdf-sync.mjs

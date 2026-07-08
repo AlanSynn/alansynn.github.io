@@ -53,6 +53,28 @@ cv target='':
 # Build the default resume + CV PDFs (no target variants).
 pdfs: resume cv
 
+# Build resume + CV for the default + EVERY target variant in content/targets.yaml
+# (rebuilds the committed *-graphics.pdf / *-ml-systems.pdf etc. that `pdfs` and
+# `build` skip — those variants otherwise go stale after a targets.yaml edit or a
+# per-entry only:/except: change). Run after editing targets or cv structure.
+pdfs-all:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    bun scripts/gen-papers-json.mjs
+    mkdir -p public/pdfs
+    build() {
+      local doc="$1" stem="$2" target="${3-}"
+      typst compile --root . "resume/typst/${doc}.typ" "public/pdfs/${stem}.pdf" --input target="${target}" \
+        || { echo "--- typst failed (${doc} ${stem}) ---"; exit 1; }
+      echo "built public/pdfs/${stem}.pdf"
+    }
+    build resume alansynn-resume ""
+    build cv     alansynn-cv ""
+    for t in $(grep -E '^[A-Za-z0-9][A-Za-z0-9-]*:$' content/targets.yaml | tr -d ':'); do
+      build resume "alansynn-resume-$t" "$t"
+      build cv     "alansynn-cv-$t" "$t"
+    done
+
 # Compile a single-paper one-pager handout (title/authors/venue/links/abstract/
 # BibTeX) from the citekey in content/papers.bib → public/pdfs/paper-<key>.pdf.
 # e.g. `just paper synn2026motionsmith`
@@ -81,6 +103,20 @@ dev:
 
 clips:
     bun scripts/video-clips.mjs
+
+# CSS-isolation guard for academic project pages. Builds the site, serves it via
+# `astro preview`, and asserts (Playwright) that the academic /projects/<slug>
+# route carries NO site main/tokens/base stylesheet in light + dark — the
+# load-bearing route-split invariant. Needs chromium (`bunx playwright install
+# chromium`). Mirrors what CI runs after build.
+check-isolation: web
+    #!/usr/bin/env bash
+    set -euo pipefail
+    bun run preview &
+    SERVER_PID=$!
+    trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+    for i in $(seq 1 40); do curl -sSf http://localhost:4321/ >/dev/null 2>&1 && break || sleep 0.5; done
+    node scripts/check-isolation.mjs
 
 clean:
     rm -rf dist .astro

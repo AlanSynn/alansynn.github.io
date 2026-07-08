@@ -33,6 +33,20 @@ jobs:
       - name: Build (Astro + Pagefind)
         run: bun run build
 
+      - name: Install Playwright (chromium)
+        run: bunx playwright install --with-deps chromium
+
+      # CSS-isolation guard: the academic /projects/<slug> route split is
+      # load-bearing (keeps site base.css out of the microsite). Asserts no site
+      # stylesheet leaks into it, in light + dark, on the built site.
+      - name: CSS-isolation guard
+        run: |
+          bun run preview &
+          SERVER_PID=$!
+          for i in $(seq 1 40); do curl -sSf http://localhost:4321/ >/dev/null 2>&1 && break || sleep 0.5; done
+          node scripts/check-isolation.mjs
+          kill $SERVER_PID 2>/dev/null || true
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
