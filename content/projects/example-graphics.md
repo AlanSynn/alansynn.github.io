@@ -9,21 +9,47 @@
 # Linked paper content/papers.bib#synn2026neuralcaustic is itself a fictional
 # `demo={true}` entry (filtered out of the homepage + CV) so this template
 # round-trips the full pipeline without leaking into real publications.
+#
+# Field guide: bibliographic facts (title / authors / venue / DOI / PDF / code /
+# video / abstract / BibTeX) all DERIVE from the `paper:` citekey via
+# content/papers.bib — never re-state them here. The fields below are
+# PRESENTATION only: they shape how the derived facts are laid out. Every field
+# is optional (drop the ones you don't want → that section hides). Block
+# comments below mark each section the body renders.
 # ──────────────────────────────────────────────────────────────────────────
 title: "NeuralCaustic: Inverse Caustic Design with Differentiable Optics"
 category: "research"
 paper: "synn2026neuralcaustic"
 order: 99
 unlisted: true
+
+# --- Hero (title / authors / venue / link-chips / teaser) -------------------
+# hero_eyebrow: venue pill above the title (defaults to "<abbr> <year>" if unset).
+# title_mark:   title PREFIX rendered in the accent color (the rest muted); omit
+#               for a uniform title. Use the hand-broken `title_lines` instead for
+#               multi-line control (not used here).
+# summary:      one-line thesis under the title (the "what + why" in a breath).
+# event_dates:  appended to the venue line as "venue / <event_dates>".
+# teaser_caption: <figcaption> under the hero teaser image (paper.preview).
 hero_eyebrow: "SIGGRAPH 2026 (Template)"
 title_mark: "NeuralCaustic:"
 teaser_caption: "Given a target light pattern (left), NeuralCaustic recovers the refracting surface that focuses it into the intended caustic (right). Placeholder art."
 summary: "Specify a target light pattern and recover the lens geometry that focuses it — in seconds, with measurably lower error than optimization baselines."
 event_dates: "August 9–13, 2026"
+
+# Author affiliation superscripts + legend. `affiliations` is the numbered
+# legend (1-based); `author_affil` is the per-author index INTO that list, in
+# author order. Its length MUST equal the paper's author count (enforced at
+# build — AcademicProject throws if they differ), since each author gets one
+# superscript. Drop both fields to render authors with no superscripts.
 affiliations:
   - "Georgia Tech"
   - "ETH Zürich"
 author_affil: [1, 2, 1]
+
+# --- Overview ---------------------------------------------------------------
+# overview_heading: the section <h2> (defaults to "Overview"). `takeaways` is the
+# 3-up highlight grid atop the overview prose — each { title, text } is a card.
 overview_heading: "Invert the caustic, keep the surface fabricable."
 takeaways:
   - title: "Differentiable ray tracing drives the inversion."
@@ -32,6 +58,11 @@ takeaways:
     text: "The prior regularizes recovered geometry toward smooth, manufacturable surfaces while preserving fine caustic detail under real illumination."
   - title: "Recovered surfaces reproduce under real light."
     text: "Printed lenses focus physical light into the intended patterns with lower measured error than optimization baselines across a 24-image gallery."
+
+# --- Sticky section nav -----------------------------------------------------
+# Labels for the sticky scroll-spy nav (header-right). Order = render order top-
+# to-bottom; each label must match a section the body emits, or its nav entry
+# won't highlight. Drop `nav` to hide the sticky nav entirely.
 nav:
   - Overview
   - Demo
@@ -43,11 +74,21 @@ nav:
   - Cases
   - FAQ
   - Citation
+
+# --- Demo (click-to-launch video) -------------------------------------------
+# Poster shown until click; `src` swaps in on click (saves the heavy load until
+# the reader asks). `intro` is the paragraph above the player.
 demo:
   src: "/videos/motionsmith-demo.mp4"
   poster: "/images/example/demo-poster.svg"
   alt: "NeuralCaustic pipeline walkthrough — target image to recovered lens to projected caustic. Placeholder footage."
   intro: "A walkthrough of the NeuralCaustic pipeline — from a target light pattern through surface recovery to the projected caustic. (Placeholder footage in the template.)"
+
+# --- System (workflow figure + pipeline + zoom interface) -------------------
+# `intro` prose, a `workflow` figure, numbered `stages` (the pipeline cards —
+# `index` is the big marker, e.g. "01"), and a `zoom` magnifier image (hover to
+# inspect on hover-capable devices; hidden on touch). `interface` is an optional
+# paired heading + copy block under the zoom.
 system:
   heading: "Differentiable tracing plus a neural prior, end to end."
   intro: "NeuralCaustic pairs a differentiable ray tracer with a neural radiance prior. A designer specifies a target light pattern; the tracer inverts it to candidate surface geometry; the prior regularizes the surface toward something smooth and fabricable; the result is exported as a printable mesh."
@@ -71,7 +112,8 @@ system:
   interface:
     heading: "One workspace for target, recovery, and fabrication preview."
     copy: "The application keeps target editing, surface recovery, mesh regularization, and printable export in one place, so the move from a light pattern to a fabricable lens stays continuous."
-# --- AI/ML method blocks (Formulation + Algorithm + Code sections) ---
+
+# --- AI/ML method blocks (Formulation + Algorithm + Code sections) ----------
 # Numbered equation figures. `mathml` renders natively (no KaTeX dep); `latex`
 # is a plain-text fallback. Auto-numbered (1), (2), …
 equations:
@@ -122,6 +164,10 @@ code:
             opt.zero_grad(); loss.backward(); opt.step()
         return prior.to_mesh(surface.detach())
 
+# --- Comparison slider (ours-vs-theirs / before-after) ----------------------
+# The graphics money shot: a draggable handle splits `before` / `after`. Each
+# side is { src, alt }; `label_before` / `label_after` tag the handles. Drop the
+# whole `comparisons` list to omit the slider.
 comparisons:
   - before:
       src: "/images/example/comp-input.svg"
@@ -132,6 +178,7 @@ comparisons:
     label_before: "Target"
     label_after: "Ours"
     caption: "Drag to compare the target light pattern with the caustic produced by the recovered surface. Placeholder art."
+
 # Big-number stat callouts (grid at the top of the Results section).
 stat_callouts:
   - { value: "4.2 s", label: "avg. recovery time (vs 184 s optimization baseline)" }
@@ -139,6 +186,10 @@ stat_callouts:
   - { value: "24 / 24", label: "gallery targets reproduced under real light" }
   - { value: "25 µm", label: "SLA print layer height, optical face clean" }
 
+# --- Quantitative results table ---------------------------------------------
+# `columns` header the table; each `row.cells` is one method (same column order).
+# `highlight: true` bolds a row (mark "Ours"). `caption`/`note` frame the table.
+# Arrows in column headers are a convention to signal metric direction.
 results:
   caption: "Quantitative results on the 24-image gallery. Higher PSNR and lower LPIPS are better; Ours is highlighted."
   note: "Baseline times are single-threaded on an M2 Pro. ± values are std. dev. over five seeds. Numbers are fictional placeholder data."
@@ -147,6 +198,10 @@ results:
     - { cells: ["Optimization baseline", 21.4, 0.182, 184.0] }
     - { cells: ["Optimization + prior", 23.1, 0.141, 167.5] }
     - { cells: ["NeuralCaustic (ours)", 27.8, 0.087, 4.2], highlight: true }
+
+# --- Ablation table ---------------------------------------------------------
+# Same shape as `results` (columns/rows/highlight/caption) — isolate each
+# component to show it earns its keep. Rendered as a second table under Results.
 ablation:
   caption: "Ablation isolating each component. Removing the prior hurts smoothness; removing the differentiable tracer hurts fidelity."
   columns: ["Variant", "PSNR ↑", "LPIPS ↓"]
@@ -154,6 +209,10 @@ ablation:
     - { cells: ["No neural prior", 24.9, 0.121] }
     - { cells: ["Non-differentiable tracer", 22.6, 0.158] }
     - { cells: ["Full model", 27.8, 0.087], highlight: true }
+
+# --- Results gallery --------------------------------------------------------
+# Multi-image grid; `columns` sets the column count. Each item is
+# { src, alt, caption, label } — `label` is the small tag on the tile.
 gallery:
   columns: 3
   items:
@@ -163,6 +222,10 @@ gallery:
     - { src: "/images/example/gallery-4.svg", alt: "Recovered caustic — grid. Placeholder art.", caption: "Grid target, sharp intersections.", label: "grid" }
     - { src: "/images/example/gallery-5.svg", alt: "Recovered caustic — bloom. Placeholder art.", caption: "Bloom target, radial symmetry.", label: "bloom" }
     - { src: "/images/example/gallery-6.svg", alt: "Recovered caustic — echo. Placeholder art.", caption: "Echo target, nested rings.", label: "echo" }
+
+# --- Synced video comparison ------------------------------------------------
+# Side-by-side players; scrubbing one seeks the other (the synced "play head").
+# `left`/`right` are { src, poster, label }. Drop to omit.
 video_comparison:
   left:
     src: "/videos/motionsmith-demo.mp4"
@@ -173,6 +236,11 @@ video_comparison:
     poster: "/images/example/video-right.svg"
     label: "Ours"
   caption: "Side-by-side synced playback — scrub one and the other follows. (Placeholder footage stands in for both sides in the template.)"
+
+# --- Cases (tabbed carousel) ------------------------------------------------
+# `cases_heading`/`cases_intro` open the section; each `cases[].tab` is a
+# carousel tab. A tab carries an `image` + `alt` + `caption`, a `lede`, and a
+# `facts` list ({ label, text } key/value rows). Keyboard-accessible.
 cases_heading: "Two stress-test targets show where each component earns its keep."
 cases_intro: "Each case runs the full pipeline from a target image through surface recovery to a printed lens verified under real illumination."
 cases:
@@ -214,6 +282,10 @@ cases:
           label: "Why it matters",
           text: "Discrete targets confirm the prior regularizes geometry, not image sharpness.",
         }
+
+# --- Citation ---------------------------------------------------------------
+# `citation_heading`/`citation_intro` open the section (the abstract + BibTeX +
+# copy button below all DERIVE from the `paper:` bib entry — not restated here).
 citation_heading: "Read the paper and cite NeuralCaustic."
 citation_intro: "The full paper is available as a local PDF. The DOI and BibTeX are included below for quick reference."
 # FAQ accordion (native <details> — no JS). Closing-section convention.
