@@ -84,14 +84,34 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
 
     <script is:inline>
       // No-flash theme init: resolve stored pref or system preference BEFORE paint.
+      // `applyTheme` is also re-run on every View-Transition swap via the
+      // persistent `astro:after-swap` listener below. Without that re-run, the
+      // `data-theme` attribute (set here at runtime, not in the HTML source) is
+      // lost when the ClientRouter swaps to/from the isolated MicrositeShell
+      // (academic project pages — no theme script of their own), and the
+      // `:root:not([data-theme])` + `prefers-color-scheme: dark` fallback in
+      // tokens.css flips the site dark regardless of the stored choice. The
+      // listener is registered once on first load and survives all client-side
+      // navs (the ClientRouter keeps the same `document`), so it fires on every
+      // swap — before paint, so there's no flash.
       (function () {
         document.documentElement.classList.remove('no-js'); // JS is on -> reveal animations active
-        try {
-          var t = localStorage.getItem('theme');
-          if (!t) t = 'light'; // default to light
-          document.documentElement.setAttribute('data-theme', t);
-        } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'light');
+        function applyTheme() {
+          try {
+            var t = localStorage.getItem('theme');
+            if (!t) t = 'light'; // default to light
+            document.documentElement.setAttribute('data-theme', t);
+          } catch (e) {
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        }
+        applyTheme();
+        // Guard: the is:inline IIFE may re-run on some ClientRouter swap paths;
+        // register the swap listener once so it can't accumulate. applyTheme is
+        // idempotent regardless, but this keeps the listener list to one entry.
+        if (!window.__themeListenerBound) {
+          window.__themeListenerBound = true;
+          document.addEventListener('astro:after-swap', applyTheme);
         }
       })();
     </script>

@@ -107,22 +107,5 @@
         el.classList.add('in');
       });
     }
-
-    /* bibtex copy (delegated) */
-    document.addEventListener('click', function (e) {
-      var btn = e.target.closest && e.target.closest('.copy-btn');
-      if (!btn) return;
-      var pre = btn.parentElement.querySelector('pre');
-      var text = pre ? pre.innerText : '';
-      if (!navigator.clipboard) return;
-      navigator.clipboard.writeText(text).then(function () {
-        btn.setAttribute('data-copied', 'true');
-        btn.textContent = 'copied';
-        setTimeout(function () {
-          btn.setAttribute('data-copied', 'false');
-          btn.textContent = 'copy';
-        }, 1500);
-      });
-    });
   })();
 </script>
