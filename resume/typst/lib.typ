@@ -165,7 +165,7 @@
 // date. (An earlier version put bullets in `description` colspan-2 — that is a
 // real package feature, but the reference template does not use it, and using
 // it diverged from the canonical spacing.)
-#let cv-entry = e => {
+#let cv-entry = (e, gap: 0.3em) => {
   if not entry-visible(e) { return [] }
   let period = format-period(e.at("period", default: ""))
   let title = e.at("title", default: "")
@@ -179,7 +179,7 @@
   let left = {
     text(weight: "bold")[#md-inline(title)]
     if items.len() > 0 {
-      v(0.3em)
+      v(gap)
       list(
         marker: [•],
         indent: 1.2em,
@@ -194,8 +194,8 @@
   entry(left, emph[#period])
 }
 
-#let entries = list => {
-  for e in list { cv-entry(e) }
+#let entries = (list, gap: 0.3em) => {
+  for e in list { cv-entry(e, gap: gap) }
 }
 
 // ---- 7. Publications ------------------------------------------------------
@@ -347,7 +347,19 @@
       text(weight: "bold")[#label]
       v(0.2em)
       let sorted = group.sorted(key: pub-sort-key)
-      for (i, p) in sorted.enumerate() { pub-item(i + 1, p) }
+      let m = sorted.len()
+      for (i, p) in sorted.enumerate() {
+        pub-item(i + 1, p)
+        // pub-item's block(spacing: 0.5em) is absorbed by Typst 0.15 — a block
+        // whose sole child is a grid contributes no spacing of its own — so
+        // consecutive items otherwise collapse to ~0pt (measured 0.06pt), which
+        // against the sub-header boundary gaps reads as broken rhythm. An
+        // explicit v() between items is the only construction that lands the
+        // intended gap. (The resume keeps the absorbed-spacing path: its flat
+        // list reads as uniformly dense, and added height would fight the
+        // 1-page fit. Fixed here in the CV branch only → resume untouched.)
+        if i < m - 1 { v(0.5em) }
+      }
       v(0.3em)
     }
   } else {
@@ -450,48 +462,76 @@
 }
 
 // ---- 12. Body assembly ----------------------------------------------------
-#let cv-body = doc => [
+#let cv-body = doc => {
+  // Per-doc density knobs (resume tightens; CV keeps the template-matching
+  // defaults). Resume-only — defaults == current hardcoded values, so the CV
+  // re-renders bit-identical. entry-gap = the v() between a title and its
+  // bullets inside cv-entry; sec-before = the v() above each section rule.
+  let entry-gap = if doc == "resume" { 0.1em } else { 0.3em }
+  let sec-before = if doc == "resume" { 1pt } else { 4pt }
+  [
   // Accent is passed via styling(accent-color: ...) at the doc entry points
   // (resume-doc / cv-doc); layout.typ sets it into global-theme.
   #title-block
-  #section("Research Interests")
+  #section("Research Interests", before: sec-before)
   #research-blurb(doc)
-  #section("Education")
-  #entries(education)
-  #section(if doc == "cv" { "Professional Experience" } else { "Experience" })
-  #entries(experience)
-  #section(if doc == "cv" { "Publications" } else { "Selected Publications" })
+  #section("Education", before: sec-before)
+  #entries(education, gap: entry-gap)
+  #section(if doc == "cv" { "Professional Experience" } else { "Experience" }, before: sec-before)
+  #entries(experience, gap: entry-gap)
+  #section(if doc == "cv" { "Publications" } else { "Selected Publications" }, before: sec-before)
   #pubs-section(doc)
   #if doc == "cv" [
-    #section("Honors & Awards")
+    #section("Honors & Awards", before: sec-before)
     #honors-block(honors)
-    #section("Teaching")
-    #entries(teaching)
-    #section("Activities & Service")
-    #entries(activities)
-    #section("References")
+    #section("Teaching", before: sec-before)
+    #entries(teaching, gap: entry-gap)
+    #section("Activities & Service", before: sec-before)
+    #entries(activities, gap: entry-gap)
+    #section("References", before: sec-before)
     #references-block(references)
   ]
-]
+  ]
+}
 
 // ---- 13. Document entry points (used by resume.typ / cv.typ) --------------
-// NO `set text(font/size)` and NO `set par(leading/spacing)`: Typst's defaults
-// (Libertinus Serif, 11pt, default leading/spacing) ARE cv-soft-and-hard's
-// typography. The earlier override (`set par(leading: 0.9em, spacing: 0.6em)`
-// + New Computer Modern) was the source of the line-spacing mismatch —
-// measured against the package template, default settings now reproduce its
-// within-paragraph and between-block gaps to within 0.1pt.
+// The CV keeps Typst's defaults (Libertinus Serif, 11pt, default leading/
+// spacing): those defaults ARE cv-soft-and-hard's typography — an earlier
+// override (set par(leading: 0.9em, spacing: 0.6em) + New Computer Modern) was
+// the source of a line-spacing mismatch, measured away to within 0.1pt. So
+// cv-doc sets nothing typographic.
 //
-// Consequence: with template-matching spacing the resume is ~2 pages (the
-// content — 11 publications, 8 experience entries — is genuinely 2 pages
-// worth). The previous 1-page resume only achieved that via denser-than-
-// template block spacing, which is exactly the mismatch this migration fixes.
-// `lang: "en"` enables smart quotes / hyphenation. Page numbering "1 / 1".
+// The RESUME deliberately diverges from those defaults: it carries 10
+// publications + 6 experience entries, genuinely more than one page at template
+// density. resume-doc applies RESUME-ONLY density (10pt, tighter margins/
+// leading/spacing, plus the entry-gap / section before-gap knobs threaded from
+// cv-body) so it fits one page. It is scoped via the separate-compilation
+// boundary — cv.typ never evaluates resume-doc — so the CV's template-matching
+// spacing is unaffected. `lang: "en"` enables smart quotes / hyphenation.
 #let resume-doc = it => {
-  set text(lang: "en")
+  set text(lang: "en", size: 10pt)
   set page(numbering: "1 / 1")
   set document(title: doc-title-str("resume"), author: site.name)
-  styling(cv-body("resume"), accent-color: accent)
+  // Resume-only density. cv.typ is a SEPARATE compilation — it never evaluates
+  // resume-doc — so none of this reaches the CV (which keeps Typst defaults +
+  // layout.typ's 2.5cm margin → template-matching spacing, 4 pages). The sets
+  // are nested inside the body passed to styling(), so they are more recent
+  // than styling()'s own set page(margin:) (layout.typ:44) and win per-field.
+  // Levers (each resume-scoped): text 11→10pt; margins 2.5→1.1cm (top 2→0.8cm,
+  // bottom default→0.8cm); par leading 0.65→0.55em + par/block spacing ~1.2→
+  // 0.3em; plus entry-gap 0.3→0.1em and section before-gap 4→1pt threaded from
+  // cv-body. 10pt + 0.55em leading is standard dense-resume density — no text
+  // overlap, still readable (verified by render). The CV keeps the template's
+  // 11pt + defaults unchanged.
+  styling(
+    {
+      set page(margin: (left: 1.1cm, right: 1.1cm, top: 0.8cm, bottom: 0.8cm))
+      set par(leading: 0.55em, spacing: 0.3em)
+      set block(spacing: 0.3em)
+      cv-body("resume")
+    },
+    accent-color: accent,
+  )
 }
 
 #let cv-doc = it => {
