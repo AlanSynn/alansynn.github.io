@@ -1,6 +1,7 @@
 ---
 # ──────────────────────────────────────────────────────────────────────────
-# TEMPLATE / EXAMPLE PAGE — draft:true (dev-only, never published).
+# TEMPLATE / EXAMPLE PAGE — unlisted (built + reachable by direct URL, but
+# excluded from the sitemap + any listing, and emits <meta robots noindex>).
 # Exercises EVERY feature of the academic project-page system so it doubles as
 # living documentation. Every asset below is branded placeholder filler under
 # public/images/example/ (clearly not real results). Copy this file, swap the
@@ -13,7 +14,7 @@ title: "NeuralCaustic: Inverse Caustic Design with Differentiable Optics"
 category: "research"
 paper: "synn2026neuralcaustic"
 order: 99
-draft: true
+unlisted: true
 hero_eyebrow: "SIGGRAPH 2026 (Template)"
 title_mark: "NeuralCaustic:"
 teaser_caption: "Given a target light pattern (left), NeuralCaustic recovers the refracting surface that focuses it into the intended caustic (right). Placeholder art."
@@ -35,10 +36,12 @@ nav:
   - Overview
   - Demo
   - System
+  - Formulation
   - Results
   - Comparison
   - Gallery
   - Cases
+  - FAQ
   - Citation
 demo:
   src: "/videos/motionsmith-demo.mp4"
@@ -68,6 +71,57 @@ system:
   interface:
     heading: "One workspace for target, recovery, and fabrication preview."
     copy: "The application keeps target editing, surface recovery, mesh regularization, and printable export in one place, so the move from a light pattern to a fabricable lens stays continuous."
+# --- AI/ML method blocks (Formulation + Algorithm + Code sections) ---
+# Numbered equation figures. `mathml` renders natively (no KaTeX dep); `latex`
+# is a plain-text fallback. Auto-numbered (1), (2), …
+equations:
+  - label: "Inverse-design objective (data term + fabricability prior)"
+    mathml: |
+      <math display="block">
+        <mi>L</mi><mo>(</mo><mi>θ</mi><mo>)</mo>
+        <mo>=</mo>
+        <msub><mi mathvariant="double-struck">E</mi><mrow><mi>x</mi><mo>~</mo><mi>p</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow></msub>
+        <mo>[</mo>
+        <msup><mrow><mo>‖</mo><msub><mi>R</mi><mi>θ</mi></msub><mo>(</mo><mi>x</mi><mo>)</mo><mo>−</mo><mi>T</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>‖</mo></mrow><mn>2</mn></msup>
+        <mo>]</mo>
+        <mo>+</mo><mi>λ</mi><mi mathvariant="double-struck">Ω</mi><mo>(</mo><msub><mi>R</mi><mi>θ</mi></msub><mo>)</mo>
+      </math>
+  - label: "Edge-preserving smoothness prior (keeps surfaces printable)"
+    latex: "Ω(R_θ) = Σᵢ Δ²h / (1 + Δ²h)    — penalizes roughness while preserving sharp caustic detail"
+# Pseudocode / algorithm box. `lines` carry `code` + optional `comment`.
+algorithm:
+  caption: "Algorithm 1 — NeuralCaustic surface recovery"
+  lines:
+    - { code: "Input:  target image T, prior weight λ", comment: "fabricability ↔ fidelity knob" }
+    - { code: "Initialize surface S₀ ← flat lens" }
+    - { code: "for k = 1 … K do" }
+    - { code: "    rays ← differentiably-trace(Sₖ, light)" }
+    - { code: "    g ← ∇_S ‖project(rays) − T‖² + λ · Ω(Sₖ)" }
+    - { code: "    Sₖ₊₁ ← Sₖ − η · g" }
+    - { code: "until ‖g‖ < ε" }
+    - { code: "return mesh(S_K)", comment: "export printable STL" }
+# Code block with filename + copy. Plain mono (Shiki highlights only markdown
+# fences, not frontmatter strings) — kept first-party on purpose.
+code:
+  filename: "recover.py"
+  language: "python"
+  source: |
+    import torch
+    from neuralcaustic import DifferentiableTracer, NeuralPrior
+
+    tracer = DifferentiableTracer(resolution=512)
+    prior = NeuralPrior(smoothness=0.8)
+
+    def recover(target: torch.Tensor, steps: int = 200):
+        # surface height field; gradients flow through the tracer.
+        surface = torch.zeros(1, 512, 512, requires_grad=True)
+        opt = torch.optim.Adam([surface], lr=1e-2)
+        for _ in range(steps):
+            caustic = tracer.render(surface)
+            loss = ((caustic - target) ** 2).mean() + prior(surface)
+            opt.zero_grad(); loss.backward(); opt.step()
+        return prior.to_mesh(surface.detach())
+
 comparisons:
   - before:
       src: "/images/example/comp-input.svg"
@@ -78,6 +132,13 @@ comparisons:
     label_before: "Target"
     label_after: "Ours"
     caption: "Drag to compare the target light pattern with the caustic produced by the recovered surface. Placeholder art."
+# Big-number stat callouts (grid at the top of the Results section).
+stat_callouts:
+  - { value: "4.2 s", label: "avg. recovery time (vs 184 s optimization baseline)" }
+  - { value: "+6.4 dB", label: "PSNR lift over the optimization baseline" }
+  - { value: "24 / 24", label: "gallery targets reproduced under real light" }
+  - { value: "25 µm", label: "SLA print layer height, optical face clean" }
+
 results:
   caption: "Quantitative results on the 24-image gallery. Higher PSNR and lower LPIPS are better; Ours is highlighted."
   note: "Baseline times are single-threaded on an M2 Pro. ± values are std. dev. over five seeds. Numbers are fictional placeholder data."
@@ -155,16 +216,29 @@ cases:
         }
 citation_heading: "Read the paper and cite NeuralCaustic."
 citation_intro: "The full paper is available as a local PDF. The DOI and BibTeX are included below for quick reference."
+# FAQ accordion (native <details> — no JS). Closing-section convention.
+faq:
+  - q: "Does this need a GPU?"
+    a: "Recovery runs on a single laptop GPU in seconds; the differentiable tracer is the bottleneck, not the prior."
+  - q: "Can I fabricate the recovered lenses myself?"
+    a: "Yes — export the recovered mesh as STL and print on a resin SLA printer at 25 µm. Polish the optical face flat before illumination testing."
+  - q: "Which targets fail?"
+    a: "Discrete high-contrast targets with sharp intersections ring slightly; the ablation shows the prior trades a hair of sharpness for fabricability."
+  - q: "Is the code released?"
+    a: "The reference snippet above is illustrative; the full repository accompanies the camera-ready release."
+# Acknowledgments prose (quiet closing section, rendered after Citation).
+acknowledgments: "Thanks to the fabrication lab for SLA print time, and to the reviewers for the ablation suggestion that isolated the prior's contribution."
 ---
 
 > **This is a template page.** It renders every feature of the project-page
 > system — hero with affiliation superscripts, summary, sticky scroll-spy nav,
 > overview + takeaways, click-to-launch demo, system pipeline + zoom magnifier,
+> numbered equations, pseudocode algorithm, copy-able code block, stat callouts,
 > results + ablation tables, comparison slider, results gallery, synced video
-> comparison, tabbed cases, and a derived citation block. All figures are
-> branded placeholder art under `public/images/example/`; the linked paper is a
-> fictional `demo={true}` entry. Copy this file as the starting point for a real
-> project page.
+> comparison, tabbed cases, FAQ accordion, a derived citation block, and
+> acknowledgments. All figures are branded placeholder art under
+> `public/images/example/`; the linked paper is a fictional `demo={true}` entry.
+> Copy this file as the starting point for a real project page.
 
 NeuralCaustic inverts the caustic-design problem: rather than search for a
 surface that *might* focus light into a desired pattern, a differentiable ray
