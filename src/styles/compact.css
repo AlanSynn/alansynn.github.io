@@ -200,32 +200,33 @@ main :is(section, .cv-section) {
   color: var(--ink-soft);
   margin-top: 0.1em;
 }
-.cpub__meta {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  margin-top: var(--space-1);
-  flex-wrap: wrap;
-}
-/* Venue label: PLAIN text — mono font, bold, single accent color for every
-   venue (uniform weight, no per-venue hue so none reads fainter than others). */
+/* Venue: its own line, visually paired with the authors line above it — same
+   body face + size (--step--1), ink-soft, regular weight. Links to the venue
+   homepage; hover lifts to accent. (Was a mono/bold/accent badge jammed into a
+   flex row with the links — now a plain line that reads like the author line,
+   matching the reference layout: Title / Authors / Venue / Links.) */
 .cpub__venue {
-  font-family: var(--font-mono);
-  font-size: var(--step--2);
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--accent);
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--step--1);
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--ink-soft);
   text-decoration: none;
-  white-space: nowrap;
+  margin-top: var(--space-1);
 }
-.cpub__venue:hover {
-  text-decoration: underline;
+.cpub__venue:hover,
+.cpub__venue:focus-visible {
+  color: var(--accent);
 }
+/* Links (Project Page / PDF / Code / Video): separate line below the venue. */
 .cpub__links {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--space-3);
   font-family: var(--font-body);
   font-size: var(--step--1);
+  margin-top: var(--space-1);
 }
 .cpub__links a {
   color: var(--accent);
