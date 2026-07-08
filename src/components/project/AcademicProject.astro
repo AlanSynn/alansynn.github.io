@@ -18,6 +18,7 @@ import ComparisonSlider from './ComparisonSlider.astro';
 import ResultsTable from './ResultsTable.astro';
 import ResultsGallery from './ResultsGallery.astro';
 import VideoComparison from './VideoComparison.astro';
+import ThemeToggle from '@/components/ThemeToggle.astro';
 
 interface Props {
   project: CollectionEntry<'projects'>;
@@ -113,7 +114,7 @@ const titleRest =
       : '';
 ---
 
-<MicrositeShell paper={paper}>
+<MicrositeShell paper={paper} noindex={!!d.unlisted}>
   <a class="skip-link" href="#main-content">Skip to content</a>
 
   <header class="site-header" id="top">
@@ -133,27 +134,30 @@ const titleRest =
         </svg>
         <span>Home</span>
       </a>
-      <button
-        class="site-menu-toggle"
-        type="button"
-        aria-label="Toggle section navigation"
-        aria-controls="site-nav"
-        aria-expanded="false"
-        data-menu-toggle
-      >
-        <span class="site-menu-toggle__icon" aria-hidden="true"
-          ><span></span><span></span><span></span></span
+      <div class="site-header__actions">
+        <nav class="site-nav" id="site-nav" aria-label="Section navigation">
+          {
+            navItems.map((n) => (
+              <a href={n.href} data-nav-link>
+                {n.label}
+              </a>
+            ))
+          }
+        </nav>
+        <ThemeToggle />
+        <button
+          class="site-menu-toggle"
+          type="button"
+          aria-label="Toggle section navigation"
+          aria-controls="site-nav"
+          aria-expanded="false"
+          data-menu-toggle
         >
-      </button>
-      <nav class="site-nav" id="site-nav" aria-label="Section navigation">
-        {
-          navItems.map((n) => (
-            <a href={n.href} data-nav-link>
-              {n.label}
-            </a>
-          ))
-        }
-      </nav>
+          <span class="site-menu-toggle__icon" aria-hidden="true"
+            ><span></span><span></span><span></span></span
+          >
+        </button>
+      </div>
     </div>
   </header>
 
@@ -375,6 +379,88 @@ const titleRest =
       )
     }
 
+    {/* ---- Formulation (equations) --------------------------------------- */}
+    {
+      d.equations && d.equations.length > 0 && (
+        <section class="section" id="formulation" aria-labelledby="formulation-heading">
+          <div class="site-shell">
+            <div class="section__center" data-reveal>
+              <p class="section-kicker">Formulation</p>
+              <h2 id="formulation-heading">Problem formulation</h2>
+            </div>
+            <div class="eq-list">
+              {d.equations.map((eq, i) => (
+                <figure class="eq" data-reveal>
+                  <div class="eq__math">
+                    {eq.mathml ? (
+                      <span set:html={eq.mathml} />
+                    ) : (
+                      <code class="eq__latex">{eq.latex}</code>
+                    )}
+                  </div>
+                  <span class="eq__num">({i + 1})</span>
+                  {eq.label && <figcaption>{eq.label}</figcaption>}
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {/* ---- Algorithm (pseudocode) ---------------------------------------- */}
+    {
+      d.algorithm && (
+        <section class="section" id="algorithm" aria-labelledby="algorithm-heading">
+          <div class="site-shell">
+            <div class="section__center" data-reveal>
+              <p class="section-kicker">Algorithm</p>
+              <h2 id="algorithm-heading">Pseudocode</h2>
+            </div>
+            <figure class="algo" data-reveal>
+              {d.algorithm.caption && <figcaption>{d.algorithm.caption}</figcaption>}
+              <pre class="algo__code">
+                <code>
+                  {d.algorithm.lines.map((ln, i) => (
+                    <span class="algo__line">
+                      <span class="algo__lnum">{String(i + 1).padStart(2, '0')}</span>
+                      <span class="algo__stmt">{ln.code}</span>
+                      {ln.comment && <span class="algo__comment"> ▸ {ln.comment}</span>}
+                    </span>
+                  ))}
+                </code>
+              </pre>
+            </figure>
+          </div>
+        </section>
+      )
+    }
+
+    {/* ---- Code (filename + copy) ---------------------------------------- */}
+    {
+      d.code && (
+        <section class="section" id="code" aria-labelledby="code-heading">
+          <div class="site-shell">
+            <div class="section__center" data-reveal>
+              <p class="section-kicker">Code</p>
+              <h2 id="code-heading">Reference snippet</h2>
+            </div>
+            <figure class="code-block" data-reveal>
+              <div class="code-block__bar">
+                <span class="code-block__file">{d.code.filename ?? 'snippet'}</span>
+                <button class="copy-button" type="button" data-copy-target="code-source">
+                  Copy
+                </button>
+              </div>
+              <pre>
+                <code id="code-source">{d.code.source}</code>
+              </pre>
+            </figure>
+          </div>
+        </section>
+      )
+    }
+
     {/* ---- Results (graphics) --------------------------------------------- */}
     {
       (d.results || d.ablation) && (
@@ -384,6 +470,16 @@ const titleRest =
               <p class="section-kicker">Results</p>
               <h2 id="results-heading">Quantitative results</h2>
             </div>
+            {d.stat_callouts && d.stat_callouts.length > 0 && (
+              <dl class="stat-grid" data-reveal>
+                {d.stat_callouts.map((s) => (
+                  <div class="stat">
+                    <dt class="stat__value">{s.value}</dt>
+                    <dd class="stat__label">{s.label}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
             {d.results && (
               <ResultsTable
                 columns={d.results.columns}
@@ -539,6 +635,28 @@ const titleRest =
       )
     }
 
+    {/* ---- FAQ (native <details> accordion) ------------------------------ */}
+    {
+      d.faq && d.faq.length > 0 && (
+        <section class="section" id="faq" aria-labelledby="faq-heading">
+          <div class="site-shell">
+            <div class="section__center" data-reveal>
+              <p class="section-kicker">FAQ</p>
+              <h2 id="faq-heading">Frequently asked</h2>
+            </div>
+            <div class="faq-list">
+              {d.faq.map((item) => (
+                <details class="faq-item" data-reveal>
+                  <summary>{item.q}</summary>
+                  <p>{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
     {/* ---- Citation (resource list + BibTeX) ------------------------------ */}
     <section class="section" id="citation" aria-labelledby="citation-heading">
       <div class="site-shell citation-grid">
@@ -592,6 +710,19 @@ const titleRest =
         </article>
       </div>
     </section>
+
+    {/* ---- Acknowledgments (quiet closing section) ----------------------- */}
+    {
+      d.acknowledgments && (
+        <section class="section section--quiet" id="acknowledgments" aria-labelledby="ack-heading">
+          <div class="site-shell section__center" data-reveal>
+            <p class="section-kicker">Acknowledgments</p>
+            <h2 id="ack-heading">Acknowledgments</h2>
+            <p class="ack-copy">{d.acknowledgments}</p>
+          </div>
+        </section>
+      )
+    }
   </main>
 
   <footer class="site-footer">
@@ -636,16 +767,31 @@ const titleRest =
       { rootMargin: '0px 0px -10% 0px', threshold: 0.14 },
     );
     targets.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }
 
   function setupCopyButtons() {
     const buttons = Array.from(document.querySelectorAll<HTMLElement>('[data-copy-target]'));
+    // Per-button pending-reset timer. Without this, rapid clicks stack timeouts:
+    // the first fires and resets to the resting label while a later click's
+    // "Copied" is still showing — a visible flash. Clearing the prior timer
+    // before setting a new one makes each click authoritative.
+    const timers = new WeakMap<HTMLElement, number>();
     buttons.forEach((button) => {
+      // Idempotent: a button already bound (e.g. DOM survived a partial swap)
+      // must not get a second click listener. dataset survives in the DOM.
+      if (button.dataset.copyBound === '1') return;
+      button.dataset.copyBound = '1';
       button.addEventListener('click', async () => {
         const id = button.getAttribute('data-copy-target');
         const target = id ? document.getElementById(id) : null;
         if (!target || !navigator.clipboard) return;
-        const prev = button.textContent;
+        // Capture the RESTING label on first click (cache on the element). A
+        // naive `prev = textContent` snapshots whatever is showing — including
+        // the transient "Copied" if the user double-clicks — so the reset would
+        // pin the button to "Copied" permanently.
+        if (!button.dataset.restLabel) button.dataset.restLabel = button.textContent ?? 'Copy';
+        const rest = button.dataset.restLabel;
         try {
           await navigator.clipboard.writeText(target.textContent.trim());
           button.dataset.copied = 'true';
@@ -653,10 +799,16 @@ const titleRest =
         } catch {
           button.textContent = 'Retry';
         }
-        window.setTimeout(() => {
-          button.dataset.copied = 'false';
-          button.textContent = prev;
-        }, 1600);
+        const existing = timers.get(button);
+        if (existing) clearTimeout(existing);
+        timers.set(
+          button,
+          window.setTimeout(() => {
+            button.dataset.copied = 'false';
+            button.textContent = rest;
+            timers.delete(button);
+          }, 1600),
+        );
       });
     });
   }
@@ -681,6 +833,7 @@ const titleRest =
       { rootMargin: '-30% 0px -55% 0px', threshold: 0.1 },
     );
     sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
   }
 
   function setupCaseCarousel() {
@@ -887,6 +1040,9 @@ const titleRest =
     syncHeader(true);
 
     return () => {
+      // Cancel an in-flight scroll frame so its callback can't fire syncHeader
+      // after the header DOM has been swapped out by a View Transition.
+      if (scrollFrame !== null) cancelAnimationFrame(scrollFrame);
       toggle.removeEventListener('click', onToggle);
       navLinks.forEach((l) => l.removeEventListener('click', onNavLink));
       document.removeEventListener('click', onDocClick);
@@ -899,10 +1055,13 @@ const titleRest =
   let teardown: Array<(() => void) | undefined> = [];
   document.addEventListener('astro:page-load', () => {
     teardown.forEach((fn) => fn && fn());
-    teardown = [setupHeader(), setupDemoVideo()];
-    revealSections();
+    // Only setupHeader + setupDemoVideo attach window/document listeners that
+    // outlive a swapped DOM; revealSections + setupSectionTracking create
+    // IntersectionObservers (document-scoped) that must be disconnected on
+    // re-init. The rest bind to elements that die with the DOM, so they need
+    // no explicit teardown (setupCopyButtons is also idempotent via dataset).
+    teardown = [setupHeader(), setupDemoVideo(), revealSections(), setupSectionTracking()];
     setupCopyButtons();
-    setupSectionTracking();
     setupCaseCarousel();
     setupInterfaceLens();
   });

@@ -5,7 +5,9 @@
 // ported microsite stylesheet (src/styles/project-page.css) + Manrope. The
 // academic project page is a 1:1 port of a standalone microsite, so it must NOT
 // inherit the site's global element styles (those fought the microsite CSS and
-// caused text-color/layout regressions). Light-only (the microsite is light).
+// caused text-color/layout regressions). Light-default; dark mode mirrors the
+// main site palette (project-page.css :root[data-theme='dark']) so the page
+// reads as part of alansynn.com when the reader switches themes.
 //
 // Still emits the same head essentials Base does for paper pages: Google-Scholar
 // citation_* meta, ScholarlyArticle JSON-LD, OG/Twitter, canonical, and
@@ -18,8 +20,12 @@ interface Props {
   title?: string;
   description?: string;
   paper?: Paper;
+  // Emit <meta name="robots" content="noindex,nofollow"> for unlisted pages
+  // (the full-featured example page) so direct-URL-reachable pages are never
+  // indexed even if linked. Indexed academic pages leave this unset.
+  noindex?: boolean;
 }
-const { title, description, paper } = Astro.props;
+const { title, description, paper, noindex } = Astro.props;
 if (!paper) throw new Error('MicrositeShell requires a `paper` prop');
 
 const pageTitle = title ?? paper.title;
@@ -97,8 +103,35 @@ const ogImage = abs(paper.preview) ?? `${site.url}/og.png`;
     {paper.pdf && <meta name="citation_pdf_url" content={abs(paper.pdf)} />}
 
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <ClientRouter />
+    <script is:inline>
+      // No-flash theme init (mirrors Base.astro). Resolve stored pref (or default
+      // light) BEFORE paint and set data-theme on <html>. Re-run on every
+      // View-Transition swap via a persistent astro:after-swap listener so the
+      // attribute survives client-side nav to/from site pages (which share this
+      // document). The __themeListenerBound guard means if Base.astro already
+      // bound the listener on a prior site page, we don't double-bind — exactly
+      // one listener across both shells. Dark mode is styled in project-page.css
+      // :root[data-theme='dark'] and mirrors the main site palette.
+      (function () {
+        function applyTheme() {
+          try {
+            var t = localStorage.getItem('theme');
+            if (!t) t = 'light';
+            document.documentElement.setAttribute('data-theme', t);
+          } catch (e) {
+            document.documentElement.setAttribute('data-theme', 'light');
+          }
+        }
+        applyTheme();
+        if (!window.__themeListenerBound) {
+          window.__themeListenerBound = true;
+          document.addEventListener('astro:after-swap', applyTheme);
+        }
+      })();
+    </script>
     <script is:inline type="application/ld+json" set:html={jsonld} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
