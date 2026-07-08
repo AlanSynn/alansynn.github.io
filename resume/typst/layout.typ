@@ -47,8 +47,8 @@
 }
 
 // Section header: a level-2 heading with an accent-colored rule beneath.
-#let section(title, note: none) = {
-  v(4pt)
+#let section(title, note: none, before: 4pt) = {
+  v(before)
   box(grid(
     columns: 2,
     [#heading(title, level: 2)],
