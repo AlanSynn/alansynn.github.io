@@ -394,6 +394,34 @@ code {
   white-space: nowrap;
 }
 
+/* Back-to-home affordance (header left): replaces the project mark glyph with a
+   left-pointing chevron so readers can always return to the main site. Quiet +
+   disciplined — the homepage mark is the page's signature; this is just the door
+   out. Hover/focus lifts to accent + nudges the chevron. */
+.site-mark--home {
+  gap: 0.45rem;
+  color: var(--text);
+  text-decoration: none;
+  transition: color var(--ease);
+}
+.site-mark--home::before {
+  content: none; /* drop the mark.svg glyph entirely (no box, no fetch) */
+}
+.site-mark__arrow {
+  width: 0.95rem;
+  height: 0.95rem;
+  flex: none;
+  transition: transform var(--ease);
+}
+.site-mark--home:hover,
+.site-mark--home:focus-visible {
+  color: var(--accent);
+}
+.site-mark--home:hover .site-mark__arrow,
+.site-mark--home:focus-visible .site-mark__arrow {
+  transform: translateX(-3px);
+}
+
 .site-nav {
   display: flex;
   align-items: center;

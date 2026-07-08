@@ -322,22 +322,62 @@ function onPointerUp(e) {
   }
 }
 
+// View-Transition safety. The engine module is a singleton (Astro dedupes the
+// <script>, so its top level runs once), but every client-side nav swaps the
+// [data-rig] DOM nodes out from under it — the cached rig refs go stale and the
+// new rigs freeze at their rest pose. init() is exported so RobotIK.astro can
+// re-call it on `astro:page-load`; it tears down the previous instance (cancel
+// rAF, disconnect IO, strip window listeners, clear rig caches + drag state)
+// before binding to the current [data-rig] elements. Idempotent + leak-free.
+let _cleanup: (() => void) | null = null;
 function init() {
+  if (_cleanup) {
+    _cleanup();
+    _cleanup = null;
+  }
+  LEG_RIGS = [];
+  ARM_RIGS = [];
+  visible.clear();
+  drag.active = null;
+  drag.pull.clear();
+  for (const k of Object.keys(overrides)) delete overrides[k];
+  for (const k of Object.keys(lastSolves)) delete lastSolves[k];
+  bootStart = 0; // re-ease --arm in on the fresh rig
+  _lastArm = ''; // force a --arm rewrite for the new rig element
+  ptr.x = ptr.rx = innerWidth / 2; // pointer home reset sits with the other resets
+  ptr.y = ptr.ry = innerHeight / 2; // (before the early-return) so a no-rigs page
+  // doesn't leave a stale ptr from a prior instance.
+
   const rigs = [...document.querySelectorAll('[data-rig]')];
   if (!rigs.length) return;
-  ptr.x = ptr.rx = innerWidth / 2;
-  ptr.y = ptr.ry = innerHeight / 2;
-  addEventListener('pointerdown', onPointerDown);
-  addEventListener('pointermove', onPointerMove, { passive: true });
-  addEventListener('pointerup', onPointerUp, { passive: true });
-  addEventListener('pointercancel', onPointerUp, { passive: true });
-  addEventListener(
+
+  // window listeners are tracked so teardown can remove every one — without this
+  // each re-init would stack another pointerdown/scroll/resize handler (leak +
+  // double-work). addWin is the single registration path.
+  const win: Array<[string, EventListenerOrEventListenerObject, AddEventListenerOptions?]> = [];
+  const addWin = (ev: string, fn: any, opts?: any) => {
+    win.push([ev, fn, opts]);
+    addEventListener(ev, fn, opts);
+  };
+  addWin('pointerdown', onPointerDown);
+  addWin('pointermove', onPointerMove, { passive: true });
+  addWin('pointerup', onPointerUp, { passive: true });
+  addWin('pointercancel', onPointerUp, { passive: true });
+  addWin(
     'resize',
     () => {
       _dh = 0;
     },
     { passive: true },
   );
+
+  // Partial teardown covers the window listeners added above. If rig-building or
+  // IntersectionObserver construction below throws, the next init() can still
+  // reclaim these (otherwise _cleanup would still be null and they'd orphan).
+  // Upgraded to the full version (adds rAF cancel + IO disconnect) at the end.
+  _cleanup = () => {
+    for (const [ev, fn, opts] of win) removeEventListener(ev, fn, opts);
+  };
 
   // build per-rig caches + partition into legs/arm arrays (DOM is static post-boot).
   for (const rig of rigs) {
@@ -400,9 +440,16 @@ function init() {
     { rootMargin: '200px' },
   );
   rigs.forEach((r) => io.observe(r));
-  addEventListener('scroll', ensure, { passive: true });
-  addEventListener('resize', ensure, { passive: true });
+  addWin('scroll', ensure, { passive: true });
+  addWin('resize', ensure, { passive: true });
   ensure();
+
+  _cleanup = () => {
+    if (raf) cancelAnimationFrame(raf);
+    raf = 0;
+    io.disconnect();
+    for (const [ev, fn, opts] of win) removeEventListener(ev, fn, opts);
+  };
 }
 
-init();
+export { init };

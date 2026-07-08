@@ -179,7 +179,7 @@ main :is(section, .cv-section) {
   font-weight: 600;
   color: var(--ink);
   font-size: var(--step-0);
-  line-height: var(--leading-snug);
+  line-height: 1.2;
   flex: 1;
 }
 .cpub__title a {
@@ -198,7 +198,7 @@ main :is(section, .cv-section) {
 .cpub__authors {
   font-size: var(--step--1);
   color: var(--ink-soft);
-  margin-top: 0.1em;
+  margin-top: 0.125rem;
 }
 /* Venue: its own line, visually paired with the authors line above it — same
    body face + size (--step--1), ink-soft, regular weight. Links to the venue
@@ -213,7 +213,7 @@ main :is(section, .cv-section) {
   letter-spacing: 0;
   color: var(--ink-soft);
   text-decoration: none;
-  margin-top: var(--space-1);
+  margin-top: 0.125rem;
 }
 .cpub__venue:hover,
 .cpub__venue:focus-visible {
@@ -226,7 +226,7 @@ main :is(section, .cv-section) {
   gap: var(--space-3);
   font-family: var(--font-body);
   font-size: var(--step--1);
-  margin-top: var(--space-1);
+  margin-top: 0.125rem;
 }
 .cpub__links a {
   color: var(--accent);
