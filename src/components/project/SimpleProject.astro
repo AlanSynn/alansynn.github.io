@@ -19,6 +19,7 @@ const isLocalVideo = !!d.video && /\.(mp4|webm|ogg)$/i.test(d.video);
 
 <Base title={d.title} wide>
   <article>
+    <a class="back-link back-link--top" href="/" data-home>← Home</a>
     <header class="post-header">
       <div class="hero__eyebrow">{[d.period, d.org].filter(Boolean).join(' · ')}</div>
       <h1>{d.title}</h1>
