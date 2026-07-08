@@ -4,6 +4,10 @@ Source-of-truth context for AI agents (Claude Code, Cursor, Codex, …) working 
 this repo. `AGENTS.md` is a symlink to this file so every tool reads the same
 guidance. See `README.md` for the full human-facing docs.
 
+## Contents
+
+[What this is](#what-this-is) · [The one invariant](#the-one-invariant-that-matters) · [Build commands](#build-commands-just) · [Conventions](#conventions-dont-break-these) · [Stack](#stack) · [Deploy](#deploy)
+
 ## What this is
 
 Alan Synn's integrated academic presence — **one repo, one content source →
@@ -31,9 +35,12 @@ artifacts (`src/data/papers.json`, `src/data/video-clips.json`) live under
 | `just build` | web + default resume/CV PDFs (full pipeline) |
 | `just web` | Astro build only |
 | `just dev` | dev server `localhost:4321` |
-| `just resume [target]` | `public/pdfs/resume[-target].pdf` |
-| `just cv [target]` | `public/pdfs/cv[-target].pdf` |
+| `just resume [target]` | `public/pdfs/alansynn-resume[-target].pdf` |
+| `just cv [target]` | `public/pdfs/alansynn-cv[-target].pdf` |
 | `just pdfs` | resume + cv (defaults) |
+| `just paper <citekey>` | single-paper handout `public/pdfs/paper-<citekey>.pdf` |
+| `just clips` | regenerate video clips (needs ffmpeg) |
+| `just clean` | remove `dist/`, `.astro/` |
 
 Targets: `graphics` \| `ml-systems` (filter pubs + swap research blurb). Defined
 in `content/targets.yaml` (id → `{ blurb, keywords }`); adding a target there is
@@ -73,10 +80,11 @@ entry.
   never leave a gap you can fill. Assets: preview images → `public/images/papers/`
   (or `.../motionsmith/`), videos → `public/videos/`, committed PDFs →
   `public/pdfs/`. Every entry's `abbr` MUST have a matching key in
-  `content/venues.yaml` (with `name`/`url`/`type`) or the venue badge renders as
-  bare text with no link. After editing `papers.bib`, regen
-  `src/data/papers.json` (`scripts/gen-papers-json.mjs`); if `selected` changed,
-  also run `just pdfs` and commit the new PDFs.
+  `content/venues.yaml` (with `name`/`url`/`type`) or `enforcePaperIntegrity`
+  fails the build (the badge would render as bare, unlinked text). After editing
+  `papers.bib`, run `just pdfs` — it regenerates `src/data/papers.json`
+  (gitignored, never hand-edited) AND rebuilds the PDFs — then commit the new
+  PDFs so web and PDF stay in sync.
 - **Structured YAML is validated at build.** `src/lib/content-schema.ts`
   holds a **strict** Zod schema for every structured YAML in `content/` (site,
   cv, honors, references, research-interests, news, venues, coauthors,
@@ -88,8 +96,10 @@ entry.
   activities) share one entry model
   `{ period, title, location?, body, only?/except? }` and live together in
   **`content/cv.yaml`** — one file, one schema, one history (do not re-split).
-  `enforcePaperIntegrity` (same file) warns on a paper whose `abbr` is missing
-  from `venues.yaml`, and **throws** on a `featured`/`selected` mismatch.
+  `enforcePaperIntegrity` (same file) **throws** on a paper whose `abbr` is
+  missing from `venues.yaml` (badge would render bare) OR on a `featured`/
+  `selected` mismatch; `enforceTargetFlags` **throws** on an `only:`/`except:`
+  id that isn't a `targets.yaml` key.
 - **Email stays obfuscated on the web.** Served HTML must contain 0 raw
   `mailto:alansynn@gatech.edu` links (anti-crawler). The PDF legitimately shows
   the raw address — that's fine, it's not crawler-facing. Don't de-obfuscate the
@@ -108,6 +118,15 @@ entry.
   word stub), markdown inline OK (`**bold**`, `_italic_`, `[label](url)`).
   Order events across separate items by date (e.g. CHI: a January "accepted"
   item and an April "presenting" item), don't merge them.
+- **Homepage work-project rows** (`WorkProjectRow.astro`) render each
+  `category: work` project as a publication-style row that mirrors `CompactPub`
+  (same thumb|body grid, hairline rhythm, token scale → height ≤ a publication
+  row by construction). Content maps: pub `authors`→work `org`, `venue`→`summary`,
+  `year`→`period`; the title links to `/projects/<slug>` and a leading "Project
+  Page" affordance sits in the link row. Adding a work project = create
+  `content/projects/<slug>.md` (`category: work`) **AND** a static route file
+  `src/pages/projects/<slug>.astro` (→ `SimpleProject`); the route split keeps
+  work pages on site chrome while academic pages get CSS isolation (below).
 - **Academic project pages (`/projects/<slug>`, frontmatter `paper: <citekey>`)
   are a deliberate 1:1 port of the bespoke motionsmith microsite design** — the
   user explicitly wanted pages identical to the original microsite, NOT the site
@@ -209,7 +228,7 @@ entry.
 
 ## Stack
 
-Astro 5 + `astro-typst` (Typst→HTML for prose/math), Vite, TypeScript. Typst
+Astro 7 + `astro-typst` (Typst→HTML for prose/math), Vite, TypeScript. Typst
 0.15.x for PDFs — pinned in `.tool-versions` (a reproducibility floor, not a
 ceiling; bump it intentionally to adopt new Typst features). CV layout
 primitives are first-party in `resume/typst/layout.typ` (adapted from
