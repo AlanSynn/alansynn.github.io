@@ -235,6 +235,100 @@ main :is(section, .cv-section) {
   text-decoration: underline;
 }
 
+/* ---- Work-project row (mirrors .cpub so it reads beside publications) -- */
+/* Same thumb|body grid, same hairline rhythm, same 4-line body density as a
+   publication row → height ≤ a .cpub entry by construction. All token-driven,
+   so dark mode adapts automatically. Body lines map: title+period / org /
+   summary / links — the work-content analog of title+year / authors / venue /
+   links. Summary is clamped to 2 lines so a long sentence can never let a row
+   run taller than the tallest (multi-author) publication row. */
+.wcard {
+  display: grid;
+  grid-template-columns: clamp(96px, 24%, 150px) 1fr;
+  gap: var(--space-4);
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--hairline);
+}
+.wcard:first-child {
+  border-top: none;
+}
+.wcard__thumb {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-sm);
+  background: var(--paper-sunken);
+  border: 1px solid var(--hairline);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--step--3);
+  color: var(--accent);
+  letter-spacing: var(--tracking-mono);
+}
+.wcard__thumb img,
+.wcard__thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.wcard__line {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+.wcard__title {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: var(--step-0);
+  line-height: 1.2;
+  flex: 1;
+}
+.wcard__title a {
+  color: inherit;
+}
+.wcard__title a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+.wcard__period {
+  font-family: var(--font-body);
+  font-size: var(--step--1);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.wcard__org {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  margin-top: 0.125rem;
+}
+.wcard__summary {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  line-height: 1.3;
+  margin-top: 0.125rem;
+  /* 2-line clamp: bound the row height so it never exceeds a wrapping-author
+     publication row. Ellipsis fades the tail; the full story is on the page. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.wcard__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  font-family: var(--font-body);
+  font-size: var(--step--1);
+  margin-top: 0.125rem;
+}
+.wcard__links a {
+  color: var(--accent);
+}
+.wcard__links a:hover {
+  text-decoration: underline;
+}
+
 /* ---- Mini timeline (homepage highlights) ------------------------------ */
 .mini-timeline {
   list-style: none;

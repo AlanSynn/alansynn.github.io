@@ -1,0 +1,74 @@
+---
+// WorkProjectRow.astro — engineering/work-project row for the single-page CV.
+// Mirrors CompactPub (thumb | body grid, same hairline rhythm + token scale) so a
+// work project reads as a first-class entry beside the publications, not a
+// tucked-away gallery card. Content mapping is the optimization:
+//   pub `authors` → work `org`   (who it was for)
+//   pub `venue`   → work `summary` (what it is, one line)
+//   pub `year`    → work `period`
+// Title links to the project's own /projects/<slug> page (the single internal
+// nav target — thumb is a non-clickable <div>, mirroring CompactPub). `links`
+// holds the project's declared EXTERNAL links only (org site, demo, etc.).
+// Body is the same 4-line density as .cpub → height ≤ a publication row.
+import type { CollectionEntry } from 'astro:content';
+import { isInternalHref, webPath } from '@/lib/data';
+import clipManifest from '@/data/video-clips.json';
+import LazyVideo from './LazyVideo.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+const { project } = Astro.props;
+const d = project.data;
+const slug = project.id;
+
+const clip = d.video
+  ? (clipManifest as Record<string, { clip: string; poster?: string }>)[d.video]
+  : null;
+const ytId = d.video && !/\.(mp4|webm|ogg)$/i.test(d.video) ? d.video : null;
+const imgSrc = d.image ?? (ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : null);
+const thumbLabel = (d.org ?? d.title).slice(0, 8);
+
+// External links only — the title is the link to the project's own page, so a
+// redundant "Project Page" entry would just double-target the same URL.
+const links: { label: string; url: string }[] = [...(d.links ?? [])];
+---
+
+<div class="wcard" id={`proj-${slug}`}>
+  <div class="wcard__thumb">
+    {
+      clip ? (
+        <LazyVideo src={clip.clip} poster={clip.poster ?? imgSrc ?? undefined} alt={d.title} />
+      ) : imgSrc ? (
+        <img src={imgSrc} alt="" loading="lazy" />
+      ) : (
+        <span>{thumbLabel}</span>
+      )
+    }
+  </div>
+  <div class="wcard__body">
+    <div class="wcard__line">
+      <span class="wcard__title"><a href={`/projects/${slug}`}>{d.title}</a></span>
+      {d.period && <span class="wcard__period">{d.period}</span>}
+    </div>
+    {d.org && <div class="wcard__org">{d.org}</div>}
+    {d.summary && <p class="wcard__summary">{d.summary}</p>}
+    {
+      links.length > 0 && (
+        <div class="wcard__links">
+          {links.map((l) => {
+            const internal = isInternalHref(l.url);
+            return (
+              <a
+                href={internal ? webPath(l.url) : l.url}
+                {...(!internal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
+                {l.label}
+              </a>
+            );
+          })}
+        </div>
+      )
+    }
+  </div>
+</div>
