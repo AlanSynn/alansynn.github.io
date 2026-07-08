@@ -112,7 +112,12 @@ entry.
   are a deliberate 1:1 port of the bespoke motionsmith microsite design** — the
   user explicitly wanted pages identical to the original microsite, NOT the site
   system. **Do not "re-skin" this page back to Newsreader/Hanken — the bespoke
-  Manrope/indigo design is intentional.**
+  Manrope/indigo design is intentional (light mode).** Dark mode is the one
+  exception: it mirrors the **main site's** dark palette (`#13171a` bg, `#e9e6e0`
+  text, `#2a3137` lines, `#6ba8ff` accent) so project pages read as part of
+  alansynn.com when a reader switches themes — light is bespoke Manrope/indigo,
+  dark is the site palette. The theme toggle sits header-right
+  (`ThemeToggle.astro`, `#theme-toggle`).
   - **TRUE CSS isolation via a route split (the load-bearing part).**
     `src/pages/projects/[slug].astro` serves academic pages ONLY and imports
     `AcademicProject` → `MicrositeShell` → `src/styles/project-page.css` (a
@@ -136,18 +141,51 @@ entry.
     microsite's DOM with its ORIGINAL class names + a Playwright computed-style
     fingerprint diff (per-class color/font/spacing/box/geometry vs the rendered
     original served locally) is the oracle: **0 style diffs, 0 site-chrome
-    leaks, 61/61 classes matched.** Body color must be the microsite ink
-    `rgb(27,31,40)` (a black body = site `base.css` leaked). Keep the `body`
-    rule free of an explicit `font-size` — it's what lets Chromium's monospace
-    default (13px) size the BibTeX `<pre>` to match the original.
+    leaks, 61/61 classes matched.** In **light** mode, body color must be the
+    microsite ink `rgb(27,31,40)` — distinct from the site's `#15171c`, so a
+    black body = site `base.css` leaked. (In dark, the two palettes converge by
+    design — both are the site dark ink — so body color can't discriminate there;
+    the stylesheet-graph check does.) `scripts/check-isolation.mjs` is the
+    regression guard: it loads a real academic route in **both** themes and
+    asserts (1) no site main/tokens/base stylesheet in the graph, (2) the light
+    microsite ink, (3) `data-theme` set by MicrositeShell's no-flash init. Keep
+    the `body` rule free of an explicit `font-size` — it's what lets Chromium's
+    monospace default (13px) size the BibTeX `<pre>` to match the original.
   - The interactive pieces — sticky hide-on-scroll header + mobile menu,
     scroll-spy nav, click-to-launch demo video, 1.85× interface lens, tabbed
     case carousel, copy button, reveal-on-scroll, and the graphics extras
     (comparison slider, results/ablation table, gallery, synced video
     comparison) — are wired in a single consolidated `<script>` in
     `AcademicProject.astro` that listens to `astro:page-load`, so they re-init
-    on every View-Transition client-side nav without double-binding. All JS
-    hooks are `data-*` (class-agnostic) so class renames never break behavior.
+    on every View-Transition client-side nav. The script uses a `teardown[]`
+    array (run before re-init) for anything that attaches window/document
+    listeners or creates IntersectionObservers (header, demo, reveal, section
+    tracking) — so a VT swap never leaves a dangling scroll-rAF or a stale
+    observer firing on detached nodes. Element-scoped widgets (carousel, lens,
+    copy buttons — the latter idempotent via `data-copy-bound`) need no teardown;
+    their listeners die with the swapped DOM. All JS hooks are `data-*`
+    (class-agnostic) so class renames never break behavior.
+  - **Theme is consistent across site↔project View-Transition nav.** Both shells
+    (site `Base.astro` and `MicrositeShell`) run the same no-flash init: resolve
+    `localStorage('theme')` (default `light`) → set `[data-theme]` on `<html>`
+    before paint, then re-apply on `astro:after-swap`. A single
+    `window.__themeListenerBound` guard means exactly one `after-swap` listener
+    exists across both shells (they share one `document`), so the attribute
+    survives client-side nav either direction without flipping. Verified: a
+    user-set theme stays stable through project→home→project; a toggle persists.
+    `ThemeToggle.astro`'s click handler is delegated on `document` (matches
+    `#theme-toggle`), so it survives VT swaps too.
+  - **AI/ML/robotics method blocks** (frontmatter-driven, rendered inline by
+    `AcademicProject`, all optional — present → section shows): `stat_callouts`
+    (big-number grid atop Results), `equations` (numbered figures — `mathml`
+    renders natively via `set:html`, **no KaTeX dep**; `latex` is a plain-text
+    fallback), `algorithm` (pseudocode box, auto line numbers), `code` (filename
+    bar + copy, plain mono — Shiki highlights only markdown fences, not
+    frontmatter strings, so this is first-party by design), `faq` (native
+    `<details>` accordion — no JS), `acknowledgments` (quiet closing section).
+    These are the commonly-needed graphics/AI/robotics layouts, pre-built so a
+    real paper page copies only what it needs. All token-driven in
+    `project-page.css`, so they adapt to dark mode automatically.
   - Bibliographic fields (title/authors/venue/DOI/PDF/code/video/BibTeX) all
     **derive** from the linked `papers.bib` entry via `paper:` frontmatter —
     never duplicate them in the `.md`. The BibTeX block is a **clean citation**
@@ -156,7 +194,18 @@ entry.
     (`selected`/`featured`/`preview`/`video`/`pdf`/`website`/`code`/`abstract`)
     that must never appear in a citation a reader copies.
   - `content/projects/motionsmith.md` is the live pilot; `example-graphics.md`
-    (`draft: true`, dev-only) exercises every feature as living documentation.
+    (`unlisted: true`) exercises **every** feature — all graphics extras + every
+    AI/ML method block — as living documentation. **Unlisted ≠ draft.** `draft:
+    true` is the hard exclusion: `[slug].astro` `getStaticPaths` filters it out
+    of the production build entirely (dev-only). `unlisted: true` BUILDS the page
+    (reachable by direct URL) but (a) the `astro.config.mjs` sitemap `filter`
+    drops it from `sitemap-0.xml`, (b) `MicrositeShell` emits
+    `<meta name="robots" content="noindex,nofollow">` (via the `noindex` prop
+    AcademicProject passes from `d.unlisted`), and (c) it's `category: research`
+    so it's already absent from the homepage grid. Net: every feature present,
+    never indexed or linked. To add another unlisted page: set `unlisted: true`
+    AND add its path to the sitemap `filter` (the filter sees URL strings only,
+    so the exclusion is path-based).
 
 ## Stack
 
