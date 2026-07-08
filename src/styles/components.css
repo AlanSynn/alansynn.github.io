@@ -1018,6 +1018,13 @@ figcaption {
   color: var(--accent);
   text-decoration: none;
 }
+/* Top-of-page Home back-link (work project pages — Base is headerless, so this
+   is the explicit "back to home" affordance, mirroring the academic pages'
+   header Home link). Sits above .post-header with breathing room top+bottom. */
+.back-link--top {
+  margin-top: var(--space-5);
+  margin-bottom: var(--space-5);
+}
 
 /* ---- Table of contents — desktop rail -------------------------------- */
 .toc[hidden],

@@ -29,9 +29,14 @@ const ytId = d.video && !/\.(mp4|webm|ogg)$/i.test(d.video) ? d.video : null;
 const imgSrc = d.image ?? (ytId ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg` : null);
 const thumbLabel = (d.org ?? d.title).slice(0, 8);
 
-// External links only — the title is the link to the project's own page, so a
-// redundant "Project Page" entry would just double-target the same URL.
-const links: { label: string; url: string }[] = [...(d.links ?? [])];
+// "Project Page" leads the link row as an explicit affordance to the project's
+// own /projects/<slug> page (mirrors how CompactPub leads with "Project Page"),
+// then the project's declared external links. The title links the same target
+// too — the text link is the explicit, publication-convention entry in the row.
+const links: { label: string; url: string }[] = [
+  { label: 'Project Page', url: `/projects/${slug}` },
+  ...(d.links ?? []),
+];
 ---
 
 <div class="wcard" id={`proj-${slug}`}>
