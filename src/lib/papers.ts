@@ -3,7 +3,7 @@
 // nested braces, {}/""/bare values, author split, month names; preserves raw
 // entry text for BibTeX export.
 
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 export interface Author {
@@ -238,6 +238,13 @@ export function parseBibtex(src: string): Paper[] {
 // Resolve from cwd → correct in both `astro dev` and bundled build output.
 const BIB_PATH = resolve(process.cwd(), 'content/papers.bib');
 
+// True under `astro build`, false in `astro dev` and when gen-papers-json.mjs
+// runs under plain bun (where import.meta.env is absent). Guards the PROD
+// asset-existence check so a paper added before its asset lands doesn't block
+// dev iteration, while a typo'd path still fails the deploy build.
+const isProd =
+  (import.meta as { env?: { PROD?: boolean } }).env?.PROD ?? process.env.NODE_ENV === 'production';
+
 let cache: Paper[] | null = null;
 export function getPapers(): Paper[] {
   if (cache) return cache;
@@ -245,6 +252,32 @@ export function getPapers(): Paper[] {
   const papers = parseBibtex(src);
   // Newest first; stable within a year by original order.
   papers.sort((a, b) => b.year - a.year);
+
+  // PROD asset check: preview/pdf/video are free strings (Zod can't check the
+  // filesystem), so a typo would render a broken image/link on the live site
+  // under a green build. Verify each root-relative path resolves under public/.
+  if (isProd) {
+    const missing: string[] = [];
+    for (const p of papers) {
+      for (const fld of ['preview', 'pdf', 'video'] as const) {
+        const v = p[fld];
+        if (
+          v &&
+          v.startsWith('/') &&
+          !v.startsWith('//') &&
+          !existsSync(resolve(process.cwd(), 'public', v.slice(1)))
+        )
+          missing.push(`${p.key}.${fld} → ${v}`);
+      }
+    }
+    if (missing.length) {
+      throw new Error(
+        `[content] ${missing.length} paper asset path(s) in content/papers.bib do not resolve under public/ (would render a broken image/link). Add the asset or fix the path:\n  ` +
+          missing.map((m) => `- ${m}`).join('\n  '),
+      );
+    }
+  }
+
   cache = papers;
   return papers;
 }
