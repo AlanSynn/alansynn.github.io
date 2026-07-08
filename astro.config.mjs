@@ -14,6 +14,12 @@ export default defineConfig({
     sitemap({
       changefreq: 'weekly',
       priority: 0.7,
+      // Unlisted pages build + are reachable by direct URL but must never be
+      // advertised to crawlers. The sitemap filter only sees URL strings, so the
+      // exclusion is path-based; the page also emits <meta robots noindex>
+      // (MicrositeShell noindex prop) as a belt-and-suspenders guard. Today the
+      // only unlisted page is the full-featured example/template.
+      filter: (page) => !page.includes('/projects/example-graphics'),
     }),
     typst({
       target: () => 'html',
