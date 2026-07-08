@@ -26,7 +26,9 @@ const projects = defineCollection({
       org: z.string().optional(),
       // 'work' (default) → homepage grid; 'research' routed at /projects/<slug>
       // but filtered OUT of the grid (research output lives in #publications).
-      category: z.string().default('work'),
+      // Enum (not free string) so a typo like `catgory:` fails the build instead
+      // of silently defaulting to 'work' and leaking a research page onto the grid.
+      category: z.enum(['work', 'research']).default('work'),
       order: z.number().default(0),
       date: z.coerce.date().optional(),
       summary: z.string().optional(),
@@ -66,7 +68,8 @@ const projects = defineCollection({
       takeaways: z.array(z.object({ title: z.string(), text: z.string() }).strict()).optional(),
       // sticky section-nav labels (e.g. [Overview, Demo, System, Cases, Citation]).
       nav: z.array(z.string()).optional(),
-      // tabbed case carousel (one entry per maker/case); rendered by <CaseTabs>.
+      // tabbed case carousel (one entry per maker/case); rendered inline by
+      // AcademicProject (ARIA tablist + roving focus, data-case-* hooks).
       cases: z
         .array(
           z
@@ -122,7 +125,7 @@ const projects = defineCollection({
           zoom: z
             .object({ src: z.string(), alt: z.string(), caption: z.string().optional() })
             .strict()
-            .optional(), // hover magnifier via <ZoomImage>
+            .optional(), // hover magnifier (pointer-tracking lens, inline in AcademicProject)
           // Interface sub-panel: lens image + heading + copy (the magnifier).
           interface: z.object({ heading: z.string(), copy: z.string() }).strict().optional(),
         })
@@ -211,9 +214,60 @@ const projects = defineCollection({
         })
         .strict()
         .optional(),
-      // Draft pages are skipped in the production build (getStaticPaths filters
-      // on import.meta.env.PROD) but still render in `just dev` — used for the
-      // unpublished full-featured example page.
+      // --- AI/ML/robotics method blocks (category: 'research', optional) ---
+      // Frontmatter-driven (Astro .md can't host custom components), rendered
+      // inline by AcademicProject. Each present → its section shows. Grouped so a
+      // real paper page copies only the blocks it needs.
+      // Big-number stat callouts (e.g. "4.2 s · recovery time"). Grid at the top
+      // of the Results section (where stats naturally sit), no separate nav entry.
+      stat_callouts: z
+        .array(z.object({ value: z.string(), label: z.string() }).strict())
+        .optional(),
+      // Numbered equation figures. `mathml` is hand-authored MathML rendered
+      // natively via set:html (no KaTeX dependency — first-party); `latex` is a
+      // plain-text fallback when no MathML is supplied. Auto-numbered (1), (2), …
+      equations: z
+        .array(
+          z
+            .object({
+              mathml: z.string().optional(),
+              latex: z.string().optional(),
+              label: z.string().optional(),
+            })
+            .strict(),
+        )
+        .optional(),
+      // Pseudocode / algorithm box (Alg. 1). `lines` carry `code` + optional
+      // trailing `comment`; line numbers auto-generated.
+      algorithm: z
+        .object({
+          caption: z.string().optional(),
+          lines: z.array(z.object({ code: z.string(), comment: z.string().optional() }).strict()),
+        })
+        .strict()
+        .optional(),
+      // Code block with filename + copy button. Plain monospace — Shiki only
+      // highlights markdown code fences, not frontmatter strings, so we keep it
+      // first-party (no client-side highlighter dep). Copy reuses data-copy-target.
+      code: z
+        .object({
+          filename: z.string().optional(),
+          language: z.string().optional(),
+          source: z.string(),
+        })
+        .strict()
+        .optional(),
+      // FAQ accordion (native <details>/<summary> — no JS, VT-safe, accessible).
+      faq: z.array(z.object({ q: z.string(), a: z.string() }).strict()).optional(),
+      // Acknowledgments prose (conventional post-citation closing section).
+      acknowledgments: z.string().optional(),
+      // Unlisted: builds normally (reachable by direct URL) but excluded from
+      // the sitemap (astro.config filter) + emits <meta name="robots" noindex>.
+      // The full-featured example page uses this — every feature present, never
+      // indexed or linked. `draft:` (below) is the harder exclusion: skipped
+      // entirely from the production build (getStaticPaths filters on PROD),
+      // still renderable in `just dev`.
+      unlisted: z.boolean().default(false),
       draft: z.boolean().default(false),
     })
     .strict()
@@ -225,6 +279,22 @@ const projects = defineCollection({
         ctx.addIssue({
           code: 'custom',
           message: "category: 'research' requires a `paper:` citekey linking content/papers.bib.",
+        });
+      }
+      // author_affil superscripts are 1-based indices into `affiliations`. Each
+      // must point at a real legend entry, else a superscript dangles. (Length
+      // match against the paper's author count is enforced separately in
+      // AcademicProject.astro, which has the resolved Paper in scope.)
+      if (data.author_affil && data.affiliations) {
+        const max = data.affiliations.length;
+        data.author_affil.forEach((idx, i) => {
+          if (idx > max) {
+            ctx.addIssue({
+              code: 'custom',
+              path: ['author_affil', i],
+              message: `author_affil[${i}] = ${idx} but affiliations has only ${max} entr${max === 1 ? 'y' : 'ies'}.`,
+            });
+          }
         });
       }
     }),

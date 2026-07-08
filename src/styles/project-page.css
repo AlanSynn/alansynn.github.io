@@ -22,11 +22,58 @@
   --muted: #646b78;
   --accent: #5a6cff;
   --accent-soft: rgba(90, 108, 255, 0.08);
+  /* Raised/translucent surfaces. These are token-driven (not hardcoded) so dark
+     mode can flip them — the microsite hardcoded rgba(255,255,255,…) panels,
+     which go invisible on a dark bg. Mirrors main --paper-raised in dark. */
+  --surface: rgba(255, 255, 255, 0.92); /* play button, round toggle */
+  --surface-header: rgba(255, 255, 255, 0.86); /* sticky header (lets content scroll under) */
+  --surface-strong: rgba(255, 255, 255, 0.98); /* mobile nav panel */
+  --surface-solid: #ffffff; /* zoom lens circle */
   --radius-md: 1rem;
   --radius-lg: 1.5rem;
   --shell: min(1120px, calc(100vw - 2rem));
   --header-height: 4.5rem;
   --ease: 180ms ease;
+}
+
+/* ---- Dark theme (mirrors the main site palette) ----------------------- */
+/* Light mode is the bespoke microsite (Manrope/indigo). Dark mode adopts the
+   MAIN site's dark palette so the project page reads as part of alansynn.com
+   when the reader switches themes: paper #13171a, ink #e9e6e0, hairline #2a3137,
+   accent sky-blue #6ba8ff — identical values to src/styles/tokens.css
+   :root[data-theme='dark']. Triggered by [data-theme='dark'] on <html> (set by
+   MicrositeShell's no-flash script + the ThemeToggle), with a prefers-color-scheme
+   fallback for the no-JS / pre-script case. Surface tokens flip to main
+   --paper-raised #1b2126 at the same alpha. */
+:root[data-theme='dark'] {
+  --bg: #13171a;
+  --bg-soft: #1b2126;
+  --line: #2a3137;
+  --line-strong: #3a444c;
+  --text: #e9e6e0;
+  --muted: #9099a3;
+  --accent: #6ba8ff;
+  --accent-soft: rgba(107, 168, 255, 0.14);
+  --surface: rgba(27, 33, 38, 0.92);
+  --surface-header: rgba(27, 33, 38, 0.86);
+  --surface-strong: rgba(27, 33, 38, 0.98);
+  --surface-solid: #1b2126;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg: #13171a;
+    --bg-soft: #1b2126;
+    --line: #2a3137;
+    --line-strong: #3a444c;
+    --text: #e9e6e0;
+    --muted: #9099a3;
+    --accent: #6ba8ff;
+    --accent-soft: rgba(107, 168, 255, 0.14);
+    --surface: rgba(27, 33, 38, 0.92);
+    --surface-header: rgba(27, 33, 38, 0.86);
+    --surface-strong: rgba(27, 33, 38, 0.98);
+    --surface-solid: #1b2126;
+  }
 }
 
 *,
@@ -307,7 +354,7 @@ code {
   min-height: 3.25rem;
   padding: 0.85rem 1.25rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.94);
+  background: var(--surface);
   color: var(--text);
   font-weight: 800;
   transform: translate(-50%, -50%);
@@ -357,7 +404,7 @@ code {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(255, 255, 255, 0.86);
+  background: var(--surface-header);
   backdrop-filter: blur(16px);
   transition:
     transform 220ms ease,
@@ -463,6 +510,73 @@ code {
   transform: scaleX(1);
 }
 
+/* Header right cluster: nav + theme toggle + (mobile) menu button grouped so
+   the flex space-between docks the group to the right edge, and on mobile they
+   share grid column 2. Static-positioned so the absolute .site-nav dropdown
+   still resolves against .site-header__inner (the positioned ancestor). */
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+/* Theme toggle. Reuses ThemeToggle.astro (button + delegated click listener +
+   no CSS of its own), styled here with microsite tokens since main.css is not in
+   this route's graph. Mirrors the .site-menu-toggle pill so the two read as a
+   pair on the right edge. */
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    color var(--ease),
+    border-color var(--ease),
+    background var(--ease);
+}
+.theme-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.theme-toggle:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.theme-toggle svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+/* Show the icon for the mode the click switches INTO: moon in light, sun in dark. */
+.theme-toggle .icon-moon {
+  display: block;
+}
+.theme-toggle .icon-sun {
+  display: none;
+}
+:root[data-theme='dark'] .theme-toggle .icon-moon {
+  display: none;
+}
+:root[data-theme='dark'] .theme-toggle .icon-sun {
+  display: block;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .theme-toggle .icon-moon {
+    display: none;
+  }
+  :root:not([data-theme]) .theme-toggle .icon-sun {
+    display: block;
+  }
+}
+
 .site-menu-toggle {
   display: none;
   align-items: center;
@@ -472,7 +586,7 @@ code {
   padding: 0;
   border: 1px solid var(--line-strong);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--surface);
   color: var(--text);
   cursor: pointer;
   transition:
@@ -555,7 +669,7 @@ code {
     padding: 0.65rem;
     border: 1px solid var(--line);
     border-radius: 1.25rem;
-    background: rgba(255, 255, 255, 0.98);
+    background: var(--surface-strong);
     box-shadow: 0 20px 44px rgba(16, 24, 40, 0.12);
     opacity: 0;
     visibility: hidden;
@@ -801,7 +915,7 @@ code {
   height: 13.5rem;
   border: 1px solid rgba(15, 23, 42, 0.14);
   border-radius: 50%;
-  background-color: #fff;
+  background-color: var(--surface-solid);
   background-repeat: no-repeat;
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
   opacity: 0;
@@ -1228,11 +1342,14 @@ code {
   padding: 0.3rem 0.75rem;
   border-radius: 999px;
 }
+/* Labels mirror the clip: at pos=50 the AFTER image is inset from the right,
+   so AFTER shows on the LEFT half and BEFORE on the RIGHT — label--after sits
+   left, label--before sits right. (Inverting these put "Ours" under "Target".) */
 .cmp__label--before {
-  left: 0.75rem;
+  right: 0.75rem;
 }
 .cmp__label--after {
-  right: 0.75rem;
+  left: 0.75rem;
 }
 .cmp__handle {
   position: absolute;
@@ -1463,4 +1580,221 @@ code {
   .rgallery {
     grid-template-columns: 1fr;
   }
+}
+
+/* ============================================================================
+   Method blocks — equations / algorithm / code / stat callouts / FAQ / ack.
+   All token-driven (--bg-soft/--line/--text/--muted/--accent/--surface), so
+   they adapt to dark mode automatically; no per-block dark overrides needed.
+   ============================================================================ */
+
+/* --- Stat callouts (grid at the top of the Results section) ------------- */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 1.25rem;
+  margin: 0 0 2.5rem;
+}
+.stat {
+  margin: 0;
+  padding: 1.3rem 1.1rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.stat__value {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: clamp(1.6rem, 4vw, 2.25rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+.stat__label {
+  margin: 0.55rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* --- Equation figures (numbered) -------------------------------------- */
+.eq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.eq {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1.5rem 4rem 1.4rem 1.5rem;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+}
+.eq__math {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem;
+  color: var(--text);
+}
+.eq__math math {
+  font-size: 1.15rem;
+}
+/* Latex fallback: serif math feel (no KaTeX dep). */
+.eq__latex {
+  font-family: 'Cambria Math', 'Latin Modern Math', Georgia, 'Times New Roman', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+}
+.eq__num {
+  position: absolute;
+  top: 50%;
+  right: 1.3rem;
+  transform: translateY(-50%);
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--muted);
+}
+.eq figcaption {
+  margin: 0.7rem 0 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* --- Algorithm / pseudocode box --------------------------------------- */
+.algo {
+  margin: 0;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.algo figcaption {
+  padding: 0.8rem 1.2rem;
+  border-bottom: 1px solid var(--line);
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.algo__code {
+  margin: 0;
+  padding: 1.1rem 1.2rem;
+  overflow-x: auto;
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.86rem;
+  line-height: 1.75;
+  color: var(--text);
+}
+.algo__line {
+  display: block;
+  white-space: pre;
+}
+.algo__lnum {
+  display: inline-block;
+  width: 1.6rem;
+  margin-right: 1rem;
+  color: var(--muted);
+  user-select: none;
+  text-align: right;
+}
+.algo__comment {
+  color: var(--muted);
+}
+
+/* --- Code block (filename bar + copy) --------------------------------- */
+.code-block {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+.code-block__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+.code-block__file {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.code-block pre {
+  margin: 0;
+  padding: 1.1rem 1.2rem;
+  overflow-x: auto;
+}
+.code-block code {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.86rem;
+  line-height: 1.75;
+  color: var(--text);
+  white-space: pre;
+}
+
+/* --- FAQ accordion (native <details>) --------------------------------- */
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 48rem;
+  margin: 0 auto;
+}
+.faq-item {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  overflow: hidden;
+}
+.faq-item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--text);
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.faq-item summary::after {
+  flex-shrink: 0;
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 1.25rem;
+  line-height: 1;
+  content: '+';
+  transition: transform var(--ease);
+}
+.faq-item[open] summary::after {
+  content: '−';
+}
+.faq-item p {
+  margin: 0;
+  padding: 0 1.2rem 1.1rem;
+  color: var(--muted);
+}
+
+/* --- Acknowledgments (quiet closing section) -------------------------- */
+.section--quiet {
+  background: var(--bg-soft);
+}
+.ack-copy {
+  max-width: 48rem;
+  margin: 1rem auto 0;
+  color: var(--muted);
 }

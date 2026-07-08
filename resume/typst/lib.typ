@@ -530,7 +530,7 @@
 // path/URL (made absolute). Mirrors the web link-chip builder.
 #let paper-video-url = v => {
   if v == none { return none }
-  let absish = v.starts-with("http://") or v.starts-with("https://") or v.ends-with(".mp4") or v.ends-with(".webm")
+  let absish = v.starts-with("http://") or v.starts-with("https://") or v.ends-with(".mp4") or v.ends-with(".webm") or v.ends-with(".ogg")
   if absish { abs-url(v) } else { "https://www.youtube.com/watch?v=" + v }
 }
 
@@ -543,6 +543,35 @@
           "Run `bun scripts/gen-papers-json.mjs`, or pick a non-demo citekey.")
   }
   matches.first()
+}
+
+// Clean BibTeX citation synthesized from the parsed paper — NOT a dump of p.raw.
+// (raw carries internal housekeeping flags — selected/featured/preview/video/
+// pdf/website/code/abstract — that must never appear in a citation a reader
+// copies.) Mirrors the web synthesis in AcademicProject.astro (bibRows) so the
+// PDF handout and the web page emit the SAME entry: type + title + author +
+// venue + year + doi. Type + author are read from raw via regex because the
+// parsed shape exposes p.title/p.venue/p.doi but not the entry type or the
+// verbatim author string.
+#let bibtex-citation = p => {
+  let tm = p.raw.match(regex("@(\\w+)\\s*\\{"))
+  let typ = if tm != none { tm.captures.at(0) } else { "misc" }
+  let rows = (("title", p.title),)
+  // Verbatim author string from raw preserves "Family, Given (Note)" form the
+  // parsed p.authors array would flatten; fall back to rebuilding from it.
+  let am = p.raw.match(regex("author\\s*=\\s*\\{([^}]+)\\}"))
+  if am != none {
+    rows.push(("author", am.captures.at(0)))
+  } else {
+    let names = p.authors.map(a =>
+      if a.given != none and a.given != "" { [#a.given #a.family] } else { a.family })
+    rows.push(("author", names.join(" and ")))
+  }
+  if p.venue != none and p.venue != "" { rows.push(("booktitle", p.venue)) }
+  if p.year != none { rows.push(("year", str(p.year))) }
+  if p.doi != none { rows.push(("doi", p.doi)) }
+  let body = rows.map(((k, v)) => "  " + k + " = {" + str(v) + "}").join(",\n")
+  "@" + typ + "{" + p.key + ",\n" + body + ",\n}"
 }
 
 #let paper-doc = it => {
@@ -606,7 +635,7 @@
         fill: luma(247),
         stroke: 0.5pt + luma(210),
       )[
-        #text(size: 0.78em)[#raw(p.raw, block: true)]
+        #text(size: 0.78em)[#raw(bibtex-citation(p), block: true)]
       ]
     ],
     accent-color: accent,

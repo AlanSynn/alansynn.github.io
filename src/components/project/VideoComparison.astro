@@ -58,8 +58,12 @@ const { left, right, caption } = Astro.props;
 <script is:inline>
   // Synced side-by-side video comparison. Sources wired on first Play (lazy).
   // No-op without [data-vcmp]. Re-runs on every Astro page-load (initial +
-  // View-Transition navigations); old listeners die with removed nodes.
+  // View-Transition navigations); old listeners die with removed nodes. The
+  // __vcmpBound guard ensures the document-level listener registers at most
+  // once even if Astro re-executes this inline script on a swap.
   (function () {
+    if (window.__vcmpBound) return;
+    window.__vcmpBound = true;
     document.addEventListener('astro:page-load', function () {
       var roots = document.querySelectorAll('[data-vcmp]');
       if (!roots.length) return;

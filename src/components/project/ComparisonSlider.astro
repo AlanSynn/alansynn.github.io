@@ -49,8 +49,12 @@ const { before, after, labelBefore = 'Before', labelAfter = 'After', caption } =
 <script is:inline>
   // Pointer + keyboard comparison slider. No-op without [data-cmp]. Re-runs on
   // every Astro page-load (initial + View-Transition navigations) so the slider
-  // wires on freshly swapped DOM. Old listeners die with removed nodes.
+  // wires on freshly swapped DOM. Old listeners die with removed nodes; the
+  // __cmpSliderBound guard ensures the document-level listener registers at
+  // most once even if Astro re-executes this inline script on a swap.
   (function () {
+    if (window.__cmpSliderBound) return;
+    window.__cmpSliderBound = true;
     document.addEventListener('astro:page-load', function () {
       var roots = document.querySelectorAll('[data-cmp]');
       if (!roots.length) return;
