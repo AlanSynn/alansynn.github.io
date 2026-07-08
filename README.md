@@ -20,7 +20,7 @@
   <a href="https://astro.build"><img src="https://img.shields.io/badge/Astro-7-ff5d01?logo=astro&logoColor=fff" alt="Astro"></a>
   <a href="https://typst.app"><img src="https://img.shields.io/badge/Typst-0.15-239dad?logo=typst&logoColor=fff" alt="Typst"></a>
   <a href="https://bun.sh"><img src="https://img.shields.io/badge/bun-1.3-000?logo=bun&logoColor=fff" alt="bun"></a>
-  <a href="https://www.typescriptlang.org"><img src="https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=fff" alt="TypeScript"></a>
+  <a href="https://www.typescriptlang.org"><img src="https://img.shields.io/badge/TypeScript-6-3178c6?logo=typescript&logoColor=fff" alt="TypeScript"></a>
 </p>
 
 ---
