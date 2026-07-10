@@ -25,6 +25,15 @@
   url: 'https://neurips.cc/'
   type: conference
 
+# NeurIPS Demonstrations track — peer-reviewed but a non-archival demo/exhibit,
+# NOT a main-track NeurIPS paper. Distinct key + name so the badge honestly
+# reads "NeurIPS Demonstrations" (never bare "NeurIPS"). type: conference sorts
+# it among conference papers on the CV, where the badge carries the truth.
+'NeurIPS-Demo':
+  name: 'NeurIPS Demonstrations'
+  url: 'https://neurips.cc/'
+  type: conference
+
 'arXiv':
   name: 'arXiv'
   url: 'https://arxiv.org/'
