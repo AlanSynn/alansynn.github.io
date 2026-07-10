@@ -29,8 +29,10 @@ const projects = defineCollection({
       // Enum (not free string) so a typo like `catgory:` fails the build instead
       // of silently defaulting to 'work' and leaking a research page onto the grid.
       category: z.enum(['work', 'research']).default('work'),
-      // Homepage sort is DESCENDING (b.order - a.order), so a higher `order`
-      // renders EARLIER on the page. Work projects use 1/3 → order:3 shows first.
+      // Within-year tiebreaker ONLY (higher = earlier inside the same year).
+      // Primary homepage sort is now year-DESC (end-of-range `period`, or an
+      // explicit `date`) via getWorkProjects() in src/lib/projects.ts — `order`
+      // no longer drives global order, so adding a project needs no renumbering.
       order: z.number().default(0),
       date: z.coerce.date().optional(),
       summary: z.string().optional(),
