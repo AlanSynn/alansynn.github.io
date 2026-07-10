@@ -34,8 +34,11 @@ const projects = (await getCollection('projects'))
   .filter((p) => p.data.category !== 'research')
   .sort((a, b) => (b.data.order ?? 0) - (a.data.order ?? 0));
 
-// News: newest first, capped to 8. From content/news.yaml (validated in lib/data.ts).
-const news = [...newsItems].sort((a, b) => b.date.valueOf() - a.date.valueOf()).slice(0, 8);
+// News: newest first, 4 visible + the rest behind a "More news" toggle.
+// From content/news.yaml (validated in lib/data.ts).
+const allNews = [...newsItems].sort((a, b) => b.date.valueOf() - a.date.valueOf());
+const news = allNews.slice(0, 4);
+const moreNews = allNews.slice(4);
 
 // Join all statements so the bio can be multi-paragraph, not just the first.
 const bio = researchInterests.statements.join('\n\n');
@@ -89,9 +92,9 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     </div>
   </section>
 
-  <section id="news">
-    <h2 class="home-head">News</h2>
-    <NewsList items={news} />
+  <section id="projects">
+    <h2 class="home-head">Projects</h2>
+    <div class="wcards">{projects.map((p) => <WorkProjectRow project={p} />)}</div>
   </section>
 
   <section id="publications">
@@ -113,9 +116,17 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     }
   </section>
 
-  <section id="education">
-    <h2 class="home-head">Education</h2>
-    <Timeline items={education} />
+  <section id="news">
+    <h2 class="home-head">News</h2>
+    <NewsList items={news} />
+    {
+      moreNews.length > 0 && (
+        <details class="all-news">
+          <summary>More news ({moreNews.length} more)</summary>
+          <NewsList items={moreNews} />
+        </details>
+      )
+    }
   </section>
 
   <section id="experience">
@@ -123,19 +134,14 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     <Timeline items={experience} />
   </section>
 
-  <section id="projects">
-    <h2 class="home-head">Projects</h2>
-    <div class="wcards">{projects.map((p) => <WorkProjectRow project={p} />)}</div>
+  <section id="education">
+    <h2 class="home-head">Education</h2>
+    <Timeline items={education} />
   </section>
 
   <section id="teaching">
     <h2 class="home-head">Teaching</h2>
     <Timeline items={teaching} />
-  </section>
-
-  <section id="service">
-    <h2 class="home-head">Activities &amp; Service</h2>
-    <Timeline items={activities} />
   </section>
 
   {/* Honors — placed above Contact to close the page on achievement */}
@@ -155,6 +161,11 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
         </div>
       ))
     }
+  </section>
+
+  <section id="service">
+    <h2 class="home-head">Activities &amp; Service</h2>
+    <Timeline items={activities} />
   </section>
 
   <section id="contact">
@@ -209,10 +220,12 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
       transition: none;
     }
   }
-  .all-pubs {
+  .all-pubs,
+  .all-news {
     margin-top: var(--space-5);
   }
-  .all-pubs > summary {
+  .all-pubs > summary,
+  .all-news > summary {
     list-style: none;
     cursor: pointer;
     font-family: var(--font-body);
@@ -221,10 +234,12 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     padding: var(--space-3) 0;
     border-top: 1px solid var(--hairline);
   }
-  .all-pubs > summary::-webkit-details-marker {
+  .all-pubs > summary::-webkit-details-marker,
+  .all-news > summary::-webkit-details-marker {
     display: none;
   }
-  .all-pubs[open] > summary {
+  .all-pubs[open] > summary,
+  .all-news[open] > summary {
     border-bottom: 1px solid var(--hairline);
     margin-bottom: var(--space-3);
   }

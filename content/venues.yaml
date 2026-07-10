@@ -12,7 +12,7 @@
 
 'CHI':
   name: 'ACM CHI'
-  url: 'https://chi2026.acm.org/'
+  url: 'https://sigchi.org/'
   type: conference
 
 'IEEE Access':

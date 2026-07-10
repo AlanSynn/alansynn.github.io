@@ -3,8 +3,8 @@ title: "Privacy-Preserving Deep Learning"
 period: "2021 - 2022"
 org: "Protopia AI"
 category: "work"
-order: 3
-summary: "Curated noise that safeguards inference data, plus the internal training framework and scalable workflow behind it."
+order: 2
+summary: "A privacy-preserving inference system that protects raw input data while supporting scalable training and deployment workflows. Built core framework components and led Kubernetes/GPU infrastructure integration; presented as a NeurIPS 2021 Demo."
 video: "jRvl7rQdG-M"
 links:
   - { label: "Protopia AI", url: "https://www.protopia.ai" }

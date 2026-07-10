@@ -1,12 +1,18 @@
 # ============================================================================
-# cv.yaml — career timeline. Merges the four same-shape sections that share the
+# cv.yaml — career timeline. Merges the same-shape sections that share the
 # identical entry model and the same consumers (web homepage #experience /
 # #education / #teaching / #activities Timeline + the Typst CV/resume).
-# Splitting them across four files was over-fragmentation; one file with four
+# Splitting them across files was over-fragmentation; one file with the
 # sections is one mental document ("my career") + one schema + one git history.
 #
 # Entry model (identical for every section):
-#   { period, title, location?, body(markdown), only?/except? }
+#   { period, title, location?, body(markdown), more?(markdown), only?/except? }
+#
+# `more` — CV/web-only detail the resume OMITS (plan §4.4/§4.5 vs §5.4/§5.6): a
+# 2nd experience bullet, an M.Eng advisor line, military service. lib.typ's
+# cv-entry renders `more` only when doc != "resume"; the web Timeline renders
+# body+more (web mirrors the FULL CV, never the compact resume). Use it to keep
+# the one-page resume dense-with-whitespace while the CV carries the full record.
 #
 # Per-entry targeting (graphics / ml-systems PDF variants), honored by BOTH the
 # Typst CV/resume AND the web homepage. The web is the untargeted/default view,
@@ -15,99 +21,112 @@
 #   except: [ml-systems]    # show everywhere EXCEPT the ml-systems PDF (incl. web)
 # Both accept a single string or a list. Omit both → show everywhere.
 #
+# Periods use an en-dash + "Present" (plan §6); the Typst format-period helper
+# leaves en-dash input untouched, and the web renders the period verbatim, so
+# both surfaces agree.
+#
 # Validated at build time by src/lib/content-schema.ts (timelineEntry schema).
 # ============================================================================
 
 education:
-  - period: '2022 -'
+  - period: '2022–Present'
     title: '[Georgia Tech](https://www.gatech.edu), Ph.D. in Computer Science'
-    location: 'Atlanta, GA, USA'
     body: |
       - [School of Interactive Computing](https://ic.gatech.edu); advised by Profs. [Oh](https://www.cc.gatech.edu/people/hyunjoo-oh) & [Ha](https://faculty.cc.gatech.edu/~sha9/)
-      - Research: computational design, mechanical crafting, and motion synthesis (HCI/Graphics)
+      - Research: computational design, mechanical artifacts, and motion synthesis (HCI/Graphics)
 
-  - period: '2020 - 2022'
+  - period: '2020–2022'
     title: '[Korea University](https://www.korea.ac.kr), M.Eng. in ECE'
-    location: 'Seoul, Korea'
     body: |
-      - Advised by [Prof. Jong-Kook Kim](https://hpic.korea.ac.kr/professor)
-      - GPA: 4.25 (4.5 scale)
       - Thesis: *On Efficient Data Delivery for Machine Learning Systems*
+    more: |
+      - Advised by [Prof. Jong-Kook Kim](https://hpic.korea.ac.kr/professor)
 
-  - period: '2012 - 2020'
+  - period: '2012–2020'
     title: '[Korea University](https://www.korea.ac.kr), B.Eng. in EE'
-    location: 'Seoul, Korea'
-    body: |
-      - GPA: 3.56 (4.5 scale)
-      - Military service leave as a Software Engineer, 2016–2019
+    more: |
+      - Alternative military service as a Software Engineer, 2016–2019
 
 experience:
-  - period: '2024 - 2025'
-    title: 'PhD Research Intern, [Dolby Laboratories](https://www.dolby.com)'
-    location: 'Atlanta, GA, USA'
+  - period: '2024–2025'
+    title: 'Ph.D. Research Intern, [Dolby Laboratories](https://www.dolby.com)'
     body: |
-      - Experience Delivery Lab, built a time-series, multimodal datastore supporting low-latency media analytics.
+      - Built a time-series, multimodal datastore supporting low-latency media analytics in the Experience Delivery Lab.
 
   - period: '2023'
     title: 'MLOps Engineering Intern, [LG Uplus Corp.](https://www.lguplus.com)'
-    location: 'Seoul, Korea'
     body: |
-      - Led **DeepCrunch**, a model-compression library with multi-backend AI inference for efficient edge serving.
+      - Led **DeepCrunch**, a model-compression library supporting multi-backend AI inference for efficient edge deployment.
 
-  - period: '2021 - 2022'
+  - period: '2021–2022'
     title: 'Research Scientist, [Protopia AI Inc.](https://protopia.ai)'
-    location: 'Austin, TX, USA'
     body: |
       - Built **Stained-Glass**, a privacy-preserving deep-learning framework enabling inference without raw-data exposure.
-      - CEO: [Dr. Ebrahimi](http://eimanebrahimi.com); CTO: [Prof. Esmaeilzadeh](http://cseweb.ucsd.edu/~hadi).
+    more: |
+      - Led framework development and Kubernetes/GPU infrastructure integration; the work contributed to a NeurIPS 2021 Demo.
 
-  - period: '2020 - 2022'
+  - period: '2020–2022'
     title: 'Cloud Architect · [AWS Educate](https://aws.amazon.com/education/awseducate/) Cloud Ambassador'
-    location: 'Seoul, Korea'
     body: |
-      - Led engineering for 4 startup services, translating ambiguous product needs into back-end systems while mentoring early-career engineers.
-      - Built production cloud infrastructure with Kubernetes, Terraform, CI/CD, and cost-optimized autoscaling.
+      - Led engineering for four startup services, translating ambiguous product requirements into production backend systems.
+    more: |
+      - Built cloud-native infrastructure using Kubernetes, Terraform, CI/CD, observability, and cost-optimized autoscaling while mentoring early-career engineers.
 
   - period: '2019'
     title: 'Server Engineer, Flysher Inc.'
-    location: 'Seoul, Korea'
     body: |
-      - Shipped back-end features for 4 social-game titles; one reached global top-10 on Facebook.
-      - Led an ETL → Redshift analytics pipeline driving data-informed feature rollout.
+      - Shipped backend features for four social-game titles; one reached Facebook's global top 10.
+    more: |
+      - Built an ETL-to-Redshift analytics pipeline supporting data-informed feature rollout.
 
-  - period: '2017 - 2019'
+  - period: '2017–2019'
     title: 'System Engineer, [AKA Intelligence](https://www.aka.ai) (Musio)'
-    location: 'Seoul, Korea'
     body: |
-      - Designed embedded Linux boards & firmware for the social robot **Musio**.
-      - Coordinated HW-SW integration and production QA with overseas ODMs.
+      - Designed embedded Linux boards and firmware for **Musio**, a deployed social robot.
+    more: |
+      - Coordinated hardware-software integration and production QA with overseas ODMs.
 
 teaching:
-  - period: '2024 -'
+  - period: '2024–Present'
     title: 'Head TA, CS 4496/7496 Computer Animation'
     body: |
       - [Georgia Tech](https://www.gatech.edu), [School of Interactive Computing](https://ic.gatech.edu).
 
-  - period: '2021 - 2022'
+  - period: '2021–2022'
     title: 'Lecturer, Korea University'
     body: |
-      - `Java101` for 10+ undergraduate students.
+      - Taught introductory Java programming to 10+ undergraduate students.
 
   - period: '2021'
     title: 'Teaching Assistant, Korea University'
     body: |
       - Digital System Design
-      - Data Structure and Algorithm
+      - Data Structures and Algorithms
 
-  - period: '2012 - 2014'
+  - period: '2012–2014'
     title: 'Lecturer, KAIST Engineering School'
     body: |
-      - Co-developed national coding education programs with South Korea’s Ministry of Science and ICT.
-      - Designed 20+ project-based curricula combining Arduino, hardware prototyping, and software development.
-      - Evaluated and iterated on newly developed curricula through pilot programs with high-school and college students.
+      - Co-developed national project-based coding education programs with South Korea's Ministry of Science and ICT.
+      - Designed and evaluated 20+ curricula combining Arduino, hardware prototyping, and software development for high-school and college students.
+
+# Invited Talks & Outreach — CV-only (plan §5.8). Not rendered on the web
+# homepage (it surfaces these as News instead). Sourced from the verified
+# news.yaml items; hosts/titles added only when confirmed.
+outreach:
+  - period: '2026'
+    title: 'Invited Panelist and MotionSmith Demonstrator, AutomataCon'
+
+  - period: '2026'
+    title: 'Motion, Making & Mechanical Design — GIFT Workshop, Georgia Tech CEISMC'
+
+  - period: '2026'
+    title: 'Invited Talk, Korea University'
+
+  - period: '2026'
+    title: 'MotionSmith Presentation, CHI'
 
 activities:
-  - period: '2023 - 2024'
+  - period: '2023–2024'
     title: 'Georgia Tech Korean Student Association'
     body: |
       - President of Korean Students in the College of Computing.
@@ -115,11 +134,9 @@ activities:
   - period: '2014–2019'
     title: 'Hardware & Software Community, Korea University'
     body: |
-      - President of Korea University’s hardware and software engineering community.
-      - Grew the community from 10 members to 200+ active participants across hardware and software tracks.
+      - President; grew the community from 10 to 200+ active members across hardware and software tracks.
 
-  - period: '2015 - 2016'
+  - period: '2015–2016'
     title: 'TEDxKoreaUniversity, Korea University'
     body: |
-      - Founder & Chief Organizer.
-      - Organized a TEDx event with 200 guests, 7 speakers, 47 team members, and a $4k budget. Responsibilities included fundraising, sponsorships, editorial decisions, communication planning, and production & media.
+      - Founder & Chief Organizer; led a 47-person team in producing a 200-guest event with 7 speakers and a $4K budget.

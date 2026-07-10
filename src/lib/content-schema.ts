@@ -16,6 +16,11 @@ export const timelineEntry = z
     title: z.string(),
     location: z.string().optional(),
     body: z.string().optional(),
+    // CV/web-only detail the resume omits (a 2nd experience bullet, an advisor
+    // line, military service). lib.typ cv-entry renders `more` only when
+    // doc != "resume"; the web Timeline concatenates body+more (web mirrors the
+    // full CV, never the compact resume).
+    more: z.string().optional(),
     only: targetList.optional(),
     except: targetList.optional(),
   })
@@ -27,6 +32,10 @@ export const cvSchema = z
     experience: z.array(timelineEntry),
     teaching: z.array(timelineEntry),
     activities: z.array(timelineEntry),
+    // Invited Talks & Outreach — CV-only section (plan §5.8). Same entry model.
+    // Not rendered on the web homepage (only the Typst CV consumes it), but
+    // validated here so a typo fails the web build before a bad PDF.
+    outreach: z.array(timelineEntry),
   })
   .strict();
 
@@ -38,6 +47,7 @@ export const siteSchema = z
     nick_name: z.string(),
     last_name: z.string(),
     title: z.string(),
+    browser_title: z.string().optional(),
     affiliation: z.string(),
     affiliation_url: z.url(),
     department: z.string().optional(),

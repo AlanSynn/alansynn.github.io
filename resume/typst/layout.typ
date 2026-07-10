@@ -40,7 +40,10 @@
   context {
     let theme = global-theme.get()
     let accent-color = theme.at("accent-color")
-    show link: ct => underline(ct, background: true, evade: true, stroke: accent-color)
+    // Links stay clickable but NOT visibly underlined (plan §4.7/§6): accent
+    // color carries the affordance. underline(ct, ...) was visual noise across
+    // every institution/company/advisor link.
+    show link: ct => text(fill: accent-color)[#ct]
     set page(margin: (left: 2.5cm, right: 2.5cm, top: 2cm))
     body
   }

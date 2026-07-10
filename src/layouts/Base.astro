@@ -20,7 +20,9 @@ interface Props {
 }
 const { title, description, wide = false, contained = true, paper } = Astro.props;
 
-const pageTitle = title ? `${title} - ${site.short_name}` : `${site.name} · ${site.title}`;
+const pageTitle = title
+  ? `${title} - ${site.short_name}`
+  : (site.browser_title ?? `${site.name} · ${site.title}`);
 const desc = description ?? paper?.abstract ?? site.description;
 const year = new Date().getFullYear();
 
@@ -83,7 +85,8 @@ const jsonld = paper
 
 // OG/Twitter: paper teaser (absolute) on paper pages, default og.png otherwise.
 const ogTitle = paper ? paper.title : pageTitle;
-const ogImage = abs(paper?.preview) ?? `${site.url}/og.png`;
+// Default social image = MotionSmith teaser (plan §3.10), not a generic portrait.
+const ogImage = abs(paper?.preview) ?? abs('/images/motionsmith/motionsmith-teaser.webp');
 const ogType = paper ? 'article' : 'website';
 ---
 

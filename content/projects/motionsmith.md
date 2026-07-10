@@ -12,7 +12,7 @@ title_lines:
   - { rest: "Design System" }
   - { rest: "for Automata Making" }
 teaser_caption: "Three artist-led automata pair motion sketches with fabricated outcomes across four-bar and cam-driven mechanisms."
-summary: "Sketch motion, compare mechanisms, refine the result, and export fabrication-ready automata."
+summary: "A sketch-based computational design system that helps automata makers express motion, compare mechanisms, refine designs, and export fabrication-ready parts."
 event_dates: "April 13–17, 2026"
 affiliations:
   - "Georgia Tech"
