@@ -7,9 +7,12 @@
 %
 % Per-entry flags:
 %   selected = include in the resume/CV PDF (lib.typ filters on it).
-%   featured = surface at the TOP of the homepage #publications section; every
-%              non-featured entry folds under the "All publications" toggle.
-%              Web-only — the PDF ignores it.
+%   featured = reserved for homepage top-of-list surfacing; currently inert
+%              (homepage lists all papers flat, newest-first). Web-only.
+%   hidden   = omit from the WEB #publications list only (index.astro filter).
+%              The PDF (resume/CV) still shows the entry — the formal record
+%              stays complete. Used for non-first-author domestic venues kept
+%              off the public web.
 %
 % When adding an entry, fill EVERY applicable field (preview, doi, pdf, code,
 % website, video) via search/extraction; never leave a gap you can fill.
@@ -76,6 +79,7 @@
   url={https://tkips.kips.or.kr/digital-library/101925},
   pdf={https://tkips.kips.or.kr/digital-library/manuscript/file/101925/01-CCS-24M-06-014M-%EA%B9%80%EC%A2%85%EA%B5%AD_01-08.pdf},
   selected={false},
+  hidden={true},
   abstract={Recently deep learning has become widely used in many research fields and businesses. To improve the performance of deep learning, one of the critical challenges is to determine the optimal values of many parameters that can be adjusted. This paper focuses on the adjustable dataloader parameters that affect the overall training time and proposes an automated dataloader parameter tuning framework, called ADaPT, to determine the optimal values of the dataloader parameters. The proposed ADaPT uses the characteristic of the AVL tree and attempts to determine optimal dataloader parameters in a small amount of time to accelerate the data loading. The results show that the proposed method effectively accelerates the data loading speed compared to the default parameter values and values that are recommended by PyTorch and the speed is comparable to the optimal.},
   publisher={Korea Information Processing Society}
 }
@@ -153,6 +157,7 @@
   url={https://koreascience.kr/article/CFKO202125036216312.page},
   pdf={https://koreascience.kr/article/CFKO202125036216312.pdf},
   selected={false},
+  hidden={true},
   organization={Korea Information Processing Society},
   preview={/images/papers/park2021survey.jpg}
 }
@@ -168,6 +173,7 @@
   preview={/images/papers/kim2020sg.jpg},
   abstract={Many natural language processing (NLP) models utilize pre-trained word embeddings to leverage latent information. One of the most successful word embedding model is the Skip-gram (SG). In this paper, we propose a Skipgram drop (SG-Drop) model, which is a variation of the SG model. The SG-Drop model is designed to reduce training time efficiently. Furthermore, the SG-Drop allows controlling training time with its hyperparameter. It could train word embedding faster than reducing training epochs while better preserving the quality.},
   selected={false},
+  hidden={true},
   publisher={Korea Information Processing Society}
 }
 
