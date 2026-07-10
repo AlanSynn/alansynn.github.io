@@ -9,7 +9,7 @@ first_name: 'DoangJoo'
 nick_name: 'Alan'
 last_name: 'Synn'
 
-title: 'PhD Candidate in Computer Science'
+title: 'Ph.D. Student in Computer Science'
 affiliation: 'Georgia Institute of Technology'
 affiliation_url: 'https://www.gatech.edu'
 department: 'School of Interactive Computing / School of Industrial Design'
@@ -28,19 +28,23 @@ email_obfuscated: 'alansynn [at] gatech [dot] edu'
 url: 'https://alansynn.com'
 domain: 'alansynn.com'
 
+# Browser <title> for the homepage (plan §3.10). Distinct from `title` (the role
+# line shown on the hero + the PDF title block), which stays "Ph.D. Student ...".
+browser_title: 'DoangJoo "Alan" Synn | HCI and Computer Graphics'
+
 description: >-
-  DoangJoo (Alan) Synn, Computer Science PhD Student at Georgia Tech.
-  Research at the intersection of generative AI and computational design:
-  automata, kinematics, and human-AI collaboration.
+  I study motion as a computational medium across HCI and computer graphics,
+  building systems for designing, generating, and fabricating motion.
 
 keywords:
-  - computational design
-  - generative AI
-  - automata
-  - kinematics
-  - human-AI collaboration
-  - ML systems
   - HCI
+  - computer graphics
+  - computational design
+  - motion
+  - mechanical artifacts
+  - robotic systems
+  - AI-assisted creative tools
+  - ML systems
 
 # Verified profiles (found 2026-07-04).
 socials:

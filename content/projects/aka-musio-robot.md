@@ -3,8 +3,8 @@ title: "Musio - A Social Robot"
 period: "2017 - 2019"
 org: "AKA Intelligence"
 category: "work"
-order: 1
-summary: "Embedded board and software for Musio, AKA Intelligence's social robot powered by the MUSE deep-learning engine."
+order: 3
+summary: "Embedded computing hardware and software for a deployed social robot. Designed Linux-based boards and firmware and coordinated hardware-software integration through production QA."
 video: "VySKmLawlAI"
 links:
   - { label: "AKA Intelligence", url: "https://www.aka.ai" }

@@ -119,7 +119,7 @@ export const newsItems: NewsItem[] = parseFile(z.array(newsItemSchema), newsRaw,
 //    otherwise hides the entry on web AND every PDF target — silent vanish).
 //  - paper abbr ∈ venues.yaml; featured → selected.
 enforceTargetFlags(
-  [...cv.education, ...cv.experience, ...cv.teaching, ...cv.activities],
+  [...cv.education, ...cv.experience, ...cv.teaching, ...cv.activities, ...cv.outreach],
   targetIds,
   'cv.yaml',
 );

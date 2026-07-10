@@ -49,6 +49,7 @@
 #let experience  = cvdata.experience
 #let teaching    = cvdata.teaching
 #let activities  = cvdata.activities
+#let outreach    = cvdata.outreach
 #let honors      = yaml("/content/honors.yaml")
 #let references  = yaml("/content/references.yaml")
 #let ri          = yaml("/content/research-interests.yaml")
@@ -165,16 +166,22 @@
 // date. (An earlier version put bullets in `description` colspan-2 — that is a
 // real package feature, but the reference template does not use it, and using
 // it diverged from the canonical spacing.)
-#let cv-entry = (e, gap: 0.3em) => {
+#let cv-entry = (e, doc: "cv", gap: 0.3em) => {
   if not entry-visible(e) { return [] }
   let period = format-period(e.at("period", default: ""))
   let title = e.at("title", default: "")
   let location = e.at("location", default: none)
   let body = e.at("body", default: none)
+  let more = e.at("more", default: none)
+  // `more` carries CV/web-only detail the resume omits (a 2nd experience bullet,
+  // an advisor line, military service). Dropped when doc == "resume"; appended
+  // after the core body lines otherwise. The web Timeline mirrors this by
+  // concatenating body+more in data — both renderers keep the resume compact.
   let lines = parse-body-lines(body)
+  let more-lines = if more != none and doc != "resume" { parse-body-lines(more) } else { () }
   let lead = ()
   if location != none and location != "" { lead.push((level: 0, text: location)) }
-  let items = lead + lines
+  let items = lead + lines + more-lines
 
   let left = {
     text(weight: "bold")[#md-inline(title)]
@@ -191,11 +198,13 @@
       )
     }
   }
-  entry(left, emph[#period])
+  // Keep each entry whole across a page break (CV pagination rule, plan §5.12:
+  // never split an experience/teaching entry).
+  block(breakable: false)[#entry(left, emph[#period])]
 }
 
-#let entries = (list, gap: 0.3em) => {
-  for e in list { cv-entry(e, gap: gap) }
+#let entries = (list, doc: "cv", gap: 0.3em) => {
+  for e in list { cv-entry(e, doc: doc, gap: gap) }
 }
 
 // ---- 7. Publications ------------------------------------------------------
@@ -273,7 +282,7 @@
 // Numbered publication item: hanging indent so wrapped lines clear the [n].
 #let pub-item = (n, p) => {
   let venue = if p.abbr != none and p.abbr != "" { p.abbr } else { p.venue }
-  block(width: 100%, spacing: 0.5em)[
+  block(width: 100%, spacing: 0.5em, breakable: false)[
     #grid(
       columns: (1.5em, 1fr),
       column-gutter: 0.3em,
@@ -339,8 +348,8 @@
   if doc == "cv" {
     let s = split-by-type(list-all)
     for (label, group) in (
-      ("Refereed Journal Articles", s.journal),
       ("Refereed Conference Papers", s.conference),
+      ("Refereed Journal Articles", s.journal),
       ("Preprints", s.preprint),
     ) {
       if group.len() == 0 { continue }
@@ -410,7 +419,7 @@
 #let research-blurb = doc => {
   if target != "" and target in targets {
     md-inline(targets.at(target).blurb)
-  } else if doc == "cv" and ri.statements.len() > 1 {
+  } else if (doc == "cv" or doc == "resume") and ri.statements.len() > 1 {
     for s in ri.statements { par[#md-inline(s)] }
   } else {
     md-inline(ri.statements.at(0, default: ""))
@@ -476,20 +485,32 @@
   #section("Research Interests", before: sec-before)
   #research-blurb(doc)
   #section("Education", before: sec-before)
-  #entries(education, gap: entry-gap)
-  #section(if doc == "cv" { "Professional Experience" } else { "Experience" }, before: sec-before)
-  #entries(experience, gap: entry-gap)
-  #section(if doc == "cv" { "Publications" } else { "Selected Publications" }, before: sec-before)
-  #pubs-section(doc)
+  #entries(education, doc: doc, gap: entry-gap)
+  // Section order diverges by doc (plan §4.1 vs §5.2). The CV fronts
+  // Publications before Professional Experience — academic legitimacy before
+  // the full industry record; the resume keeps Experience → Selected
+  // Publications. The CV-only tail (Teaching / Invited Talks & Outreach /
+  // Honors / Activities) is absent from the one-page resume. The public CV
+  // omits References (plan §5.11 — a separate application sheet); the
+  // references-block helper + references.yaml stay for that sheet.
   #if doc == "cv" [
+    #section("Publications", before: sec-before)
+    #pubs-section(doc)
+    #section("Professional Experience", before: sec-before)
+    #entries(experience, doc: doc, gap: entry-gap)
+    #section("Teaching", before: sec-before)
+    #entries(teaching, doc: doc, gap: entry-gap)
+    #section("Invited Talks & Outreach", before: sec-before)
+    #entries(outreach, doc: doc, gap: entry-gap)
     #section("Honors & Awards", before: sec-before)
     #honors-block(honors)
-    #section("Teaching", before: sec-before)
-    #entries(teaching, gap: entry-gap)
     #section("Activities & Service", before: sec-before)
-    #entries(activities, gap: entry-gap)
-    #section("References", before: sec-before)
-    #references-block(references)
+    #entries(activities, doc: doc, gap: entry-gap)
+  ] else [
+    #section("Experience", before: sec-before)
+    #entries(experience, doc: doc, gap: entry-gap)
+    #section("Selected Publications", before: sec-before)
+    #pubs-section(doc)
   ]
   ]
 }
@@ -510,7 +531,7 @@
 // spacing is unaffected. `lang: "en"` enables smart quotes / hyphenation.
 #let resume-doc = it => {
   set text(lang: "en", size: 10pt)
-  set page(numbering: "1 / 1")
+  set page(numbering: none)
   set document(title: doc-title-str("resume"), author: site.name)
   // Resume-only density. cv.typ is a SEPARATE compilation — it never evaluates
   // resume-doc — so none of this reaches the CV (which keeps Typst defaults +

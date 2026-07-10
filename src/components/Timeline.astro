@@ -1,6 +1,8 @@
 ---
-// Timeline.astro — CV entry lists. Model: { period, title, location?, body(md) }.
-// Title may carry inline markdown (institution/advisor links).
+// Timeline.astro — CV entry lists. Model: { period, title, location?, body(md),
+// more(md)? }. `more` is CV/web-only detail the resume omits; the web mirrors
+// the full CV, so body+more are concatenated here. Title may carry inline
+// markdown (institution/advisor links).
 import { marked } from 'marked';
 import Markdown from './Markdown.astro';
 
@@ -9,6 +11,7 @@ interface Entry {
   title: string;
   location?: string;
   body?: string;
+  more?: string;
 }
 interface Props {
   items: Entry[];
@@ -25,7 +28,12 @@ const inline = (s: string) => (s ? (marked.parseInline(s) as string) : '');
         <div>
           <div class="timeline__title" set:html={inline(e.title)} />
           {e.location && <span class="timeline__location">{e.location}</span>}
-          {e.body && <Markdown class="timeline__body" content={e.body} />}
+          {(e.body || e.more) && (
+            <Markdown
+              class="timeline__body"
+              content={[e.body, e.more].filter(Boolean).join('\n\n')}
+            />
+          )}
         </div>
       </li>
     ))
