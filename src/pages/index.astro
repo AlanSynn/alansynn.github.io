@@ -92,9 +92,17 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     </div>
   </section>
 
-  <section id="projects">
-    <h2 class="home-head">Projects</h2>
-    <div class="wcards">{projects.map((p) => <WorkProjectRow project={p} />)}</div>
+  <section id="news">
+    <h2 class="home-head">News</h2>
+    <NewsList items={news} />
+    {
+      moreNews.length > 0 && (
+        <details class="all-news">
+          <summary>More news ({moreNews.length} more)</summary>
+          <NewsList items={moreNews} />
+        </details>
+      )
+    }
   </section>
 
   <section id="publications">
@@ -116,17 +124,9 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     }
   </section>
 
-  <section id="news">
-    <h2 class="home-head">News</h2>
-    <NewsList items={news} />
-    {
-      moreNews.length > 0 && (
-        <details class="all-news">
-          <summary>More news ({moreNews.length} more)</summary>
-          <NewsList items={moreNews} />
-        </details>
-      )
-    }
+  <section id="education">
+    <h2 class="home-head">Education</h2>
+    <Timeline items={education} />
   </section>
 
   <section id="experience">
@@ -134,9 +134,9 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     <Timeline items={experience} />
   </section>
 
-  <section id="education">
-    <h2 class="home-head">Education</h2>
-    <Timeline items={education} />
+  <section id="projects">
+    <h2 class="home-head">Projects</h2>
+    <div class="wcards">{projects.map((p) => <WorkProjectRow project={p} />)}</div>
   </section>
 
   <section id="teaching">
