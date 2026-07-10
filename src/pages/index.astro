@@ -19,7 +19,7 @@ import {
   newsItems,
   entryVisible,
 } from '@/lib/data';
-import { getCollection } from 'astro:content';
+import { getWorkProjects } from '@/lib/projects';
 
 // One page = the whole CV. Scroll-only, no nav.
 // `demo` papers (the unpublished example page's fictional entry) never appear
@@ -31,10 +31,12 @@ const papers = getPapers().filter((p) => p.fields.demo !== 'true' && p.fields.hi
 // Publications: flat reverse-chronological list (no featured subset / toggle) —
 // every paper shows, newest-first. `papers` is already year-desc from getPapers().
 
-// Projects = work/engineering only; category filter keeps 'research' in #publications.
-const projects = (await getCollection('projects'))
-  .filter((p) => p.data.category !== 'research')
-  .sort((a, b) => (b.data.order ?? 0) - (a.data.order ?? 0));
+// Projects = work/engineering only, sorted by year (newest first) via
+// getWorkProjects() — mirrors #publications. The year derives from each
+// project's `period` (end of range) or an explicit `date`; `order` is now just
+// an in-year tiebreaker. Adding a project needs no renumbering. See
+// src/lib/projects.ts.
+const projects = await getWorkProjects();
 
 // News: newest first, 4 visible + the rest behind a "More news" toggle.
 // From content/news.yaml (validated in lib/data.ts).
