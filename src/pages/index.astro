@@ -24,7 +24,10 @@ import { getCollection } from 'astro:content';
 // One page = the whole CV. Scroll-only, no nav.
 // `demo` papers (the unpublished example page's fictional entry) never appear
 // in the live publications list — they're resolvable by citekey only.
-const papers = getPapers().filter((p) => p.fields.demo !== 'true');
+// `hidden` papers (non-first-author domestic venues) are web-only omissions:
+// they stay on the PDF resume/CV (complete formal record) but not the public
+// homepage list. See the per-entry flag docs atop content/papers.bib.
+const papers = getPapers().filter((p) => p.fields.demo !== 'true' && p.fields.hidden !== 'true');
 // Publications: flat reverse-chronological list (no featured subset / toggle) —
 // every paper shows, newest-first. `papers` is already year-desc from getPapers().
 
