@@ -25,9 +25,8 @@ import { getCollection } from 'astro:content';
 // `demo` papers (the unpublished example page's fictional entry) never appear
 // in the live publications list — they're resolvable by citekey only.
 const papers = getPapers().filter((p) => p.fields.demo !== 'true');
-// `featured` (web-only, top of #publications) vs `selected` (PDF-only) in papers.bib — don't conflate.
-const selectedPubs = papers.filter((p) => p.featured);
-const otherPubs = papers.filter((p) => !p.featured);
+// Publications: flat reverse-chronological list (no featured subset / toggle) —
+// every paper shows, newest-first. `papers` is already year-desc from getPapers().
 
 // Projects = work/engineering only; category filter keeps 'research' in #publications.
 const projects = (await getCollection('projects'))
@@ -108,20 +107,8 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
   <section id="publications">
     <h2 class="home-head">Publications</h2>
     <div class="cpubs">
-      {selectedPubs.map((p) => <CompactPub paper={p} />)}
+      {papers.map((p) => <CompactPub paper={p} />)}
     </div>
-    {
-      otherPubs.length > 0 && (
-        <details class="all-pubs">
-          <summary>All publications ({otherPubs.length} more)</summary>
-          <div class="cpubs">
-            {otherPubs.map((p) => (
-              <CompactPub paper={p} />
-            ))}
-          </div>
-        </details>
-      )
-    }
   </section>
 
   <section id="education">
