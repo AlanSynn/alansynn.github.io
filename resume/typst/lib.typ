@@ -281,15 +281,7 @@
 
 // Numbered publication item: hanging indent so wrapped lines clear the [n].
 #let pub-item = (n, p) => {
-  // Resolve abbr → venues.yaml `name` (mirrors the web's venueInfo().name), so
-  // the CV citation label matches the homepage badge (web==CV invariant) and a
-  // Demo track reads "NeurIPS Demonstrations" — never a bare key like
-  // "NeurIPS-Demo". Falls back to the raw abbr, then the booktitle/journal.
-  let venue = if p.abbr != none and p.abbr != "" {
-    if p.abbr in venues and "name" in venues.at(p.abbr) { venues.at(p.abbr).at("name") } else { p.abbr }
-  } else {
-    p.venue
-  }
+  let venue = if p.abbr != none and p.abbr != "" { p.abbr } else { p.venue }
   block(width: 100%, spacing: 0.5em, breakable: false)[
     #grid(
       columns: (1.5em, 1fr),
