@@ -38,11 +38,9 @@ const papers = getPapers().filter((p) => p.fields.demo !== 'true' && p.fields.hi
 // src/lib/projects.ts.
 const projects = await getWorkProjects();
 
-// News: newest first, 4 visible + the rest behind a "More news" toggle.
-// From content/news.yaml (validated in lib/data.ts).
+// News: newest first, top 8 shown flat (no "more" toggle). From content/news.yaml.
 const allNews = [...newsItems].sort((a, b) => b.date.valueOf() - a.date.valueOf());
-const news = allNews.slice(0, 4);
-const moreNews = allNews.slice(4);
+const news = allNews.slice(0, 8);
 
 // Join all statements so the bio can be multi-paragraph, not just the first.
 const bio = researchInterests.statements.join('\n\n');
@@ -99,14 +97,6 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
   <section id="news">
     <h2 class="home-head">News</h2>
     <NewsList items={news} />
-    {
-      moreNews.length > 0 && (
-        <details class="all-news">
-          <summary>More news ({moreNews.length} more)</summary>
-          <NewsList items={moreNews} />
-        </details>
-      )
-    }
   </section>
 
   <section id="publications">
@@ -211,29 +201,6 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
       transform: scaleX(1);
       transition: none;
     }
-  }
-  .all-pubs,
-  .all-news {
-    margin-top: var(--space-5);
-  }
-  .all-pubs > summary,
-  .all-news > summary {
-    list-style: none;
-    cursor: pointer;
-    font-family: var(--font-body);
-    font-size: var(--step--1);
-    color: var(--accent);
-    padding: var(--space-3) 0;
-    border-top: 1px solid var(--hairline);
-  }
-  .all-pubs > summary::-webkit-details-marker,
-  .all-news > summary::-webkit-details-marker {
-    display: none;
-  }
-  .all-pubs[open] > summary,
-  .all-news[open] > summary {
-    border-bottom: 1px solid var(--hairline);
-    margin-bottom: var(--space-3);
   }
   @media (max-width: 640px) {
     .profile__portrait {
