@@ -245,9 +245,14 @@ const BIB_PATH = resolve(process.cwd(), 'content/papers.bib');
 const isProd =
   (import.meta as { env?: { PROD?: boolean } }).env?.PROD ?? process.env.NODE_ENV === 'production';
 
+// Cache only in PROD. In dev, re-read papers.bib every call so edits apply
+// without a server restart: papers.bib is read via readFileSync (outside Vite's
+// module graph → no HMR), and a watcher in astro.config.mjs triggers a full
+// browser reload on change; a non-cached read then picks up the edit. Parse is
+// cheap for a small bib. (The content/*.yaml files ARE imported → already HMR.)
 let cache: Paper[] | null = null;
 export function getPapers(): Paper[] {
-  if (cache) return cache;
+  if (isProd && cache) return cache;
   const src = readFileSync(BIB_PATH, 'utf-8');
   const papers = parseBibtex(src);
   // Newest first; stable within a year by original order.
@@ -278,6 +283,6 @@ export function getPapers(): Paper[] {
     }
   }
 
-  cache = papers;
+  if (isProd) cache = papers;
   return papers;
 }

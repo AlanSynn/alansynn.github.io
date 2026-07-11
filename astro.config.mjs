@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import { typst } from 'astro-typst';
 import sitemap from '@astrojs/sitemap';
 import yaml from '@modyfi/vite-plugin-yaml';
+import { resolve } from 'node:path';
 
 // Alan Synn — academic homepage. Deploys to alansynn.com (root path).
 // https://astro.build/config
@@ -27,7 +28,24 @@ export default defineConfig({
   ],
 
   vite: {
-    plugins: [yaml()],
+    plugins: [
+      yaml(),
+      {
+        // Data files read via readFileSync (outside Vite's module graph) get no
+        // HMR, so editing them in dev does nothing until a manual server restart.
+        // Watch them and full-reload the browser; getPapers() skips its cache in
+        // dev so the reload re-reads the file. Extend `files` if more such
+        // sources appear. (content/*.yaml are imported → already hot-reload.)
+        name: 'reload-on-content-change',
+        configureServer(server) {
+          const files = [resolve(process.cwd(), 'content/papers.bib')];
+          for (const f of files) server.watcher.add(f);
+          server.watcher.on('change', (file) => {
+            if (files.includes(file)) server.ws.send({ type: 'full-reload' });
+          });
+        },
+      },
+    ],
     build: {
       cssCodeSplit: true,
       minify: 'esbuild',
