@@ -142,6 +142,7 @@
   year={2021},
   month={10},
   selected={true},
+  hidden={true},
   abstract={In training a deep learning model, it is crucial to tune various hyperparameters and gain speed and accuracy. Although the hyperparameters that mathematically affect the convergence significantly affect the training speed, the system parameters that affect the host-to-device data set transmission time also occupy a specific part in the overall time acceleration. Therefore, it is important to properly tune and select parameters that can affect the data loader as a system parameter in overall time acceleration. We propose an automated framework called Num Worker Tuner (NWT) to address this problem. This method finds the appropriate number of multi-processing subprocesses through the search space and accelerates the learning through the number of subprocesses. Furthermore, this method allows memory efficiency and speed-up by tuning the system-dependent parameter, the number of multi-process spawns.},
   organization={Korea Information Processing Society}
 }
@@ -191,6 +192,7 @@
   preview={/images/papers/synn2023distributed.png},
   selected={true},
   featured={false},
+  hidden={true},
   abstract={Deep learning models have been growing in size and complexity, requiring more computational resources for training. Distributed training has emerged as a solution to this challenge, allowing models to be trained across multiple devices. However, traditional distributed training approaches often face challenges related to memory constraints, especially when dealing with large batch sizes. In this paper, we propose a novel approach called Micro Batch Streaming (MBS) for distributed training of deep learning models. MBS addresses memory limitations by dividing large batches into smaller micro-batches and processing them sequentially while accumulating gradients. We evaluate our approach on various deep learning tasks and demonstrate its effectiveness in enabling distributed training with large batch sizes on memory-constrained systems. Our results show that MBS can achieve comparable or better performance than traditional distributed training methods while using less memory per device.},
   publisher={Korea Information Processing Society}
 }
