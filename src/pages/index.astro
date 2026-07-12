@@ -24,12 +24,12 @@ import { getWorkProjects } from '@/lib/projects';
 // One page = the whole CV. Scroll-only, no nav.
 // `demo` papers (the unpublished example page's fictional entry) never appear
 // in the live publications list — they're resolvable by citekey only.
-// `hidden` papers (non-first-author domestic venues) are web-only omissions:
-// they stay on the PDF resume/CV (complete formal record) but not the public
-// homepage list. See the per-entry flag docs atop content/papers.bib.
-const papers = getPapers().filter((p) => p.fields.demo !== 'true' && p.fields.hidden !== 'true');
-// Publications: flat reverse-chronological list (no featured subset / toggle) —
-// every paper shows, newest-first. `papers` is already year-desc from getPapers().
+// `hidden` papers collapse behind the homepage "All publications" toggle (still
+// on the PDF resume/CV — the complete formal record). `demo` is fully excluded.
+// See the per-entry flag docs atop content/papers.bib.
+const allPubs = getPapers().filter((p) => p.fields.demo !== 'true');
+const papers = allPubs.filter((p) => p.fields.hidden !== 'true'); // default-visible (international)
+const morePubs = allPubs.filter((p) => p.fields.hidden === 'true'); // behind the toggle
 
 // Projects = work/engineering only, sorted by year (newest first) via
 // getWorkProjects() — mirrors #publications. The year derives from each
@@ -104,6 +104,18 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     <div class="cpubs">
       {papers.map((p) => <CompactPub paper={p} />)}
     </div>
+    {
+      morePubs.length > 0 && (
+        <details class="all-pubs">
+          <summary>All publications ({morePubs.length} more)</summary>
+          <div class="cpubs">
+            {morePubs.map((p) => (
+              <CompactPub paper={p} />
+            ))}
+          </div>
+        </details>
+      )
+    }
   </section>
 
   <section id="education">
@@ -201,6 +213,25 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
       transform: scaleX(1);
       transition: none;
     }
+  }
+  .all-pubs {
+    margin-top: var(--space-5);
+  }
+  .all-pubs > summary {
+    list-style: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    color: var(--accent);
+    padding: var(--space-3) 0;
+    border-top: 1px solid var(--hairline);
+  }
+  .all-pubs > summary::-webkit-details-marker {
+    display: none;
+  }
+  .all-pubs[open] > summary {
+    border-bottom: 1px solid var(--hairline);
+    margin-bottom: var(--space-3);
   }
   @media (max-width: 640px) {
     .profile__portrait {
