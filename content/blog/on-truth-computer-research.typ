@@ -6,7 +6,7 @@
   title: "Same Computer Science, Different Senses of Reality",
   desc: "Computer-science subfields often disagree not because one is more rigorous, but because they protect different kinds of rigor: possibility, constraint, and principle.",
   date: "2026-04-04",
-  tags: ("research", "essay"),
+  tags: ("research-methodology",),
 )
 
 Computer science has many subfields, and they all look like “computer science” from far away. Up close, they do not always agree on what counts as a strong contribution. Some communities value new possibilities. Some value systems that survive real constraints. Some value precise statements that can be proved, falsified, or ruled out.

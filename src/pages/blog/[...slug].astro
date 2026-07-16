@@ -19,6 +19,13 @@ const fmt = (d: Date) =>
     day: 'numeric',
     timeZone: 'UTC',
   });
+// Chip text title-cases the kebab slug (participatory-design → "Participatory
+// Design") for display; the raw slug still drives the ?tag= link.
+const tagLabel = (t: string) =>
+  t
+    .split('-')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
 
 // Reply email obfuscation — same as Socials.astro (base64 halves, JS-decoded).
 const [mailUser, mailDomain] = site.email.split('@');
@@ -46,7 +53,7 @@ const replySubject = encodeURIComponent('Re: ' + post.data.title);
                 <span class="meta-tags">
                   {tags.map((t) => (
                     <a class="tag-chip" href={`/blog?tag=${encodeURIComponent(t)}`}>
-                      #{t}
+                      #{tagLabel(t)}
                     </a>
                   ))}
                 </span>

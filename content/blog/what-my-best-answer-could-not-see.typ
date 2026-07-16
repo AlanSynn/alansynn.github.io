@@ -6,7 +6,7 @@
   title: "What My Best Answer Could Not See",
   desc: "What Participatory Design taught me about uncertainty, care, and what even a well-reasoned answer can miss.",
   date: "2026-07-16",
-  tags: ("participatory-design", "reflection"),
+  tags: ("participatory-design",),
 )
 
 Among the many ways I understand myself, I have long seen myself as a system builder.
