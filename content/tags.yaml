@@ -1,0 +1,20 @@
+# ============================================================================
+# Blog tag registry. Every `tags:` value on a post (content/blog/*.typ
+# frontmatter) must appear in this list, or the build fails with a located
+# Zod error (src/content.config.ts → z.enum over these keys).
+#
+# Design:
+#   - Topic-only axis. One SUBJECT per tag — no format tags (essay /
+#     reflection / research-as-format), which are non-selective on a personal
+#     blog and only smear the filter bar. A format tag is allowed only if it
+#     stays selective (a small minority of posts), e.g. a future `tutorial`.
+#   - One tag per post (a second only when a post is genuinely
+#     intersectional); enforced by `.max(2)` in the schema.
+#   - Validation-only — this list is NOT the display source. The chip text is
+#     title-cased from the slug in the component, so keep entries as bare
+#     kebab-case slugs. Add a tag here first, then use it on a post.
+# ============================================================================
+- research-methodology
+- participatory-design
+- meta
+- typst

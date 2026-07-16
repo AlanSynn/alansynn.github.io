@@ -3,6 +3,23 @@
 import { glob } from 'astro/loaders';
 import { defineCollection } from 'astro:content';
 import { z } from 'astro/zod';
+import tagRegistry from '@content/tags.yaml';
+
+// Blog tag registry (content/tags.yaml): every `tags:` value on a post
+// (content/blog/*.typ) must appear in that list, or the build fails with a
+// located Zod error. Topic-only, kebab-case. Validated inline as a z.enum —
+// not a separate `enforceX` — because blog posts are parsed by THIS Astro
+// collection schema, not by src/lib/data.ts (which can't reach them:
+// getCollection is async, only callable in .astro frontmatter). Mirrors how
+// `category: z.enum(['work','research'])` already gates a closed vocabulary.
+// `.max(2)`: one topic tag per post; a second only when genuinely
+// intersectional. The empty-list guard keeps z.enum from crashing if the
+// registry is ever emptied (it requires ≥1 value).
+const tagIds = tagRegistry as string[];
+const tagSchema =
+  tagIds.length > 0
+    ? z.array(z.enum(tagIds as [string, ...string[]])).max(2)
+    : z.array(z.string()).max(2);
 
 const blog = defineCollection({
   loader: glob({ base: './content/blog', pattern: '**/*.typ' }),
@@ -12,7 +29,7 @@ const blog = defineCollection({
     description: z.any().optional(),
     date: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    tags: z.array(z.string()).optional(),
+    tags: tagSchema.optional(),
     draft: z.boolean().default(false),
   }),
 });
