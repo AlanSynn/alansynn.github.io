@@ -19,7 +19,10 @@ website + resume + CV + targeted variants**. Live at alansynn.com.
 Both renderers read it:
 
 - **Web** → Astro components (`src/components/`, `src/pages/`); structured YAML
-  + bib are imported through the single access point `src/lib/data.ts`.
+  + bib are imported through the single access point `src/lib/data.ts`
+  (exceptions: **blog posts** and the **tag registry** — Astro content-collection
+  entries / a direct `content.config.ts` import that bypass `data.ts`; see
+  Conventions).
 - **PDF** → Typst (`resume/typst/lib.typ`, the shared template; `resume.typ` /
   `cv.typ` are 5-line entry files).
 
@@ -70,14 +73,20 @@ entry.
   `content/*` (incl. `papers.bib`), run `just pdfs` and commit the regenerated
   PDFs alongside the source change so web and PDF stay in sync.
 - **Publications live in `content/papers.bib`** — one `@inproceedings`/
-  `@article` entry per paper, the single source for web + PDF. Two flags drive
+  `@article` entry per paper, the single source for web + PDF. Three flags drive
   visibility, and they mean different things — don't conflate them:
   - `selected` → the paper prints in the resume/CV PDF (`lib.typ` filters on it).
-  - `featured` → the paper surfaces at the TOP of the homepage `#publications`;
-    every non-featured entry folds under the "All publications" toggle. Web-only;
-    the PDF ignores it. A `featured` paper MUST also be `selected` —
-    `enforcePaperIntegrity` fails the build otherwise (a homepage-top paper must
-    appear in the CV).
+  - `featured` → the paper surfaces at the TOP of the homepage `#publications`
+    (top-placement within the default-visible set). Web-only; the PDF ignores
+    it. A `featured` paper MUST also be `selected` — `enforcePaperIntegrity`
+    fails the build otherwise (a homepage-top paper must appear in the CV).
+  - `hidden` → the paper collapses behind the homepage "All publications (N
+    more)" toggle — still on the page, just not default-visible. `index.astro`
+    splits `hidden !== 'true'` (default-visible) vs `hidden === 'true'` (behind
+    the toggle); `featured` only reorders within the default-visible set, it does
+    NOT drive the toggle. Web-only; the PDF ignores it. Semantics = "collapsed
+    by default," NOT "off the web" — use it for a paper you want in the CV
+    (`selected`) without cluttering the default homepage view.
   **When you add or edit an entry, fill EVERY applicable field** — `preview`
   (thumbnail image), `doi`, `pdf`, `code` (repo), `website` (project page),
   `video` (YouTube id or `/videos/<name>.mp4`), `abstract`. Hunt the values down
@@ -97,6 +106,9 @@ entry.
   type / missing field) **or an unknown key** fails the build loudly with a
   located error — a dead field can never silently do nothing (the failure mode
   that once left `tagline` / `skills.yaml` / `bibtex_show` edited-but-ignored).
+  (The **blog** collection and the **tag registry** are the exceptions — they're
+  Astro content-collection schemas in `src/content.config.ts`, not
+  `content-schema.ts`; see the Blog bullet.)
   The four career-timeline sections (education / experience / teaching /
   activities) share one entry model
   `{ period, title, location?, body, only?/except? }` and live together in
@@ -123,6 +135,50 @@ entry.
   word stub), markdown inline OK (`**bold**`, `_italic_`, `[label](url)`).
   Order events across separate items by date (e.g. CHI: a January "accepted"
   item and an April "presenting" item), don't merge them.
+- **Blog posts are Typst files in `content/blog/*.typ`.** Each `#import`s the
+  shared template `content/blog.typ` and calls
+  `main.with(title:, desc:, date:, tags:, draft:, author:)`. The template is the
+  single access point: it emits the Astro frontmatter via `#metadata(...)` AND
+  defines the semantic-HTML helpers (`blogimg` for co-located figures,
+  `blockquote`, `examples`, `hr`). Edit the `.typ`, not rendered HTML — same
+  `content/`-is-the-single-source invariant. Typst→HTML renders via
+  `astro-typst` (the `typst` integration targets html); prose CSS lives under
+  `.post`/`.prose` in `src/styles/components.css`. `/blog` (`blog.astro`): post
+  list sorted date-DESC, drafts excluded from the feed, tag filter chip bar +
+  client-side `?tag=` filtering (no-JS `<a href>` fallback). Post page
+  (`[...slug].astro`): two-column reading layout (TOC rail | prose), floating
+  scroll-spy TOC built client-side from rendered `<h2>`/`<h3>`, footnotes as
+  endnotes, obfuscated reply-by-email link, CC BY-NC-ND 4.0 license. A mathyml
+  prelude import (`#import "/src/3rd_party/mathyml/lib.typ"`) gives build-time
+  MathML (no client-side MathJax); `blogimg` `width` must be absolute `pt`
+  (relative `%` renders at 0). **`draft: true` excludes a post from the `/blog`
+  feed but STILL BUILDS it at its URL in production** (reachable, not promoted)
+  — NOT the same as a project `draft: true`, which filters the build entirely
+  (dev-only).
+- **Blog tags are a controlled vocabulary in `content/tags.yaml`.** Every
+  `tags:` value on a post must be a listed kebab-case slug or the build fails
+  with a located Zod error. Validated INLINE in `src/content.config.ts` as
+  `z.enum(tagIds).max(2)` — NOT a separate `enforceX` in `data.ts`, because blog
+  posts are parsed by the Astro collection schema and `getCollection` is async
+  (callable only in `.astro` frontmatter), so the module-init `enforceX`
+  chokepoint can't reach them. Mirrors the `category: z.enum(['work','research'])`
+  precedent. Taxonomy is **topic-only** — no format tags (essay/reflection):
+  on a personal blog nearly every post is essayistic, so format tags are
+  non-selective and only smear the filter bar (a format tag earns a place only
+  if it stays a small minority, e.g. a future `tutorial`). `.max(2)`: one topic
+  tag per post, a second only when genuinely intersectional. The registry is
+  **validation-only, not the display source** — chip text is title-cased from
+  the slug in-component (`tagLabel`); the raw slug still drives `data-tag` +
+  `?tag=` filtering, so don't put caps/spaces in slugs (breaks deep links) or
+  add a display-name field (dead field). Filter chips derive from PUBLISHED
+  posts only, so a draft's registered tags never surface as chips. Adding a tag
+  = add the bare slug to `tags.yaml` first, then use it on a post (two-file
+  discipline, same as `papers.bib` `abbr` ↔ `venues.yaml`).
+- **`/press` is served from a separate repo.** The `/press` links in
+  `Socials.astro` and `Base.astro` point to a page hosted elsewhere, not in
+  this repo — it is NOT a dead link, and the absence of a local `press.astro`
+  or redirect is by design. Don't "fix" it by removing the links or adding a
+  local page.
 - **Homepage work-project rows** (`WorkProjectRow.astro`) render each
   `category: work` project as a publication-style row that mirrors `CompactPub`
   (same thumb|body grid, hairline rhythm, token scale → height ≤ a publication
