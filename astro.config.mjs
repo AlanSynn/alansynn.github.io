@@ -20,7 +20,7 @@ export default defineConfig({
       // exclusion is path-based; the page also emits <meta robots noindex>
       // (MicrositeShell noindex prop) as a belt-and-suspenders guard. Today the
       // only unlisted page is the full-featured example/template.
-      filter: (page) => !page.includes('/projects/example-graphics'),
+      filter: (page) => !page.includes('/projects/example-graphics') && !page.endsWith('/rss.xml'),
     }),
     typst({
       target: () => 'html',

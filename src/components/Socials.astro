@@ -25,6 +25,19 @@ const socials = ((site.socials ?? []) as { label: string; url: string; icon: str
       </>
     ))
   }
+  {
+    /* Internal writing properties — same row, same-tab nav. Press is long-form
+      (books / articles / slides / PDFs, Typst-set); the tooltip preempts the
+      "press = press release" misread without renaming the section. */
+  }
+  <span class="contact-links__sep" aria-hidden="true"> · </span>
+  <a class="contact-links__item" href="/blog">Blog</a>
+  <span class="contact-links__sep" aria-hidden="true"> · </span>
+  <a
+    class="contact-links__item"
+    href="/press"
+    title="Long-form works — books, articles, slides and PDFs, typeset in Typst">Press</a
+  >
 </nav>
 <script is:inline>
   document.addEventListener('click', function (e) {
