@@ -37,27 +37,27 @@ const replySubject = encodeURIComponent('Re: ' + post.data.title);
         <header class="post-header">
           <h1>{post.data.title}</h1>
           <div class="post-meta">
-            <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
-            {post.data.author && <span>by {post.data.author}</span>}
-            {tags.length > 0 && <span>{tags.join(' · ')}</span>}
+            <span class="meta-core">
+              <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+              {post.data.author && <span>by {post.data.author}</span>}
+            </span>
+            {
+              tags.length > 0 && (
+                <span class="meta-tags">
+                  {tags.map((t) => (
+                    <a class="tag-chip" href={`/blog?tag=${encodeURIComponent(t)}`}>
+                      #{t}
+                    </a>
+                  ))}
+                </span>
+              )
+            }
           </div>
         </header>
 
         <div class="prose">
           <Content />
         </div>
-
-        {
-          tags.length > 0 && (
-            <ul class="tag-list">
-              {tags.map((t) => (
-                <li>
-                  <a href="/blog">#{t}</a>
-                </li>
-              ))}
-            </ul>
-          )
-        }
 
         <a class="back-link" href="/blog">← All posts</a>
 
@@ -75,7 +75,8 @@ const replySubject = encodeURIComponent('Re: ' + post.data.title);
 
         <p class="license-note">
           Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/"
-            >CC BY-NC-ND 4.0</a>
+            >CC BY-NC-ND 4.0</a
+          >
         </p>
       </div>
     </div>

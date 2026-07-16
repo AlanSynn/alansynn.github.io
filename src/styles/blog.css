@@ -29,6 +29,10 @@
   text-decoration: none;
 }
 .blog-list__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
   font-family: var(--font-mono);
   font-size: var(--step--2);
   color: var(--muted);

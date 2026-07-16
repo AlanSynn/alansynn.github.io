@@ -733,24 +733,9 @@ figcaption {
 }
 
 /* ==========================================================================
-   Tags
+   Tags  —  .tag-chip is the shared pill (post header meta + /blog filter bar)
    ========================================================================== */
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2);
-  list-style: none;
-  padding: 0;
-  margin: var(--space-2) 0 0;
-}
-/* <li> uses display:contents so the <a> is the real flex item — a list-item
-   flex child reserves an uneven marker line-box and the pills sit at different
-   heights. inline-flex + line-height:1 gives every pill a deterministic box. */
-.tag-list li {
-  display: contents;
-}
-.tag-list a {
+.tag-chip {
   display: inline-flex;
   align-items: center;
   font-family: var(--font-mono);
@@ -762,11 +747,63 @@ figcaption {
   border-radius: var(--radius-pill);
   background: var(--paper-sunken);
   border: 1px solid var(--hairline);
+  text-decoration: none;
+  transition:
+    color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    background var(--dur-fast) var(--ease);
 }
-.tag-list a:hover {
+.tag-chip:hover {
   color: var(--accent);
   border-color: var(--accent);
+}
+/* Active filter chip (set by the /blog client filter, and on hover). */
+.tag-chip.is-active {
+  color: var(--paper);
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Meta-line overflow helpers — shared by the post header (.post-meta) and the
+   /blog list rows (.blog-list__meta). `.meta-core` glues date·author on one
+   nowrap line; `.meta-tags` is a flex-wrap group of tag chips. Few tags →
+   reads inline with the meta; many tags → the parent flex-wrap drops the WHOLE
+   tag group to the next line, so date·author never split and tags wrap among
+   themselves. */
+.meta-core {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  gap: var(--space-3);
+  white-space: nowrap;
+}
+.meta-tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* /blog filter chip bar (sits above the post list). */
+.tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+.tag-filter__status {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  color: var(--muted);
+  margin-left: auto;
+}
+.tag-filter__status a {
+  color: var(--accent);
   text-decoration: none;
+}
+.tag-filter__status a:hover {
+  text-decoration: underline;
 }
 
 /* ==========================================================================
