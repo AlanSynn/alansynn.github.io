@@ -78,14 +78,19 @@
     show math.equation: try-to-mathml
     
 
-    // Footnotes
-    show: it => {
-      show footnote: it => context {
-        let num = counter(footnote).get().at(0)
-        link(label("footnote-" + str(num)), super(str(num)))
-      }
-      it
+    // Footnotes: the inline marker is an HTML anchor to #footnote-N (not a
+    // Typst link(label()) — that needs a real <footnote-N> label, which the
+    // endnote div below can't synthesize). The matching id lives on the div.
+    show footnote: it => context {
+      let num = counter(footnote).get().at(0)
+      html.elem("a", attrs: ("href": "#footnote-" + str(num)), super(str(num)))
     }
+    // Suppress Typst's NATIVE footnote entries — they would double-render
+    // alongside the manual query(footnote) endnote list below. Must live at
+    // this (document) scope, NOT nested in a `show: it =>` block: footnote
+    // entries are emitted at document finalize, outside the body content `it`,
+    // so a show rule nested inside `it` never reaches them.
+    show footnote.entry: none
 
 
     // Main body. (No inline outline — the floating scroll-spy TOC is built
@@ -109,7 +114,7 @@
         enum.item[
           #html.elem(
             "div",
-            attrs: ("data-typst-label": "footnote-" + str(idx + 1)),
+            attrs: ("id": "footnote-" + str(idx + 1)),
             it.body,
           )
         ]

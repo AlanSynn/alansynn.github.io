@@ -7,6 +7,9 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+// Every tag across published posts → the /blog filter chip bar. Sorted for a
+// stable reading order (data-derived; no manual ordering knob — see memory).
+const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 const fmt = (d: Date) =>
   d.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -26,23 +29,97 @@ const fmt = (d: Date) =>
       posts.length === 0 ? (
         <p class="empty-state">No posts yet - check back soon.</p>
       ) : (
-        <ul class="blog-list">
-          {posts.map((post) => (
-            <li>
-              <h3 class="blog-list__title">
-                <a href={`/blog/${post.id}`}>{post.data.title}</a>
-              </h3>
-              <div class="blog-list__meta">
-                <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
-                {post.data.author && <span> · {post.data.author}</span>}
-              </div>
-              {typeof post.data.description === 'string' && post.data.description && (
-                <p class="blog-list__desc">{post.data.description}</p>
-              )}
-            </li>
-          ))}
-        </ul>
+        <>
+          {allTags.length > 0 && (
+            <div class="tag-filter" id="tag-filter">
+              {allTags.map((t) => (
+                <a class="tag-chip" href={`/blog?tag=${encodeURIComponent(t)}`} data-tag={t}>
+                  #{t}
+                </a>
+              ))}
+              <span class="tag-filter__status" id="tag-filter-status" hidden />
+            </div>
+          )}
+          <ul class="blog-list" id="blog-list">
+            {posts.map((post) => (
+              <li data-tags={(post.data.tags ?? []).join(' ')}>
+                <h3 class="blog-list__title">
+                  <a href={`/blog/${post.id}`}>{post.data.title}</a>
+                </h3>
+                <div class="blog-list__meta">
+                  <span class="meta-core">
+                    <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+                    {post.data.author && <span> · {post.data.author}</span>}
+                  </span>
+                  {(post.data.tags ?? []).length > 0 && (
+                    <span class="meta-tags">
+                      {(post.data.tags ?? []).map((t) => (
+                        <a class="tag-chip" href={`/blog?tag=${encodeURIComponent(t)}`}>
+                          #{t}
+                        </a>
+                      ))}
+                    </span>
+                  )}
+                </div>
+                {typeof post.data.description === 'string' && post.data.description && (
+                  <p class="blog-list__desc">{post.data.description}</p>
+                )}
+              </li>
+            ))}
+          </ul>
+        </>
       )
     }
+    <script is:inline>
+      (function () {
+        var filter = document.getElementById('tag-filter');
+        var list = document.getElementById('blog-list');
+        var status = document.getElementById('tag-filter-status');
+        if (!filter || !list) return;
+        var items = Array.from(list.querySelectorAll(':scope > li'));
+        var chips = Array.from(filter.querySelectorAll('.tag-chip'));
+
+        function apply(tag) {
+          var shown = 0;
+          chips.forEach(function (c) {
+            c.classList.toggle('is-active', !!tag && c.dataset.tag === tag);
+          });
+          items.forEach(function (li) {
+            var tags = (li.dataset.tags || '').split(' ');
+            var match = !tag || tags.indexOf(tag) !== -1;
+            li.hidden = !match;
+            if (match) shown++;
+          });
+          if (status) {
+            if (tag) {
+              status.hidden = false;
+              status.innerHTML = shown + ' of ' + items.length + ' · <a href="/blog">clear</a>';
+            } else {
+              status.hidden = true;
+              status.textContent = '';
+            }
+          }
+        }
+
+        function setTag(tag) {
+          apply(tag);
+          var url = tag ? '/blog?tag=' + encodeURIComponent(tag) : '/blog';
+          history.replaceState(null, '', url);
+        }
+
+        // Restore from a shared deep link (/blog?tag=foo).
+        apply(new URLSearchParams(location.search).get('tag'));
+
+        // Click a chip → toggle that tag in-place (no full reload); the <a
+        // href is the no-JS fallback.
+        chips.forEach(function (c) {
+          c.addEventListener('click', function (e) {
+            e.preventDefault();
+            var next = c.classList.contains('is-active') ? null : c.dataset.tag;
+            setTag(next);
+          });
+        });
+      })();
+    </script>
   </Section>
 </Base>
