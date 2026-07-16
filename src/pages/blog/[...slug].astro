@@ -33,7 +33,18 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
 const replySubject = encodeURIComponent('Re: ' + post.data.title);
 ---
 
-<Base title={post.data.title} contained={false}>
+<Base
+  title={post.data.title}
+  description={post.data.description}
+  contained={false}
+  article={{
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.date.toISOString(),
+    dateModified: post.data.updatedDate?.toISOString(),
+    authorName: post.data.author,
+  }}
+>
   <article class="post">
     <div class="post-layout">
       <Toc />

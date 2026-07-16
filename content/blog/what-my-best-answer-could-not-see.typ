@@ -19,7 +19,7 @@ I wanted to be able to say: this is good, and that is bad.
 
 Participatory Design was not a single turning point for me. But after working on a few PD research projects, I began to notice that the world did not always fit so neatly into this way of thinking.
 
-== What PD made visible
+= What PD made visible
 
 Participatory Design, or PD, is a way of designing with the people who will live with the consequences of a system.
 
@@ -49,7 +49,7 @@ A good intention does not make a decision right. Yet I have become slower to red
 
 Before asking why someone failed to decide quickly, I try to ask what they were trying not to lose.
 
-== What my answer could not see
+= What my answer could not see
 
 Each time I worked on a PD project, I was struck by how many reasonable ways there were to understand the same situation.
 
@@ -77,7 +77,7 @@ My task was not always to lead everyone toward the answer I had already found.
 
 Sometimes my task was to ask what my answer had failed to see.
 
-== PD was not about producing agreement
+= PD was not about producing agreement
 
 This idea is not new to Participatory Design. A simple principle runs through its history:
 
@@ -105,7 +105,7 @@ When these conflicts appear, PD has not necessarily failed. It may mean that peo
 
 For me, PD is not a method for making everyone happy. It is a practice of trying not to erase people while making a decision.
 
-== “The least bad option” was too small a phrase
+= “The least bad option” was too small a phrase
 
 Eventually, a decision still has to be made. There may be no perfect answer, and every available option may create some kind of loss. We often describe such a decision as choosing the least bad option.
 
@@ -127,7 +127,7 @@ For me, PD is not primarily a way to select the least bad answer.
 
 It is a way to remember the people who remain after the answer has been chosen.
 
-== Learning to look a little longer
+= Learning to look a little longer
 
 I used to think that simplifying complexity was one of a researcher's most important jobs.
 
