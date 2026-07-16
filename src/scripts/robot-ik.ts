@@ -344,6 +344,8 @@ function init() {
   for (const k of Object.keys(lastSolves)) delete lastSolves[k];
   bootStart = 0; // re-ease --arm in on the fresh rig
   _lastArm = ''; // force a --arm rewrite for the new rig element
+  _dh = 0; // invalidate scrollHeight cache: a VT swap doesn't re-run this module,
+  _dhAt = 0; // so _dh would carry the prev page's height → rise()→0 → --arm eases to 0
   ptr.x = ptr.rx = innerWidth / 2; // pointer home reset sits with the other resets
   ptr.y = ptr.ry = innerHeight / 2; // (before the early-return) so a no-rigs page
   // doesn't leave a stale ptr from a prior instance.
