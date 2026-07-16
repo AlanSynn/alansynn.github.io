@@ -26,7 +26,11 @@ const blog = defineCollection({
   schema: z.object({
     title: z.string(),
     author: z.string().optional(),
-    description: z.any().optional(),
+    // Tightened from z.any(): the value is always a string (blog.typ's
+    // #metadata((description: desc)) emits the post's `desc:` arg). Any() let a
+    // non-string silently through; now a malformed value fails the build loudly.
+    // Also drives <meta name="description">, OG/Twitter, and the RSS <description>.
+    description: z.string().optional(),
     date: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     tags: tagSchema.optional(),

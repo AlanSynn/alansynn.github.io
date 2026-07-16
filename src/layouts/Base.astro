@@ -17,8 +17,21 @@ interface Props {
   /* present on academic paper pages → emit Google-Scholar citation_* meta and a
      ScholarlyArticle JSON-LD, and override OG/Twitter to the paper. */
   paper?: Paper;
+  /* present on blog posts → emit a BlogPosting JSON-LD (mirrors the paper
+     branch's shape: headline/author/dates/mainEntityOfPage) and set OG type to
+     'article'. Blog falls through to this; without it, a post page gets the
+     homepage's Person JSON-LD and a 'website' OG type. */
+  article?: ArticleMeta;
 }
-const { title, description, wide = false, contained = true, paper } = Astro.props;
+const { title, description, wide = false, contained = true, paper, article } = Astro.props;
+
+interface ArticleMeta {
+  headline: string;
+  description?: string;
+  datePublished?: string; // ISO 8601; Google's primary Article field
+  dateModified?: string; // ISO 8601; only when a post carries updatedDate
+  authorName?: string; // post author (defaults to site.name in the JSON-LD)
+}
 
 const pageTitle = title
   ? `${title} - ${site.short_name}`
@@ -44,7 +57,9 @@ const citeDate =
       ? String(paper.year)
       : undefined;
 
-// ScholarlyArticle for paper pages; Person for everything else.
+// ScholarlyArticle for paper pages; BlogPosting for blog posts; Person for
+// everything else. The three-branch keeps each page type's structured data
+// honest — a blog post is an Article, not a Person.
 const jsonld = paper
   ? JSON.stringify({
       '@context': 'https://schema.org',
@@ -71,23 +86,41 @@ const jsonld = paper
       ...(paper.venue ? { isPartOf: { '@type': 'PublicationEvent', name: paper.venue } } : {}),
       ...(paper.doi ? { sameAs: `https://doi.org/${paper.doi}` } : {}),
     })
-  : JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Person',
-      name: site.name,
-      jobTitle: site.title,
-      url: site.url,
-      image: `${site.url}/og.png`,
-      worksFor: { '@type': 'Organization', name: site.affiliation },
-      subjectOf: { '@type': 'WebSite', url: site.url },
-      sameAs,
-    });
+  : article
+    ? JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: article.headline,
+        description: article.description ?? desc,
+        author: {
+          '@type': 'Person',
+          name: article.authorName ?? site.name,
+          url: site.url,
+        },
+        // Personal blog → the publisher is the author (a Person), the schema-valid
+        // choice when there's no publishing org.
+        publisher: { '@type': 'Person', name: site.name, url: site.url },
+        mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+        ...(article.datePublished ? { datePublished: article.datePublished } : {}),
+        ...(article.dateModified ? { dateModified: article.dateModified } : {}),
+      })
+    : JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: site.name,
+        jobTitle: site.title,
+        url: site.url,
+        image: `${site.url}/og.png`,
+        worksFor: { '@type': 'Organization', name: site.affiliation },
+        subjectOf: { '@type': 'WebSite', url: site.url },
+        sameAs,
+      });
 
 // OG/Twitter: paper teaser (absolute) on paper pages, default og.png otherwise.
-const ogTitle = paper ? paper.title : pageTitle;
+const ogTitle = paper ? paper.title : (article?.headline ?? pageTitle);
 // Default social image = MotionSmith teaser (plan §3.10), not a generic portrait.
 const ogImage = abs(paper?.preview) ?? abs('/images/motionsmith/motionsmith-teaser.webp');
-const ogType = paper ? 'article' : 'website';
+const ogType = paper || article ? 'article' : 'website';
 ---
 
 <!doctype html>
@@ -108,11 +141,13 @@ const ogType = paper ? 'article' : 'website';
 
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={site.short_name} />
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={desc} />
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={desc} />
     <meta name="twitter:image" content={ogImage} />
 
     {/* Google-Scholar indexing (academic paper pages only). */}
