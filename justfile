@@ -96,7 +96,13 @@ web:
 # Build everything: web first, then default PDFs.
 build: web pdfs
 
+# Dev server (localhost:4321). Clears .astro first: Astro's content-collection
+# cache + astro-typst's compile cache (.astro/integrations/typst) both live
+# there and go stale on .typ edits / new posts — HMR doesn't reliably re-index
+# them, so a stale cache is why content sometimes won't show in dev. Clearing
+# guarantees dev reflects content. ~2-4s slower cold start; .astro regenerates.
 dev:
+    rm -rf .astro
     bun run dev
 
 # --- Misc ------------------------------------------------------------------
