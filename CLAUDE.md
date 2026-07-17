@@ -152,7 +152,12 @@ entry.
   prelude import (`#import "/src/3rd_party/mathyml/lib.typ"`) gives build-time
   MathML (no client-side MathJax); `blogimg` `width` must be absolute `pt`
   (relative `%` renders at 0). **`draft: true` excludes a post from the `/blog`
-  feed but STILL BUILDS it at its URL in production** (reachable, not promoted)
+  feed but STILL BUILDS it at its URL in production** (reachable, not promoted,
+  **not indexed**): `[...slug].astro` passes `noindex={post.data.draft}` → Base.astro
+  emits `<meta name="robots" content="noindex, nofollow">`, and `astro.config.mjs`
+  scans `content/blog/*.typ` at config load to drop every draft slug from the
+  sitemap (`blogDraftSlugs` — auto, no manual filter edit needed). So a draft's
+  `dateModified`/JSON-LD never leaks to crawlers. Parity with project `unlisted`.
   — NOT the same as a project `draft: true`, which filters the build entirely
   (dev-only).
 - **Blog tags are a controlled vocabulary in `content/tags.yaml`.** Every

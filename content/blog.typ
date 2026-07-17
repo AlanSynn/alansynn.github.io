@@ -58,11 +58,23 @@
   // schemas: a missing required field must never render as a stock string).
   assert(type(title) == str and title.trim() != "", message: "blog post requires a non-empty `title:`. Add it to #show: main.with(...).")
   assert(type(desc) == str and desc.trim() != "", message: "blog post requires a non-empty `desc:` (a one-line summary). Add it to #show: main.with(...).")
-  assert(type(date) == str and date.trim() != "", message: "blog post requires a `date:` (YYYY-MM-DD). Add it to #show: main.with(...).")
-  // Google's Article rich-result requires dateModified >= datePublished; catch a
-  // typo (an updatedDate earlier than the post date) at build time. ISO
-  // YYYY-MM-DD strings compare correctly lexicographically.
-  assert(updatedDate == none or updatedDate >= date, message: "updatedDate must be on or after date (dateModified >= datePublished).")
+  // Dates must be zero-padded YYYY-MM-DD: the updatedDate>=date compare below is
+  // lexicographic, which is only chronologically correct for that exact format.
+  // Without this guard a dropped leading zero (e.g. updatedDate:"2026-2-28" vs
+  // date:"2026-12-01") would sort BEFORE Dec and silently ship dateModified
+  // < datePublished — the very defect this assert exists to catch. Reject
+  // non-conforming values at the source so the error points here, not at a
+  // downstream Zod parse. Semantic validity (month/day range, leap years) is
+  // left to z.coerce.date() in content.config.ts as a second backstop.
+  // repr() (not str()) in the messages: assert args are evaluated eagerly even
+  // when the condition holds, and str(none) is itself a Typst error — so a
+  // post with no updatedDate would crash compiling the message, not failing the
+  // assert. repr() stringifies any value (none → "none", "2026-2-28" → that).
+  let iso = regex("^\\d{4}-\\d{2}-\\d{2}$")
+  assert(type(date) == str and date.matches(iso).len() > 0, message: "blog post `date:` must be YYYY-MM-DD (zero-padded, e.g. 2026-07-17). Got: " + repr(date) + ".")
+  assert(updatedDate == none or (type(updatedDate) == str and updatedDate.matches(iso).len() > 0), message: "blog post `updatedDate:` must be YYYY-MM-DD (zero-padded) or omitted. Got: " + repr(updatedDate) + ".")
+  // Now provably safe: both are zero-padded ISO strings → lex compare = chronological.
+  assert(updatedDate == none or updatedDate >= date, message: "updatedDate must be on or after date (dateModified >= datePublished per Google's Article spec).")
 
   show: it => {
 

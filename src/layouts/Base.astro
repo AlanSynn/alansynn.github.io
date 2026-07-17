@@ -22,8 +22,13 @@ interface Props {
      'article'. Blog falls through to this; without it, a post page gets the
      homepage's Person JSON-LD and a 'website' OG type. */
   article?: ArticleMeta;
+  /* emit <meta name="robots" content="noindex, nofollow">. Passed from
+     [...slug].astro as `post.data.draft` so reachable-but-unreleased draft posts
+     are never indexed — parity with project `unlisted` (MicrositeShell noindex).
+     The sitemap filter (astro.config.mjs) also drops draft URLs. */
+  noindex?: boolean;
 }
-const { title, description, wide = false, contained = true, paper, article } = Astro.props;
+const { title, description, wide = false, contained = true, paper, article, noindex } = Astro.props;
 
 interface ArticleMeta {
   headline: string;
@@ -186,6 +191,7 @@ const ogType = paper || article ? 'article' : 'website';
     }
 
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <ClientRouter />
     <script is:inline type="application/ld+json" set:html={jsonldSafe} />
 

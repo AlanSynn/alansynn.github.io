@@ -4,6 +4,22 @@ import { typst } from 'astro-typst';
 import sitemap from '@astrojs/sitemap';
 import yaml from '@modyfi/vite-plugin-yaml';
 import { resolve } from 'node:path';
+import { readdirSync, readFileSync } from 'node:fs';
+
+// Blog drafts (draft: true) build + are reachable by direct URL but must never
+// be indexed or advertised to crawlers — parity with project `unlisted`.
+// [...slug].astro → Base.astro's `noindex` prop emits <meta robots>; the sitemap
+// filter below also drops them. The filter sees only URL strings, so compute the
+// draft slugs once at config load by scanning the .typ sources (the draft flag
+// lives in the #show: main.with(...) header near the top of each file). Project
+// `unlisted` pages are excluded by hardcoded path instead (rare; one example).
+const blogDir = resolve(process.cwd(), 'content/blog');
+const blogDraftSlugs = readdirSync(blogDir)
+  .filter((f) => f.endsWith('.typ'))
+  .filter((f) =>
+    /^\s*draft:\s*true\b/m.test(readFileSync(resolve(blogDir, f), 'utf-8').slice(0, 800)),
+  )
+  .map((f) => f.slice(0, -'.typ'.length));
 
 // Alan Synn — academic homepage. Deploys to alansynn.com (root path).
 // https://astro.build/config
@@ -15,12 +31,18 @@ export default defineConfig({
     sitemap({
       changefreq: 'weekly',
       priority: 0.7,
-      // Unlisted pages build + are reachable by direct URL but must never be
-      // advertised to crawlers. The sitemap filter only sees URL strings, so the
-      // exclusion is path-based; the page also emits <meta robots noindex>
-      // (MicrositeShell noindex prop) as a belt-and-suspenders guard. Today the
-      // only unlisted page is the full-featured example/template.
-      filter: (page) => !page.includes('/projects/example-graphics') && !page.endsWith('/rss.xml'),
+      // Reachable-but-not-indexed pages (project `unlisted` + blog drafts) build
+      // and serve by direct URL but must never be advertised to crawlers. The
+      // filter sees only URL strings, so exclusions are path-based; each page
+      // ALSO emits <meta robots noindex> as a belt-and-suspenders guard
+      // (MicrositeShell `noindex` for unlisted projects, Base.astro `noindex`
+      // for draft posts). Two exclusion kinds: project `unlisted` → hardcoded
+      // path (rare; one example template); blog drafts → blogDraftSlugs, scanned
+      // at config load above, so adding a draft needs no manual filter edit.
+      filter: (page) =>
+        !page.includes('/projects/example-graphics') &&
+        !page.endsWith('/rss.xml') &&
+        !blogDraftSlugs.some((slug) => page.includes(`/blog/${slug}/`)),
     }),
     typst({
       target: () => 'html',
