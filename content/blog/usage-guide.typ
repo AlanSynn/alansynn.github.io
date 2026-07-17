@@ -11,6 +11,11 @@
   date: "2026-07-04",
   tags: ("meta", "typst"),
   draft: true,
+  // Demonstrates `updatedDate` (→ BlogPosting `dateModified` + RSS
+  // `<atom:updated>`). This is the maintained reference post, so it legitimately
+  // carries a revision date; it also exercises the template's `dateModified`
+  // branch end-to-end (Typst → frontmatter → Zod → JSON-LD).
+  updatedDate: "2026-07-17",
 )
 
 This is a reference post, not an essay. It exists to show how content on this
@@ -33,7 +38,7 @@ the title, description, date, and tags:
 
 #show: main.with(
   title: "Post title",
-  desc: [One-line description for the blog list.],
+  desc: "One-line description for the blog list.",
   date: "2026-07-04",
   tags: ("research",),
 )

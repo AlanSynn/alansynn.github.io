@@ -16,12 +16,22 @@ export async function blogFeedResponse(context: APIContext) {
     title: `${site.name} - Blog`,
     description: site.description,
     site: context.site ?? site.url,
+    // Declare atom so item `<atom:updated>` (below) is namespace-valid. RSS 2.0
+    // has no native "updated" element; the Atom namespace is the conventional
+    // way to carry a per-item last-modified date, mirroring the BlogPosting
+    // `dateModified` (and the source field name `updatedDate`).
+    xmlns: { atom: 'http://www.w3.org/2005/Atom' },
     items: posts.map((p) => ({
       title: p.data.title,
       pubDate: p.data.date,
       link: `/blog/${p.id}/`,
       description: p.data.description ? String(p.data.description) : undefined,
       categories: p.data.tags ?? [],
+      // `<atom:updated>` only when the post declares an updatedDate — same
+      // source→output coupling as date → pubDate above.
+      customData: p.data.updatedDate
+        ? `<atom:updated>${p.data.updatedDate.toISOString()}</atom:updated>`
+        : undefined,
     })),
   });
 }
