@@ -125,6 +125,14 @@ const jsonld = paper
         sameAs,
       });
 
+// Harden the JSON-LD against inline-script breakout: JSON.stringify escapes
+// quotes/backslashes but NOT `<`, so a paper title, venue, or author containing
+// `</script>` would terminate this <script> early. Replacing `<` with its JSON
+// unicode escape is the standard mitigation — JSON parsers still decode it to
+// `<`, but the HTML tokenizer sees no closing tag. (Paper/blog content is
+// first-party, but the hardening is cheap and removes the footgun for good.)
+const jsonldSafe = jsonld.replace(/</g, '\\u003c');
+
 // OG/Twitter: paper teaser (absolute) on paper pages; otherwise the site
 // default robot-composite og.png. Blog posts have no per-post image yet, so
 // they use the default too.
@@ -179,7 +187,7 @@ const ogType = paper || article ? 'article' : 'website';
 
     <link rel="canonical" href={canonical} />
     <ClientRouter />
-    <script is:inline type="application/ld+json" set:html={jsonld} />
+    <script is:inline type="application/ld+json" set:html={jsonldSafe} />
 
     <link
       rel="alternate"

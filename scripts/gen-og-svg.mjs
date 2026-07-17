@@ -169,8 +169,6 @@ const LEG_KNEE_POLES = [
   { dx: -18 * LEG_S, dy: 52 * LEG_S }, // leg0: standard fold
   { dx: -24 * LEG_S, dy: 46 * LEG_S }, // leg1: a touch more bend, different height
 ];
-const LEG_KNEE_POLE_DX = -18 * LEG_S; // knee bends LEFT (toward center)
-const LEG_KNEE_POLE_DY = 52 * LEG_S;
 
 // Forward kinematics in canvas space (scaled links) — verification geometry.
 function fkLeg(hip, hipA, kneeA, ankleA, l1, l2, lFoot) {

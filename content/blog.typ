@@ -42,27 +42,39 @@
 
 #let main(
   title: "Untitled",
-  desc: "This is a blog post.",
+  desc: none,
   date: "2025-06-08",
   tags: (),
   draft: false,
   body,
   author: "Alan Synn",
+  updatedDate: none,
 ) = {
+
+  // `desc` drives <meta description>, OG/Twitter, RSS, and the BlogPosting
+  // JSON-LD — a missing one silently leaks a placeholder into all of them. Fail
+  // the build loudly (same discipline as the strict content schemas: a missing
+  // required field must never render as a stock string).
+  assert(desc != none, message: "blog post requires `desc:` (a one-line summary). Add it to #show: main.with(...).")
 
   show: it => {
 
 
-    // Generate metadata for Astro content collections
+    // Generate metadata for Astro content collections. `updatedDate` is emitted
+    // only when set: emitting Typst `none` as YAML null would coerce to the Unix
+    // epoch under z.coerce.date(), so the key must be absent (not null) when
+    // unset. When set, it lights up the BlogPosting `dateModified` in Base.astro.
+    let frontmatter = (
+      title: title,
+      author: author,
+      description: desc,
+      date: date,
+      tags: tags,
+      draft: draft,
+    )
+    if updatedDate != none { frontmatter.insert("updatedDate", updatedDate) }
     [
-      #metadata((
-        title: title,
-        author: author,
-        description: desc,
-        date: date,
-        tags: tags,
-        draft: draft,
-      )) <frontmatter>
+      #metadata(frontmatter) <frontmatter>
     ]
 
     // set basic document metadata
