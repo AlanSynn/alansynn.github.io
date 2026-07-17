@@ -26,12 +26,14 @@ const blog = defineCollection({
   schema: z.object({
     title: z.string(),
     author: z.string().optional(),
-    // `description` (from blog.typ's `desc:` arg, emitted via #metadata). Always
-    // a string and REQUIRED — it drives <meta name="description">, OG/Twitter,
-    // the RSS <description>, and the BlogPosting JSON-LD. blog.typ's own assert
-    // already guarantees it is non-empty; the schema mirrors that (no optional
-    // fallback that could silently leak a placeholder into SEO/RSS).
-    description: z.string(),
+    // `description` (from blog.typ's `desc:` arg, emitted via #metadata). A
+    // REQUIRED non-empty (after trim) string — it drives <meta
+    // name="description">, OG/Twitter, the RSS <description>, and the
+    // BlogPosting JSON-LD. `.trim().min(1)` mirrors blog.typ's own
+    // `desc.trim() != ""` assert so both layers enforce the same thing: even a
+    // post that bypasses main.with and calls #metadata directly cannot leak an
+    // empty placeholder into SEO/RSS.
+    description: z.string().trim().min(1),
     date: z.coerce.date(),
     // Optional "last revised" date → BlogPosting `dateModified` (Base.astro) and
     // `<atom:updated>` (RSS). The z.preprocess null→undefined guard is

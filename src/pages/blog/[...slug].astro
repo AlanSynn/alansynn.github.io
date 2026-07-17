@@ -37,6 +37,7 @@ const replySubject = encodeURIComponent('Re: ' + post.data.title);
   title={post.data.title}
   description={post.data.description}
   contained={false}
+  noindex={post.data.draft}
   article={{
     headline: post.data.title,
     description: post.data.description,
