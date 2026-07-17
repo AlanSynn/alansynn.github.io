@@ -67,6 +67,10 @@ const jsonld = JSON.stringify({
   ...(paper.doi ? { sameAs: `https://doi.org/${paper.doi}` } : {}),
 });
 
+// Harden against inline-script breakout: see Base.astro (JSON.stringify skips
+// `<`, so a title/venue with `</script>` would close this <script> early).
+const jsonldSafe = jsonld.replace(/</g, '\\u003c');
+
 const ogImage = abs(paper.preview) ?? `${site.url}/og.png`;
 ---
 
@@ -81,6 +85,7 @@ const ogImage = abs(paper.preview) ?? `${site.url}/og.png`;
 
     <meta property="og:type" content="article" />
     <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={site.short_name} />
     <meta property="og:title" content={paper.title} />
     <meta property="og:description" content={desc} />
     <meta property="og:image" content={ogImage} />
@@ -132,7 +137,7 @@ const ogImage = abs(paper.preview) ?? `${site.url}/og.png`;
         }
       })();
     </script>
-    <script is:inline type="application/ld+json" set:html={jsonld} />
+    <script is:inline type="application/ld+json" set:html={jsonldSafe} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
