@@ -48,6 +48,12 @@ const sameAs = (site.socials ?? [])
 // field is ever absolute (e.g. an arXiv PDF).
 const abs = (u?: string | null) =>
   u ? (/^(https?:)?\/\//.test(u) ? u : `${site.url}${u}`) : undefined;
+// Site-default social image = the robot-motif composite (public/og.png,
+// rasterized from public/og.svg: arm rising bottom-left, legs hanging
+// top-right). Paper pages override with their own `preview`; project pages
+// carry their own image in MicrositeShell. Everything else — home, /blog,
+// /search, individual posts — falls back to this.
+const defaultOg = abs('/og.png');
 const canonical = new URL(Astro.url.pathname, site.url).href;
 // Scholar prefers YYYY/MM (or YYYY/MM/DD); fall back to bare year.
 const citeDate =
@@ -100,6 +106,9 @@ const jsonld = paper
         // Personal blog → the publisher is the author (a Person), the schema-valid
         // choice when there's no publishing org.
         publisher: { '@type': 'Person', name: site.name, url: site.url },
+        // Google's Article rich-result requires an image; posts have none of
+        // their own, so the site-default composite carries it.
+        image: defaultOg,
         mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
         ...(article.datePublished ? { datePublished: article.datePublished } : {}),
         ...(article.dateModified ? { dateModified: article.dateModified } : {}),
@@ -116,10 +125,11 @@ const jsonld = paper
         sameAs,
       });
 
-// OG/Twitter: paper teaser (absolute) on paper pages, default og.png otherwise.
+// OG/Twitter: paper teaser (absolute) on paper pages; otherwise the site
+// default robot-composite og.png. Blog posts have no per-post image yet, so
+// they use the default too.
 const ogTitle = paper ? paper.title : (article?.headline ?? pageTitle);
-// Default social image = MotionSmith teaser (plan §3.10), not a generic portrait.
-const ogImage = abs(paper?.preview) ?? abs('/images/motionsmith/motionsmith-teaser.webp');
+const ogImage = abs(paper?.preview) ?? defaultOg;
 const ogType = paper || article ? 'article' : 'website';
 ---
 
