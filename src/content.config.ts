@@ -26,13 +26,20 @@ const blog = defineCollection({
   schema: z.object({
     title: z.string(),
     author: z.string().optional(),
-    // Tightened from z.any(): the value is always a string (blog.typ's
-    // #metadata((description: desc)) emits the post's `desc:` arg). Any() let a
-    // non-string silently through; now a malformed value fails the build loudly.
-    // Also drives <meta name="description">, OG/Twitter, and the RSS <description>.
-    description: z.string().optional(),
+    // `description` (from blog.typ's `desc:` arg, emitted via #metadata). Always
+    // a string and REQUIRED — it drives <meta name="description">, OG/Twitter,
+    // the RSS <description>, and the BlogPosting JSON-LD. blog.typ's own assert
+    // already guarantees it is non-empty; the schema mirrors that (no optional
+    // fallback that could silently leak a placeholder into SEO/RSS).
+    description: z.string(),
     date: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
+    // Optional "last revised" date → BlogPosting `dateModified` (Base.astro) and
+    // `<atom:updated>` (RSS). The z.preprocess null→undefined guard is
+    // defense-in-depth: blog.typ emits the key only when set, but `z.coerce.date()`
+    // would otherwise turn an accidental `null` into the Unix epoch (1970-01-01)
+    // — `.optional()` allows undefined but NOT null, so a stray null must map to
+    // undefined rather than coerce to the epoch.
+    updatedDate: z.preprocess((v) => (v === null ? undefined : v), z.coerce.date()).optional(),
     tags: tagSchema.optional(),
     draft: z.boolean().default(false),
   }),

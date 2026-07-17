@@ -41,9 +41,9 @@
 }
 
 #let main(
-  title: "Untitled",
+  title: none,
   desc: none,
-  date: "2025-06-08",
+  date: none,
   tags: (),
   draft: false,
   body,
@@ -51,11 +51,18 @@
   updatedDate: none,
 ) = {
 
-  // `desc` drives <meta description>, OG/Twitter, RSS, and the BlogPosting
-  // JSON-LD — a missing one silently leaks a placeholder into all of them. Fail
-  // the build loudly (same discipline as the strict content schemas: a missing
-  // required field must never render as a stock string).
-  assert(desc != none, message: "blog post requires `desc:` (a one-line summary). Add it to #show: main.with(...).")
+  // Every post must declare its own title / desc / date — never fall through to
+  // a stock placeholder. `desc` drives <meta description>, OG/Twitter, RSS, and
+  // the BlogPosting JSON-LD, so a missing one silently leaks a placeholder into
+  // all of them. Fail the build loudly (same discipline as the strict content
+  // schemas: a missing required field must never render as a stock string).
+  assert(type(title) == str and title.trim() != "", message: "blog post requires a non-empty `title:`. Add it to #show: main.with(...).")
+  assert(type(desc) == str and desc.trim() != "", message: "blog post requires a non-empty `desc:` (a one-line summary). Add it to #show: main.with(...).")
+  assert(type(date) == str and date.trim() != "", message: "blog post requires a `date:` (YYYY-MM-DD). Add it to #show: main.with(...).")
+  // Google's Article rich-result requires dateModified >= datePublished; catch a
+  // typo (an updatedDate earlier than the post date) at build time. ISO
+  // YYYY-MM-DD strings compare correctly lexicographically.
+  assert(updatedDate == none or updatedDate >= date, message: "updatedDate must be on or after date (dateModified >= datePublished).")
 
   show: it => {
 
