@@ -6,7 +6,7 @@
 title: "When the Field Moves",
 desc: "What happens to researchers when the problems, tools, and skills that shaped their field begin to change?",
 date: "2026-08-12",
-tags: ("research", "ai", "research-methodology"),
+tags: ("research-methodology",),
 )
 
 I started my Ph.D. in the fall of 2022. ChatGPT was released before I finished my first semester.
