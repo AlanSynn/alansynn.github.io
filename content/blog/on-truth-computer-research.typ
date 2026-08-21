@@ -1,244 +1,838 @@
 #import "/content/blog.typ": *
-#import "/src/3rd_party/mathyml/lib.typ" as mathyml
-#import mathyml.prelude: *
 
 #show: main.with(
   title: "Same Computer Science, Different Senses of Reality",
   desc: "Computer-science subfields often disagree not because one is more rigorous, but because they protect different kinds of rigor: possibility, constraint, and principle.",
   date: "2026-04-04",
   tags: ("research-methodology",),
+  updatedDate: "2026-08-21",
 )
 
-Computer science has many subfields, and they all look like “computer science” from far away. Up close, they do not always agree on what counts as a strong contribution. Some communities value new possibilities. Some value systems that survive real constraints. Some value precise statements that can be proved, falsified, or ruled out.
+Computer science looks like one field from far away.
 
-The disagreement is not simply about method. It is about what each field learns to see first.
+Up close, it contains many research cultures.
 
-A systems researcher may first see workload, latency, locality, resource cost, and failure modes. An HCI researcher may first see interpretation, context, agency, appropriation, and sensemaking. A theory researcher may first see definitions, assumptions, quantifiers, counterexamples, and proof obligations. A graphics researcher may have to see all of these at once: representation, optimization, perception, interaction, and speed.
+A theory paper, a systems paper, a vision paper, an NLP paper, a graphics paper, and an HCI paper may all contain algorithms, experiments, datasets, and software. But they can disagree sharply about what makes a contribution convincing.
 
-This is why cross-field conversations can feel strange. People are often not disagreeing about whether rigor matters. They are disagreeing about where the rigor lives.
+The difference is not simply that they use different methods.
 
-A useful map has three corners.
+They learn to see different things first.
 
-- *Possibility-centered research*: research that reveals a new interaction, behavior, capability, phenomenon, or design space.
-- *Constraint-centered research*: research that makes a system work under hardware, runtime, workload, resource, failure, and deployment constraints.
-- *Principle-centered research*: research that formalizes a problem and establishes a guarantee, lower bound, impossibility result, convergence condition, or falsifiable hypothesis.
+A systems researcher may first see workload, latency, locality, resource cost, and failure modes. An HCI researcher may first see interpretation, context, agency, appropriation, and sensemaking. A theory researcher may first see definitions, assumptions, quantifiers, counterexamples, and proof obligations. A graphics researcher may have to see representation, optimization, perception, interaction, and speed at the same time.
 
-This is not a taxonomy. Most good work moves between these corners. The point is not to put fields into boxes. The point is to name the default question a field tends to ask first.
+Computer vision, NLP, machine learning, visualization, robotics, programming languages, and other areas develop their own versions of this research vocabulary.
 
-= Possibility-centered research: “What becomes possible?”
+So before asking which field is “more rigorous,” it helps to ask a simpler question:
 
-Parts of HCI, design tools, creative AI, visualization, and interactive graphics often begin from possibility. The object of study may be a new interaction, a new workflow, an unexpected behavior, or a phenomenon that existing framings do not yet explain well.
+#blockquote[
+What does this field learn to notice first?
+]
 
-Typical sentences sound like this.
+That question explains a surprising amount about how computer scientists write papers, evaluate evidence, criticize one another, and sometimes talk past one another.
+
+= A rough map of computer science research cultures
+
+This is not an official taxonomy.
+
+Fields overlap. Individual papers move between communities. A single researcher may work in several modes.
+
+The goal is simpler: recognize what different fields tend to treat as the important object, the important question, and the important failure.
+
+Each field below is folded; open the ones you want to read.
+
+#fold("Theory and algorithms")[
+  Theory begins with a precisely stated problem.
+
+  Typical sentences sound like:
+
+  #examples(
+    "“We prove a lower bound.”",
+    "“We show correctness under the following assumptions.”",
+    "“We characterize the identifiability condition.”",
+    "“This problem admits no polynomial-time approximation unless...”",
+    "“We provide a convergence guarantee.”",
+  )
+
+  The important words are *definition, assumption, proof, correctness, optimality, lower bound, impossibility, convergence, identifiability, tightness,* and *counterexample*.
+
+  The first questions are often:
+
+  #examples(
+    "“What exactly is the problem?”",
+    "“What are the quantifiers?”",
+    "“Which assumptions are necessary?”",
+    "“Is the theorem strong enough for the claim?”",
+    "“Is there a counterexample?”",
+    "“Is the bound tight?”",
+  )
+
+  Here, abstraction is not something that comes after the “real” problem.
+
+  The abstraction is part of the real work.
+
+  A theorem separates the conditions under which a statement is true from the conditions under which it is not. That is why one counterexample can matter so much. If the paper makes a universal claim, one valid counterexample can break it.
+
+  The most serious failure is therefore a broken claim: an unstated assumption, a theorem that does not imply what the paper says it implies, or a counterexample that invalidates the statement.
+]
+
+#fold("Programming languages and formal methods")[
+  Programming languages and formal methods share some of the culture of theory, but their central objects are often programs, languages, type systems, semantics, specifications, and verification procedures.
+
+  Characteristic questions are:
+
+  #examples(
+    "“What property does the type system guarantee?”",
+    "“Is the transformation semantics-preserving?”",
+    "“Under which assumptions is the program correct?”",
+    "“Can this invariant be maintained?”",
+    "“What class of programs can the analysis verify?”",
+  )
+
+  Important words include *soundness, completeness, semantics, specification, invariant, type safety, correctness,* and *verification*.
+
+  A working implementation can be useful evidence, but it is not the same as a guarantee.
+
+  If a type system claims to rule out a class of errors, the important question is whether the formal result actually establishes that property.
+
+  The field protects the relationship between specification and guarantee.
+]
+
+#fold("Systems, architecture, databases, and networking")[
+  Systems research sees computation through resources and constraints.
+
+  Typical sentences sound like:
+
+  #examples(
+    "“The abstraction hides locality.”",
+    "“The system lacks a mechanism for efficient scheduling.”",
+    "“This design fails to expose parallelism.”",
+    "“Tail latency is dominated by coordination overhead.”",
+    "“The assumption does not hold at scale.”",
+  )
+
+  Important words include *lack, hide, expose, overhead, bottleneck, locality, throughput, latency, tail latency, scalability, robustness, utilization, cost model,* and *failure mode*.
+
+  The first questions are often:
+
+  #examples(
+    "“What is the cost model?”",
+    "“Which workload is this claim about?”",
+    "“What happens at the tail?”",
+    "“What is the failure mode?”",
+    "“Does the result survive scale, contention, heterogeneity, and deployment?”",
+    "“Was the bottleneck removed, or moved somewhere else?”",
+  )
+
+  A systems critique tries to locate the missing mechanism, hidden cost, unstated assumption, or bottleneck.
+
+  The instinct is simple:
+
+  #blockquote[
+  Hidden complexity returns. Ignored cost returns. A clean abstraction still has to meet the machine, the workload, and the deployment environment.
+  ]
+
+  This is also why the word *lack* sounds completely normal in systems writing.
+
+  #blockquote[
+  “The design lacks locality awareness.”
+  ]
+
+  The sentence is usually technical rather than moral. It means that the abstraction fails to expose some relevant resource structure, and that omission creates a cost under a particular workload or scale.
+
+  The basic reasoning often looks like:
+
+  #blockquote[
+  abstraction → hidden cost → bottleneck → measurement → redesign
+  ]
+
+  A strong systems claim therefore tends to have a boundary.
+
+  Under workload W, on system S, with metric M, the design improves X.
+
+  Without the workload, machine, scale, and metric, “faster” or “more efficient” means very little.
+]
+
+#fold("Machine learning")[
+  Machine learning usually studies a learned model rather than a completely hand-specified mechanism.
+
+  That changes the language of the field.
+
+  Important words include *accuracy, generalization, robustness, calibration, sample efficiency, benchmark score, inference cost, scaling behavior,* and *distribution shift*.
+
+  Common questions include:
+
+  #examples(
+    "“Does the model generalize?”",
+    "“How robust is the result?”",
+    "“Does the improvement hold across datasets?”",
+    "“What happens under distribution shift?”",
+    "“How does performance change with data, model size, or compute?”",
+  )
+
+  A model can fit its training distribution extremely well and still fail to support a stronger claim about generalization.
+
+  Likewise, a benchmark improvement is not automatically evidence that the model learned the structure researchers intended it to learn.
+
+  The improvement might depend on dataset artifacts, optimization choices, scale, leakage, or a shortcut that happens to work on the benchmark.
+
+  This gives machine learning an interesting position.
+
+  Its evidence is often empirical, but many of its desired claims are broader:
+
+  #blockquote[
+  Does the learned behavior persist beyond the examples we happened to test?
+  ]
+
+  That question connects machine learning to both constraint-centered and principle-centered research.
+]
+
+#fold("Computer vision")[
+  Computer vision inherits much of machine learning’s empirical culture, but its objects are specifically visual.
+
+  Images, video, scenes, geometry, objects, motion, correspondence, reconstruction, and visual representation all matter.
+
+  Different vision problems therefore develop different meanings of success.
+
+  In recognition, researchers may ask whether a method correctly detects, classifies, or segments objects.
+
+  In reconstruction and geometry, they may ask whether the recovered structure matches the observed scene.
+
+  In tracking, they care about correspondence across time.
+
+  In neural rendering, they may care about novel-view quality, geometry, speed, and robustness together.
+
+  Characteristic questions sound like:
+
+  #examples(
+    "“Does the method generalize to unseen scenes?”",
+    "“How robust is it to occlusion?”",
+    "“What happens under viewpoint or illumination changes?”",
+    "“Does the representation preserve fine geometric detail?”",
+    "“How well does the reconstruction explain the observed images?”",
+  )
+
+  A single number rarely describes all of these properties.
+
+  A method can score well on one benchmark while producing poor geometry.
+
+  It can reconstruct the training views well while failing at novel views.
+
+  It can work on carefully captured scenes while becoming unstable under motion, occlusion, or lighting changes.
+
+  So computer vision repeatedly asks whether the representation captures the visual structure the paper claims it captures.
+]
+
+#fold("Natural language processing")[
+  NLP inherits much of the model-centric culture of machine learning, but language introduces another layer of difficulty.
+
+  The object may be classification, translation, retrieval, summarization, generation, factuality, reasoning, dialogue, or meaning itself.
+
+  Those are not interchangeable objectives.
+
+  Typical questions include:
+
+  #examples(
+    "“Does the improvement transfer across domains?”",
+    "“Does the model preserve meaning?”",
+    "“How factual are the generated responses?”",
+    "“Does performance hold on out-of-distribution examples?”",
+    "“Is the model actually using the intended linguistic information?”",
+  )
+
+  A response can be fluent but wrong.
+
+  A model can obtain the correct answer while exploiting a shortcut.
+
+  A benchmark score can improve while behavior on a different domain becomes worse.
+
+  And two responses can communicate essentially the same information while differing substantially at the token level.
+
+  NLP therefore often has to separate questions that initially look like one:
+
+  #examples(
+    "Is the language fluent?",
+    "Is the content correct?",
+    "Is the behavior robust?",
+    "Is meaning preserved?",
+    "Is the model using the evidence we think it is using?",
+  )
+
+  Large language models make these distinctions particularly visible, but the underlying tension is older than LLMs.
+
+  Language quality is not a single variable.
+]
+
+#fold("Graphics")[
+  Graphics is a particularly interesting case because several research cultures coexist inside one field.
+
+  What counts as “working” depends heavily on what kind of graphics problem is being solved.
+
+  === Rendering and graphics systems
+
+  Rendering systems often sound like systems research:
+
+  #examples(
+    "“Can this run interactively?”",
+    "“What is the memory/performance tradeoff?”",
+    "“Does it scale to complex scenes?”",
+  )
+
+  Frame rate, latency, memory, bandwidth, approximation, image quality, and scene complexity can all matter.
+
+  A method that produces an excellent image in ten minutes and one that produces a slightly worse image in sixteen milliseconds may be solving different problems.
+
+  So raw visual quality is not enough.
+
+  The operating regime matters.
+
+  === Geometry processing
+
+  Geometry processing often sounds closer to formalization:
+
+  #examples(
+    "“Is the representation well-defined?”",
+    "“Does the optimization converge?”",
+    "“What invariants are preserved?”",
+  )
+
+  Here, the representation itself may be the main contribution.
+
+  Topology, discretization, numerical stability, deformation behavior, physical constraints, and robustness across shapes may all matter.
+
+  A method can generate visually attractive examples while still failing because it does not preserve the property it claims to preserve.
+
+  === Interactive and creative graphics
+
+  Interactive graphics and creative tools often sound closer to HCI:
+
+  #examples(
+    "“Does this enable new workflows?”",
+    "“Can artists control the result?”",
+    "“Does the representation support exploration?”",
+  )
+
+  Now speed alone is insufficient.
+
+  The method may need to expose the right parameters. It may need to respond quickly enough for human-in-the-loop exploration. The output may need to be editable rather than merely realistic.
+
+  So in graphics, “works” can mean many things:
+
+  - it renders quickly;
+  - it is visually plausible;
+  - it has few artifacts;
+  - it preserves the right invariants;
+  - it gives users control;
+  - it satisfies physical constraints;
+  - it is robust across shapes, scenes, and materials;
+  - it enables a new creative workflow.
+
+  Graphics is used to asking several kinds of truth to coexist in one artifact.
+]
+
+#fold("HCI and design research")[
+  HCI begins from a different object.
+
+  The system matters, but so do people, interpretation, practice, context, and use.
+
+  Typical sentences sound like:
+
+  #examples(
+    "“We explore...”",
+    "“We surface...”",
+    "“We unpack...”",
+    "“We open up...”",
+    "“This suggests design opportunities...”",
+    "“The findings are situated...”",
+  )
+
+  To someone trained in systems or theory, this language can initially sound vague.
+
+  But it usually signals a different type of contribution.
+
+  The field may not yet have a closed objective to optimize. The research may instead be trying to make a phenomenon, practice, tension, or design possibility visible.
+
+  “Situated” is therefore an important word.
+
+  It does not mean “not rigorous.”
+
+  It means that the result should be read together with the participants, artifact, practice, context, and use conditions that give the observation meaning.
+
+  The characteristic questions are closer to:
+
+  #examples(
+    "“What does this make possible?”",
+    "“What new behavior or interaction does it reveal?”",
+    "“What design space does it open?”",
+    "“What phenomenon does the existing vocabulary fail to explain?”",
+  )
+
+  The serious failures also sound different.
+
+  The problem may be that the work repeats a known framing in different words.
+
+  The artifact may not actually reveal a new design space.
+
+  The analysis may flatten the complexity of people, practice, or context.
+
+  Or the evidence may support a situated observation while the paper makes a much broader claim.
+
+  HCI rigor often lives in careful interpretation and careful claim scope.
+]
+
+#fold("Visualization")[
+  Visualization sits between graphics, HCI, perception, and data analysis.
+
+  Its central object is not simply an image.
+
+  It is a representation intended to help someone see, compare, reason about, or interact with data.
+
+  Characteristic questions include:
+
+  #examples(
+    "“Does the representation make the relevant structure visible?”",
+    "“Can people accurately perform the intended analytical task?”",
+    "“How does the visual encoding affect interpretation?”",
+    "“Does the interaction support comparison and exploration?”",
+  )
+
+  A visualization can render perfectly and still fail.
+
+  The encoding may make an important comparison difficult.
+
+  The interaction may encourage the wrong interpretation.
+
+  An evaluation may optimize task completion time while missing the reasoning process that motivated the visualization in the first place.
+
+  Visualization therefore makes the difference between computational performance and human performance particularly obvious.
+]
+
+#fold("Robotics")[
+  Robotics brings another kind of reality into computer science: the physical world.
+
+  Its objects include perception, state estimation, planning, control, dynamics, contact, uncertainty, embodiment, and real-time execution.
+
+  Characteristic questions include:
+
+  #examples(
+    "“Does the controller remain stable under perturbations?”",
+    "“Does the policy transfer from simulation to the real robot?”",
+    "“Can the system recover from perception or control errors?”",
+    "“Does the planner satisfy the physical constraints?”",
+    "“Can the robot repeat the task outside the demonstration environment?”",
+  )
+
+  Robotics combines several research cultures.
+
+  Perception may look like computer vision.
+
+  Learning may look like machine learning.
+
+  Planning may look like algorithms.
+
+  Control may rely on mathematical guarantees.
+
+  Real-time execution looks like systems.
+
+  Human-robot interaction can look like HCI.
+
+  And eventually the physical robot gets a vote.
+
+  A method can work perfectly in simulation and fail because of friction, sensing noise, calibration, latency, unmodeled contact, or a slightly different environment.
+
+  So robustness in robotics is not an abstract preference.
+
+  It is often the difference between a method that works in a figure and one that works in the world.
+]
+
+= Three recurring orientations
+
+Once the fields are introduced separately, a broader pattern becomes visible.
+
+Three questions appear again and again.
+
+They are not fields.
+
+They are orientations that different fields move between.
+
+== Possibility-centered research
+
+The first question is:
+
+#blockquote[
+“What becomes possible?”
+]
+
+This orientation appears strongly in HCI, design research, interactive graphics, visualization, creative tools, and exploratory AI work.
+
+The research may reveal a new interaction, workflow, behavior, phenomenon, or design space.
+
+Typical language includes:
 
 #examples(
-  "“We explore a new interaction paradigm.”",
-  "“This system opens up a new design space.”",
-  "“We surface tensions in how people use AI tools.”",
-  "“The behavior cannot be fully explained by existing framings.”",
+  "“We explore...”",
+  "“We surface...”",
+  "“We open up...”",
+  "“This suggests design opportunities...”",
 )
 
-Important words here include *explore, open up, surface, situated, design space, interpretation, appropriation, sensemaking,* and *agency*.
+The contribution is generative.
 
-In this culture, ambiguity is not always a defect. Sometimes ambiguity is the phenomenon. The contribution may be to show that people interpret a tool in different ways, appropriate it for their own context, or invent workflows that the designers did not anticipate.
+It makes something newly visible or newly doable.
 
-That does not mean “anything goes.” A possibility-centered contribution still needs discipline. It should make clear what is newly visible, what evidence supports that claim, and what boundary the claim has. But the first question is often generative:
+That does not mean anything goes.
 
-#examples(
-  "“What does this make possible that was hard to see before?”",
-  "“What new behavior or interaction does it reveal?”",
-  "“What design space does it open?”",
-  "“What phenomenon does the existing vocabulary fail to explain?”",
-)
+A possibility-centered contribution still has to make clear what is newly visible, what evidence supports it, and where the claim ends.
 
-A fatal failure here is not usually that the system is not yet optimal or not yet deployable. The more serious failure is that there is no new phenomenon.
+But it does not always begin with a closed objective.
 
-#examples(
-  "“There is no new behavior.”",
-  "“The work repeats a known framing in different words.”",
-  "“The artifact does not reveal a new design space.”",
-  "“The analysis flattens the complexity of people, practice, or context.”",
-)
+Sometimes the first contribution is making the phenomenon legible enough that later work can measure, formalize, optimize, or deploy it.
 
-This is also why early HCI or design-tool work may not start with a fully closed, falsifiable hypothesis. It may start by making a phenomenon legible enough that later work can turn it into one.
+== Constraint-centered research
 
-= Constraint-centered research: “Where is the real bottleneck?”
+The second question is:
 
-Systems, operating systems, architecture, databases, distributed systems, and networking often begin from constraint. Reality appears as hardware, resources, workloads, tail behavior, runtime effects, failure modes, and deployment conditions.
+#blockquote[
+“What survives real conditions?”
+]
 
-Typical sentences sound like this.
+This orientation appears strongly in systems, architecture, networking, databases, robotics, rendering systems, and ML systems.
+
+The relevant reality may be:
+
+- hardware;
+- runtime;
+- workload;
+- latency;
+- memory;
+- scale;
+- noise;
+- contention;
+- failures;
+- deployment;
+- physical dynamics.
+
+Typical language includes:
 
 #examples(
   "“The abstraction hides locality.”",
-  "“The system lacks a mechanism for efficient scheduling.”",
-  "“This design fails to expose parallelism.”",
-  "“Tail latency is dominated by coordination overhead.”",
+  "“This design introduces overhead.”",
   "“The assumption does not hold at scale.”",
-)
-
-Important words here include *lack, hide, expose, overhead, bottleneck, locality, throughput, latency, tail latency, scalability, robustness, utilization, cost model,* and *failure mode*.
-
-In systems and architecture, the word *lack* is usually technical, not moral. For example:
-
-#blockquote[
-“The design lacks locality awareness.”
-]
-
-This usually means something like:
-
-#blockquote[
-“The abstraction does not expose enough of the underlying resource structure, so a hidden cost appears under a particular workload or scale.”
-]
-
-A systems critique often tries to locate the missing mechanism, hidden cost, unstated assumption, or bottleneck. The underlying instinct is simple:
-
-#blockquote[
-Hidden complexity returns. Ignored cost returns. A clean abstraction still has to meet the machine, the workload, and the deployment environment.
-]
-
-So constraint-centered researchers ask questions like:
-
-#examples(
-  "“What is the cost model?”",
-  "“Which workload is this claim about?”",
+  "“What is the bottleneck?”",
   "“What happens at the tail?”",
-  "“What is the failure mode?”",
-  "“Does the result survive scale, contention, heterogeneity, and deployment?”",
-  "“Was the bottleneck removed, or moved somewhere else?”",
 )
 
-A fatal failure here is not lack of imagination. It is a claim that does not survive the conditions it gestures toward.
+The contribution has to survive the conditions it gestures toward.
+
+An elegant mechanism that only works after excluding the dominant real-world cost may not support the claim being made.
+
+== Principle-centered research
+
+The third question is:
+
+#blockquote[
+“What can be stated generally, proved, bounded, or falsified?”
+]
+
+This orientation appears strongly in theory, algorithms, formal methods, programming languages, optimization, and parts of geometry and learning theory.
+
+Typical language includes:
 
 #examples(
-  "“The bottleneck is not identified.”",
-  "“The measurement does not support the claim.”",
-  "“The assumption breaks under scale.”",
-  "“The workload is too narrow for the stated claim.”",
-  "“The system removes one cost by hiding another.”",
-)
-
-In this culture, a strong claim is often a falsifiable claim: under workload W, on system S, with metric M, the design improves X or exposes why X is impossible under the stated constraints.
-
-= Principle-centered research: “What can be said in general?”
-
-Algorithms, complexity, cryptography, formal methods, and programming language theory often begin from principle. The abstraction is not a simplification that comes after the real work. It is part of the real work. The question is whether the problem is defined precisely enough that a claim can be proved, disproved, bounded, or falsified.
-
-Typical sentences sound like this.
-
-#examples(
-  "“We prove a lower bound.”",
-  "“We show correctness under the following assumptions.”",
-  "“We characterize the identifiability condition.”",
-  "“This problem admits no polynomial-time approximation unless...”",
-  "“We provide a convergence guarantee.”",
-)
-
-Important words here include *definition, assumption, proof, correctness, optimality, lower bound, impossibility, convergence, identifiability, formal characterization, tightness,* and *counterexample*.
-
-In this culture, the most fatal failure is a broken claim. A system working on several benchmarks may be useful, but it does not prove a universal statement. If the paper writes a universal claim, a single counterexample can be enough to break it.
-
-Principle-centered researchers therefore look first at questions such as:
-
-#examples(
-  "“What exactly is the problem?”",
-  "“What are the quantifiers?”",
-  "“Which assumptions are necessary?”",
-  "“Is the theorem strong enough for the claim?”",
-  "“Is the guarantee proved?”",
+  "“We prove...”",
+  "“Under the following assumptions...”",
+  "“We provide a guarantee...”",
   "“Is there a counterexample?”",
   "“Is the bound tight?”",
 )
 
-A fatal failure here is usually:
+The contribution protects the relationship between claim and implication.
 
-#examples(
-  "“The definition is vague.”",
-  "“The claim is stronger than the proof.”",
-  "“An assumption is missing.”",
-  "“The result does not imply the stated claim.”",
-  "“There is a counterexample.”",
-)
+Definitions matter because changing the definition can change the theorem.
 
-This is not indifference to practice. It is a different way of protecting truth: separate the claim from the implementation, state the conditions, then see what follows.
+Assumptions matter because removing one may break the result.
 
-= Same word, different meaning: performance
+Counterexamples matter because they reveal the boundary of a universal statement.
 
-A major source of misunderstanding is that different fields reuse the same words. *Performance* is the easiest example. Everyone says performance, but not everyone means the same thing.
+= The triangle is a conversation map, not a taxonomy
 
-In systems and architecture, performance often means:
+These orientations are easiest to remember as a triangle:
 
-- throughput
-- latency
-- tail latency
-- memory footprint
-- bandwidth
-- cache behavior
-- utilization
-- energy efficiency
-- scalability
-
-Here, performance is mainly about *how efficiently resources are used under a workload*.
-
-In HCI, performance can include task completion time and error rate, but it often also includes:
-
-- user control
-- learnability
-- cognitive load
-- trust calibration
-- expressiveness
-- agency
-- workflow fit
-- interpretability
-- collaboration quality
-- appropriation
-
-Here, performance is not only “did the person finish faster?” It may be closer to: did the system help people understand, decide, coordinate, express, and act in ways that matter for their goals?
-
-In graphics, performance often combines computational and perceptual criteria.
-
-- frame rate
-- interactivity
-- convergence speed
-- visual fidelity
-- perceptual plausibility
-- artifact reduction
-- controllability
-- physical plausibility
-- robustness across shapes, scenes, and materials
-
-In theory, performance is usually not empirical runtime alone. It may be expressed as:
-
-- asymptotic complexity
-- approximation ratio
-- sample complexity
-- regret bound
-- convergence rate
-- optimality gap
-
-In AI/ML, performance may mean:
-
-- accuracy
-- generalization
-- robustness
-- calibration
-- sample efficiency
-- benchmark score
-- inference cost
-- scaling behavior
-- capability under distribution shift
-- alignment with human preference
-
-So “the performance is good” is not yet a complete statement. The useful question is:
+*Possibility*
 
 #blockquote[
-Performance by whose standard? On what task, workload, context, and metric? Is the claim about speed, quality, control, reliability, generalization, or human outcome?
+What becomes possible?
 ]
 
-The same point applies to many other words: *robust, scalable, usable, interpretable, interactive, optimal, realistic,* and *general*. These are not self-explanatory across fields. They need a claim boundary.
+*Constraint*
+
+#blockquote[
+What survives real conditions?
+]
+
+*Principle*
+
+#blockquote[
+What can be stated generally, proved, bounded, or falsified?
+]
+
+But fields should not be placed permanently into corners.
+
+A better description is that different fields often *start* closer to different questions.
+
+Theory and formal methods often start near principle.
+
+Systems and architecture often start near constraint.
+
+HCI and design research often start near possibility.
+
+But most interesting fields move.
+
+Graphics moves constantly among representation, computation, perception, interaction, and constraints.
+
+Robotics moves among learning, formal control, physical constraints, and human interaction.
+
+Machine learning moves between empirical possibility, scaling constraints, and questions about generalization.
+
+Vision moves between learned representations, geometry, perceptual evidence, robustness, and computational constraints.
+
+NLP moves between empirical capability, linguistic interpretation, generalization, evaluation, and human use.
+
+Visualization moves between representation, perception, interaction, and analytical goals.
+
+The triangle is therefore not a taxonomy of computer science.
+
+It is a map for understanding what question a piece of research is asking *right now*.
+
+A project may begin by showing a possibility:
+
+#blockquote[
+“This interaction is possible.”
+]
+
+Then it encounters constraints:
+
+#blockquote[
+“How does it behave under latency, cost, failure, robustness, and deployment constraints?”
+]
+
+Then it may become more principled:
+
+#blockquote[
+“What is the mechanism? When does it fail? Under which assumptions can we guarantee something?”
+]
+
+The direction can also go the other way.
+
+A theorem may suggest a representation.
+
+A new representation may enable a system.
+
+A system may make a new interaction possible.
+
+Research moves around the triangle.
+
+= The same word can mean different things
+
+Once fields protect different kinds of claims, even ordinary technical words become unstable.
+
+The easiest example is *performance*.
+
+Everyone talks about performance.
+
+They do not necessarily mean the same thing.
+
+#fold("Performance in systems")[
+  In systems and architecture, performance often means:
+
+  - throughput;
+  - latency;
+  - tail latency;
+  - memory footprint;
+  - bandwidth;
+  - cache behavior;
+  - utilization;
+  - energy efficiency;
+  - scalability.
+
+  The question is usually:
+
+  #blockquote[
+  How efficiently are resources used under a particular workload?
+  ]
+
+  The workload matters.
+
+  The hardware matters.
+
+  The operating conditions matter.
+
+  A throughput number with no workload is barely a claim.
+]
+
+#fold("Performance in machine learning")[
+  In machine learning, performance may mean:
+
+  - accuracy;
+  - loss;
+  - generalization;
+  - robustness;
+  - calibration;
+  - sample efficiency;
+  - benchmark score;
+  - inference cost;
+  - scaling behavior;
+  - capability under distribution shift.
+
+  A high benchmark score may be useful, but the stronger question is often whether the behavior survives beyond that benchmark.
+]
+
+#fold("Performance in computer vision")[
+  Vision adds visual and geometric criteria.
+
+  Depending on the task, performance may refer to:
+
+  - recognition accuracy;
+  - detection quality;
+  - segmentation quality;
+  - reconstruction error;
+  - geometric fidelity;
+  - novel-view quality;
+  - robustness to occlusion;
+  - robustness to viewpoint or illumination;
+  - runtime.
+
+  A method can therefore improve one notion of performance while making another worse.
+]
+
+#fold("Performance in NLP")[
+  NLP may care about:
+
+  - task accuracy;
+  - generation quality;
+  - factuality;
+  - calibration;
+  - transfer;
+  - robustness;
+  - semantic preservation;
+  - human preference;
+  - inference cost.
+
+  Fluency is one property.
+
+  Correctness is another.
+
+  Factuality is another.
+
+  They should not be collapsed into a single notion of “good language.”
+]
+
+#fold("Performance in HCI")[
+  HCI can include task completion time and error rate, but it often also cares about:
+
+  - user control;
+  - learnability;
+  - cognitive load;
+  - trust calibration;
+  - expressiveness;
+  - agency;
+  - workflow fit;
+  - interpretability;
+  - collaboration quality;
+  - appropriation.
+
+  The relevant question may not be:
+
+  #blockquote[
+  Did the person finish faster?
+  ]
+
+  It may instead be:
+
+  #blockquote[
+  Did the system help people understand, decide, coordinate, express, and act in ways that matter for their goals?
+  ]
+]
+
+#fold("Performance in visualization")[
+  Visualization can inherit both computational and human criteria.
+
+  A visualization may need to render quickly, but it may also need to help people compare values, detect structure, understand uncertainty, or maintain context during exploration.
+
+  A faster visualization is not necessarily a better visualization if its representation makes the intended analytical task harder.
+]
+
+#fold("Performance in graphics")[
+  Graphics often combines computational and perceptual criteria:
+
+  - frame rate;
+  - interactivity;
+  - convergence speed;
+  - visual fidelity;
+  - perceptual plausibility;
+  - artifact reduction;
+  - controllability;
+  - physical plausibility;
+  - robustness across shapes, scenes, and materials.
+
+  “Interactive” is particularly interesting.
+
+  It is partly computational, but it is also human.
+
+  Interactive means responsive enough for a person to remain in the loop.
+]
+
+#fold("Performance in robotics")[
+  Robotics adds physical execution:
+
+  - task success;
+  - tracking or control error;
+  - robustness;
+  - stability;
+  - planning time;
+  - recovery from disturbances;
+  - real-time execution;
+  - transfer from simulation;
+  - repeatability in the physical world.
+
+  A policy with high success in simulation may still have poor real-world performance.
+]
+
+#fold("Performance in theory")[
+  In theory, performance may instead be expressed as:
+
+  - asymptotic complexity;
+  - approximation ratio;
+  - sample complexity;
+  - regret bound;
+  - convergence rate;
+  - optimality gap.
+
+  Here, “performance” may describe what can be guaranteed for an entire class of problems rather than what happened during one experimental run.
+]
+
+So the sentence
+
+#blockquote[
+“The performance is good.”
+]
+
+is almost content-free.
+
+The useful question is:
+
+#blockquote[
+Performance by whose standard? On what task, workload, context, and metric? Is the claim about speed, quality, control, reliability, generalization, perception, or human outcome?
+]
+
+The same applies to words such as *robust, scalable, usable, interpretable, interactive, optimal, realistic,* and *general*.
+
+These words need a claim boundary.
 
 = Why “lack” sounds different across fields
 
-In systems and architecture, “lack” is a normal technical word.
+Another useful example is the word *lack*.
+
+In systems and architecture, *lack* is often a normal technical description.
 
 #examples(
   "“This abstraction lacks locality awareness.”",
@@ -246,17 +840,23 @@ In systems and architecture, “lack” is a normal technical word.
   "“The system lacks backpressure.”",
 )
 
-These sentences point to a missing mechanism. The missing mechanism then explains overhead, bottlenecks, instability, or underutilization.
+The sentence points to a missing mechanism.
 
-In HCI and design-oriented writing, “lack” is more delicate, especially when the subject is a person, user, community, or practice.
+The missing mechanism then explains a bottleneck, overhead, instability, or underutilization.
+
+But consider:
 
 #blockquote[
 “Users lack understanding.”
 ]
 
-This can sound like deficit framing: the problem is placed inside the user. HCI often tries to move the analysis toward the relation between people, representations, tools, and context.
+In HCI, this sentence is much more delicate.
 
-More careful versions might be:
+It puts the problem inside the user.
+
+The analysis can often become more precise by moving from a deficit in the person to a relationship among the person, representation, interface, feedback, and context.
+
+For example:
 
 #examples(
   "“Users developed different mental models.”",
@@ -265,287 +865,84 @@ More careful versions might be:
   "“Current designs do not yet support this form of sensemaking.”",
 )
 
-The difference is not cosmetic. It changes where the research looks for the problem. Instead of treating users as deficient, it asks how the interaction, representation, feedback, and context shape interpretation.
+The difference is not cosmetic.
 
-This is why the same critique often needs translation.
+It changes where the research looks for the problem.
 
-A systems-style sentence:
+A systems researcher may look for the missing mechanism in an abstraction.
 
-#blockquote[
-“The design lacks a clear cost model.”
-]
+An HCI researcher may look for the relation among representation, interaction, interpretation, and context.
 
-A more collaborative version:
+The same grammatical pattern can therefore imply very different theories of what went wrong.
 
-#blockquote[
-“The paper would be stronger if it made the operating conditions and tradeoffs explicit.”
-]
+= Why fields talk past one another
 
-A blunt sentence:
+The difficulty becomes clearer if we compare what different researchers may notice first.
 
-#blockquote[
-“The evaluation is weak.”
-]
+A systems researcher may first notice:
 
-A more precise version:
+- workload;
+- scalability;
+- tail behavior;
+- resource cost;
+- failure mode;
+- deployment condition;
+- measurement rigor.
 
-#blockquote[
-“The evaluation supports the exploratory claim, but not yet the stronger claim about scalability, robustness, or generality.”
-]
+An HCI researcher may first notice:
 
-A blunt sentence:
+- situated context;
+- interpretation;
+- agency;
+- appropriation;
+- qualitative difference;
+- social meaning;
+- open-ended interaction.
 
-#blockquote[
-“There are too many assumptions.”
-]
+A theory researcher may first notice:
 
-A more useful version:
+- definitions;
+- assumptions;
+- quantifiers;
+- proof obligations;
+- counterexamples;
+- guarantees.
 
-#blockquote[
-“The claim boundary would be clearer if the paper distinguished essential assumptions from prototype-specific design choices.”
-]
+A vision researcher may first notice:
 
-Good translation should not remove the critique. It should make the critique actionable.
+- representation;
+- geometry;
+- visual evidence;
+- generalization;
+- occlusion;
+- viewpoint.
 
-= How to read sentences from different fields
+An NLP researcher may first notice:
 
-== Reading systems / architecture sentences
+- linguistic signal;
+- semantic preservation;
+- transfer;
+- factuality;
+- robustness;
+- evaluation.
 
-Systems and architecture writing can sound cold because it often names deficits directly.
+A robotics researcher may first notice:
 
-#examples(
-  "“X hides Y.”",
-  "“X fails to exploit Y.”",
-  "“X lacks Z.”",
-  "“X introduces overhead.”",
-  "“X does not scale.”",
-)
+- sensing;
+- uncertainty;
+- dynamics;
+- closed-loop behavior;
+- physical failure.
 
-But the usual meaning is more specific:
+A graphics researcher may need to notice representation, optimization, perception, interaction, and speed all at once.
 
-#blockquote[
-“The abstraction does not represent some real resource structure, so a measurable cost appears under a particular workload, scale, or deployment condition.”
-]
+These are not merely different methods.
 
-This is not usually a claim that the idea has no value. It is often a request for a sharper claim boundary.
+They are different senses of where a claim is most likely to break.
 
-The basic form of systems critique is:
+== A systems sentence heard by HCI
 
-#blockquote[
-abstraction → hidden cost → bottleneck → measurement → redesign
-]
-
-So when a systems researcher asks, “Is this realistic?” the intended question is often:
-
-#blockquote[
-“Under what operating conditions does this idea survive?”
-]
-
-== Reading HCI / design sentences
-
-HCI and design research can sound soft or under-specified from a systems perspective.
-
-#examples(
-  "“We explore...”",
-  "“We surface...”",
-  "“We unpack...”",
-  "“We open up...”",
-  "“This suggests design opportunities...”",
-  "“The findings are situated...”",
-)
-
-But these phrases usually mean:
-
-#blockquote[
-“The field does not yet have a closed objective to optimize, so this work makes a phenomenon, practice, or design possibility visible.”
-]
-
-Here, “situated” does not mean “not rigorous.” It means:
-
-#blockquote[
-“The result should be read together with the context, practice, participants, artifact, and use conditions that give it meaning.”
-]
-
-The basic form of HCI critique is:
-
-#blockquote[
-artifact / interaction → human interpretation → situated behavior → design implication
-]
-
-So when an HCI researcher says an evaluation is “too narrow,” the point is often not that measurement is bad. It is that the chosen measurement may have removed the human variability that matters.
-
-#blockquote[
-“When the phenomenon is reduced to a convenient metric, the thing we cared about may disappear.”
-]
-
-== Reading theory / formal methods sentences
-
-Theory and formal-methods writing can seem far from implementation.
-
-#examples(
-  "“Assume an oracle...”",
-  "“Under mild regularity conditions...”",
-  "“We prove a lower bound...”",
-  "“This is impossible in the worst case...”",
-)
-
-But these phrases usually mean:
-
-#blockquote[
-“To make a general claim, we need to state the abstraction, the assumptions, and the proof obligations precisely.”
-]
-
-The basic form of theory critique is:
-
-#blockquote[
-definition → assumption → theorem → proof → counterexample / tightness
-]
-
-So when a theory researcher says “the claim is not formal,” the point is often:
-
-#blockquote[
-“The paper has not separated the conditions under which the claim is true from the conditions under which it breaks.”
-]
-
-== Reading graphics sentences
-
-Graphics is often a translation-heavy field. Different parts of graphics inherit different standards of evidence.
-
-Rendering systems are close to systems:
-
-#examples(
-  "“Can this run interactively?”",
-  "“What is the memory/performance tradeoff?”",
-  "“Does it scale to complex scenes?”",
-)
-
-Geometry processing is close to formalization:
-
-#examples(
-  "“Is the representation well-defined?”",
-  "“Does the optimization converge?”",
-  "“What invariants are preserved?”",
-)
-
-Interactive graphics and creative tools are close to HCI:
-
-#examples(
-  "“Does this enable new workflows?”",
-  "“Can artists control the result?”",
-  "“Does the representation support exploration?”",
-)
-
-In graphics, “works” can mean many things:
-
-- it renders quickly;
-- it is visually plausible;
-- it has few artifacts;
-- it preserves the right invariants;
-- it gives users control;
-- it satisfies physical constraints;
-- it is robust across shapes, scenes, and materials;
-- it enables a new creative workflow.
-
-This is why graphics papers often combine theorem, optimization, engineering, perception, interaction, and aesthetic judgment. The field is used to asking several kinds of truth to coexist in one artifact.
-
-= The triangle is not a taxonomy; it is a conversation map
-
-The three orientations are easier to remember as a triangle.
-
-#figure(
-  html.frame(
-    block(fill: rgb("eef2f6"), inset: 0pt, width: 460pt, radius: 4pt)[
-      #box(width: 460pt, height: 6.2cm)[
-        #polygon(
-          fill: rgb("ffffff"),
-          stroke: 1pt + rgb("9fb0c2"),
-          (50%, 12%), (9%, 84%), (91%, 84%),
-        )
-        #place(center + top, dy: 10pt)[#align(center)[
-          #text(weight: "bold", size: 10.5pt, fill: rgb("1d4e89"))[Principle-centered]\
-          #text(size: 8.5pt, fill: rgb("5a6b7a"))[formalization · guarantee]
-        ]]
-        #place(left + bottom, dx: 8%, dy: -8pt)[#align(left)[
-          #text(weight: "bold", size: 10.5pt, fill: rgb("1d4e89"))[Possibility-centered]\
-          #text(size: 8.5pt, fill: rgb("5a6b7a"))[exploration · design space]
-        ]]
-        #place(right + bottom, dx: -8%, dy: -8pt)[#align(right)[
-          #text(weight: "bold", size: 10.5pt, fill: rgb("1d4e89"))[Constraint-centered]\
-          #text(size: 8.5pt, fill: rgb("5a6b7a"))[optimization · systems reality]
-        ]]
-      ]
-    ]
-  ),
-  caption: [A conversation map for research orientations. The corners are not boxes. They are questions that fields tend to ask first.],
-)
-
-Possibility-centered research asks:
-
-#blockquote[
-“What becomes possible?”
-]
-
-Constraint-centered research asks:
-
-#blockquote[
-“What survives real conditions?”
-]
-
-Principle-centered research asks:
-
-#blockquote[
-“What can be stated generally, proved, bounded, or falsified?”
-]
-
-These questions do not replace one another. Strong research often moves through them.
-
-It may start by showing a possibility:
-
-#blockquote[
-“This interaction is possible.”
-]
-
-Then it meets constraints:
-
-#blockquote[
-“How does this behave under latency, cost, failure, robustness, and deployment constraints?”
-]
-
-Then it becomes more principled:
-
-#blockquote[
-“What is the mechanism? When does it fail? What is the falsifiable hypothesis? Under which assumptions can we guarantee something?”
-]
-
-Many research areas follow this cycle: AI, graphics, robotics, programming systems, and HCI tools all move between prototype, measurement, and principle.
-
-= Why systems and HCI often collide
-
-Systems and HCI collide often because they see different realities first.
-
-Systems tends to see constraints and invariants:
-
-- workload
-- scalability
-- tail behavior
-- resource cost
-- failure mode
-- deployment condition
-- measurement rigor
-
-HCI tends to see possibility and human variability:
-
-- situated context
-- interpretation
-- agency
-- appropriation
-- qualitative difference
-- social meaning
-- open-ended interaction
-
-So the same sentence can land very differently.
-
-When a systems researcher says:
+A systems researcher may say:
 
 #blockquote[
 “The assumption is unrealistic.”
@@ -563,7 +960,15 @@ But an HCI researcher may hear:
 “Are you saying the exploration itself is invalid?”
 ]
 
-Conversely, when an HCI researcher says:
+Those are different claims.
+
+The systems researcher may be asking what conditions the idea survives.
+
+The HCI researcher may think the exploratory contribution is being dismissed before deployment is even the point.
+
+== An HCI sentence heard by systems
+
+An HCI researcher may say:
 
 #blockquote[
 “The findings are situated and open up a design space.”
@@ -575,244 +980,304 @@ The intended meaning is often:
 “We are articulating a phenomenon and a set of design possibilities before optimizing a closed objective.”
 ]
 
-But a systems researcher may still ask:
+A systems researcher may still ask:
 
 #blockquote[
 “What exactly improved, and under what conditions does it work?”
 ]
 
-Both questions are legitimate. The conflict appears when each side treats its own first question as the only serious question.
+Again, both questions are legitimate.
 
-= Fatal failures differ by field
+They simply protect different parts of the claim.
 
-Each field has things that are especially hard to recover from.
+The conflict appears when either side treats its own first question as the only serious one.
 
-In possibility-centered research, the fatal failure is absence of novelty.
+= What breaks a contribution also differs by field
 
-#blockquote[
-If there is no new behavior, no new design space, no new phenomenon, and no change to the existing framing, the contribution is weak.
+Another way to understand research cultures is to ask what kind of failure is especially damaging.
+
+#fold("Theory")[
+  A counterexample can break a universal claim.
+
+  A missing assumption can invalidate a theorem.
+
+  A proof that establishes a weaker property than the paper claims is a central problem.
+
+  The contribution lives or dies by the relationship among definition, assumption, theorem, and implication.
 ]
 
-In constraint-centered research, the fatal failure is failing to meet the relevant constraint.
+#fold("Programming languages and formal methods")[
+  A claimed safety or correctness property that the formal system does not actually guarantee is a central failure.
 
-#blockquote[
-If the bottleneck is unclear, the measurements are not convincing, the workload is mismatched, or the claim collapses at scale, the contribution is weak.
+  The implementation may look convincing, but it cannot substitute for the formal property if the contribution is stated as a guarantee.
 ]
 
-In principle-centered research, the fatal failure is a broken claim.
+#fold("Systems")[
+  A systems claim becomes weak when the bottleneck is unclear, the workload does not match the claim, the measurements do not isolate the relevant mechanism, or the design removes one cost by hiding another.
 
-#blockquote[
-If there is a counterexample, if the theorem does not support the claim, or if an assumption is missing, the contribution is weak.
+  A system that “scales” only after excluding the difficult part of the workload has not necessarily supported a scalability claim.
 ]
 
-In HCI, a fatal failure may be a mismatch between claim and evidence: a study that claims generality from a situated probe, or a design argument that ignores participant interpretation.
+#fold("Machine learning")[
+  A benchmark gain becomes weak evidence when it disappears across seeds, datasets, distributions, or reasonable evaluation choices.
 
-In graphics, a fatal failure may be a mismatch between the promised property and the artifact: a “real-time” method that does not feel interactive, a “physically plausible” model that breaks perceptually, or a representation that cannot support the edits users need.
+  A model may also support a prediction claim without supporting a stronger explanation about what it learned.
 
-So the useful cross-field question is not “which field is more rigorous?” The useful question is:
-
-#blockquote[
-What kind of rigor is this field protecting, and what kind of claim would break under that standard?
+  The claim boundary matters.
 ]
 
-Systems rigor often lives in measurement, cost models, and constraints.
+#fold("Computer vision")[
+  A method may perform well on a benchmark while failing under viewpoint changes, occlusion, unseen scenes, or different capture conditions.
 
-HCI rigor often lives in context, interpretation, construct validity, and careful claim scope.
+  A visually appealing reconstruction may still have incorrect geometry.
 
-Theory rigor often lives in definitions, assumptions, proofs, and counterexamples.
+  A representation that explains training views may fail at novel views.
 
-Graphics rigor often lives in the alignment between representation, computation, perception, control, and physical or visual plausibility.
-
-= Collaboration does not require abandoning rigor
-
-Interdisciplinary collaboration does not require people to soften their standards until nothing sharp remains. It requires the opposite: keep the standard, but translate it into a form the other field can use.
-
-When a systems researcher reads an HCI paper, a useful question is:
-
-#blockquote[
-“This may not be a deployment claim yet. What possibility, behavior, or design space does it reveal?”
+  The important failure depends on what the paper promised.
 ]
 
-When an HCI researcher hears a systems critique, a useful interpretation is:
+#fold("NLP")[
+  A fluent answer can be factually wrong.
 
-#blockquote[
-“This may not be trying to close down exploration. It may be asking for the claim boundary, cost model, workload, and operating conditions.”
+  A model can solve a benchmark through a shortcut.
+
+  A method can improve one metric without preserving meaning.
+
+  An evaluation can therefore look convincing while missing the behavior the paper actually claims to improve.
 ]
 
-When a theory researcher reads an empirical paper, a useful question is:
+#fold("Graphics")[
+  A graphics contribution often breaks when the promised property and the artifact do not align.
 
-#blockquote[
-“This may not provide a formal guarantee. What phenomenon, invariant, or falsifiable hypothesis might be worth formalizing?”
+  A “real-time” method that does not feel interactive has a problem.
+
+  A “physically plausible” model that fails perceptually has a problem.
+
+  A representation for editing that does not expose useful control has a problem.
+
+  A visually impressive method that fails across ordinary shapes, materials, or scenes may have a robustness problem.
+
+  Graphics papers often promise several properties simultaneously, which is why their evaluations can become unusually heterogeneous.
 ]
 
-When a graphics researcher reads across these fields, the translation often has to happen inside a single artifact:
+#fold("HCI")[
+  A serious HCI problem is often a mismatch between claim and evidence.
 
-- as HCI, the artifact opens an interaction or design space;
-- as systems, it encounters latency, memory, scalability, and deployment constraints;
-- as theory, it implies a representation, optimization problem, or guarantee;
-- as graphics, it must also satisfy perceptual, physical, and interactive criteria.
+  A situated probe cannot automatically support a universal claim.
 
-One important skill in modern CS is therefore code-switching. The same idea may need to be described as *situated use* in HCI, as a *cost model* in systems, as *assumptions and guarantees* in theory, as *representation and perceptual quality* in graphics, and as *generalization under distribution shift* in AI/ML.
+  A design argument can become weak if it ignores how participants interpreted or appropriated the artifact.
 
-Cross-field conflict usually does not come from ignorance or bad faith. More often, it comes from different people seeing different parts of the problem first.
+  An exploratory system can also fail to reveal anything meaningfully new.
 
-One side asks:
+  The important question is not whether the study looks like a systems benchmark.
 
-#blockquote[
-“What does this make possible?”
+  It is whether the evidence actually supports the type of HCI claim being made.
 ]
 
-Another asks:
+#fold("Visualization")[
+  A visualization can fail because its representation does not support the analytical task it claims to support.
 
-#blockquote[
-“Does this hold under real conditions?”
+  A controlled study can also be too narrow if the experimental task removes the reasoning behavior that motivated the design.
+
+  The computational system may work perfectly while the representation fails as a tool for thinking.
 ]
 
-Another asks:
+#fold("Robotics")[
+  Robotics exposes fragile claims quickly.
 
-#blockquote[
-“Can we state this generally?”
+  A method that succeeds only in simulation may not support a real-world robotics claim.
+
+  A controller that works only with precise initialization may not be robust.
+
+  A system that cannot recover from small sensing or control errors may fail once it leaves a carefully prepared demonstration.
+
+  The physical world continually tests the assumptions hidden in the model.
 ]
 
-Good collaboration does not begin by forcing one question to win. It begins by knowing which question is needed now.
+= Translating critique across fields
 
-= A cross-field translation table
+Interdisciplinary collaboration does not require people to weaken their standards.
 
-#table(
-  columns: (1.1fr, 1.6fr, 2.4fr, 2.1fr),
-  inset: 6pt,
-  stroke: 0.5pt + luma(210),
-  table.header[*Field*, *Common expression*, *Actual meaning*, *How it may be misunderstood*],
+It requires keeping the standard while translating the critique into a form that another field can use.
 
-  [Systems / OS], [“X lacks a mechanism for Y”], [There is no structure that handles Y, so cost or failure appears.], [Sounds like a rejection of the whole idea.],
-  [Systems / Arch], [“X hides locality”], [The abstraction hides hardware or resource structure, causing performance loss.], [Sounds like an overly low-level criticism.],
-  [Systems], [“Does it scale?”], [Does the claim hold as workload, size, contention, or concurrency grows?], [Sounds like a way to shut down early exploration.],
-  [HCI], [“We explore a design space”], [The work reveals a structure of possibilities before there is a closed objective.], [Sounds like the contribution is unclear.],
-  [HCI], [“The findings are situated”], [The result should be read with its context, practice, and use conditions.], [Sounds like the work cannot generalize.],
-  [HCI], [“We surface tensions”], [The work reveals real conflicts in interpretation, use, value, or practice.], [Sounds like there is no problem-solving contribution.],
-  [Theory], [“Under these assumptions...”], [The paper states the conditions under which the claim holds.], [Sounds like reality is being oversimplified.],
-  [Theory], [“Counterexample”], [A case that breaks a universal claim.], [Sounds like a trivial edge case.],
-  [Theory / Empirical], [“Falsifiable hypothesis”], [A claim stated precisely enough that evidence could support or break it.], [Sounds too narrow for early exploratory work.],
-  [Graphics], [“Visually plausible”], [Not physically exact, but perceptually convincing for the intended setting.], [Sounds like “inaccurate.”],
-  [Graphics], [“Interactive”], [Responsive enough for human-in-the-loop exploration and control.], [Gets reduced to merely “fast.”],
-  [AI/ML], [“Emergent behavior”], [An unexpected capability appears as scale, model, data, or training changes.], [Sounds like an unexplained anecdote.],
-  [AI/ML Systems], [“Scaling bottleneck”], [Infrastructure, memory, communication, or cost becomes the limiting factor.], [Sounds like a mere engineering detail.],
-)
-
-= Useful collaborative rewrites
-
-A systems-style expression that may sound too blunt:
+Consider:
 
 #blockquote[
 “This lacks a cost model.”
 ]
 
-A clearer collaborative version:
+A more collaborative version is:
 
 #blockquote[
 “The paper would be stronger if it made the operating conditions, workload, and tradeoffs explicit.”
 ]
 
-#hr
+The criticism remains.
 
-A phrase that may sound too blunt:
+But now the missing evidence is clear.
+
+Consider:
 
 #blockquote[
 “The assumptions are unrealistic.”
 ]
 
-A clearer collaborative version:
+A more precise version is:
 
 #blockquote[
 “The assumptions seem reasonable for an exploratory prototype, but the claim boundary should distinguish prototype conditions from deployment conditions.”
 ]
 
-#hr
+Again, the critique remains.
 
-A phrase that may sound too blunt:
+It no longer confuses an exploratory claim with a deployment claim.
+
+Consider:
 
 #blockquote[
 “The evaluation is weak.”
 ]
 
-A clearer collaborative version:
+A more useful version is:
 
 #blockquote[
 “The evaluation supports the exploratory contribution. Additional evidence would be needed for stronger claims about scalability, robustness, generality, or deployment.”
 ]
 
-#hr
+Now the criticism says exactly which stronger claims are unsupported.
 
-A phrase that may sound too blunt:
+Consider:
 
 #blockquote[
 “Users do not understand the system.”
 ]
 
-A more HCI-appropriate version:
+A more HCI-appropriate formulation is:
 
 #blockquote[
 “The interface does not yet make the system state sufficiently legible for users to form stable mental models.”
 ]
 
-#hr
+This changes the explanatory target from a deficit in the user to a property of the interaction between user and system.
 
-A phrase that may sound too blunt:
+Consider:
 
 #blockquote[
 “This is just a design probe.”
 ]
 
-A more precise version:
+A more precise version is:
 
 #blockquote[
 “The contribution is primarily generative: it reveals a design space and motivates future systematization, operationalization, or deployment-oriented evaluation.”
 ]
 
-#hr
-
-A phrase that may sound too blunt:
+And consider:
 
 #blockquote[
 “There is no theory.”
 ]
 
-A more precise version:
+A more precise version is:
 
 #blockquote[
 “The current contribution is empirical and artifact-driven. A formal characterization could be a complementary next step rather than a prerequisite for the paper’s main claim.”
 ]
 
-#hr
+Good translation should not remove criticism.
 
-A phrase that may sound too vague:
+It should reveal exactly which claim the criticism applies to.
+
+= Research often moves from one question to another
+
+The three orientations do not replace one another.
+
+Strong research often moves among them.
+
+A new HCI interaction may begin with:
 
 #blockquote[
-“This works well.”
+What does this make possible?
 ]
 
-A more falsifiable version:
+Once the interaction is useful, systems questions appear:
 
 #blockquote[
-“Under the stated workload and interaction context, the system improves the target metric while preserving the required level of user control.”
+Can it remain responsive at realistic scale?
 ]
 
-= The takeaway
+Then a more principled question may emerge:
 
-The same paper can be read through different standards of truth.
+#blockquote[
+What property of the representation actually makes the interaction work?
+]
 
-Possibility asks whether the work makes something newly visible or newly doable.
+A robotics project may begin with a new learned behavior.
 
-Constraint asks whether the work survives the machine, the workload, the resource budget, and the deployment environment.
+Then reality introduces noise, delay, contact, and hardware constraints.
 
-Principle asks whether the work states a claim precisely enough to prove, bound, falsify, or break.
+Later, researchers may ask whether the behavior can be characterized or guaranteed under particular assumptions.
 
-None of these questions is more mature than the others. They do different jobs. The mistake is to treat one field’s first question as the only legitimate question.
+A graphics technique may begin as a new representation.
+
+Then researchers optimize it until it becomes interactive.
+
+Once artists use it, new questions about control and workflow appear.
+
+A machine-learning capability may first be surprising.
+
+Then the field asks whether it generalizes.
+
+Then systems researchers ask what it costs to train and serve.
+
+Then theory may ask which mechanism or scaling relation explains the behavior.
+
+Research areas mature by moving among different questions, not by permanently graduating from one kind of rigor to another.
+
+= The broader skill is knowing which question is needed now
+
+The same paper can be read through several standards of truth.
+
+*Possibility* asks whether the work makes something newly visible or newly doable.
+
+*Constraint* asks whether the work survives the machine, workload, resource budget, physical world, or deployment environment.
+
+*Principle* asks whether the work states a claim precisely enough to prove, bound, falsify, or break.
+
+Different fields also add their own dimensions.
+
+Vision asks whether the representation captures the relevant visual structure.
+
+NLP asks whether linguistic behavior, meaning, and correctness survive changes in context and evaluation.
+
+Graphics asks whether representation, computation, perception, physical plausibility, and control align.
+
+HCI asks whether the interpretation of people and practices supports the claim.
+
+Robotics asks whether the computation survives embodiment.
+
+Visualization asks whether the representation actually supports reasoning.
+
+None of these standards is automatically more mature than another.
+
+They do different jobs.
+
+The mistake is to take one field’s first question and treat it as the only legitimate question.
 
 A better habit is to ask:
 
-#blockquote[
-Which kind of claim is this paper making right now? What evidence would support that claim? What would break it? And what would the next corner of the triangle ask?
-]
+#examples(
+  "Which kind of claim is this paper making right now?",
+  "What evidence would support that claim?",
+  "What would break it?",
+  "Which research culture is this sentence speaking from?",
+  "And what question would the next field ask?",
+)
 
-That is the real skill: not flattening every field into the same standard, but making claims crisp enough that different fields can understand what is being claimed, what is not being claimed, and what would count as progress.
+That is the real cross-field skill.
+
+Not flattening every area of computer science into one standard.
+
+Not pretending that every kind of contribution should be evaluated by the same metric.
+
+But making the claim clear enough that researchers from different fields can understand what is being claimed, what is not being claimed, and what would count as progress.

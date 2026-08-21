@@ -959,6 +959,63 @@ figcaption {
 .prose blockquote.examples p + p {
   margin-top: var(--space-2);
 }
+/* ---- Prose folds (details.fold from the `fold` Typst helper) ------------
+   Collapsed per-field sections. The summary echoes .prose h3 typography but
+   is interactive: pointer cursor, accent on hover, mono +/- marker at the
+   right edge. Inner rhythm is re-declared — `.prose > * + *` only matches
+   DIRECT children of .prose, and fold contents sit one level down. Native
+   <details>: no JS, keyboard-accessible, token-driven so dark mode is free. */
+.prose details.fold {
+  margin-top: var(--space-6);
+}
+.prose details.fold > summary {
+  display: flex;
+  align-items: baseline;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--step-1);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--ink);
+  transition: color var(--dur-fast) var(--ease);
+}
+.prose details.fold > summary::-webkit-details-marker {
+  display: none;
+}
+.prose details.fold > summary:hover {
+  color: var(--accent);
+}
+.prose details.fold > summary::after {
+  content: '+';
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.85em;
+  line-height: 1;
+}
+.prose details.fold[open] > summary::after {
+  content: '−';
+}
+/* Inner rhythm: children of the fold are not direct children of .prose. */
+.prose details.fold > * + * {
+  margin-top: var(--space-4);
+}
+/* Blockquotes keep their roomier block rhythm (shorthand margin in
+   `.prose blockquote` would lose margin-top to the rule above). */
+.prose details.fold > blockquote {
+  margin: var(--space-5) 0;
+}
+/* Only legal in-fold heading level (=== → h4). Downscaled so it doesn't
+   compete with the summary, which already carries --step-1. */
+.prose details.fold h4 {
+  margin-top: var(--space-5);
+  font-size: var(--step-0);
+  font-weight: 600;
+}
 .prose hr {
   border: 0;
   border-top: 1px solid var(--hairline);
