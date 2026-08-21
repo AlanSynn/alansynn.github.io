@@ -18,6 +18,25 @@
   items.pos().map((it) => html.elem("p", it)).join(),
 )
 
+// A collapsed section: native <details>/<summary>, folded by default — no JS,
+// keyboard-toggleable, plain HTML so ClientRouter swaps are harmless (open state
+// resets on nav; acceptable). The title lives in <summary> ONLY, never an h2/h3:
+// Toc.astro builds its TOC + scroll-spy from .prose h2/h3, and a heading inside a
+// CLOSED details has no box (getBoundingClientRect() = 0), which would break the
+// active-entry math. Subsections inside a fold must therefore start at === (h4).
+// The body may hold paragraphs, lists, #examples(...), #blockquote[...] — anything
+// HTML-representable; images only via #blogimg (it wraps the html.frame in a
+// <figure>). Call as:
+//   #fold("Performance in systems")[
+//     In systems and architecture, performance often means:
+//     - throughput;
+//   ]
+#let fold(title, body) = html.elem(
+  "details",
+  attrs: ("class": "fold"),
+  html.elem("summary", title) + body,
+)
+
 // A co-located figure: image + optional caption, emitted as a semantic
 // <figure>. The image is read at build time and embedded via html.frame, so no
 // separate static file is served — co-location (a folder next to the post's
