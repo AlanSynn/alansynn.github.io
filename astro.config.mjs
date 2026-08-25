@@ -41,7 +41,6 @@ export default defineConfig({
       // at config load above, so adding a draft needs no manual filter edit.
       filter: (page) =>
         !page.includes('/projects/example-graphics') &&
-        !page.includes('/gt-computer-animation/') &&
         !page.endsWith('/rss.xml') &&
         !blogDraftSlugs.some((slug) => page.includes(`/blog/${slug}/`)),
     }),
