@@ -24,6 +24,11 @@ const fmt = (d: Date) =>
 // Absolute feed URL for the subscribe strip (readers need the absolute form;
 // site.url already ends without a slash — normalize defensively anyway).
 const feedUrl = `${site.url.replace(/\/$/, '')}/rss.xml`;
+// Email-subscription return target. Must be query-free — the provider blindly
+// appends "?title=…&message=…&ok=…" to it. Also intentionally NOT the current
+// ?tag= URL: email subscription is site-wide only (§ product decision), the
+// tag-aware behavior stays RSS/copy/Feedly-only.
+const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
 ---
 
 <Base title="Blog">
@@ -47,6 +52,46 @@ const feedUrl = `${site.url.replace(/\/$/, '')}/rss.xml`;
               <span class="tag-filter__status" id="tag-filter-status" hidden />
             </div>
           )}
+          {/* Email subscription — a native GET form to the Simple Newsletter
+              hosted endpoint (contract verified from its source: fields are
+              read from the query string, redirect mode 302s back to `return`
+              with ok=1|0). Zero provider traffic until the user submits — the
+              form posts itself, no JS in the send path. uri is always the
+              canonical site-wide feed, never a topic feed. */}
+          <div class="blog-email-subscribe">
+            <form
+              class="blog-email-form"
+              action="https://simple-newsletter.com/v1/subscriptions/"
+              method="get"
+            >
+              <input type="hidden" name="uri" value={feedUrl} />
+              <input type="hidden" name="return" value={returnUrl} />
+              <input type="hidden" name="redirect" value="true" />
+              <label class="blog-email-form__label" for="blog-email-input">
+                Get new posts by email
+              </label>
+              <div class="blog-email-form__row">
+                <input
+                  type="email"
+                  id="blog-email-input"
+                  name="email"
+                  placeholder="you@example.com"
+                  autocomplete="email"
+                  maxlength="254"
+                  required
+                />
+                <button type="submit">Subscribe</button>
+              </div>
+            </form>
+            <p
+              class="blog-email-subscribe__status"
+              id="blog-email-subscribe-status"
+              role="status"
+              aria-live="polite"
+              hidden
+            ></p>
+            <p class="blog-email-subscribe__hint">New posts by email. Unsubscribe anytime.</p>
+          </div>
           {/* Subscribe strip — 0-cost subscription = static RSS. Canonical feed
               + copy button + a reader deep-link for non-RSS-savvy readers.
               Per-topic feeds are NOT listed here (they would duplicate the chip
@@ -208,6 +253,32 @@ const feedUrl = `${site.url.replace(/\/$/, '')}/rss.xml`;
             }
           });
         });
+      })();
+    </script>
+    <script is:inline data-astro-rerun>
+      (function () {
+        // Email-subscription result. Simple Newsletter 302s back with
+        // title/message/ok; only `ok` is read — provider text is untrusted and
+        // never rendered (no innerHTML, no hrefs from it) — and the message is
+        // a local string. Listener-free, so a data-astro-rerun re-execution
+        // after a View-Transition swap is naturally idempotent. After reading
+        // state, the provider params are scrubbed from the address bar while
+        // any unrelated query params are preserved.
+        var status = document.getElementById('blog-email-subscribe-status');
+        if (!status) return;
+        var params = new URLSearchParams(location.search);
+        var ok = params.get('ok');
+        if (ok !== '1' && ok !== '0') return;
+        status.textContent =
+          ok === '1'
+            ? 'Check your inbox to confirm your subscription.'
+            : 'Could not start the email subscription. Please try again, or use RSS.';
+        status.hidden = false;
+        ['title', 'message', 'ok'].forEach(function (k) {
+          params.delete(k);
+        });
+        var qs = params.toString();
+        history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
       })();
     </script>
   </Section>

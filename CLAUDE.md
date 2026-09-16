@@ -154,7 +154,12 @@ entry.
   topic feeds (that would duplicate the chip bar tag-for-tag): with JS, an
   active chip filter swaps the strip's RSS/copy/Feedly to that topic's feed;
   cleared filter restores the canonical feed; static hrefs are the no-JS
-  fallback. ALL feed paths are dropped from
+  fallback. Above it sits a **site-wide email subscription form** (native GET
+  to Simple Newsletter's hosted `/v1/subscriptions/`; `uri` = canonical
+  `/rss.xml` only — never the active tag feed; `return` = query-free `/blog`;
+  redirect mode appends `title`/`message`/`ok`, of which only `ok` is read
+  locally — provider text is never rendered — and the params are then scrubbed
+  from the address bar). ALL feed paths are dropped from
   the sitemap by the `/(^|\/)rss(\.xml|\/)/` filter in `astro.config.mjs`
   (automatic; adding a tag needs no filter edit). The `/blog` inline scripts
   carry `data-astro-rerun` so filter + copy survive View-Transition swaps back
