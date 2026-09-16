@@ -11,7 +11,7 @@
 #   - Up to 3 tags per post (enforced by `.max(3)` in the schema): the first
 #     tag is the post's home subject; each additional tag only when the post
 #     is genuinely intersectional (e.g. "When the Field Moves" is
-#     AI × research methodology × academia). The cap stays small so every
+#     AI × research cultures × academia). The cap stays small so every
 #     chip in the filter bar remains a selective, meaningful slice — a tag
 #     that ends up on most posts has stopped organizing anything and should
 #     be split, not applied more widely.
@@ -20,14 +20,16 @@
 #     kebab-case slugs. Add a tag here first, then use it on a post.
 #
 # Axes in use:
-#   research-methodology — how research produces and justifies knowledge
+#   research-cultures    — how research works as a practice: what counts as
+#                          rigor, proof, or progress across fields,
+#                          institutions, and eras
 #   academia             — academia vs industry, Ph.D. life, research careers
 #   ai                   — AI/LLMs reshaping research, work, or learning
 #   participatory-design — designing with the people who live with a system
 #   career-and-learning  — choosing and growing a career under uncertainty
 #   typst, meta          — site/writing mechanics (draft usage guide only)
 # ============================================================================
-- research-methodology
+- research-cultures
 - academia
 - ai
 - participatory-design
