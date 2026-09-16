@@ -48,12 +48,17 @@ const feedUrl = `${site.url.replace(/\/$/, '')}/rss.xml`;
             </div>
           )}
           {/* Subscribe strip — 0-cost subscription = static RSS. Canonical feed
-              + copy button + a reader deep-link for non-RSS-savvy readers, and
-              per-topic feeds (same published-only derivation as the chip bar),
-              so a reader can follow a single subject from the new taxonomy. */}
-          <div class="blog-subscribe">
+              + copy button + a reader deep-link for non-RSS-savvy readers.
+              Per-topic feeds are NOT listed here (they would duplicate the chip
+              bar tag-for-tag); instead the strip follows the active chip filter —
+              filter to a tag and RSS/copy/Feedly swap to that topic's feed
+              (wired in the filter script below). No-JS readers still get the
+              canonical site-wide feed from the static hrefs. */}
+          <div class="blog-subscribe" id="blog-subscribe" data-site-url={site.url}>
             <span>Subscribe:</span>
-            <a href={feedUrl}>RSS</a>
+            <a href={feedUrl} id="sub-rss">
+              RSS
+            </a>
             <button type="button" class="blog-subscribe__copy" data-feed-url={feedUrl}>
               copy
             </button>
@@ -61,17 +66,10 @@ const feedUrl = `${site.url.replace(/\/$/, '')}/rss.xml`;
               href={`https://feedly.com/i/subscription/feed/${encodeURIComponent(feedUrl)}`}
               target="_blank"
               rel="noopener"
+              id="sub-feedly"
             >
               Feedly
             </a>
-            {allTags.length > 0 && (
-              <span class="blog-subscribe__topics">
-                <span>topics:</span>
-                {allTags.map((t) => (
-                  <a href={`/blog/rss/${t}.xml`}>#{tagLabel(t)}</a>
-                ))}
-              </span>
-            )}
           </div>
           <ul class="blog-list" id="blog-list">
             {posts.map((post) => (
@@ -138,6 +136,24 @@ const feedUrl = `${site.url.replace(/\/$/, '')}/rss.xml`;
               status.hidden = true;
               status.textContent = '';
             }
+          }
+          // Subscribe strip follows the filter: an active tag swaps
+          // RSS/copy/Feedly to that topic's feed; cleared restores the
+          // canonical site-wide feed. (Lives in this IIFE because tag state
+          // does; the copy button only reads data-feed-url at click time.)
+          var strip = document.getElementById('blog-subscribe');
+          if (strip) {
+            var base = (strip.dataset.siteUrl || '').replace(/\/$/, '');
+            var url = tag
+              ? base + '/blog/rss/' + encodeURIComponent(tag) + '.xml'
+              : base + '/rss.xml';
+            var rss = document.getElementById('sub-rss');
+            var feedly = document.getElementById('sub-feedly');
+            var copy = strip.querySelector('.blog-subscribe__copy');
+            if (rss) rss.href = url;
+            if (feedly)
+              feedly.href = 'https://feedly.com/i/subscription/feed/' + encodeURIComponent(url);
+            if (copy) copy.dataset.feedUrl = url;
           }
         }
 

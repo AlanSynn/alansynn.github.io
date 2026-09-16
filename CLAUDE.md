@@ -150,7 +150,11 @@ entry.
   advertised in `<head>`) + `/blog/rss.xml` (alias) are thin callers of
   `src/lib/feed.ts`; per-topic feeds live at `/blog/rss/<tag>.xml`
   (`getStaticPaths` over PUBLISHED posts' tags only, so a draft's tags never
-  surface as a feed — mirrors the chip bar). ALL feed paths are dropped from
+  surface as a feed — mirrors the chip bar). The subscribe strip does NOT list
+  topic feeds (that would duplicate the chip bar tag-for-tag): with JS, an
+  active chip filter swaps the strip's RSS/copy/Feedly to that topic's feed;
+  cleared filter restores the canonical feed; static hrefs are the no-JS
+  fallback. ALL feed paths are dropped from
   the sitemap by the `/(^|\/)rss(\.xml|\/)/` filter in `astro.config.mjs`
   (automatic; adding a tag needs no filter edit). The `/blog` inline scripts
   carry `data-astro-rerun` so filter + copy survive View-Transition swaps back
