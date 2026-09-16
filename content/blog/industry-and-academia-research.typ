@@ -4,7 +4,7 @@
   title: "Industry and Academia Ask Different Things of Research",
   desc: "The difference between research in industry and academia may lie less in what researchers study than in what their answers are expected to do, survive, and become.",
   date: "2026-09-14",
-  tags: ("research-methodology", "academia"),
+  tags: ("research-cultures", "academia"),
 )
 
 When people compare research in academia and industry, the differences arrive quickly. Industry moves faster. Academia has more freedom. Companies have more data and engineering resources. Universities publish papers. Companies build products. Academic researchers are supposed to ask fundamental questions, while industry researchers are supposed to solve practical ones.
