@@ -4,7 +4,7 @@
   title: "Same Computer Science, Different Senses of Reality",
   desc: "Computer-science subfields often disagree not because one is more rigorous, but because they protect different kinds of rigor: possibility, constraint, and principle.",
   date: "2026-04-04",
-  tags: ("research-cultures",),
+  tags: ("research",),
   updatedDate: "2026-08-21",
 )
 

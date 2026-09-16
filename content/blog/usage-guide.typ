@@ -42,7 +42,7 @@ the first is its home subject, extras only when genuinely intersectional:
   title: "Post title",
   desc: "One-line description for the blog list.",
   date: "2026-07-04",
-  tags: ("research-cultures", "academia"),
+  tags: ("research", "ai"),
 )
 
 Body prose starts here.
