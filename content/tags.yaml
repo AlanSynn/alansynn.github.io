@@ -4,40 +4,53 @@
 # Zod error (src/content.config.ts → z.enum over these keys).
 #
 # Design:
-#   - GENERAL-blog register: broad conventional buckets, simple noun slugs a
-#     stranger reads correctly in 3 seconds. No near-synonym pairs (one
-#     `research` bucket, not research-cultures + academia) and no compound
-#     slugs (career, not career-and-learning).
-#   - Topic-only axis. One SUBJECT per tag — no format tags (essay /
-#     reflection / research-as-format), which are non-selective on a personal
-#     blog and only smear the filter bar. A format tag is allowed only if it
-#     stays selective (a small minority of posts), e.g. a future `tutorial`
-#     (register it the day the first tutorial ships — never in advance).
-#   - `ai` means AI is the SUBJECT of the post, never backdrop. If the post
-#     survives intact with AI swapped for any other fast technology, it does
-#     not get this tag.
-#   - Up to 3 tags per post (enforced by `.max(3)` in the schema): the first
-#     tag is the post's home subject; each additional tag only when the post
-#     is genuinely intersectional. Singleton chips are normal on a young blog.
+#   - SPECIFIC-but-legible register: each chip promises a particular flavor a
+#     browsing reader understands instantly and gets curious about — standard
+#     discipline/topic nouns, not one-size-fits-all mega-buckets, not
+#     subculture jargon. When two chips' reader-promises stop being
+#     distinguishable in 3 seconds, merge or retire one.
+#   - Every post carries 2-3 tags (enforced by `.max(3)` in the schema): the
+#     FIRST is the post's home subject; extras only for genuinely
+#     intersectional slices.
+#   - `ai` is RESERVED: only for posts substantially about AI research or AI
+#     technology itself. Never attach it for backdrop, motivation, or
+#     field-context (a post that survives with AI swapped for any other fast
+#     technology does not get it). Currently zero posts; registered on purpose.
+#   - `tutorial` is the sanctioned FORMAT-tag exception (minority rule): it may
+#     exist only while how-to posts stay a small minority of the blog.
 #   - Validation-only — this list is NOT the display source. The chip text is
 #     title-cased from the slug in the component, so keep entries as bare
 #     kebab-case slugs. Add a tag here first, then use it on a post.
 #
 # Buckets in use:
-#   research     — research as the subject: epistemology, cultures, settings,
-#                  profession (the blog's home bucket)
-#   ai           — AI itself under discussion (currently 1 post; deliberate
-#                  forward-registration)
-#   career       — professional path-making: choosing, preparing for, and
-#                  living a working life
-#   education    — what education and learning are for
-#   design       — design traditions and what they teach
-#   typst, meta  — site/writing mechanics (draft usage guide only)
+#   sociology-of-science — research as a social/institutional machine:
+#                          careers, incentives, fields
+#   philosophy-of-science— what counts as knowledge, rigor, or truth in a field
+#   academia             — life and structure inside the academic research world
+#   computer-science     — CS as one discipline with many subfield identities
+#   history-of-science   — episodes and turning points from the record of science
+#   career-advice        — steering a working life: preparation, reinvention,
+#                          decisions
+#   uncertainty          — reasoning and deciding when you can't know
+#   education            — learning, teaching, and the institutions that shape both
+#   participatory-design — designing with the people affected; PD methods and lessons
+#   humility             — the stance of knowing what your best answer can't see
+#   ethics               — harm, care, and competing goods in practice
+#   meta, typst, tutorial — site/writing mechanics (draft usage guide only)
+#   ai                   — reserved, see above (zero posts)
 # ============================================================================
-- research
-- ai
-- career
+- sociology-of-science
+- philosophy-of-science
+- academia
+- computer-science
+- history-of-science
+- career-advice
+- uncertainty
 - education
-- design
+- participatory-design
+- humility
+- ethics
 - typst
 - meta
+- tutorial
+- ai

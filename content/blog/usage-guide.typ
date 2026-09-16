@@ -9,7 +9,7 @@
   title: "How this site is written",
   desc: "A short usage guide: how posts are authored in Typst and what the build pipeline renders.",
   date: "2026-07-04",
-  tags: ("meta", "typst"),
+  tags: ("meta", "typst", "tutorial"),
   draft: true,
   // Demonstrates `updatedDate` (→ BlogPosting `dateModified` + RSS
   // `<atom:updated>`). This is the maintained reference post, so it legitimately
@@ -42,7 +42,7 @@ the first is its home subject, extras only when genuinely intersectional:
   title: "Post title",
   desc: "One-line description for the blog list.",
   date: "2026-07-04",
-  tags: ("research", "ai"),
+  tags: ("computer-science", "philosophy-of-science"),
 )
 
 Body prose starts here.
