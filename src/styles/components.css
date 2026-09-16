@@ -841,6 +841,67 @@ figcaption {
   text-decoration: underline;
 }
 
+/* ---- Email subscription (RSS-to-email via Simple Newsletter) -----------
+   Quiet utility directly above the RSS strip: visible label + native GET
+   form (the submit path is pure HTML — no JS). Tokens only, mirroring the
+   strip's mono microtype; success/failure differ by text, never by color
+   alone. */
+.blog-email-subscribe {
+  margin-bottom: var(--space-4);
+}
+.blog-email-form__label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-mono);
+  color: var(--muted);
+  margin-bottom: var(--space-2);
+}
+.blog-email-form__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.blog-email-form__row input[type='email'] {
+  flex: 1 1 14rem;
+  min-width: 0;
+  font: inherit;
+  font-size: var(--step--1);
+  color: var(--ink);
+  background: var(--paper-sunken);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.7rem;
+}
+.blog-email-form__row input[type='email']::placeholder {
+  color: var(--faint);
+}
+.blog-email-form__row button[type='submit'] {
+  font: inherit;
+  font-size: var(--step--1);
+  color: var(--accent);
+  background: none;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 1rem;
+  cursor: pointer;
+}
+.blog-email-form__row button[type='submit']:hover {
+  border-color: var(--accent);
+  background: var(--accent-softer);
+}
+.blog-email-subscribe__status,
+.blog-email-subscribe__hint {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-mono);
+  color: var(--muted);
+  margin-top: var(--space-2);
+}
+.blog-email-subscribe__status {
+  color: var(--accent);
+}
+
 /* ==========================================================================
    Blog post / prose  —  two-column reading layout (TOC rail | prose)
    ========================================================================== */
