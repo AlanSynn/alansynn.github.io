@@ -6,7 +6,7 @@
   title: "You Do Not Need to Know the Future to Have One",
   desc: "What I would tell someone choosing a life when no one can tell them what the world will become.",
   date: "2026-06-12",
-  tags: ("career", "education"),
+  tags: ("career-advice", "uncertainty", "education"),
 )
 
 I do not know what I would tell an eighteen-year-old to become today. Computer scientist? Engineer? Designer? Researcher? Something that does not have a name yet? I can tell them what is growing now, what employers seem to want now, and which skills seem useful now. I cannot honestly tell them what the world will reward when they are thirty.
