@@ -6,7 +6,7 @@
   title: "When the Field Moves",
   desc: "What happens to researchers when the problems, tools, and skills that shaped their field begin to change?",
   date: "2026-08-12",
-  tags: ("research-methodology",),
+  tags: ("research-methodology", "ai", "academia"),
 )
 
 I started my Ph.D. in the fall of 2022. On November 30 of that year, before I had finished my first semester, OpenAI released ChatGPT. I had thought of a Ph.D. as a long period of training. Long enough to learn a field, find a problem, fail at it a few times, and eventually know enough to contribute something. I had not thought about the other side of that timescale. A Ph.D. is also long enough for a field to move underneath you.

@@ -29,7 +29,9 @@ publications, and `Typst` for prose. Edit the source, rebuild, and the web and
 PDF outputs both update. There is no second copy to drift.
 
 A blog post is a single `.typ` file under `content/blog/`. The header wires up
-the title, description, date, and tags:
+the title, description, date, and tags. A tag must be a slug listed in
+`content/tags.yaml` (add it there first), and a post carries at most three —
+the first is its home subject, extras only when genuinely intersectional:
 
 ```typst
 #import "/content/blog.typ": *
@@ -40,7 +42,7 @@ the title, description, date, and tags:
   title: "Post title",
   desc: "One-line description for the blog list.",
   date: "2026-07-04",
-  tags: ("research",),
+  tags: ("research-methodology", "academia"),
 )
 
 Body prose starts here.

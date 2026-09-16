@@ -145,7 +145,17 @@ entry.
   `astro-typst` (the `typst` integration targets html); prose CSS lives under
   `.post`/`.prose` in `src/styles/components.css`. `/blog` (`blog.astro`): post
   list sorted date-DESC, drafts excluded from the feed, tag filter chip bar +
-  client-side `?tag=` filtering (no-JS `<a href>` fallback). Post page
+  client-side `?tag=` filtering (no-JS `<a href>` fallback), and a subscribe
+  strip. **Subscription is 0-cost static RSS**: `/rss.xml` (canonical,
+  advertised in `<head>`) + `/blog/rss.xml` (alias) are thin callers of
+  `src/lib/feed.ts`; per-topic feeds live at `/blog/rss/<tag>.xml`
+  (`getStaticPaths` over PUBLISHED posts' tags only, so a draft's tags never
+  surface as a feed — mirrors the chip bar). ALL feed paths are dropped from
+  the sitemap by the `/(^|\/)rss(\.xml|\/)/` filter in `astro.config.mjs`
+  (automatic; adding a tag needs no filter edit). The `/blog` inline scripts
+  carry `data-astro-rerun` so filter + copy survive View-Transition swaps back
+  to `/blog` (inline scripts don't re-run on swap without it).
+  Post page
   (`[...slug].astro`): two-column reading layout (TOC rail | prose), floating
   scroll-spy TOC built client-side from rendered `<h2>`/`<h3>`, footnotes as
   endnotes, obfuscated reply-by-email link, CC BY-NC-ND 4.0 license. A mathyml
@@ -163,15 +173,18 @@ entry.
 - **Blog tags are a controlled vocabulary in `content/tags.yaml`.** Every
   `tags:` value on a post must be a listed kebab-case slug or the build fails
   with a located Zod error. Validated INLINE in `src/content.config.ts` as
-  `z.enum(tagIds).max(2)` — NOT a separate `enforceX` in `data.ts`, because blog
+  `z.enum(tagIds).max(3)` — NOT a separate `enforceX` in `data.ts`, because blog
   posts are parsed by the Astro collection schema and `getCollection` is async
   (callable only in `.astro` frontmatter), so the module-init `enforceX`
   chokepoint can't reach them. Mirrors the `category: z.enum(['work','research'])`
   precedent. Taxonomy is **topic-only** — no format tags (essay/reflection):
   on a personal blog nearly every post is essayistic, so format tags are
   non-selective and only smear the filter bar (a format tag earns a place only
-  if it stays a small minority, e.g. a future `tutorial`). `.max(2)`: one topic
-  tag per post, a second only when genuinely intersectional. The registry is
+  if it stays a small minority, e.g. a future `tutorial`). `.max(3)`: the first
+  tag is the post's home subject; each additional tag only when the post is
+  genuinely intersectional (cap kept small so every chip stays a selective
+  slice — a tag that ends up on most posts should be split, not spread). The
+  registry is
   **validation-only, not the display source** — chip text is title-cased from
   the slug in-component (`tagLabel`); the raw slug still drives `data-tag` +
   `?tag=` filtering, so don't put caps/spaces in slugs (breaks deep links) or

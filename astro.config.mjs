@@ -41,7 +41,11 @@ export default defineConfig({
       // at config load above, so adding a draft needs no manual filter edit.
       filter: (page) =>
         !page.includes('/projects/example-graphics') &&
-        !page.endsWith('/rss.xml') &&
+        // Feeds: /rss.xml, /blog/rss.xml, and per-topic /blog/rss/<tag>.xml —
+        // XML, not pages, so none belong in the sitemap. Anchored to those feed
+        // shapes only: a hypothetical post slug `rss` (/blog/rss/, no .xml) is
+        // NOT matched, and neither is `rss-guide`.
+        !/(^|\/)rss\.xml$|(^|\/)rss\/[^/]+\.xml$/.test(page) &&
         !blogDraftSlugs.some((slug) => page.includes(`/blog/${slug}/`)),
     }),
     typst({

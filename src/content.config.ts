@@ -12,14 +12,16 @@ import tagRegistry from '@content/tags.yaml';
 // collection schema, not by src/lib/data.ts (which can't reach them:
 // getCollection is async, only callable in .astro frontmatter). Mirrors how
 // `category: z.enum(['work','research'])` already gates a closed vocabulary.
-// `.max(2)`: one topic tag per post; a second only when genuinely
-// intersectional. The empty-list guard keeps z.enum from crashing if the
+// `.max(3)`: the first tag is the post's home subject; each additional tag
+// only when the post is genuinely intersectional (e.g. AI × methodology ×
+// academia). Cap stays small so every filter chip remains a selective slice.
+// The empty-list guard keeps z.enum from crashing if the
 // registry is ever emptied (it requires ≥1 value).
 const tagIds = tagRegistry as string[];
 const tagSchema =
   tagIds.length > 0
-    ? z.array(z.enum(tagIds as [string, ...string[]])).max(2)
-    : z.array(z.string()).max(2);
+    ? z.array(z.enum(tagIds as [string, ...string[]])).max(3)
+    : z.array(z.string()).max(3);
 
 const blog = defineCollection({
   loader: glob({ base: './content/blog', pattern: '**/*.typ' }),

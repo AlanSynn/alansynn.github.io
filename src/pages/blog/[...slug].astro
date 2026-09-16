@@ -3,6 +3,7 @@ import Base from '@/layouts/Base.astro';
 import Toc from '@/components/Toc.astro';
 import { getCollection, render } from 'astro:content';
 import { site } from '@/lib/data';
+import { tagLabel } from '@/lib/tags';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -19,13 +20,8 @@ const fmt = (d: Date) =>
     day: 'numeric',
     timeZone: 'UTC',
   });
-// Chip text title-cases the kebab slug (participatory-design → "Participatory
-// Design") for display; the raw slug still drives the ?tag= link.
-const tagLabel = (t: string) =>
-  t
-    .split('-')
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(' ');
+// Chip text (tagLabel, shared in @/lib/tags) title-cases the kebab slug for
+// display; the raw slug still drives the ?tag= link.
 
 // Reply email obfuscation — same as Socials.astro (base64 halves, JS-decoded).
 const [mailUser, mailDomain] = site.email.split('@');

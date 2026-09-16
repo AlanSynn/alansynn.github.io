@@ -8,15 +8,29 @@
 #     reflection / research-as-format), which are non-selective on a personal
 #     blog and only smear the filter bar. A format tag is allowed only if it
 #     stays selective (a small minority of posts), e.g. a future `tutorial`.
-#   - One tag per post (a second only when a post is genuinely
-#     intersectional); enforced by `.max(2)` in the schema.
+#   - Up to 3 tags per post (enforced by `.max(3)` in the schema): the first
+#     tag is the post's home subject; each additional tag only when the post
+#     is genuinely intersectional (e.g. "When the Field Moves" is
+#     AI × research methodology × academia). The cap stays small so every
+#     chip in the filter bar remains a selective, meaningful slice — a tag
+#     that ends up on most posts has stopped organizing anything and should
+#     be split, not applied more widely.
 #   - Validation-only — this list is NOT the display source. The chip text is
 #     title-cased from the slug in the component, so keep entries as bare
 #     kebab-case slugs. Add a tag here first, then use it on a post.
+#
+# Axes in use:
+#   research-methodology — how research produces and justifies knowledge
+#   academia             — academia vs industry, Ph.D. life, research careers
+#   ai                   — AI/LLMs reshaping research, work, or learning
+#   participatory-design — designing with the people who live with a system
+#   career-and-learning  — choosing and growing a career under uncertainty
+#   typst, meta          — site/writing mechanics (draft usage guide only)
 # ============================================================================
 - research-methodology
+- academia
+- ai
 - participatory-design
-- meta
-- typst
 - career-and-learning
-
+- typst
+- meta

@@ -1,19 +1,25 @@
 // Shared blog RSS feed builder. One content source (the `blog` collection),
-// two routes: `/rss.xml` (canonical, advertised in <head>/footer) and
+// three route families: `/rss.xml` (canonical, advertised in <head>/footer),
 // `/blog/rss.xml` (alias, reachable by direct URL — some readers expect the
-// feed at the blog subpath). Both endpoints are thin callers of this helper
-// so the feed content is never duplicated.
+// feed at the blog subpath), and `/blog/rss/<tag>.xml` (per-topic feeds, one
+// static file per tag appearing on at least one PUBLISHED post — draft tags
+// never surface, mirroring the /blog chip bar). All endpoints are thin callers
+// of this helper so feed content is never duplicated.
 import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 import { getCollection } from 'astro:content';
 import { site } from '@/lib/data';
+import { tagLabel } from '@/lib/tags';
 
-export async function blogFeedResponse(context: APIContext) {
+export async function blogFeedResponse(context: APIContext, tag?: string) {
   const posts = (await getCollection('blog'))
     .filter((p) => !p.data.draft)
+    // Topic feed (`/blog/rss/<tag>.xml`): only posts carrying that tag. The
+    // undefined-tag case is the whole-blog feed, unchanged.
+    .filter((p) => !tag || (p.data.tags ?? []).includes(tag))
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
   return rss({
-    title: `${site.name} - Blog`,
+    title: tag ? `${site.name} - Blog: ${tagLabel(tag)}` : `${site.name} - Blog`,
     description: site.description,
     site: context.site ?? site.url,
     // Declare atom so item `<atom:updated>` (below) is namespace-valid. RSS 2.0
