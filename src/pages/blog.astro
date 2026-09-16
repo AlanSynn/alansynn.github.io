@@ -2,6 +2,8 @@
 import Base from '@/layouts/Base.astro';
 import Section from '@/components/Section.astro';
 import { getCollection } from 'astro:content';
+import { site } from '@/lib/data';
+import { tagLabel } from '@/lib/tags';
 
 // Drafts excluded from the feed but still build at their own URL (reachable, not promoted).
 const posts = (await getCollection('blog'))
@@ -17,13 +19,11 @@ const fmt = (d: Date) =>
     day: 'numeric',
     timeZone: 'UTC',
   });
-// Chip text title-cases the kebab slug (participatory-design → "Participatory
-// Design") for display; the raw slug still drives data-tag + ?tag= filtering.
-const tagLabel = (t: string) =>
-  t
-    .split('-')
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(' ');
+// Chip text (tagLabel, shared in @/lib/tags) title-cases the kebab slug for
+// display; the raw slug still drives data-tag + ?tag= filtering.
+// Absolute feed URL for the subscribe strip (readers need the absolute form;
+// site.url already ends without a slash — normalize defensively anyway).
+const feedUrl = `${site.url.replace(/\/$/, '')}/rss.xml`;
 ---
 
 <Base title="Blog">
@@ -47,6 +47,32 @@ const tagLabel = (t: string) =>
               <span class="tag-filter__status" id="tag-filter-status" hidden />
             </div>
           )}
+          {/* Subscribe strip — 0-cost subscription = static RSS. Canonical feed
+              + copy button + a reader deep-link for non-RSS-savvy readers, and
+              per-topic feeds (same published-only derivation as the chip bar),
+              so a reader can follow a single subject from the new taxonomy. */}
+          <div class="blog-subscribe">
+            <span>Subscribe:</span>
+            <a href={feedUrl}>RSS</a>
+            <button type="button" class="blog-subscribe__copy" data-feed-url={feedUrl}>
+              copy
+            </button>
+            <a
+              href={`https://feedly.com/i/subscription/feed/${encodeURIComponent(feedUrl)}`}
+              target="_blank"
+              rel="noopener"
+            >
+              Feedly
+            </a>
+            {allTags.length > 0 && (
+              <span class="blog-subscribe__topics">
+                <span>topics:</span>
+                {allTags.map((t) => (
+                  <a href={`/blog/rss/${t}.xml`}>#{tagLabel(t)}</a>
+                ))}
+              </span>
+            )}
+          </div>
           <ul class="blog-list" id="blog-list">
             {posts.map((post) => (
               <li data-tags={(post.data.tags ?? []).join(' ')}>
@@ -77,7 +103,14 @@ const tagLabel = (t: string) =>
         </>
       )
     }
-    <script is:inline>
+    {
+      /* data-astro-rerun: re-execute after a View-Transition swap-in. Both
+        IIFEs are idempotent (fresh DOM queries; the copy binder is guarded by
+        data-copy-bound), and without the attribute an inline script never
+        re-runs, leaving the filter/copy dead on a client-side return to
+        /blog. */
+    }
+    <script is:inline data-astro-rerun>
       (function () {
         var filter = document.getElementById('tag-filter');
         var list = document.getElementById('blog-list');
@@ -124,6 +157,39 @@ const tagLabel = (t: string) =>
             e.preventDefault();
             var next = c.classList.contains('is-active') ? null : c.dataset.tag;
             setTag(next);
+          });
+        });
+      })();
+    </script>
+    <script is:inline data-astro-rerun>
+      (function () {
+        // Copy-feed buttons in the subscribe strip. Idempotent via
+        // data-copy-bound (same idiom as the project-page copy buttons), so a
+        // data-astro-rerun re-execution never double-binds.
+        document.querySelectorAll('.blog-subscribe__copy').forEach(function (btn) {
+          if (btn.dataset.copyBound) return;
+          btn.dataset.copyBound = '1';
+          btn.addEventListener('click', function () {
+            var url = btn.dataset.feedUrl || '';
+            function done() {
+              btn.textContent = 'copied!';
+              setTimeout(function () {
+                btn.textContent = 'copy';
+              }, 1500);
+            }
+            function fail() {
+              btn.textContent = 'copy failed';
+              setTimeout(function () {
+                btn.textContent = 'copy';
+              }, 1500);
+            }
+            // Clipboard API needs a secure context (https / localhost) — both
+            // are the only real deploy/dev contexts for this site.
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(url).then(done, fail);
+            } else {
+              fail();
+            }
           });
         });
       })();

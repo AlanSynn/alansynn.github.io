@@ -806,6 +806,47 @@ figcaption {
   text-decoration: underline;
 }
 
+/* /blog subscribe strip (sits between the filter bar and the list).
+   Subscription is 0-cost static RSS: the canonical /rss.xml (also at
+   /blog/rss.xml) plus per-topic /blog/rss/<tag>.xml feeds. Mono microtype
+   row; links accent + hover-underline, matching .tag-filter__status. */
+.blog-subscribe {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-mono);
+  color: var(--muted);
+  margin-bottom: var(--space-5);
+}
+.blog-subscribe a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.blog-subscribe a:hover {
+  text-decoration: underline;
+}
+.blog-subscribe button {
+  font: inherit;
+  letter-spacing: inherit;
+  color: var(--accent);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+.blog-subscribe button:hover {
+  text-decoration: underline;
+}
+.blog-subscribe__topics {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
 /* ==========================================================================
    Blog post / prose  —  two-column reading layout (TOC rail | prose)
    ========================================================================== */
