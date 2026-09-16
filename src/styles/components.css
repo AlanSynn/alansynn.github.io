@@ -840,12 +840,6 @@ figcaption {
 .blog-subscribe button:hover {
   text-decoration: underline;
 }
-.blog-subscribe__topics {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-3);
-}
 
 /* ==========================================================================
    Blog post / prose  —  two-column reading layout (TOC rail | prose)
