@@ -15,7 +15,7 @@
 #   - `ai` is RESERVED: only for posts substantially about AI research or AI
 #     technology itself. Never attach it for backdrop, motivation, or
 #     field-context (a post that survives with AI swapped for any other fast
-#     technology does not get it). Currently zero posts; registered on purpose.
+#     technology does not get it). First used by the robotics two-part series.
 #   - `tutorial` is the sanctioned FORMAT-tag exception (minority rule): it may
 #     exist only while how-to posts stay a small minority of the blog.
 #   - Validation-only — this list is NOT the display source. The chip text is
@@ -28,6 +28,7 @@
 #   philosophy-of-science— what counts as knowledge, rigor, or truth in a field
 #   academia             — life and structure inside the academic research world
 #   computer-science     — CS as one discipline with many subfield identities
+#   robotics             — robots, embodied AI, and making machine capability dependable
 #   history-of-science   — episodes and turning points from the record of science
 #   career-advice        — steering a working life: preparation, reinvention,
 #                          decisions
@@ -37,12 +38,13 @@
 #   humility             — the stance of knowing what your best answer can't see
 #   ethics               — harm, care, and competing goods in practice
 #   meta, typst, tutorial — site/writing mechanics (draft usage guide only)
-#   ai                   — reserved, see above (zero posts)
+#   ai                   — reserved, see above (first uses: robotics series)
 # ============================================================================
 - sociology-of-science
 - philosophy-of-science
 - academia
 - computer-science
+- robotics
 - history-of-science
 - career-advice
 - uncertainty
@@ -54,4 +56,3 @@
 - meta
 - tutorial
 - ai
-- robotics
