@@ -29,21 +29,6 @@ const feedUrl = `${site.url.replace(/\/$/, '')}/rss.xml`;
 // ?tag= URL: email subscription is site-wide only (§ product decision), the
 // tag-aware behavior stays RSS/copy-only.
 const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
-// Cadence axis (subscribe-drawer summary): one tick per published post at its
-// REAL date, positioned across [first post, build time] — honest data about
-// irregular publishing, computed at build so it stays static output (no JS,
-// no client Date). The blinking "?" slot is the unscheduled next post. Ticks
-// cap at 97% so a very recent post never collides with the "?" glyph.
-const chronological = [...posts].sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
-const cadenceT0 = chronological.length ? chronological[0].data.date.valueOf() : 0;
-const cadenceT1 = Date.now();
-const cadenceTicks = chronological.map((p) => {
-  const raw =
-    cadenceT1 > cadenceT0
-      ? ((p.data.date.valueOf() - cadenceT0) / (cadenceT1 - cadenceT0)) * 100
-      : 0;
-  return { pct: Math.min(97, raw), date: p.data.date };
-});
 ---
 
 <Base title="Blog">
@@ -111,23 +96,20 @@ const cadenceTicks = chronological.map((p) => {
               otherwise the status would sit hidden in a closed drawer below
               the fold. */}
           <details class="blog-subscribe-wrap">
-            {/* Summary = cadence axis (chosen draft #26, scratch/subscribe-lab.html):
-                the publication record IS the invitation. Whole axis is the
-                toggle; the form + RSS strip below are the unchanged drawer body,
-                so the ?ok= reopen script (status.closest('details')) still
-                works. The caption carries the accessible name; the tick dates
-                are decorative (axis aria-hidden). */}
-            <summary class="blog-cadence">
-              <span class="blog-cadence__axis" aria-hidden="true">
-                {cadenceTicks.map((t) => (
-                  <span class="blog-cadence__tick" style={`left: ${t.pct}%`} title={fmt(t.date)} />
-                ))}
-                <span class="blog-cadence__next">?</span>
+            {/* Summary = draft #03 from scratch/subscribe-lab.html: the same
+                mono microtype idiom as the old summary, tinted accent, with a
+                text-presentation ✉ glyph (NOT ✉️ emoji presentation — the
+                colored emoji would break the mono palette; the glyph inherits
+                the accent like every other character). The glyph is decorative
+                beside the word "Subscribe". Whole summary is still the
+                <details> toggle, so the ?ok= reopen script
+                (status.closest('details')) and the collapsed-by-default rule
+                are unchanged; the drawer body below is untouched. */}
+            <summary>
+              <span class="blog-subscribe__icon" aria-hidden="true">
+                ✉
               </span>
-              <span class="blog-cadence__caption">
-                publication record · next: unscheduled
-                <span class="sr-only">— expand to subscribe by email or RSS</span>
-              </span>
+              Subscribe
             </summary>
             <form
               class="blog-email-form"
