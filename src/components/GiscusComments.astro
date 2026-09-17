@@ -1,0 +1,146 @@
+---
+// GiscusComments.astro — lazily loaded giscus Discussion section.
+// The initial document carries NO giscus script: an IntersectionObserver
+// injects client.js only when the section nears the viewport (600px margin),
+// so a post load makes zero third-party requests until the reader scrolls
+// down. All giscus params ride on the mount as data-* attributes and are read
+// at injection time — `term` is the only per-page input, so any future
+// comment-bearing page reuses this component unchanged.
+import { giscus } from '@/lib/giscus';
+
+interface Props {
+  term: string;
+}
+
+const { term } = Astro.props;
+
+// Canonical production origin, derived at build time from the trusted
+// astro.config `site`. The inline script compares location.origin against
+// this data attribute, so dev/preview serves the placeholder only — zero
+// giscus requests and no test Discussions from localhost.
+const productionOrigin = new URL(import.meta.env.SITE).origin;
+
+// Every param the injected client.js needs except theme, which is read live
+// from data-theme at injection (and re-synced afterwards via postMessage).
+// mapping=specific + a namespaced term because the backend repo is shared by
+// multiple sites — pathname/url/title mapping would collide across sites.
+const params = {
+  'data-repo': giscus.repo,
+  'data-repo-id': giscus.repoId,
+  'data-category': giscus.category,
+  'data-category-id': giscus.categoryId,
+  'data-mapping': 'specific',
+  'data-term': term,
+  'data-strict': '1',
+  'data-reactions-enabled': '0',
+  'data-emit-metadata': '0',
+  'data-input-position': 'top',
+  'data-lang': 'en',
+  // Defense in depth: the outer observer defers client.js itself; giscus's
+  // own lazy mode additionally defers the iframe.
+  'data-loading': 'lazy',
+} as const;
+---
+
+<section class="comments">
+  <h2 class="comments__heading">Discussion</h2>
+  <div class="comments__mount" {...params} data-origin={productionOrigin}></div>
+  <p class="comments__fallback">Comments require JavaScript and a GitHub account.</p>
+</section>
+
+{
+  /* data-astro-rerun: re-execute after a View-Transition swap-in (inline
+     scripts never re-run on swap without it). Every execution tears down the
+     previous page's observer and re-observes the fresh mount, so a stale
+     observer can't fire on detached nodes and load giscus for a page the
+     reader already left; per-element guards keep a same-DOM re-execution
+     from double-injecting. */
+}
+<script is:inline data-astro-rerun>
+  (function () {
+    var mount = document.querySelector('.comments__mount');
+    if (!mount) return;
+
+    // Production-only: dev/preview origins never touch giscus (placeholder
+    // stays, no requests, no test Discussions).
+    if (window.location.origin !== mount.getAttribute('data-origin')) return;
+
+    if (!('IntersectionObserver' in window)) return; // fail quiet, no retry
+
+    // Theme sync — exactly ONE MutationObserver for the whole document
+    // lifecycle; the rerun guard means it is never stacked by a swap-in.
+    // data-theme on <html> is the site's authoritative theme (never
+    // prefers-color-scheme), and giscus follows it live without a reload.
+    if (!window.__giscusThemeObserverBound) {
+      window.__giscusThemeObserverBound = true;
+      new MutationObserver(function () {
+        var frame = document.querySelector('.giscus-frame');
+        if (!frame || !frame.contentWindow) return; // not loaded yet — injection read the initial theme
+        var theme =
+          document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        // Exact giscus origin, never '*' — a wildcard targetOrigin leaks the
+        // message to whatever document is embedded at that moment.
+        frame.contentWindow.postMessage({ setConfig: { theme: theme } }, 'https://giscus.app');
+      }).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme'],
+      });
+    }
+
+    function inject() {
+      var s = document.createElement('script');
+      s.src = 'https://giscus.app/client.js';
+      s.async = true;
+      s.setAttribute('crossorigin', 'anonymous');
+      // Params are carried by the mount, not hardcoded here — the component
+      // markup stays the single source of giscus configuration.
+      [
+        'repo',
+        'repo-id',
+        'category',
+        'category-id',
+        'mapping',
+        'term',
+        'strict',
+        'reactions-enabled',
+        'emit-metadata',
+        'input-position',
+        'lang',
+        'loading',
+      ].forEach(function (k) {
+        var v = mount.getAttribute('data-' + k);
+        if (v !== null) s.setAttribute('data-' + k, v);
+      });
+      s.setAttribute(
+        'data-theme',
+        document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light',
+      );
+      mount.appendChild(s);
+      // JS demonstrably works now — the no-JS note no longer applies.
+      var note = mount.parentElement && mount.parentElement.querySelector('.comments__fallback');
+      if (note) note.hidden = true;
+    }
+
+    // Drop the previous page's observer before observing this page's mount
+    // (post A → post B → … swaps leave the old one connected otherwise).
+    window.__giscusIntersectionObserver?.disconnect();
+
+    var observer = new IntersectionObserver(
+      function (entries, obs) {
+        var near = entries.some(function (e) {
+          return e.isIntersecting;
+        });
+        if (!near) return;
+        obs.disconnect();
+        // Per-element guard: a rerun on already-loaded DOM must not inject a
+        // second client.js / iframe (§28 idempotence).
+        if (mount.dataset.giscusLoaded) return;
+        mount.dataset.giscusLoaded = '1';
+        inject();
+      },
+      { rootMargin: '600px 0px', threshold: 0 },
+    );
+    observer.observe(mount);
+    window.__giscusIntersectionObserver = observer;
+  })();
+</script>

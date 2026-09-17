@@ -183,7 +183,17 @@ entry.
   sitemap (`blogDraftSlugs` — auto, no manual filter edit needed). So a draft's
   `dateModified`/JSON-LD never leaks to crawlers. Parity with project `unlisted`.
   — NOT the same as a project `draft: true`, which filters the build entirely
-  (dev-only).
+  (dev-only). Published posts also render a **giscus Discussion section**
+  (`GiscusComments.astro`, public config in `src/lib/giscus.ts`): the giscus
+  client is injected only when the section nears the viewport
+  (IntersectionObserver) and only on the production origin — dev/preview makes
+  zero giscus requests; drafts never load comments. Backend = the shared
+  `AlanSynn/comments` repo (GitHub Discussions, allowed origins in its
+  `giscus.json`); identity is `mapping=specific` with the term
+  `<site-key>:<content-kind>:<stable-id>` (currently `alansynn:blog:<post.id>`).
+  The backend is shared across sites, so pathname mapping is forbidden. A
+  published slug IS the comment identity — never rename a published slug
+  without migrating its giscus Discussion.
 - **Blog tags are a controlled vocabulary in `content/tags.yaml`.** Every
   `tags:` value on a post must be a listed kebab-case slug or the build fails
   with a located Zod error. Validated INLINE in `src/content.config.ts` as
