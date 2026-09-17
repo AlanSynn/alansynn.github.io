@@ -55,16 +55,46 @@ const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
               </div>
             </details>
           )}
-          {/* Subscribe drawer — collapsed by default (owner directive): email
-              form + RSS strip share one native details. Email subscription is
-              a native GET form to the Simple Newsletter hosted endpoint
-              (contract verified from its source: fields are read from the
-              query string, redirect mode 302s back to `return` with ok=1|0).
+          <ul class="blog-list" id="blog-list">
+            {posts.map((post) => (
+              <li data-tags={(post.data.tags ?? []).join(' ')}>
+                <h3 class="blog-list__title">
+                  <a href={`/blog/${post.id}`}>{post.data.title}</a>
+                </h3>
+                <div class="blog-list__meta">
+                  <span class="meta-core">
+                    <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+                    {post.data.author && <span> · {post.data.author}</span>}
+                  </span>
+                  {(post.data.tags ?? []).length > 0 && (
+                    <span class="meta-tags">
+                      {(post.data.tags ?? []).map((t) => (
+                        <a class="tag-chip" href={`/blog?tag=${encodeURIComponent(t)}`}>
+                          #{tagLabel(t)}
+                        </a>
+                      ))}
+                    </span>
+                  )}
+                </div>
+                {typeof post.data.description === 'string' && post.data.description && (
+                  <p class="blog-list__desc">{post.data.description}</p>
+                )}
+              </li>
+            ))}
+          </ul>
+          {/* Subscribe drawer — collapsed by default (owner directive), placed
+              BELOW the post list (end-of-attention placement): on a young blog
+              the posts are the argument, and the email ask follows them. Email
+              subscription is a native GET form to the Simple Newsletter hosted
+              endpoint (contract verified from its source: fields are read from
+              the query string, redirect mode 302s back to `return` with ok=1|0).
               Zero provider traffic until the user submits — the form posts
               itself, no JS in the send path. uri is always the canonical
               site-wide feed, never a topic feed. The result script below
-              auto-OPENS this drawer when it lands back with ?ok=…, otherwise
-              the status message would render inside a closed drawer. */}
+              auto-OPENS this drawer when it lands back with ?ok=… and scrolls
+              it into view (the provider 302 lands the reader at scroll 0),
+              otherwise the status would sit hidden in a closed drawer below
+              the fold. */}
           <details class="blog-subscribe-wrap">
             <summary>Subscribe</summary>
             <form
@@ -114,33 +144,6 @@ const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
               </button>
             </div>
           </details>
-          <ul class="blog-list" id="blog-list">
-            {posts.map((post) => (
-              <li data-tags={(post.data.tags ?? []).join(' ')}>
-                <h3 class="blog-list__title">
-                  <a href={`/blog/${post.id}`}>{post.data.title}</a>
-                </h3>
-                <div class="blog-list__meta">
-                  <span class="meta-core">
-                    <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
-                    {post.data.author && <span> · {post.data.author}</span>}
-                  </span>
-                  {(post.data.tags ?? []).length > 0 && (
-                    <span class="meta-tags">
-                      {(post.data.tags ?? []).map((t) => (
-                        <a class="tag-chip" href={`/blog?tag=${encodeURIComponent(t)}`}>
-                          #{tagLabel(t)}
-                        </a>
-                      ))}
-                    </span>
-                  )}
-                </div>
-                {typeof post.data.description === 'string' && post.data.description && (
-                  <p class="blog-list__desc">{post.data.description}</p>
-                )}
-              </li>
-            ))}
-          </ul>
         </>
       )
     }
@@ -275,7 +278,13 @@ const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
         // the status — closed-details content is out of the a11y tree, so
         // mutating an aria-live region while hidden announces nothing.
         var drawer = status.closest('details');
-        if (drawer) drawer.open = true;
+        if (drawer) {
+          drawer.open = true;
+          // The drawer sits below the post list; the provider 302 lands the
+          // reader at scroll 0, so bring the reopened drawer into view for
+          // sighted users (screen readers already announce the open region).
+          drawer.scrollIntoView({ block: 'center' });
+        }
         status.textContent =
           ok === '1'
             ? 'Check your inbox to confirm your subscription.'
