@@ -172,7 +172,7 @@ entry.
   Post page
   (`[...slug].astro`): two-column reading layout (TOC rail | prose), floating
   scroll-spy TOC built client-side from rendered `<h2>`/`<h3>`, footnotes as
-  endnotes, obfuscated reply-by-email link, CC BY-NC-ND 4.0 license. A mathyml
+  endnotes, CC BY-NC-ND 4.0 license. A mathyml
   prelude import (`#import "/src/3rd_party/mathyml/lib.typ"`) gives build-time
   MathML (no client-side MathJax); `blogimg` `width` must be absolute `pt`
   (relative `%` renders at 0). **`draft: true` excludes a post from the `/blog`
