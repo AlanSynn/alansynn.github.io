@@ -152,14 +152,19 @@ entry.
   (`getStaticPaths` over PUBLISHED posts' tags only, so a draft's tags never
   surface as a feed — mirrors the chip bar). The subscribe strip does NOT list
   topic feeds (that would duplicate the chip bar tag-for-tag): with JS, an
-  active chip filter swaps the strip's RSS/copy/Feedly to that topic's feed;
+  active chip filter swaps the strip's RSS/copy to that topic's feed;
   cleared filter restores the canonical feed; static hrefs are the no-JS
-  fallback. Above it sits a **site-wide email subscription form** (native GET
+  fallback. Feedly was removed by owner directive (2026-09). Above it sits a **site-wide email subscription form** (native GET
   to Simple Newsletter's hosted `/v1/subscriptions/`; `uri` = canonical
   `/rss.xml` only — never the active tag feed; `return` = query-free `/blog`;
   redirect mode appends `title`/`message`/`ok`, of which only `ok` is read
   locally — provider text is never rendered — and the params are then scrubbed
-  from the address bar). ALL feed paths are dropped from
+  from the address bar). **Both the tag-chip bar and the subscribe drawer are
+  collapsed by default** (native `<details>`, fold-style summaries): the filter
+  script re-opens the tags drawer when `?tag=` is present, and the email-result
+  script re-opens the subscribe drawer before writing its status (a11y: mutate
+  aria-live only after open) — don't "simplify" these away, closed drawers
+  would hide active state. ALL feed paths are dropped from
   the sitemap by the `/(^|\/)rss(\.xml|\/)/` filter in `astro.config.mjs`
   (automatic; adding a tag needs no filter edit). The `/blog` inline scripts
   carry `data-astro-rerun` so filter + copy survive View-Transition swaps back

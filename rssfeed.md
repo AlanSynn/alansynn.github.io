@@ -1,5 +1,12 @@
 # Task: Add Email Subscription to the Blog Using Hosted Simple Newsletter
 
+> **SUPERSEDED 2026-09 — task completed (commit ec014df) and partially
+> overridden by later owner directives.** The Feedly link was REMOVED from
+> `/blog` (so §2's "do not remove … Feedly link" and `#sub-feedly` no longer
+> apply), and the tag bar + subscribe area are now collapsed by default.
+> Sections 6–35 remain accurate as the provider contract / behavior record.
+> Do not reinstate removed UI from this file.
+
 Repository:
 
 `AlanSynn/alansynn.github.io`

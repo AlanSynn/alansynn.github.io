@@ -841,6 +841,56 @@ figcaption {
   text-decoration: underline;
 }
 
+/* ---- Collapsed drawers on /blog (tags + subscribe) ----------------------
+   Native <details> collapsed by default; the summary copies the prose-fold
+   idiom (flex, no native marker, +/− caret) at mono microtype scale. The
+   filter script re-opens the tags drawer when ?tag= is present and the
+   email-result script re-opens the subscribe drawer on ?ok= returns. */
+.blog-tags-wrap,
+.blog-subscribe-wrap {
+  margin-bottom: var(--space-5);
+}
+.blog-tags-wrap summary,
+.blog-subscribe-wrap summary {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-mono);
+  color: var(--muted);
+}
+.blog-tags-wrap summary::-webkit-details-marker,
+.blog-subscribe-wrap summary::-webkit-details-marker {
+  display: none;
+}
+.blog-tags-wrap summary:hover,
+.blog-subscribe-wrap summary:hover {
+  color: var(--ink-soft);
+}
+.blog-tags-wrap summary::after,
+.blog-subscribe-wrap summary::after {
+  content: '+';
+  margin-left: var(--space-2);
+  color: var(--faint);
+}
+.blog-tags-wrap[open] summary::after,
+.blog-subscribe-wrap[open] summary::after {
+  content: '−';
+}
+/* Inner rhythm: the drawer owns the spacing now, so the moved-in blocks
+   drop their own bottom margins and stack with a uniform gap instead. */
+.blog-subscribe-wrap > * + * {
+  margin-top: var(--space-4);
+}
+.blog-subscribe-wrap .blog-subscribe {
+  margin-bottom: 0;
+}
+.blog-tags-wrap[open] .tag-filter {
+  margin-top: var(--space-3);
+}
+
 /* ---- Email subscription (RSS-to-email via Simple Newsletter) -----------
    Quiet utility directly above the RSS strip: visible label + native GET
    form (the submit path is pure HTML — no JS). Tokens only, mirroring the
