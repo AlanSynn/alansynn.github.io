@@ -1,8 +1,10 @@
 ---
 import Base from '@/layouts/Base.astro';
 import Toc from '@/components/Toc.astro';
+import GiscusComments from '@/components/GiscusComments.astro';
 import { getCollection, render } from 'astro:content';
 import { site } from '@/lib/data';
+import { commentTerm } from '@/lib/giscus';
 import { tagLabel } from '@/lib/tags';
 
 export async function getStaticPaths() {
@@ -75,6 +77,12 @@ const replySubject = encodeURIComponent('Re: ' + post.data.title);
         </div>
 
         <a class="back-link" href="/blog">← All posts</a>
+
+        {
+          /* Drafts stay reachable but never load comments — no Discussion for
+            an unpublished post (§19). */
+        }
+        {!post.data.draft && <GiscusComments term={commentTerm(post.id)} />}
 
         <section class="reply">
           <p>

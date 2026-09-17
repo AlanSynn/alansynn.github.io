@@ -46,13 +46,44 @@
   max-width: 40rem;
 }
 
+/* ---- Comments (giscus) --------------------------------------------------
+   Quiet terminal section below the post: hairline break, no card/shadow, and
+   no reserved height — the mount stays empty until the reader nears it and
+   the observer injects giscus, so the iframe only ever grows the page below
+   the fold. Heading + fallback use the site's mono-microtype quiet idiom
+   (.toc__title / .blog-email-subscribe__hint); tokens drive everything, so
+   dark mode is free. */
 .comments {
   margin-top: var(--space-8);
   border-top: 1px solid var(--hairline);
   padding-top: var(--space-6);
 }
+.comments__heading {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-mono);
+  color: var(--muted);
+  margin-bottom: var(--space-4);
+}
+.comments__mount {
+  width: 100%;
+  min-width: 0;
+}
+/* Sizing the iframe ELEMENT in our page (its internal content is giscus's). */
+.comments__mount iframe {
+  width: 100%;
+  border: 0;
+}
+.comments__fallback {
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-mono);
+  color: var(--faint);
+  margin-top: var(--space-2);
+}
 
-/* ---- Reply (blog posts) - replaces comments; lean on email ----------- */
+/* ---- Reply (blog posts) - mandatory email fallback alongside giscus ---- */
 .reply {
   margin-top: var(--space-8);
   padding: var(--space-5);
