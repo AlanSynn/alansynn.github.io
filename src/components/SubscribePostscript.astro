@@ -1,0 +1,66 @@
+---
+// SubscribePostscript — the site-wide subscribe ask as a P.S. (round-4 draft #62).
+// One sentence in the page's own voice; the only interactive silhouettes are
+// the empty underlined slot and the boxed quiet button. No drawer, no card —
+// the ?ok= return simply fills the in-flow status line (nothing to reopen).
+// Placed once per page: /blog list foot, homepage after Contact, and every
+// blog post above the comments.
+import { site } from '@/lib/data';
+
+// Absolute feed + return URLs (the provider 302s back to `return`, blindly
+// appending ?title=…&message=…&ok=… — so `return` must be query-free).
+const feedUrl = `${site.url.replace(/\/$/, '')}/rss.xml`;
+const returnUrl = `${site.url.replace(/\/$/, '')}${Astro.url.pathname}`;
+---
+
+<div class="psub">
+  <div class="psub__note">
+    <form class="psub__form" action="https://simple-newsletter.com/v1/subscriptions/" method="get">
+      <input type="hidden" name="uri" value={feedUrl} />
+      <input type="hidden" name="return" value={returnUrl} />
+      <input type="hidden" name="redirect" value="true" />
+      <span>P.S. New posts arrive a few times a year. Leave your email and they'll find you —</span>
+      <input
+        class="psub__input"
+        type="email"
+        name="email"
+        placeholder="you@example.com"
+        aria-label="Email address"
+        autocomplete="email"
+        maxlength="254"
+        required
+      />
+      <button class="psub__btn" type="submit">Subscribe</button>
+      <span>·</span>
+      <a class="psub__rss" href={feedUrl}>RSS</a>
+      <span>.</span>
+    </form>
+    <p class="psub__status" role="status" aria-live="polite" hidden></p>
+  </div>
+</div>
+
+<script is:inline data-astro-rerun>
+  (function () {
+    // Email-subscription result. Simple Newsletter 302s back with
+    // title/message/ok; only `ok` is read — provider text is untrusted and
+    // never rendered — and the message is a local string. The status is a
+    // plain in-flow paragraph now, so there is no drawer to reopen: it just
+    // appears and is scrolled into view. Params are scrubbed afterwards.
+    var status = document.querySelector('.psub__status');
+    if (!status) return;
+    var params = new URLSearchParams(location.search);
+    var ok = params.get('ok');
+    if (ok !== '1' && ok !== '0') return;
+    status.textContent =
+      ok === '1'
+        ? 'Check your inbox to confirm your subscription.'
+        : 'Could not start the email subscription. Please try again, or use RSS.';
+    status.hidden = false;
+    status.scrollIntoView({ block: 'center' });
+    ['title', 'message', 'ok'].forEach(function (k) {
+      params.delete(k);
+    });
+    var qs = params.toString();
+    history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+  })();
+</script>

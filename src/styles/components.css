@@ -806,53 +806,13 @@ figcaption {
   text-decoration: underline;
 }
 
-/* /blog subscribe strip (inside the subscribe drawer, below the list).
-   Subscription is 0-cost static RSS: the canonical /rss.xml (also at
-   /blog/rss.xml) plus per-topic /blog/rss/<tag>.xml feeds. Mono microtype
-   row; links accent + hover-underline, matching .tag-filter__status. */
-.blog-subscribe {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--space-3);
-  font-family: var(--font-mono);
-  font-size: var(--step--2);
-  letter-spacing: var(--tracking-mono);
-  color: var(--muted);
-  margin-bottom: var(--space-5);
-}
-.blog-subscribe a {
-  color: var(--accent);
-  text-decoration: none;
-}
-.blog-subscribe a:hover {
-  text-decoration: underline;
-}
-.blog-subscribe button {
-  font: inherit;
-  letter-spacing: inherit;
-  color: var(--accent);
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-.blog-subscribe button:hover {
-  text-decoration: underline;
-}
-
-/* ---- Collapsed drawers on /blog (tags + subscribe) ----------------------
-   Native <details> collapsed by default; the summaries copy the prose-fold
+/* ---- Collapsed drawer on /blog (tags) -----------------------------------
+   Native <details> collapsed by default; the summary copies the prose-fold
    idiom (no native marker, +/− caret) at mono microtype scale. The filter
-   script re-opens the tags drawer when ?tag= is present and the email-result
-   script re-opens the subscribe drawer on ?ok= returns. */
+   script re-opens the drawer when ?tag= is present. (The subscribe ask is no
+   longer a drawer — see the .psub block below.) */
 .blog-tags-wrap {
   margin-bottom: var(--space-5);
-}
-/* The subscribe drawer is section-terminal (below the list), so it drops the
-   shared bottom margin — the last list row's padding covers the gap. */
-.blog-subscribe-wrap {
-  margin-bottom: 0;
 }
 .blog-tags-wrap summary {
   display: flex;
@@ -864,8 +824,7 @@ figcaption {
   letter-spacing: var(--tracking-mono);
   color: var(--muted);
 }
-.blog-tags-wrap summary::-webkit-details-marker,
-.blog-subscribe-wrap summary::-webkit-details-marker {
+.blog-tags-wrap summary::-webkit-details-marker {
   display: none;
 }
 .blog-tags-wrap summary:hover {
@@ -880,106 +839,87 @@ figcaption {
   content: '−';
 }
 
-/* ---- Subscribe summary: accent text + ✉ glyph --------------------------
-   Draft #03 (scratch/subscribe-lab.html): the same mono microtype idiom as
-   the tags summary, but tinted accent so the ask reads as an action rather
-   than metadata. The ✉ uses text presentation and inherits the accent — a
-   colored emoji would break the mono palette. Caret follows the accent at
-   reduced opacity so it cues without competing with the glyph. */
-.blog-subscribe-wrap summary {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  list-style: none;
+/* ---- Subscribe postscript (.psub — SubscribePostscript.astro) -----------
+   The site-wide subscribe ask as a P.S., not a widget (lab draft #62): one
+   sentence set like the page's own prose — serif italic at body scale — so
+   it reads as ordinary text, never a card/popup/toggle. The ONLY interactive
+   silhouettes are the empty underlined email slot (dashed hairline that
+   solidifies accent on focus) and a quiet boxed mono button. The form is a
+   native GET to Simple Newsletter (no JS in the submit path); its ?ok=
+   return fills .psub__status, a plain in-flow paragraph (nothing to reopen). */
+.psub {
+  margin-block: var(--space-6);
+}
+.psub__note {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step-0);
+  line-height: 1.8;
+  color: var(--ink-soft);
+  max-width: 46rem;
+}
+.psub__form {
+  display: inline;
+}
+.psub__input {
   font-family: var(--font-mono);
-  font-size: var(--step--2);
-  letter-spacing: var(--tracking-mono);
-  color: var(--accent);
-  font-weight: 500;
-}
-.blog-subscribe-wrap summary:hover {
-  color: var(--accent-strong);
-}
-.blog-subscribe-wrap summary::after {
-  content: '+';
-  margin-left: var(--space-2);
-  color: var(--accent);
-  opacity: 0.6;
-}
-.blog-subscribe-wrap[open] summary::after {
-  content: '−';
-}
-.blog-subscribe__icon {
-  margin-right: var(--space-2);
-}
-/* Inner rhythm: the drawer owns the spacing now, so the moved-in blocks
-   drop their own bottom margins and stack with a uniform gap instead. */
-.blog-subscribe-wrap > * + * {
-  margin-top: var(--space-4);
-}
-.blog-subscribe-wrap .blog-subscribe {
-  margin-bottom: 0;
-}
-.blog-tags-wrap[open] .tag-filter {
-  margin-top: var(--space-3);
-}
-
-/* ---- Email subscription (RSS-to-email via Simple Newsletter) -----------
-   Quiet utility directly above the RSS strip: visible label + native GET
-   form (the submit path is pure HTML — no JS). Tokens only, mirroring the
-   strip's mono microtype; success/failure differ by text, never by color
-   alone. */
-.blog-email-form__label {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: var(--step--2);
-  letter-spacing: var(--tracking-mono);
-  color: var(--muted);
-  margin-bottom: var(--space-2);
-}
-.blog-email-form__row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
-.blog-email-form__row input[type='email'] {
-  flex: 1 1 14rem;
-  min-width: 0;
-  font: inherit;
+  font-style: normal;
   font-size: var(--step--1);
   color: var(--ink);
-  background: var(--paper-sunken);
-  border: 1px solid var(--hairline-strong);
-  border-radius: var(--radius-sm);
-  padding: 0.55rem 0.7rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px dashed var(--faint);
+  border-radius: 0;
+  padding: 0 0.1ch 0.05em;
+  width: 15ch;
+  min-width: 12ch;
+  vertical-align: baseline;
 }
-.blog-email-form__row input[type='email']::placeholder {
+.psub__input::placeholder {
   color: var(--faint);
 }
-.blog-email-form__row button[type='submit'] {
-  font: inherit;
-  font-size: var(--step--1);
+.psub__input:focus {
+  outline: none;
+  border-bottom-style: solid;
+  border-bottom-color: var(--accent);
+}
+.psub__btn {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-mono);
   color: var(--accent);
   background: none;
   border: 1px solid var(--hairline-strong);
   border-radius: var(--radius-sm);
-  padding: 0.55rem 1rem;
+  padding: 0.2rem 0.7rem;
   cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+  vertical-align: baseline;
 }
-.blog-email-form__row button[type='submit']:hover {
+.psub__btn:hover {
   border-color: var(--accent);
   background: var(--accent-softer);
 }
-.blog-email-subscribe__status,
-.blog-email-subscribe__hint {
+.psub__rss {
+  color: var(--accent);
+  text-decoration: none;
+}
+.psub__rss:hover {
+  text-decoration: underline;
+}
+.psub__status {
   font-family: var(--font-mono);
   font-size: var(--step--2);
   letter-spacing: var(--tracking-mono);
-  color: var(--muted);
+  color: var(--accent);
   margin-top: var(--space-2);
 }
-.blog-email-subscribe__status {
-  color: var(--accent);
+
+.blog-tags-wrap[open] .tag-filter {
+  margin-top: var(--space-3);
 }
 
 /* ==========================================================================
