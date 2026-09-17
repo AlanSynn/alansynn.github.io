@@ -104,7 +104,10 @@
   margin-top: var(--space-1);
   line-height: var(--leading-snug);
 }
-.search-result__excerpt:global(mark) {
+/* Pagefind wraps query matches in <mark>; this is a plain global stylesheet,
+   so Astro's :global() syntax is invalid here — the rule was silently dead
+   until the 7.3.3 minifier started warning about it. Descendant selector. */
+.search-result__excerpt mark {
   background: var(--accent-soft);
   color: var(--accent);
   padding: 0 0.15em;
