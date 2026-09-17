@@ -11,7 +11,6 @@
 Computer science looks like one field from far away.
 
 Up close, it contains many research cultures.
-
 A theory paper, a systems paper, a vision paper, an NLP paper, a graphics paper, and an HCI paper may all contain algorithms, experiments, datasets, and software. But they can disagree sharply about what makes a contribution convincing.
 
 The difference is not simply that they use different methods.
@@ -33,7 +32,6 @@ That question explains a surprising amount about how computer scientists write p
 = A rough map of computer science research cultures
 
 This is not an official taxonomy.
-
 Fields overlap. Individual papers move between communities. A single researcher may work in several modes.
 
 The goal is simpler: recognize what different fields tend to treat as the important object, the important question, and the important failure.
@@ -91,7 +89,6 @@ Each field below is folded; open the ones you want to read.
   Important words include *soundness, completeness, semantics, specification, invariant, type safety, correctness,* and *verification*.
 
   A working implementation can be useful evidence, but it is not the same as a guarantee.
-
   If a type system claims to rule out a class of errors, the important question is whether the formal result actually establishes that property.
 
   The field protects the relationship between specification and guarantee.
@@ -146,9 +143,7 @@ Each field below is folded; open the ones you want to read.
   ]
 
   A strong systems claim therefore tends to have a boundary.
-
   Under workload W, on system S, with metric M, the design improves X.
-
   Without the workload, machine, scale, and metric, “faster” or “more efficient” means very little.
 ]
 
@@ -156,7 +151,6 @@ Each field below is folded; open the ones you want to read.
   Machine learning usually studies a learned model rather than a completely hand-specified mechanism.
 
   That changes the language of the field.
-
   Important words include *accuracy, generalization, robustness, calibration, sample efficiency, benchmark score, inference cost, scaling behavior,* and *distribution shift*.
 
   Common questions include:
@@ -170,9 +164,7 @@ Each field below is folded; open the ones you want to read.
   )
 
   A model can fit its training distribution extremely well and still fail to support a stronger claim about generalization.
-
   Likewise, a benchmark improvement is not automatically evidence that the model learned the structure researchers intended it to learn.
-
   The improvement might depend on dataset artifacts, optimization choices, scale, leakage, or a shortcut that happens to work on the benchmark.
 
   This gives machine learning an interesting position.
@@ -194,11 +186,8 @@ Each field below is folded; open the ones you want to read.
   Different vision problems therefore develop different meanings of success.
 
   In recognition, researchers may ask whether a method correctly detects, classifies, or segments objects.
-
   In reconstruction and geometry, they may ask whether the recovered structure matches the observed scene.
-
   In tracking, they care about correspondence across time.
-
   In neural rendering, they may care about novel-view quality, geometry, speed, and robustness together.
 
   Characteristic questions sound like:
@@ -212,11 +201,8 @@ Each field below is folded; open the ones you want to read.
   )
 
   A single number rarely describes all of these properties.
-
   A method can score well on one benchmark while producing poor geometry.
-
   It can reconstruct the training views well while failing at novel views.
-
   It can work on carefully captured scenes while becoming unstable under motion, occlusion, or lighting changes.
 
   So computer vision repeatedly asks whether the representation captures the visual structure the paper claims it captures.
@@ -226,7 +212,6 @@ Each field below is folded; open the ones you want to read.
   NLP inherits much of the model-centric culture of machine learning, but language introduces another layer of difficulty.
 
   The object may be classification, translation, retrieval, summarization, generation, factuality, reasoning, dialogue, or meaning itself.
-
   Those are not interchangeable objectives.
 
   Typical questions include:
@@ -240,11 +225,8 @@ Each field below is folded; open the ones you want to read.
   )
 
   A response can be fluent but wrong.
-
   A model can obtain the correct answer while exploiting a shortcut.
-
   A benchmark score can improve while behavior on a different domain becomes worse.
-
   And two responses can communicate essentially the same information while differing substantially at the token level.
 
   NLP therefore often has to separate questions that initially look like one:
@@ -278,7 +260,6 @@ Each field below is folded; open the ones you want to read.
   )
 
   Frame rate, latency, memory, bandwidth, approximation, image quality, and scene complexity can all matter.
-
   A method that produces an excellent image in ten minutes and one that produces a slightly worse image in sixteen milliseconds may be solving different problems.
 
   So raw visual quality is not enough.
@@ -296,9 +277,7 @@ Each field below is folded; open the ones you want to read.
   )
 
   Here, the representation itself may be the main contribution.
-
   Topology, discretization, numerical stability, deformation behavior, physical constraints, and robustness across shapes may all matter.
-
   A method can generate visually attractive examples while still failing because it does not preserve the property it claims to preserve.
 
   === Interactive and creative graphics
@@ -352,9 +331,7 @@ Each field below is folded; open the ones you want to read.
   The field may not yet have a closed objective to optimize. The research may instead be trying to make a phenomenon, practice, tension, or design possibility visible.
 
   “Situated” is therefore an important word.
-
   It does not mean “not rigorous.”
-
   It means that the result should be read together with the participants, artifact, practice, context, and use conditions that give the observation meaning.
 
   The characteristic questions are closer to:
@@ -369,11 +346,8 @@ Each field below is folded; open the ones you want to read.
   The serious failures also sound different.
 
   The problem may be that the work repeats a known framing in different words.
-
   The artifact may not actually reveal a new design space.
-
   The analysis may flatten the complexity of people, practice, or context.
-
   Or the evidence may support a situated observation while the paper makes a much broader claim.
 
   HCI rigor often lives in careful interpretation and careful claim scope.
@@ -383,7 +357,6 @@ Each field below is folded; open the ones you want to read.
   Visualization sits between graphics, HCI, perception, and data analysis.
 
   Its central object is not simply an image.
-
   It is a representation intended to help someone see, compare, reason about, or interact with data.
 
   Characteristic questions include:
@@ -398,9 +371,7 @@ Each field below is folded; open the ones you want to read.
   A visualization can render perfectly and still fail.
 
   The encoding may make an important comparison difficult.
-
   The interaction may encourage the wrong interpretation.
-
   An evaluation may optimize task completion time while missing the reasoning process that motivated the visualization in the first place.
 
   Visualization therefore makes the difference between computational performance and human performance particularly obvious.
@@ -424,15 +395,10 @@ Each field below is folded; open the ones you want to read.
   Robotics combines several research cultures.
 
   Perception may look like computer vision.
-
   Learning may look like machine learning.
-
   Planning may look like algorithms.
-
   Control may rely on mathematical guarantees.
-
   Real-time execution looks like systems.
-
   Human-robot interaction can look like HCI.
 
   And eventually the physical robot gets a vote.
@@ -451,7 +417,6 @@ Once the fields are introduced separately, a broader pattern becomes visible.
 Three questions appear again and again.
 
 They are not fields.
-
 They are orientations that different fields move between.
 
 == Possibility-centered research
@@ -463,7 +428,6 @@ The first question is:
 ]
 
 This orientation appears strongly in HCI, design research, interactive graphics, visualization, creative tools, and exploratory AI work.
-
 The research may reveal a new interaction, workflow, behavior, phenomenon, or design space.
 
 Typical language includes:
@@ -476,15 +440,11 @@ Typical language includes:
 )
 
 The contribution is generative.
-
 It makes something newly visible or newly doable.
-
 That does not mean anything goes.
-
 A possibility-centered contribution still has to make clear what is newly visible, what evidence supports it, and where the claim ends.
 
 But it does not always begin with a closed objective.
-
 Sometimes the first contribution is making the phenomenon legible enough that later work can measure, formalize, optimize, or deploy it.
 
 == Constraint-centered research
@@ -522,7 +482,6 @@ Typical language includes:
 )
 
 The contribution has to survive the conditions it gestures toward.
-
 An elegant mechanism that only works after excluding the dominant real-world cost may not support the claim being made.
 
 == Principle-centered research
@@ -546,11 +505,8 @@ Typical language includes:
 )
 
 The contribution protects the relationship between claim and implication.
-
 Definitions matter because changing the definition can change the theorem.
-
 Assumptions matter because removing one may break the result.
-
 Counterexamples matter because they reveal the boundary of a universal statement.
 
 = The triangle is a conversation map, not a taxonomy
@@ -580,27 +536,20 @@ But fields should not be placed permanently into corners.
 A better description is that different fields often *start* closer to different questions.
 
 Theory and formal methods often start near principle.
-
 Systems and architecture often start near constraint.
-
 HCI and design research often start near possibility.
 
 But most interesting fields move.
 
 Graphics moves constantly among representation, computation, perception, interaction, and constraints.
-
 Robotics moves among learning, formal control, physical constraints, and human interaction.
-
 Machine learning moves between empirical possibility, scaling constraints, and questions about generalization.
 
 Vision moves between learned representations, geometry, perceptual evidence, robustness, and computational constraints.
-
 NLP moves between empirical capability, linguistic interpretation, generalization, evaluation, and human use.
-
 Visualization moves between representation, perception, interaction, and analytical goals.
 
 The triangle is therefore not a taxonomy of computer science.
-
 It is a map for understanding what question a piece of research is asking *right now*.
 
 A project may begin by showing a possibility:
@@ -624,9 +573,7 @@ Then it may become more principled:
 The direction can also go the other way.
 
 A theorem may suggest a representation.
-
 A new representation may enable a system.
-
 A system may make a new interaction possible.
 
 Research moves around the triangle.
@@ -634,7 +581,6 @@ Research moves around the triangle.
 = The same word can mean different things
 
 Once fields protect different kinds of claims, even ordinary technical words become unstable.
-
 The easiest example is *performance*.
 
 Everyone talks about performance.
@@ -661,9 +607,7 @@ They do not necessarily mean the same thing.
   ]
 
   The workload matters.
-
   The hardware matters.
-
   The operating conditions matter.
 
   A throughput number with no workload is barely a claim.
@@ -718,9 +662,7 @@ They do not necessarily mean the same thing.
   - inference cost.
 
   Fluency is one property.
-
   Correctness is another.
-
   Factuality is another.
 
   They should not be collapsed into a single notion of “good language.”
@@ -755,9 +697,7 @@ They do not necessarily mean the same thing.
 
 #fold("Performance in visualization")[
   Visualization can inherit both computational and human criteria.
-
   A visualization may need to render quickly, but it may also need to help people compare values, detect structure, understand uncertainty, or maintain context during exploration.
-
   A faster visualization is not necessarily a better visualization if its representation makes the intended analytical task harder.
 ]
 
@@ -775,9 +715,7 @@ They do not necessarily mean the same thing.
   - robustness across shapes, scenes, and materials.
 
   “Interactive” is particularly interesting.
-
   It is partly computational, but it is also human.
-
   Interactive means responsive enough for a person to remain in the loop.
 ]
 
@@ -831,7 +769,6 @@ These words need a claim boundary.
 = Why “lack” sounds different across fields
 
 Another useful example is the word *lack*.
-
 In systems and architecture, *lack* is often a normal technical description.
 
 #examples(
@@ -841,7 +778,6 @@ In systems and architecture, *lack* is often a normal technical description.
 )
 
 The sentence points to a missing mechanism.
-
 The missing mechanism then explains a bottleneck, overhead, instability, or underutilization.
 
 But consider:
@@ -851,9 +787,7 @@ But consider:
 ]
 
 In HCI, this sentence is much more delicate.
-
 It puts the problem inside the user.
-
 The analysis can often become more precise by moving from a deficit in the person to a relationship among the person, representation, interface, feedback, and context.
 
 For example:
@@ -866,11 +800,9 @@ For example:
 )
 
 The difference is not cosmetic.
-
 It changes where the research looks for the problem.
 
 A systems researcher may look for the missing mechanism in an abstraction.
-
 An HCI researcher may look for the relation among representation, interaction, interpretation, and context.
 
 The same grammatical pattern can therefore imply very different theories of what went wrong.
@@ -963,7 +895,6 @@ But an HCI researcher may hear:
 Those are different claims.
 
 The systems researcher may be asking what conditions the idea survives.
-
 The HCI researcher may think the exploratory contribution is being dismissed before deployment is even the point.
 
 == An HCI sentence heard by systems
@@ -987,7 +918,6 @@ A systems researcher may still ask:
 ]
 
 Again, both questions are legitimate.
-
 They simply protect different parts of the claim.
 
 The conflict appears when either side treats its own first question as the only serious one.
@@ -998,9 +928,7 @@ Another way to understand research cultures is to ask what kind of failure is es
 
 #fold("Theory")[
   A counterexample can break a universal claim.
-
   A missing assumption can invalidate a theorem.
-
   A proof that establishes a weaker property than the paper claims is a central problem.
 
   The contribution lives or dies by the relationship among definition, assumption, theorem, and implication.
@@ -1008,19 +936,16 @@ Another way to understand research cultures is to ask what kind of failure is es
 
 #fold("Programming languages and formal methods")[
   A claimed safety or correctness property that the formal system does not actually guarantee is a central failure.
-
   The implementation may look convincing, but it cannot substitute for the formal property if the contribution is stated as a guarantee.
 ]
 
 #fold("Systems")[
   A systems claim becomes weak when the bottleneck is unclear, the workload does not match the claim, the measurements do not isolate the relevant mechanism, or the design removes one cost by hiding another.
-
   A system that “scales” only after excluding the difficult part of the workload has not necessarily supported a scalability claim.
 ]
 
 #fold("Machine learning")[
   A benchmark gain becomes weak evidence when it disappears across seeds, datasets, distributions, or reasonable evaluation choices.
-
   A model may also support a prediction claim without supporting a stronger explanation about what it learned.
 
   The claim boundary matters.
@@ -1028,9 +953,7 @@ Another way to understand research cultures is to ask what kind of failure is es
 
 #fold("Computer vision")[
   A method may perform well on a benchmark while failing under viewpoint changes, occlusion, unseen scenes, or different capture conditions.
-
   A visually appealing reconstruction may still have incorrect geometry.
-
   A representation that explains training views may fail at novel views.
 
   The important failure depends on what the paper promised.
@@ -1038,9 +961,7 @@ Another way to understand research cultures is to ask what kind of failure is es
 
 #fold("NLP")[
   A fluent answer can be factually wrong.
-
   A model can solve a benchmark through a shortcut.
-
   A method can improve one metric without preserving meaning.
 
   An evaluation can therefore look convincing while missing the behavior the paper actually claims to improve.
@@ -1050,11 +971,8 @@ Another way to understand research cultures is to ask what kind of failure is es
   A graphics contribution often breaks when the promised property and the artifact do not align.
 
   A “real-time” method that does not feel interactive has a problem.
-
   A “physically plausible” model that fails perceptually has a problem.
-
   A representation for editing that does not expose useful control has a problem.
-
   A visually impressive method that fails across ordinary shapes, materials, or scenes may have a robustness problem.
 
   Graphics papers often promise several properties simultaneously, which is why their evaluations can become unusually heterogeneous.
@@ -1064,19 +982,15 @@ Another way to understand research cultures is to ask what kind of failure is es
   A serious HCI problem is often a mismatch between claim and evidence.
 
   A situated probe cannot automatically support a universal claim.
-
   A design argument can become weak if it ignores how participants interpreted or appropriated the artifact.
-
   An exploratory system can also fail to reveal anything meaningfully new.
 
   The important question is not whether the study looks like a systems benchmark.
-
   It is whether the evidence actually supports the type of HCI claim being made.
 ]
 
 #fold("Visualization")[
   A visualization can fail because its representation does not support the analytical task it claims to support.
-
   A controlled study can also be too narrow if the experimental task removes the reasoning behavior that motivated the design.
 
   The computational system may work perfectly while the representation fails as a tool for thinking.
@@ -1086,9 +1000,7 @@ Another way to understand research cultures is to ask what kind of failure is es
   Robotics exposes fragile claims quickly.
 
   A method that succeeds only in simulation may not support a real-world robotics claim.
-
   A controller that works only with precise initialization may not be robust.
-
   A system that cannot recover from small sensing or control errors may fail once it leaves a carefully prepared demonstration.
 
   The physical world continually tests the assumptions hidden in the model.
@@ -1097,7 +1009,6 @@ Another way to understand research cultures is to ask what kind of failure is es
 = Translating critique across fields
 
 Interdisciplinary collaboration does not require people to weaken their standards.
-
 It requires keeping the standard while translating the critique into a form that another field can use.
 
 Consider:
@@ -1113,7 +1024,6 @@ A more collaborative version is:
 ]
 
 The criticism remains.
-
 But now the missing evidence is clear.
 
 Consider:
@@ -1129,7 +1039,6 @@ A more precise version is:
 ]
 
 Again, the critique remains.
-
 It no longer confuses an exploratory claim with a deployment claim.
 
 Consider:
@@ -1185,13 +1094,11 @@ A more precise version is:
 ]
 
 Good translation should not remove criticism.
-
 It should reveal exactly which claim the criticism applies to.
 
 = Research often moves from one question to another
 
 The three orientations do not replace one another.
-
 Strong research often moves among them.
 
 A new HCI interaction may begin with:
@@ -1213,23 +1120,16 @@ What property of the representation actually makes the interaction work?
 ]
 
 A robotics project may begin with a new learned behavior.
-
 Then reality introduces noise, delay, contact, and hardware constraints.
-
 Later, researchers may ask whether the behavior can be characterized or guaranteed under particular assumptions.
 
 A graphics technique may begin as a new representation.
-
 Then researchers optimize it until it becomes interactive.
-
 Once artists use it, new questions about control and workflow appear.
 
 A machine-learning capability may first be surprising.
-
 Then the field asks whether it generalizes.
-
 Then systems researchers ask what it costs to train and serve.
-
 Then theory may ask which mechanism or scaling relation explains the behavior.
 
 Research areas mature by moving among different questions, not by permanently graduating from one kind of rigor to another.
@@ -1239,27 +1139,20 @@ Research areas mature by moving among different questions, not by permanently gr
 The same paper can be read through several standards of truth.
 
 *Possibility* asks whether the work makes something newly visible or newly doable.
-
 *Constraint* asks whether the work survives the machine, workload, resource budget, physical world, or deployment environment.
-
 *Principle* asks whether the work states a claim precisely enough to prove, bound, falsify, or break.
 
 Different fields also add their own dimensions.
 
 Vision asks whether the representation captures the relevant visual structure.
-
 NLP asks whether linguistic behavior, meaning, and correctness survive changes in context and evaluation.
-
 Graphics asks whether representation, computation, perception, physical plausibility, and control align.
 
 HCI asks whether the interpretation of people and practices supports the claim.
-
 Robotics asks whether the computation survives embodiment.
-
 Visualization asks whether the representation actually supports reasoning.
 
 None of these standards is automatically more mature than another.
-
 They do different jobs.
 
 The mistake is to take one field’s first question and treat it as the only legitimate question.
