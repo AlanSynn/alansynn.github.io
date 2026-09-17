@@ -1266,6 +1266,29 @@ figcaption {
   color: var(--muted);
   margin-bottom: var(--space-3);
 }
+/* The essay's own title anchors the rail's top (lab draft #73): serif italic
+   so it reads as a title, while the quotation marks stay in the list's mono
+   grammar. Clicking returns to the top of the page (#top on the article). */
+.toc__doc {
+  display: block;
+  margin-bottom: var(--space-3);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: var(--leading-snug);
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 0.2s var(--ease);
+}
+.toc__doc:hover {
+  color: var(--accent);
+}
+.toc__doc-q {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: var(--step--2);
+  color: var(--muted);
+}
 .toc__scroll {
   position: relative;
   max-height: calc(100vh - 8rem);
@@ -1322,6 +1345,22 @@ figcaption {
 .toc__link.is-active {
   color: var(--accent);
   font-weight: 600;
+}
+/* Exit affordance at the rail's foot — separated from the section list by a
+   hairline so it reads as "leave this page", not as one more heading. */
+.toc__back {
+  display: block;
+  margin-top: var(--space-4);
+  padding: var(--space-2) 0 0 var(--space-4);
+  border-top: 1px solid var(--hairline);
+  font-size: var(--step--2);
+  letter-spacing: var(--tracking-mono);
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.2s var(--ease);
+}
+.toc__back:hover {
+  color: var(--accent);
 }
 
 /* ---- Table of contents — mobile disclosure (quiet inline trigger) ----- */
