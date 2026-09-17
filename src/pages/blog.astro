@@ -27,7 +27,7 @@ const feedUrl = `${site.url.replace(/\/$/, '')}/rss.xml`;
 // Email-subscription return target. Must be query-free — the provider blindly
 // appends "?title=…&message=…&ok=…" to it. Also intentionally NOT the current
 // ?tag= URL: email subscription is site-wide only (§ product decision), the
-// tag-aware behavior stays RSS/copy/Feedly-only.
+// tag-aware behavior stays RSS/copy-only.
 const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
 ---
 
@@ -43,22 +43,30 @@ const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
       ) : (
         <>
           {allTags.length > 0 && (
-            <div class="tag-filter" id="tag-filter">
-              {allTags.map((t) => (
-                <a class="tag-chip" href={`/blog?tag=${encodeURIComponent(t)}`} data-tag={t}>
-                  #{tagLabel(t)}
-                </a>
-              ))}
-              <span class="tag-filter__status" id="tag-filter-status" hidden />
-            </div>
+            <details class="blog-tags-wrap">
+              <summary>Tags ({allTags.length})</summary>
+              <div class="tag-filter" id="tag-filter">
+                {allTags.map((t) => (
+                  <a class="tag-chip" href={`/blog?tag=${encodeURIComponent(t)}`} data-tag={t}>
+                    #{tagLabel(t)}
+                  </a>
+                ))}
+                <span class="tag-filter__status" id="tag-filter-status" hidden />
+              </div>
+            </details>
           )}
-          {/* Email subscription — a native GET form to the Simple Newsletter
-              hosted endpoint (contract verified from its source: fields are
-              read from the query string, redirect mode 302s back to `return`
-              with ok=1|0). Zero provider traffic until the user submits — the
-              form posts itself, no JS in the send path. uri is always the
-              canonical site-wide feed, never a topic feed. */}
-          <div class="blog-email-subscribe">
+          {/* Subscribe drawer — collapsed by default (owner directive): email
+              form + RSS strip share one native details. Email subscription is
+              a native GET form to the Simple Newsletter hosted endpoint
+              (contract verified from its source: fields are read from the
+              query string, redirect mode 302s back to `return` with ok=1|0).
+              Zero provider traffic until the user submits — the form posts
+              itself, no JS in the send path. uri is always the canonical
+              site-wide feed, never a topic feed. The result script below
+              auto-OPENS this drawer when it lands back with ?ok=…, otherwise
+              the status message would render inside a closed drawer. */}
+          <details class="blog-subscribe-wrap">
+            <summary>Subscribe</summary>
             <form
               class="blog-email-form"
               action="https://simple-newsletter.com/v1/subscriptions/"
@@ -89,33 +97,23 @@ const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
               role="status"
               aria-live="polite"
               hidden
-            ></p>
-            <p class="blog-email-subscribe__hint">New posts by email. Unsubscribe anytime.</p>
-          </div>
-          {/* Subscribe strip — 0-cost subscription = static RSS. Canonical feed
-              + copy button + a reader deep-link for non-RSS-savvy readers.
-              Per-topic feeds are NOT listed here (they would duplicate the chip
-              bar tag-for-tag); instead the strip follows the active chip filter —
-              filter to a tag and RSS/copy/Feedly swap to that topic's feed
-              (wired in the filter script below). No-JS readers still get the
-              canonical site-wide feed from the static hrefs. */}
-          <div class="blog-subscribe" id="blog-subscribe" data-site-url={site.url}>
-            <span>Subscribe:</span>
-            <a href={feedUrl} id="sub-rss">
-              RSS
-            </a>
-            <button type="button" class="blog-subscribe__copy" data-feed-url={feedUrl}>
-              copy
-            </button>
-            <a
-              href={`https://feedly.com/i/subscription/feed/${encodeURIComponent(feedUrl)}`}
-              target="_blank"
-              rel="noopener"
-              id="sub-feedly"
-            >
-              Feedly
-            </a>
-          </div>
+            />
+            <p class="blog-email-subscribe__hint">Unsubscribe anytime.</p>
+            {/* RSS strip — 0-cost subscription = static RSS. Canonical feed +
+                copy button; per-topic feeds are NOT listed here (they would
+                duplicate the chip bar tag-for-tag); instead the strip follows
+                the active chip filter — filter to a tag and RSS/copy swap to
+                that topic's feed (wired in the filter script below). No-JS
+                readers still get the canonical feed from the static href. */}
+            <div class="blog-subscribe" id="blog-subscribe" data-site-url={site.url}>
+              <a href={feedUrl} id="sub-rss">
+                RSS
+              </a>
+              <button type="button" class="blog-subscribe__copy" data-feed-url={feedUrl}>
+                copy
+              </button>
+            </div>
+          </details>
           <ul class="blog-list" id="blog-list">
             {posts.map((post) => (
               <li data-tags={(post.data.tags ?? []).join(' ')}>
@@ -183,9 +181,9 @@ const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
             }
           }
           // Subscribe strip follows the filter: an active tag swaps
-          // RSS/copy/Feedly to that topic's feed; cleared restores the
-          // canonical site-wide feed. (Lives in this IIFE because tag state
-          // does; the copy button only reads data-feed-url at click time.)
+          // RSS/copy to that topic's feed; cleared restores the canonical
+          // site-wide feed. (Lives in this IIFE because tag state does; the
+          // copy button only reads data-feed-url at click time.)
           var strip = document.getElementById('blog-subscribe');
           if (strip) {
             var base = (strip.dataset.siteUrl || '').replace(/\/$/, '');
@@ -193,11 +191,8 @@ const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
               ? base + '/blog/rss/' + encodeURIComponent(tag) + '.xml'
               : base + '/rss.xml';
             var rss = document.getElementById('sub-rss');
-            var feedly = document.getElementById('sub-feedly');
             var copy = strip.querySelector('.blog-subscribe__copy');
             if (rss) rss.href = url;
-            if (feedly)
-              feedly.href = 'https://feedly.com/i/subscription/feed/' + encodeURIComponent(url);
             if (copy) copy.dataset.feedUrl = url;
           }
         }
@@ -208,8 +203,15 @@ const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
           history.replaceState(null, '', url);
         }
 
-        // Restore from a shared deep link (/blog?tag=foo).
-        apply(new URLSearchParams(location.search).get('tag'));
+        // Restore from a shared deep link (/blog?tag=foo). The tags drawer is
+        // collapsed by default, so an active filter must re-open it — else the
+        // chips explaining the filtered list stay hidden.
+        var param = new URLSearchParams(location.search).get('tag');
+        apply(param);
+        if (param) {
+          var drawer = filter.closest('details');
+          if (drawer) drawer.open = true;
+        }
 
         // Click a chip → toggle that tag in-place (no full reload); the <a
         // href is the no-JS fallback.
@@ -269,6 +271,11 @@ const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
         var params = new URLSearchParams(location.search);
         var ok = params.get('ok');
         if (ok !== '1' && ok !== '0') return;
+        // The subscribe drawer is collapsed by default; open it BEFORE writing
+        // the status — closed-details content is out of the a11y tree, so
+        // mutating an aria-live region while hidden announces nothing.
+        var drawer = status.closest('details');
+        if (drawer) drawer.open = true;
         status.textContent =
           ok === '1'
             ? 'Check your inbox to confirm your subscription.'
