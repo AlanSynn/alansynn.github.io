@@ -856,10 +856,19 @@ figcaption {
   font-size: var(--step-0);
   line-height: 1.8;
   color: var(--ink-soft);
-  max-width: 46rem;
 }
 .psub__form {
   display: inline;
+}
+/* The controls (email slot + button + RSS) travel as ONE unbreakable cluster:
+   the sentence wraps like prose, but the wrap point can never orphan the
+   button — either the whole tail fits on the line or it moves down together. */
+.psub__cluster {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45ch;
+  white-space: nowrap;
+  vertical-align: baseline;
 }
 .psub__input {
   font-family: var(--font-mono);

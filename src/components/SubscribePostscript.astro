@@ -20,20 +20,22 @@ const returnUrl = `${site.url.replace(/\/$/, '')}${Astro.url.pathname}`;
       <input type="hidden" name="return" value={returnUrl} />
       <input type="hidden" name="redirect" value="true" />
       <span>P.S. New posts arrive a few times a year. Leave your email and they'll find you —</span>
-      <input
-        class="psub__input"
-        type="email"
-        name="email"
-        placeholder="you@example.com"
-        aria-label="Email address"
-        autocomplete="email"
-        maxlength="254"
-        required
-      />
-      <button class="psub__btn" type="submit">Subscribe</button>
-      <span>·</span>
-      <a class="psub__rss" href={feedUrl}>RSS</a>
-      <span>.</span>
+      <span class="psub__cluster">
+        <input
+          class="psub__input"
+          type="email"
+          name="email"
+          placeholder="you@example.com"
+          aria-label="Email address"
+          autocomplete="email"
+          maxlength="254"
+          required
+        />
+        <button class="psub__btn" type="submit">Subscribe</button>
+        <span aria-hidden="true">·</span>
+        <a class="psub__rss" href={feedUrl}>RSS</a>
+        <span aria-hidden="true">.</span>
+      </span>
     </form>
     <p class="psub__status" role="status" aria-live="polite" hidden></p>
   </div>
