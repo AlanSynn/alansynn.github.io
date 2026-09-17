@@ -79,8 +79,14 @@ const params = {
         var theme =
           document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
         // Exact giscus origin, never '*' — a wildcard targetOrigin leaks the
-        // message to whatever document is embedded at that moment.
-        frame.contentWindow.postMessage({ setConfig: { theme: theme } }, 'https://giscus.app');
+        // message to whatever document is embedded at that moment. The
+        // `giscus` envelope is required: the widget ignores bare
+        // `{ setConfig: … }` payloads (verified live — theme never synced
+        // without it).
+        frame.contentWindow.postMessage(
+          { giscus: { setConfig: { theme: theme } } },
+          'https://giscus.app',
+        );
       }).observe(document.documentElement, {
         attributes: true,
         attributeFilter: ['data-theme'],
