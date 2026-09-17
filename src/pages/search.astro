@@ -19,7 +19,11 @@ import Section from '@/components/Section.astro';
   </Section>
 </Base>
 
-<script is:inline>
+<script is:inline data-astro-rerun>
+  // data-astro-rerun: the first VT arrival executes this as new content, but a
+  // return visit dedupes it — a fresh #search-input would sit inert. The IIFE
+  // is idempotent (fresh queries; the dynamic import is cached; focus() on the
+  // fresh input is desirable), so re-running on every swap-in is safe.
   (async function () {
     var input = document.getElementById('search-input');
     var results = document.getElementById('search-results');

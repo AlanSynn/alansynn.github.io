@@ -30,10 +30,37 @@
 </div>
 
 <script is:inline>
+  // ONE persistent bootstrap (guarded — this IIFE executes once per session).
+  // The bug this shape avoids: the original IIFE captured #reading-progress,
+  // #back-to-top and #lightbox from the FIRST page's DOM; after any View-
+  // Transition swap the closures pointed at detached nodes — the progress bar
+  // froze, back-to-top never appeared, the lightbox silently no-oped (same
+  // family as the Toc swap bug). Two rules keep every page live:
+  //   1. Persistent window/document listeners are registered exactly once and
+  //      read ONLY live state — per-page elements are held in variables that
+  //      astro:page-load re-captures, and the lightbox queries fresh per event.
+  //   2. Element-scoped bindings (back-to-top click, reveal observers) are
+  //      re-bound on every astro:page-load; they die with the swapped DOM, so
+  //      they never stack. Reveal uses a data-reveal-init guard so the initial
+  //      load's double fire (immediate + page-load) is absorbed.
   (function () {
-    /* reading progress + back to top */
-    var bar = document.getElementById('reading-progress');
-    var btn = document.getElementById('back-to-top');
+    if (window.__siteChromeBound) return;
+    window.__siteChromeBound = true;
+
+    /* reading progress + back to top — bar/btn re-captured per swap */
+    var bar = null;
+    var btn = null;
+    function captureChrome() {
+      bar = document.getElementById('reading-progress');
+      var nextBtn = document.getElementById('back-to-top');
+      if (nextBtn && nextBtn !== btn) {
+        nextBtn.addEventListener('click', function () {
+          var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+        });
+      }
+      btn = nextBtn;
+    }
     function onScroll() {
       var h = document.documentElement;
       var scrolled = h.scrollTop || document.body.scrollTop;
@@ -42,70 +69,89 @@
       if (btn) btn.classList.toggle('visible', scrolled > 600);
     }
     window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    if (btn)
-      btn.addEventListener('click', function () {
-        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
-      });
 
-    /* lightbox for prose images */
-    var lb = document.getElementById('lightbox');
-    var lbImg = document.getElementById('lightbox-img');
-    var lbClose = document.getElementById('lightbox-close');
-    if (lb && lbImg) {
-      function open(src, alt) {
-        lbImg.src = src;
-        lbImg.alt = alt || '';
-        lb.classList.add('open');
-        lb.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
+    /* lightbox for prose images — delegation + fresh queries, never stale */
+    function openLightbox(src, alt) {
+      var lb = document.getElementById('lightbox');
+      var lbImg = document.getElementById('lightbox-img');
+      if (!lb || !lbImg) return;
+      lbImg.src = src;
+      lbImg.alt = alt || '';
+      lb.classList.add('open');
+      lb.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      var lb = document.getElementById('lightbox');
+      if (!lb) return;
+      lb.classList.remove('open');
+      lb.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('click', function (e) {
+      var img = e.target.closest && e.target.closest('.prose img, .lightbox-target');
+      if (img && img.src) {
+        e.preventDefault();
+        openLightbox(img.src, img.alt);
+        return;
       }
-      function close() {
-        lb.classList.remove('open');
-        lb.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
+      var lb = e.target.closest && e.target.closest('#lightbox');
+      if (lb && (e.target === lb || (e.target.closest && e.target.closest('.lightbox__close')))) {
+        closeLightbox();
       }
-      document.addEventListener('click', function (e) {
-        var img = e.target.closest && e.target.closest('.prose img, .lightbox-target');
-        if (img && img.src) {
-          e.preventDefault();
-          open(img.src, img.alt);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    /* scroll reveal (IO) — fresh per page, guarded against double init */
+    function initReveals(scope) {
+      var reveals = (scope || document).querySelectorAll('[data-reveal]:not([data-reveal-init])');
+      if (!reveals.length) return;
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (en) {
+              if (en.isIntersecting) {
+                var el = en.target;
+                var delay = el.getAttribute('data-reveal-delay');
+                if (delay) el.style.transitionDelay = delay + 'ms';
+                el.classList.add('in');
+                io.unobserve(el);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+        );
+        for (var i = 0; i < reveals.length; i++) {
+          reveals[i].setAttribute('data-reveal-init', '');
+          io.observe(reveals[i]);
         }
-      });
-      if (lbClose) lbClose.addEventListener('click', close);
-      lb.addEventListener('click', function (e) {
-        if (e.target === lb) close();
-      });
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') close();
-      });
+      } else {
+        for (var j = 0; j < reveals.length; j++) {
+          reveals[j].classList.add('in');
+        }
+      }
     }
 
-    /* scroll reveal (IO, once) */
-    var reveals = document.querySelectorAll('[data-reveal]');
-    if (reveals.length && 'IntersectionObserver' in window) {
-      var io = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (en) {
-            if (en.isIntersecting) {
-              var el = en.target;
-              var delay = el.getAttribute('data-reveal-delay');
-              if (delay) el.style.transitionDelay = delay + 'ms';
-              el.classList.add('in');
-              io.unobserve(el);
-            }
-          });
-        },
-        { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
-      );
-      reveals.forEach(function (el) {
-        io.observe(el);
-      });
-    } else {
-      reveals.forEach(function (el) {
-        el.classList.add('in');
-      });
-    }
+    captureChrome();
+    initReveals(document);
+    onScroll();
+
+    // Per-swap re-init. astro:page-load fires on every client-side navigation,
+    // including the first — the guards above keep re-entry a no-op.
+    document.addEventListener('astro:page-load', function () {
+      captureChrome();
+      initReveals(document);
+      onScroll(); // sync bar/button to the restored scroll position
+    });
+
+    // swapRootAttributes re-copies the served HTML's `no-js` class onto <html>
+    // on every swap; the theme script that strips it is content-deduped after
+    // first load. Strip it again BEFORE paint so reveal elements never sit
+    // visible-then-animate (html.no-js is the fail-safe, not the goal).
+    document.addEventListener('astro:after-swap', function () {
+      document.documentElement.classList.remove('no-js');
+    });
   })();
 </script>
