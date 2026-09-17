@@ -806,7 +806,7 @@ figcaption {
   text-decoration: underline;
 }
 
-/* /blog subscribe strip (sits between the filter bar and the list).
+/* /blog subscribe strip (inside the subscribe drawer, below the list).
    Subscription is 0-cost static RSS: the canonical /rss.xml (also at
    /blog/rss.xml) plus per-topic /blog/rss/<tag>.xml feeds. Mono microtype
    row; links accent + hover-underline, matching .tag-filter__status. */
@@ -846,9 +846,13 @@ figcaption {
    idiom (flex, no native marker, +/− caret) at mono microtype scale. The
    filter script re-opens the tags drawer when ?tag= is present and the
    email-result script re-opens the subscribe drawer on ?ok= returns. */
-.blog-tags-wrap,
-.blog-subscribe-wrap {
+.blog-tags-wrap {
   margin-bottom: var(--space-5);
+}
+/* The subscribe drawer is section-terminal (below the list), so it drops the
+   shared bottom margin — the last list row's padding covers the gap. */
+.blog-subscribe-wrap {
+  margin-bottom: 0;
 }
 .blog-tags-wrap summary,
 .blog-subscribe-wrap summary {
@@ -896,9 +900,6 @@ figcaption {
    form (the submit path is pure HTML — no JS). Tokens only, mirroring the
    strip's mono microtype; success/failure differ by text, never by color
    alone. */
-.blog-email-subscribe {
-  margin-bottom: var(--space-4);
-}
 .blog-email-form__label {
   display: block;
   font-family: var(--font-mono);
