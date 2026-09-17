@@ -39,9 +39,9 @@ const fmt = (d: Date) =>
     authorName: post.data.author,
   }}
 >
-  <article class="post">
+  <article class="post" id="top">
     <div class="post-layout">
-      <Toc />
+      <Toc title={post.data.title} />
       <div class="post-body">
         <nav class="post-crumbs" aria-label="Back to posts">
           <a href="/blog"><span aria-hidden="true">←</span> blog</a>
@@ -77,7 +77,7 @@ const fmt = (d: Date) =>
         }
         <SubscribePostscript />
 
-        <a class="back-link" href="/blog">← All posts</a>
+        <a class="back-link" href="/blog">← Blog</a>
 
         {
           /* Drafts stay reachable but never load comments — no Discussion for

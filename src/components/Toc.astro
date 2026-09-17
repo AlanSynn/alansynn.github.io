@@ -1,16 +1,35 @@
 ---
 // Toc.astro — scroll-spy TOC for blog posts. Built client-side from rendered
 // <h2>/<h3> so it never drifts from prose. Desktop: sticky rail; <880px: disclosure.
-// Empty until JS runs — TOC is enhancement, not content.
+// Empty until JS runs — TOC is enhancement, not content. The rail is anchored
+// by the essay's own title (a link back to the top) and closes with ← Blog.
+interface Props {
+  title?: string;
+}
+const { title } = Astro.props;
 ---
 
 <aside class="toc" aria-label="Table of contents" data-toc-rail hidden>
   <nav class="toc__nav" aria-label="On this page">
     <p class="toc__title">On this page</p>
+    {
+      title && (
+        <a class="toc__doc" href="#top">
+          <span class="toc__doc-q" aria-hidden="true">
+            “
+          </span>
+          {title}
+          <span class="toc__doc-q" aria-hidden="true">
+            ”
+          </span>
+        </a>
+      )
+    }
     <div class="toc__scroll">
       <span class="toc__track" aria-hidden="true"></span>
       <ol class="toc__list" id="toc-list"></ol>
     </div>
+    <a class="toc__back" href="/blog">← Blog</a>
   </nav>
 </aside>
 
