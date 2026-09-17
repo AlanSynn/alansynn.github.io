@@ -7,6 +7,7 @@ import Timeline from '@/components/Timeline.astro';
 import WorkProjectRow from '@/components/WorkProjectRow.astro';
 import NewsList from '@/components/NewsList.astro';
 import RobotLegs from '@/components/RobotLegs.astro';
+import SubscribePostscript from '@/components/SubscribePostscript.astro';
 import {
   site,
   researchInterests,
@@ -174,6 +175,8 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
       > anytime.
     </p>
   </section>
+
+  <SubscribePostscript />
 </Base>
 
 <style>

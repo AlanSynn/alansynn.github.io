@@ -51,12 +51,24 @@
    no reserved height — the mount stays empty until the reader nears it and
    the observer injects giscus, so the iframe only ever grows the page below
    the fold. Heading + fallback use the site's mono-microtype quiet idiom
-   (.toc__title / .blog-email-subscribe__hint); tokens drive everything, so
+   (.toc__title / .psub__status); tokens drive everything, so
    dark mode is free. */
 .comments {
   margin-top: var(--space-8);
   border-top: 1px solid var(--hairline);
   padding-top: var(--space-6);
+}
+/* Post-foot rhythm: the P.S. subscribe ask sits right above the back-link,
+   so the base .back-link margin-top (space-7, tuned for the projects footer)
+   reads too airy here — tighten the P.S. → back-link → comments stack. */
+.post-body .psub {
+  margin-block: var(--space-5) 0;
+}
+.post-body .back-link {
+  margin-top: var(--space-5);
+}
+.post-body .comments {
+  margin-top: var(--space-7);
 }
 .comments__heading {
   font-family: var(--font-mono);

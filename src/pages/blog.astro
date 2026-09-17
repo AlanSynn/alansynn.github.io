@@ -1,8 +1,8 @@
 ---
 import Base from '@/layouts/Base.astro';
 import Section from '@/components/Section.astro';
+import SubscribePostscript from '@/components/SubscribePostscript.astro';
 import { getCollection } from 'astro:content';
-import { site } from '@/lib/data';
 import { tagLabel } from '@/lib/tags';
 
 // Drafts excluded from the feed but still build at their own URL (reachable, not promoted).
@@ -21,22 +21,10 @@ const fmt = (d: Date) =>
   });
 // Chip text (tagLabel, shared in @/lib/tags) title-cases the kebab slug for
 // display; the raw slug still drives data-tag + ?tag= filtering.
-// Absolute feed URL for the subscribe strip (readers need the absolute form;
-// site.url already ends without a slash — normalize defensively anyway).
-const feedUrl = `${site.url.replace(/\/$/, '')}/rss.xml`;
-// Email-subscription return target. Must be query-free — the provider blindly
-// appends "?title=…&message=…&ok=…" to it. Also intentionally NOT the current
-// ?tag= URL: email subscription is site-wide only (§ product decision), the
-// tag-aware behavior stays RSS/copy-only.
-const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
 ---
 
 <Base title="Blog">
-  <Section
-    index="01"
-    title="Blog"
-    meta={`${posts.length} ${posts.length === 1 ? 'post' : 'posts'}`}
-  >
+  <Section index="01" title="Blog">
     {
       posts.length === 0 ? (
         <p class="empty-state">No posts yet - check back soon.</p>
@@ -82,91 +70,20 @@ const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
               </li>
             ))}
           </ul>
-          {/* Subscribe drawer — collapsed by default (owner directive), placed
-              BELOW the post list (end-of-attention placement): on a young blog
-              the posts are the argument, and the email ask follows them. Email
-              subscription is a native GET form to the Simple Newsletter hosted
-              endpoint (contract verified from its source: fields are read from
-              the query string, redirect mode 302s back to `return` with ok=1|0).
-              Zero provider traffic until the user submits — the form posts
-              itself, no JS in the send path. uri is always the canonical
-              site-wide feed, never a topic feed. The result script below
-              auto-OPENS this drawer when it lands back with ?ok=… and scrolls
-              it into view (the provider 302 lands the reader at scroll 0),
-              otherwise the status would sit hidden in a closed drawer below
-              the fold. */}
-          <details class="blog-subscribe-wrap">
-            {/* Summary = draft #03 from scratch/subscribe-lab.html: the same
-                mono microtype idiom as the old summary, tinted accent, with a
-                text-presentation ✉ glyph (NOT ✉️ emoji presentation — the
-                colored emoji would break the mono palette; the glyph inherits
-                the accent like every other character). The glyph is decorative
-                beside the word "Subscribe". Whole summary is still the
-                <details> toggle, so the ?ok= reopen script
-                (status.closest('details')) and the collapsed-by-default rule
-                are unchanged; the drawer body below is untouched. */}
-            <summary>
-              <span class="blog-subscribe__icon" aria-hidden="true">
-                ✉
-              </span>
-              Subscribe
-            </summary>
-            <form
-              class="blog-email-form"
-              action="https://simple-newsletter.com/v1/subscriptions/"
-              method="get"
-            >
-              <input type="hidden" name="uri" value={feedUrl} />
-              <input type="hidden" name="return" value={returnUrl} />
-              <input type="hidden" name="redirect" value="true" />
-              <label class="blog-email-form__label" for="blog-email-input">
-                Get new posts by email
-              </label>
-              <div class="blog-email-form__row">
-                <input
-                  type="email"
-                  id="blog-email-input"
-                  name="email"
-                  placeholder="you@example.com"
-                  autocomplete="email"
-                  maxlength="254"
-                  required
-                />
-                <button type="submit">Subscribe</button>
-              </div>
-            </form>
-            <p
-              class="blog-email-subscribe__status"
-              id="blog-email-subscribe-status"
-              role="status"
-              aria-live="polite"
-              hidden
-            />
-            <p class="blog-email-subscribe__hint">Unsubscribe anytime.</p>
-            {/* RSS strip — 0-cost subscription = static RSS. Canonical feed +
-                copy button; per-topic feeds are NOT listed here (they would
-                duplicate the chip bar tag-for-tag); instead the strip follows
-                the active chip filter — filter to a tag and RSS/copy swap to
-                that topic's feed (wired in the filter script below). No-JS
-                readers still get the canonical feed from the static href. */}
-            <div class="blog-subscribe" id="blog-subscribe" data-site-url={site.url}>
-              <a href={feedUrl} id="sub-rss">
-                RSS
-              </a>
-              <button type="button" class="blog-subscribe__copy" data-feed-url={feedUrl}>
-                copy
-              </button>
-            </div>
-          </details>
         </>
       )
     }
     {
-      /* data-astro-rerun: re-execute after a View-Transition swap-in. Both
-        IIFEs are idempotent (fresh DOM queries; the copy binder is guarded by
-        data-copy-bound), and without the attribute an inline script never
-        re-runs, leaving the filter/copy dead on a client-side return to
-        /blog. */
+      /* Subscribe ask as a P.S. (lab draft #62) — sits after the list, OUTSIDE
+        the <ul> (the filter script iterates #blog-list > li). Placements:
+        here, homepage foot, and every post above the comments. */
+    }
+    <SubscribePostscript />
+    {
+      /* data-astro-rerun: re-execute after a View-Transition swap-in. The
+        IIFE is idempotent (fresh DOM queries), and without the attribute an
+        inline script never re-runs, leaving the filter dead on a
+        client-side return to /blog. */
     }
     <script is:inline data-astro-rerun>
       (function () {
@@ -197,21 +114,6 @@ const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
               status.textContent = '';
             }
           }
-          // Subscribe strip follows the filter: an active tag swaps
-          // RSS/copy to that topic's feed; cleared restores the canonical
-          // site-wide feed. (Lives in this IIFE because tag state does; the
-          // copy button only reads data-feed-url at click time.)
-          var strip = document.getElementById('blog-subscribe');
-          if (strip) {
-            var base = (strip.dataset.siteUrl || '').replace(/\/$/, '');
-            var url = tag
-              ? base + '/blog/rss/' + encodeURIComponent(tag) + '.xml'
-              : base + '/rss.xml';
-            var rss = document.getElementById('sub-rss');
-            var copy = strip.querySelector('.blog-subscribe__copy');
-            if (rss) rss.href = url;
-            if (copy) copy.dataset.feedUrl = url;
-          }
         }
 
         function setTag(tag) {
@@ -239,76 +141,6 @@ const returnUrl = `${site.url.replace(/\/$/, '')}/blog`;
             setTag(next);
           });
         });
-      })();
-    </script>
-    <script is:inline data-astro-rerun>
-      (function () {
-        // Copy-feed buttons in the subscribe strip. Idempotent via
-        // data-copy-bound (same idiom as the project-page copy buttons), so a
-        // data-astro-rerun re-execution never double-binds.
-        document.querySelectorAll('.blog-subscribe__copy').forEach(function (btn) {
-          if (btn.dataset.copyBound) return;
-          btn.dataset.copyBound = '1';
-          btn.addEventListener('click', function () {
-            var url = btn.dataset.feedUrl || '';
-            function done() {
-              btn.textContent = 'copied!';
-              setTimeout(function () {
-                btn.textContent = 'copy';
-              }, 1500);
-            }
-            function fail() {
-              btn.textContent = 'copy failed';
-              setTimeout(function () {
-                btn.textContent = 'copy';
-              }, 1500);
-            }
-            // Clipboard API needs a secure context (https / localhost) — both
-            // are the only real deploy/dev contexts for this site.
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-              navigator.clipboard.writeText(url).then(done, fail);
-            } else {
-              fail();
-            }
-          });
-        });
-      })();
-    </script>
-    <script is:inline data-astro-rerun>
-      (function () {
-        // Email-subscription result. Simple Newsletter 302s back with
-        // title/message/ok; only `ok` is read — provider text is untrusted and
-        // never rendered (no innerHTML, no hrefs from it) — and the message is
-        // a local string. Listener-free, so a data-astro-rerun re-execution
-        // after a View-Transition swap is naturally idempotent. After reading
-        // state, the provider params are scrubbed from the address bar while
-        // any unrelated query params are preserved.
-        var status = document.getElementById('blog-email-subscribe-status');
-        if (!status) return;
-        var params = new URLSearchParams(location.search);
-        var ok = params.get('ok');
-        if (ok !== '1' && ok !== '0') return;
-        // The subscribe drawer is collapsed by default; open it BEFORE writing
-        // the status — closed-details content is out of the a11y tree, so
-        // mutating an aria-live region while hidden announces nothing.
-        var drawer = status.closest('details');
-        if (drawer) {
-          drawer.open = true;
-          // The drawer sits below the post list; the provider 302 lands the
-          // reader at scroll 0, so bring the reopened drawer into view for
-          // sighted users (screen readers already announce the open region).
-          drawer.scrollIntoView({ block: 'center' });
-        }
-        status.textContent =
-          ok === '1'
-            ? 'Check your inbox to confirm your subscription.'
-            : 'Could not start the email subscription. Please try again, or use RSS.';
-        status.hidden = false;
-        ['title', 'message', 'ok'].forEach(function (k) {
-          params.delete(k);
-        });
-        var qs = params.toString();
-        history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
       })();
     </script>
   </Section>

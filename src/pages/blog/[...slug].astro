@@ -2,6 +2,7 @@
 import Base from '@/layouts/Base.astro';
 import Toc from '@/components/Toc.astro';
 import GiscusComments from '@/components/GiscusComments.astro';
+import SubscribePostscript from '@/components/SubscribePostscript.astro';
 import { getCollection, render } from 'astro:content';
 import { commentTerm } from '@/lib/giscus';
 import { tagLabel } from '@/lib/tags';
@@ -69,6 +70,12 @@ const fmt = (d: Date) =>
         <div class="prose">
           <Content />
         </div>
+
+        {
+          /* Subscribe ask as a P.S. — per user directive it lives at the foot of
+            every post, BEFORE the back-link and above the comments section. */
+        }
+        <SubscribePostscript />
 
         <a class="back-link" href="/blog">← All posts</a>
 

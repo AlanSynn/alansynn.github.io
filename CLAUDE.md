@@ -144,31 +144,33 @@ entry.
   `content/`-is-the-single-source invariant. Typst→HTML renders via
   `astro-typst` (the `typst` integration targets html); prose CSS lives under
   `.post`/`.prose` in `src/styles/components.css`. `/blog` (`blog.astro`): post
-  list sorted date-DESC, drafts excluded from the feed, tag filter chip bar +
-  client-side `?tag=` filtering (no-JS `<a href>` fallback), and a subscribe
-  strip. **Subscription is 0-cost static RSS**: `/rss.xml` (canonical,
-  advertised in `<head>`) + `/blog/rss.xml` (alias) are thin callers of
-  `src/lib/feed.ts`; per-topic feeds live at `/blog/rss/<tag>.xml`
-  (`getStaticPaths` over PUBLISHED posts' tags only, so a draft's tags never
-  surface as a feed — mirrors the chip bar). The subscribe strip does NOT list
-  topic feeds (that would duplicate the chip bar tag-for-tag): with JS, an
-  active chip filter swaps the strip's RSS/copy to that topic's feed;
-  cleared filter restores the canonical feed; static hrefs are the no-JS
-  fallback. Feedly was removed by owner directive (2026-09). Above it sits a **site-wide email subscription form** (native GET
-  to Simple Newsletter's hosted `/v1/subscriptions/`; `uri` = canonical
-  `/rss.xml` only — never the active tag feed; `return` = query-free `/blog`;
-  redirect mode appends `title`/`message`/`ok`, of which only `ok` is read
-  locally — provider text is never rendered — and the params are then scrubbed
-  from the address bar). **Both the tag-chip bar and the subscribe drawer are
-  collapsed by default** (native `<details>`, fold-style summaries): the filter
-  script re-opens the tags drawer when `?tag=` is present, and the email-result
-  script re-opens the subscribe drawer before writing its status (a11y: mutate
-  aria-live only after open) — don't "simplify" these away, closed drawers
-  would hide active state. ALL feed paths are dropped from
-  the sitemap by the `/(^|\/)rss(\.xml|\/)/` filter in `astro.config.mjs`
-  (automatic; adding a tag needs no filter edit). The `/blog` inline scripts
-  carry `data-astro-rerun` so filter + copy survive View-Transition swaps back
-  to `/blog` (inline scripts don't re-run on swap without it).
+  list sorted date-DESC, drafts excluded from the feed, and a tag filter chip
+  bar + client-side `?tag=` filtering (no-JS `<a href>` fallback). **The
+  subscribe ask is a P.S., not a widget** (`src/components/SubscribePostscript.astro`,
+  placed on `/blog` after the list — outside the `<ul>`, which the filter
+  script iterates — after the homepage Contact section, and on every post page
+  above `← All posts` + the comments): one sentence set as the page's own serif
+  italic prose with the only interactive silhouettes being an underlined email
+  slot and a quiet boxed button — deliberately NO card/drawer/toggle (owner
+  directive: it must read as ordinary text). **Subscription is 0-cost static
+  RSS**: `/rss.xml` (canonical, advertised in `<head>`) + `/blog/rss.xml`
+  (alias) are thin callers of `src/lib/feed.ts`; per-topic feeds live at
+  `/blog/rss/<tag>.xml` (`getStaticPaths` over PUBLISHED posts' tags only, so
+  a draft's tags never surface as a feed — mirrors the chip bar). Email is a
+  native GET form to Simple Newsletter's hosted `/v1/subscriptions/`; `uri` =
+  canonical `/rss.xml` only (never a tag feed); `return` = the current path,
+  query-free; redirect mode appends `title`/`message`/`ok`, of which only `ok`
+  is read locally — provider text is never rendered — and the params are then
+  scrubbed from the address bar; the result is an in-flow `.psub__status`
+  paragraph (nothing to reopen). Feedly was removed by owner directive
+  (2026-09). **The tag-chip drawer is collapsed by default** (native
+  `<details>`); the filter script re-opens it when `?tag=` is present — don't
+  "simplify" that away, a closed drawer would hide the active filter. ALL feed
+  paths are dropped from the sitemap by the `/(^|\/)rss(\.xml|\/)/` filter in
+  `astro.config.mjs` (automatic; adding a tag needs no filter edit). The
+  `/blog` filter script and the `.psub` result script carry `data-astro-rerun`
+  so they survive View-Transition swaps (inline scripts don't re-run on swap
+  without it).
   Post page
   (`[...slug].astro`): two-column reading layout (TOC rail | prose), floating
   scroll-spy TOC built client-side from rendered `<h2>`/`<h3>`, footnotes as
