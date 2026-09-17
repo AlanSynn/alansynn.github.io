@@ -83,21 +83,6 @@
   margin-top: var(--space-2);
 }
 
-/* ---- Reply (blog posts) - mandatory email fallback alongside giscus ---- */
-.reply {
-  margin-top: var(--space-8);
-  padding: var(--space-5);
-  border: 1px solid var(--hairline);
-  border-left: 3px solid var(--accent);
-  border-radius: var(--radius-md);
-  background: var(--paper-sunken);
-  font-size: var(--step--1);
-  color: var(--ink-soft);
-}
-.reply a {
-  color: var(--accent);
-}
-
 /* ---- Download bar (CV page) ------------------------------------------- */
 .download-bar {
   display: flex;
