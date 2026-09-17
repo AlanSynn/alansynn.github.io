@@ -191,6 +191,10 @@ entry.
   `AlanSynn/comments` repo (GitHub Discussions, allowed origins in its
   `giscus.json`); identity is `mapping=specific` with the term
   `<site-key>:<content-kind>:<stable-id>` (currently `alansynn:blog:<post.id>`).
+  Theme follows the site's `data-theme` live via one document-global
+  MutationObserver that posts
+  `{ giscus: { setConfig: { theme } } }` to exactly `https://giscus.app` —
+  the widget silently ignores a bare `{ setConfig: … }` payload (no envelope).
   The backend is shared across sites, so pathname mapping is forbidden. A
   published slug IS the comment identity — never rename a published slug
   without migrating its giscus Discussion.
