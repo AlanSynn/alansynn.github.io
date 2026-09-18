@@ -115,7 +115,9 @@ const titleRest =
 ---
 
 <MicrositeShell paper={paper} noindex={!!d.unlisted}>
-  <a class="skip-link" href="#main-content">Skip to content</a>
+  <a class="skip-link" href="#main-content">
+    Skip to content
+  </a>
 
   <header class="site-header" id="top">
     <div class="site-shell site-header__inner">
@@ -136,13 +138,11 @@ const titleRest =
       </a>
       <div class="site-header__actions">
         <nav class="site-nav" id="site-nav" aria-label="Section navigation">
-          {
-            navItems.map((n) => (
-              <a href={n.href} data-nav-link>
-                {n.label}
-              </a>
-            ))
-          }
+          {navItems.map((n) => (
+            <a href={n.href} data-nav-link>
+              {n.label}
+            </a>
+          ))}
         </nav>
         <ThemeToggle />
         <button
@@ -153,9 +153,11 @@ const titleRest =
           aria-expanded="false"
           data-menu-toggle
         >
-          <span class="site-menu-toggle__icon" aria-hidden="true"
-            ><span></span><span></span><span></span></span
-          >
+          <span class="site-menu-toggle__icon" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
         </button>
       </div>
     </div>
@@ -167,95 +169,85 @@ const titleRest =
       <div class="site-shell hero__inner">
         <div class="hero__intro" data-reveal>
           <p class="eyebrow">{d.hero_eyebrow ?? `${paper.abbr ?? 'Research'} ${paper.year}`}</p>
-          {
-            titleLines ? (
-              <h1 id="project-title">
-                {titleLines.map((ln) => (
-                  <span class:list={['hero__title-line', !ln.mark && 'hero__title-rest']}>
-                    {ln.mark ? (
-                      <>
-                        <span class="hero__title-mark">{ln.mark}</span>{' '}
-                        <span class="hero__title-rest">{ln.rest}</span>
-                      </>
-                    ) : (
-                      ln.rest
-                    )}
-                  </span>
-                ))}
-              </h1>
-            ) : titleMark ? (
-              <h1 id="project-title">
-                <span class="hero__title-mark">{titleMark}</span>{' '}
-                <span class="hero__title-rest">{titleRest}</span>
-              </h1>
-            ) : (
-              <h1 id="project-title">{paper.title}</h1>
-            )
-          }
+          {titleLines ? (
+            <h1 id="project-title">
+              {titleLines.map((ln) => (
+                <span class:list={['hero__title-line', !ln.mark && 'hero__title-rest']}>
+                  {ln.mark ? (
+                    <>
+                      <span class="hero__title-mark">{ln.mark}</span>{' '}
+                      <span class="hero__title-rest">{ln.rest}</span>
+                    </>
+                  ) : (
+                    ln.rest
+                  )}
+                </span>
+              ))}
+            </h1>
+          ) : titleMark ? (
+            <h1 id="project-title">
+              <span class="hero__title-mark">{titleMark}</span>{' '}
+              <span class="hero__title-rest">{titleRest}</span>
+            </h1>
+          ) : (
+            <h1 id="project-title">{paper.title}</h1>
+          )}
           {d.summary && <p class="hero__summary">{d.summary}</p>}
           <p class="hero__authors">
-            {
-              paper.authors.map((a, i) => {
-                const text = a.given ? `${a.given} ${a.family}` : a.family;
-                const affil = d.author_affil?.[i];
-                return (
-                  <>
-                    {i > 0 && ', '}
-                    {text}
-                    {affil && <sup>{affil}</sup>}
-                  </>
-                );
-              })
-            }
+            {paper.authors.map((a, i) => {
+              const text = a.given ? `${a.given} ${a.family}` : a.family;
+              const affil = d.author_affil?.[i];
+              return (
+                <>
+                  {i > 0 && ', '}
+                  {text}
+                  {affil && <sup>{affil}</sup>}
+                </>
+              );
+            })}
           </p>
-          {
-            d.affiliations && d.affiliations.length > 0 && (
-              <p class="hero__affiliations">
-                {d.affiliations.map((name, idx) => (
-                  <span>
-                    <sup>{idx + 1}</sup> {name}
-                  </span>
-                ))}
-              </p>
-            )
-          }
+          {d.affiliations && d.affiliations.length > 0 && (
+            <p class="hero__affiliations">
+              {d.affiliations.map((name, idx) => (
+                <span>
+                  <sup>{idx + 1}</sup> {name}
+                </span>
+              ))}
+            </p>
+          )}
           {metaLine && <p class="hero__meta">{metaLine}</p>}
           <div class="link-row" aria-label="Primary links">
-            {
-              chips.map((c) => {
-                const href = renderHref(c.href);
-                const ext = isExternal(c.href);
-                return (
-                  <a
-                    class:list={['link-chip', { 'link-chip--solid': c.solid }]}
-                    href={href}
-                    {...(ext ? { target: '_blank', rel: 'noreferrer' } : {})}
-                  >
-                    <span class="link-chip__icon" aria-hidden="true">
-                      {c.icon === 'github' ? (
-                        <svg viewBox="0 0 16 16" role="img" focusable="false" aria-hidden="true">
-                          <path d="M8 .2A8 8 0 0 0 5.47 15.8c.4.08.55-.17.55-.38l-.01-1.49c-2.24.49-2.71-.95-2.71-.95-.36-.93-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.82 1.23.82.72 1.21 1.87.86 2.33.65.07-.51.28-.86.5-1.06-1.79-.2-3.67-.88-3.67-3.93 0-.87.31-1.58.82-2.14-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.52 7.52 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.14 0 3.06-1.88 3.72-3.68 3.92.29.24.55.73.55 1.48l-.01 2.19c0 .21.14.46.55.38A8 8 0 0 0 8 .2Z" />
-                        </svg>
-                      ) : (
-                        c.icon
-                      )}
-                    </span>
-                    {c.label}
-                  </a>
-                );
-              })
-            }
+            {chips.map((c) => {
+              const href = renderHref(c.href);
+              const ext = isExternal(c.href);
+              return (
+                <a
+                  class:list={['link-chip', { 'link-chip--solid': c.solid }]}
+                  href={href}
+                  {...(ext ? { target: '_blank', rel: 'noreferrer' } : {})}
+                >
+                  <span class="link-chip__icon" aria-hidden="true">
+                    {c.icon === 'github' ? (
+                      <svg viewBox="0 0 16 16" role="img" focusable="false" aria-hidden="true">
+                        <path d="M8 .2A8 8 0 0 0 5.47 15.8c.4.08.55-.17.55-.38l-.01-1.49c-2.24.49-2.71-.95-2.71-.95-.36-.93-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.82 1.23.82.72 1.21 1.87.86 2.33.65.07-.51.28-.86.5-1.06-1.79-.2-3.67-.88-3.67-3.93 0-.87.31-1.58.82-2.14-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.52 7.52 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.14 0 3.06-1.88 3.72-3.68 3.92.29.24.55.73.55 1.48l-.01 2.19c0 .21.14.46.55.38A8 8 0 0 0 8 .2Z" />
+                      </svg>
+                    ) : (
+                      c.icon
+                    )}
+                  </span>
+                  {c.label}
+                </a>
+              );
+            })}
           </div>
         </div>
 
-        {
-          paper.preview && (
-            <figure class="hero__figure" data-reveal>
-              <img src={paper.preview} alt={d.teaser_caption ?? ''} loading="eager" />
-              {d.teaser_caption && <figcaption>{d.teaser_caption}</figcaption>}
-            </figure>
-          )
-        }
+        {paper.preview && (
+          <figure class="hero__figure" data-reveal>
+            <img src={paper.preview} alt={d.teaser_caption ?? ''} loading="eager" />
+            {d.teaser_caption && <figcaption>{d.teaser_caption}</figcaption>}
+          </figure>
+        )}
       </div>
     </section>
 
@@ -271,156 +263,147 @@ const titleRest =
         </div>
       </div>
 
-      {
-        d.takeaways && d.takeaways.length > 0 && (
-          <div class="site-shell">
-            <ol class="takeaway-list" data-reveal>
-              {d.takeaways.map((t, i) => (
-                <li>
-                  <p class="takeaway-list__index">{String(i + 1).padStart(2, '0')}</p>
-                  <strong>{t.title}</strong>
-                  <span>{t.text}</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-        )
-      }
+      {d.takeaways && d.takeaways.length > 0 && (
+        <div class="site-shell">
+          <ol class="takeaway-list" data-reveal>
+            {d.takeaways.map((t, i) => (
+              <li>
+                <p class="takeaway-list__index">{String(i + 1).padStart(2, '0')}</p>
+                <strong>{t.title}</strong>
+                <span>{t.text}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
     </section>
 
     {/* ---- Demo (click-to-launch) ----------------------------------------- */}
-    {
-      d.demo && (
-        <section class="section" id="demo" aria-label="Demo video">
-          <div class="site-shell">
-            <div class="section__center" data-reveal>
-              <p class="section-kicker">Demo</p>
-              {d.demo.intro && <p>{d.demo.intro}</p>}
-            </div>
-            <figure class="video-figure" data-reveal>
-              <button
-                class="video-launch"
-                type="button"
-                data-video-launch
-                aria-controls="demo-video"
-                aria-label="Play demo video"
-              >
-                <img src={d.demo.poster} alt={d.demo.alt} />
-                <span class="video-launch__play">Play Demo</span>
-              </button>
-              <video
-                id="demo-video"
-                controls
-                playsinline
-                preload="none"
-                poster={d.demo.poster}
-                data-src={d.demo.src}
-                hidden
-              />
-            </figure>
+    {d.demo && (
+      <section class="section" id="demo" aria-label="Demo video">
+        <div class="site-shell">
+          <div class="section__center" data-reveal>
+            <p class="section-kicker">Demo</p>
+            {d.demo.intro && <p>{d.demo.intro}</p>}
           </div>
-        </section>
-      )
-    }
+          <figure class="video-figure" data-reveal>
+            <button
+              class="video-launch"
+              type="button"
+              data-video-launch
+              aria-controls="demo-video"
+              aria-label="Play demo video"
+            >
+              <img src={d.demo.poster} alt={d.demo.alt} />
+              <span class="video-launch__play">Play Demo</span>
+            </button>
+            <video
+              id="demo-video"
+              controls
+              playsinline
+              preload="none"
+              poster={d.demo.poster}
+              data-src={d.demo.src}
+              hidden
+            />
+          </figure>
+        </div>
+      </section>
+    )}
 
     {/* ---- System (feature figure + stage grid + interface lens) ----------- */}
-    {
-      d.system && (
-        <section class="section" id="system" aria-labelledby="system-heading">
-          <div class="site-shell">
-            <div class="section__center" data-reveal>
-              <p class="section-kicker">System</p>
-              <h2 id="system-heading">{d.system.heading ?? 'System'}</h2>
-              {d.system.intro && <p>{d.system.intro}</p>}
-            </div>
-
-            {d.system.workflow && (
-              <figure class="feature-figure" data-reveal>
-                <img src={d.system.workflow.src} alt={d.system.workflow.alt} loading="lazy" />
-                {d.system.workflow.caption && <figcaption>{d.system.workflow.caption}</figcaption>}
-              </figure>
-            )}
-
-            {d.system.stages && d.system.stages.length > 0 && (
-              <div class="stage-grid">
-                {d.system.stages.map((s) => (
-                  <article class="stage-panel" data-reveal>
-                    {s.index && <p class="stage-panel__index">{s.index}</p>}
-                    <h3>{s.title}</h3>
-                    <p>{s.text}</p>
-                  </article>
-                ))}
-              </div>
-            )}
-
-            {(d.system.zoom || d.system.interface) && (
-              <div class="interface-panel" data-reveal>
-                {d.system.interface && <p class="section-kicker">Interface</p>}
-                {d.system.zoom && (
-                  <figure class="feature-figure interface-figure" data-lens-root>
-                    <img
-                      src={d.system.zoom.src}
-                      alt={d.system.zoom.alt}
-                      loading="lazy"
-                      data-lens-image
-                    />
-                    <span class="interface-lens" data-lens aria-hidden="true" />
-                  </figure>
-                )}
-                {d.system.interface && (
-                  <div class="interface-copy">
-                    <h3>{d.system.interface.heading}</h3>
-                    <p>{d.system.interface.copy}</p>
-                  </div>
-                )}
-              </div>
-            )}
+    {d.system && (
+      <section class="section" id="system" aria-labelledby="system-heading">
+        <div class="site-shell">
+          <div class="section__center" data-reveal>
+            <p class="section-kicker">System</p>
+            <h2 id="system-heading">{d.system.heading ?? 'System'}</h2>
+            {d.system.intro && <p>{d.system.intro}</p>}
           </div>
-        </section>
-      )
-    }
 
-    {/* ---- Formulation (equations) --------------------------------------- */}
-    {
-      d.equations && d.equations.length > 0 && (
-        <section class="section" id="formulation" aria-labelledby="formulation-heading">
-          <div class="site-shell">
-            <div class="section__center" data-reveal>
-              <p class="section-kicker">Formulation</p>
-              <h2 id="formulation-heading">Problem formulation</h2>
-            </div>
-            <div class="eq-list">
-              {d.equations.map((eq, i) => (
-                <figure class="eq" data-reveal>
-                  <div class="eq__math">
-                    {eq.mathml ? (
-                      <span set:html={eq.mathml} />
-                    ) : (
-                      <code class="eq__latex">{eq.latex}</code>
-                    )}
-                  </div>
-                  <span class="eq__num">({i + 1})</span>
-                  {eq.label && <figcaption>{eq.label}</figcaption>}
-                </figure>
+          {d.system.workflow && (
+            <figure class="feature-figure" data-reveal>
+              <img src={d.system.workflow.src} alt={d.system.workflow.alt} loading="lazy" />
+              {d.system.workflow.caption && <figcaption>{d.system.workflow.caption}</figcaption>}
+            </figure>
+          )}
+
+          {d.system.stages && d.system.stages.length > 0 && (
+            <div class="stage-grid">
+              {d.system.stages.map((s) => (
+                <article class="stage-panel" data-reveal>
+                  {s.index && <p class="stage-panel__index">{s.index}</p>}
+                  <h3>{s.title}</h3>
+                  <p>{s.text}</p>
+                </article>
               ))}
             </div>
+          )}
+
+          {(d.system.zoom || d.system.interface) && (
+            <div class="interface-panel" data-reveal>
+              {d.system.interface && <p class="section-kicker">Interface</p>}
+              {d.system.zoom && (
+                <figure class="feature-figure interface-figure" data-lens-root>
+                  <img
+                    src={d.system.zoom.src}
+                    alt={d.system.zoom.alt}
+                    loading="lazy"
+                    data-lens-image
+                  />
+                  <span class="interface-lens" data-lens aria-hidden="true" />
+                </figure>
+              )}
+              {d.system.interface && (
+                <div class="interface-copy">
+                  <h3>{d.system.interface.heading}</h3>
+                  <p>{d.system.interface.copy}</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
+    )}
+
+    {/* ---- Formulation (equations) --------------------------------------- */}
+    {d.equations && d.equations.length > 0 && (
+      <section class="section" id="formulation" aria-labelledby="formulation-heading">
+        <div class="site-shell">
+          <div class="section__center" data-reveal>
+            <p class="section-kicker">Formulation</p>
+            <h2 id="formulation-heading">Problem formulation</h2>
           </div>
-        </section>
-      )
-    }
+          <div class="eq-list">
+            {d.equations.map((eq, i) => (
+              <figure class="eq" data-reveal>
+                <div class="eq__math">
+                  {eq.mathml ? (
+                    <span set:html={eq.mathml} />
+                  ) : (
+                    <code class="eq__latex">{eq.latex}</code>
+                  )}
+                </div>
+                <span class="eq__num">({i + 1})</span>
+                {eq.label && <figcaption>{eq.label}</figcaption>}
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
 
     {/* ---- Algorithm (pseudocode) ---------------------------------------- */}
-    {
-      d.algorithm && (
-        <section class="section" id="algorithm" aria-labelledby="algorithm-heading">
-          <div class="site-shell">
-            <div class="section__center" data-reveal>
-              <p class="section-kicker">Algorithm</p>
-              <h2 id="algorithm-heading">Pseudocode</h2>
-            </div>
-            <figure class="algo" data-reveal>
-              {d.algorithm.caption && <figcaption>{d.algorithm.caption}</figcaption>}
-              <pre class="algo__code">
+    {d.algorithm && (
+      <section class="section" id="algorithm" aria-labelledby="algorithm-heading">
+        <div class="site-shell">
+          <div class="section__center" data-reveal>
+            <p class="section-kicker">Algorithm</p>
+            <h2 id="algorithm-heading">Pseudocode</h2>
+          </div>
+          <figure class="algo" data-reveal>
+            {d.algorithm.caption && <figcaption>{d.algorithm.caption}</figcaption>}
+            <pre class="algo__code">
                 <code>
                   {d.algorithm.lines.map((ln, i) => (
                     <span class="algo__line">
@@ -431,232 +414,219 @@ const titleRest =
                   ))}
                 </code>
               </pre>
-            </figure>
-          </div>
-        </section>
-      )
-    }
+          </figure>
+        </div>
+      </section>
+    )}
 
     {/* ---- Code (filename + copy) ---------------------------------------- */}
-    {
-      d.code && (
-        <section class="section" id="code" aria-labelledby="code-heading">
-          <div class="site-shell">
-            <div class="section__center" data-reveal>
-              <p class="section-kicker">Code</p>
-              <h2 id="code-heading">Reference snippet</h2>
+    {d.code && (
+      <section class="section" id="code" aria-labelledby="code-heading">
+        <div class="site-shell">
+          <div class="section__center" data-reveal>
+            <p class="section-kicker">Code</p>
+            <h2 id="code-heading">Reference snippet</h2>
+          </div>
+          <figure class="code-block" data-reveal>
+            <div class="code-block__bar">
+              <span class="code-block__file">{d.code.filename ?? 'snippet'}</span>
+              <button class="copy-button" type="button" data-copy-target="code-source">
+                Copy
+              </button>
             </div>
-            <figure class="code-block" data-reveal>
-              <div class="code-block__bar">
-                <span class="code-block__file">{d.code.filename ?? 'snippet'}</span>
-                <button class="copy-button" type="button" data-copy-target="code-source">
-                  Copy
-                </button>
-              </div>
-              <pre>
+            <pre>
                 <code id="code-source">{d.code.source}</code>
               </pre>
-            </figure>
-          </div>
-        </section>
-      )
-    }
+          </figure>
+        </div>
+      </section>
+    )}
 
     {/* ---- Results (graphics) --------------------------------------------- */}
-    {
-      (d.results || d.ablation) && (
-        <section class="section" id="results" aria-labelledby="results-heading">
-          <div class="site-shell">
-            <div class="section__center" data-reveal>
-              <p class="section-kicker">Results</p>
-              <h2 id="results-heading">Quantitative results</h2>
-            </div>
-            {d.stat_callouts && d.stat_callouts.length > 0 && (
-              <dl class="stat-grid" data-reveal>
-                {d.stat_callouts.map((s) => (
-                  <div class="stat">
-                    <dt class="stat__value">{s.value}</dt>
-                    <dd class="stat__label">{s.label}</dd>
-                  </div>
-                ))}
-              </dl>
-            )}
-            {d.results && (
-              <ResultsTable
-                columns={d.results.columns}
-                rows={d.results.rows}
-                caption={d.results.caption}
-                note={d.results.note}
-              />
-            )}
-            {d.ablation && (
-              <>
-                <h3 style="font-size:clamp(1.2rem,2vw,1.55rem);font-weight:700;margin:2.5rem 0 0;">
-                  Ablation
-                </h3>
-                <ResultsTable
-                  columns={d.ablation.columns}
-                  rows={d.ablation.rows}
-                  caption={d.ablation.caption}
-                  note={d.ablation.note}
-                />
-              </>
-            )}
+    {(d.results || d.ablation) && (
+      <section class="section" id="results" aria-labelledby="results-heading">
+        <div class="site-shell">
+          <div class="section__center" data-reveal>
+            <p class="section-kicker">Results</p>
+            <h2 id="results-heading">Quantitative results</h2>
           </div>
-        </section>
-      )
-    }
+          {d.stat_callouts && d.stat_callouts.length > 0 && (
+            <dl class="stat-grid" data-reveal>
+              {d.stat_callouts.map((s) => (
+                <div class="stat">
+                  <dt class="stat__value">{s.value}</dt>
+                  <dd class="stat__label">{s.label}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
+          {d.results && (
+            <ResultsTable
+              columns={d.results.columns}
+              rows={d.results.rows}
+              caption={d.results.caption}
+              note={d.results.note}
+            />
+          )}
+          {d.ablation && (
+            <>
+              <h3 style="font-size:clamp(1.2rem,2vw,1.55rem);font-weight:700;margin:2.5rem 0 0;">
+                Ablation
+              </h3>
+              <ResultsTable
+                columns={d.ablation.columns}
+                rows={d.ablation.rows}
+                caption={d.ablation.caption}
+                note={d.ablation.note}
+              />
+            </>
+          )}
+        </div>
+      </section>
+    )}
 
     {/* ---- Comparison (graphics) ------------------------------------------ */}
-    {
-      ((d.comparisons && d.comparisons.length > 0) || d.video_comparison) && (
-        <section class="section" id="comparison" aria-labelledby="comparison-heading">
-          <div class="site-shell">
-            <div class="section__center" data-reveal>
-              <p class="section-kicker">Comparison</p>
-              <h2 id="comparison-heading">Side-by-side</h2>
-            </div>
-            {d.comparisons?.map((c) => (
-              <ComparisonSlider
-                before={c.before}
-                after={c.after}
-                labelBefore={c.label_before}
-                labelAfter={c.label_after}
-                caption={c.caption}
-              />
-            ))}
-            {d.video_comparison && (
-              <VideoComparison
-                left={d.video_comparison.left}
-                right={d.video_comparison.right}
-                caption={d.video_comparison.caption}
-              />
-            )}
+    {((d.comparisons && d.comparisons.length > 0) || d.video_comparison) && (
+      <section class="section" id="comparison" aria-labelledby="comparison-heading">
+        <div class="site-shell">
+          <div class="section__center" data-reveal>
+            <p class="section-kicker">Comparison</p>
+            <h2 id="comparison-heading">Side-by-side</h2>
           </div>
-        </section>
-      )
-    }
+          {d.comparisons?.map((c) => (
+            <ComparisonSlider
+              before={c.before}
+              after={c.after}
+              labelBefore={c.label_before}
+              labelAfter={c.label_after}
+              caption={c.caption}
+            />
+          ))}
+          {d.video_comparison && (
+            <VideoComparison
+              left={d.video_comparison.left}
+              right={d.video_comparison.right}
+              caption={d.video_comparison.caption}
+            />
+          )}
+        </div>
+      </section>
+    )}
 
     {/* ---- Gallery (graphics) --------------------------------------------- */}
-    {
-      d.gallery && d.gallery.items.length > 0 && (
-        <section class="section" id="gallery" aria-labelledby="gallery-heading">
-          <div class="site-shell">
-            <div class="section__center" data-reveal>
-              <p class="section-kicker">Gallery</p>
-              <h2 id="gallery-heading">Result gallery</h2>
-            </div>
-            <ResultsGallery items={d.gallery.items} columns={d.gallery.columns} />
+    {d.gallery && d.gallery.items.length > 0 && (
+      <section class="section" id="gallery" aria-labelledby="gallery-heading">
+        <div class="site-shell">
+          <div class="section__center" data-reveal>
+            <p class="section-kicker">Gallery</p>
+            <h2 id="gallery-heading">Result gallery</h2>
           </div>
-        </section>
-      )
-    }
+          <ResultsGallery items={d.gallery.items} columns={d.gallery.columns} />
+        </div>
+      </section>
+    )}
 
     {/* ---- Cases (tabbed carousel) ---------------------------------------- */}
-    {
-      cases.length > 0 && (
-        <section class="section" id="cases" aria-labelledby="cases-heading">
-          <div class="site-shell">
-            <div class="section__center" data-reveal>
-              <p class="section-kicker">Cases</p>
-              <h2 id="cases-heading">{d.cases_heading ?? 'Cases'}</h2>
-              {d.cases_intro && <p>{d.cases_intro}</p>}
+    {cases.length > 0 && (
+      <section class="section" id="cases" aria-labelledby="cases-heading">
+        <div class="site-shell">
+          <div class="section__center" data-reveal>
+            <p class="section-kicker">Cases</p>
+            <h2 id="cases-heading">{d.cases_heading ?? 'Cases'}</h2>
+            {d.cases_intro && <p>{d.cases_intro}</p>}
+          </div>
+
+          <div class="case-carousel" data-case-carousel data-reveal>
+            <div class="case-tabs" role="tablist" aria-label="Deployment cases">
+              {cases.map((c, i) => (
+                <button
+                  class:list={['case-tab', { 'is-active': i === 0 }]}
+                  type="button"
+                  id={`case-tab-${caseSlug(c.tab)}`}
+                  role="tab"
+                  aria-selected={i === 0 ? 'true' : 'false'}
+                  aria-controls={`case-${caseSlug(c.tab)}`}
+                  data-case-trigger
+                >
+                  <span class="case-tab__index">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="case-tab__text">
+                    <strong>{c.tab}</strong>
+                    {c.subtitle && <span>{c.subtitle}</span>}
+                  </span>
+                </button>
+              ))}
             </div>
 
-            <div class="case-carousel" data-case-carousel data-reveal>
-              <div class="case-tabs" role="tablist" aria-label="Deployment cases">
-                {cases.map((c, i) => (
-                  <button
-                    class:list={['case-tab', { 'is-active': i === 0 }]}
-                    type="button"
-                    id={`case-tab-${caseSlug(c.tab)}`}
-                    role="tab"
-                    aria-selected={i === 0 ? 'true' : 'false'}
-                    aria-controls={`case-${caseSlug(c.tab)}`}
-                    data-case-trigger
-                  >
-                    <span class="case-tab__index">{String(i + 1).padStart(2, '0')}</span>
-                    <span class="case-tab__text">
-                      <strong>{c.tab}</strong>
-                      {c.subtitle && <span>{c.subtitle}</span>}
-                    </span>
-                  </button>
-                ))}
-              </div>
-
-              {cases.map((c, i) => (
-                <article
-                  class:list={['case-panel', { 'is-active': i === 0 }]}
-                  id={`case-${caseSlug(c.tab)}`}
-                  role="tabpanel"
-                  aria-labelledby={`case-tab-${caseSlug(c.tab)}`}
-                  data-case-panel
-                  hidden={i !== 0}
-                >
-                  <figure class="case-panel__figure">
-                    <img src={c.image} alt={c.alt} loading="lazy" />
-                    {c.caption && <figcaption>{c.caption}</figcaption>}
-                  </figure>
-                  <div class="case-panel__copy">
-                    <p class="section-kicker">Case {String(i + 1).padStart(2, '0')}</p>
-                    <h3>
-                      {c.tab}
-                      {c.subtitle ? ` / ${c.subtitle.split(' / ')[0]}` : ''}
-                    </h3>
-                    {c.lede && <p class="case-panel__lede">{c.lede}</p>}
-                    {c.facts && c.facts.length > 0 && (
-                      <ul class="case-facts">
-                        {c.facts.map((f) => (
-                          <li>
-                            <strong>{f.label}.</strong> {f.text}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                </article>
-              ))}
-
-              <div class="case-carousel__footer">
-                <p class="case-carousel__status" data-case-status aria-live="polite">
-                  1 / {cases.length}
-                </p>
-                <div class="case-carousel__controls">
-                  <button class="case-arrow" type="button" data-case-prev>
-                    Previous
-                  </button>
-                  <button class="case-arrow" type="button" data-case-next>
-                    Next
-                  </button>
+            {cases.map((c, i) => (
+              <article
+                class:list={['case-panel', { 'is-active': i === 0 }]}
+                id={`case-${caseSlug(c.tab)}`}
+                role="tabpanel"
+                aria-labelledby={`case-tab-${caseSlug(c.tab)}`}
+                data-case-panel
+                hidden={i !== 0}
+              >
+                <figure class="case-panel__figure">
+                  <img src={c.image} alt={c.alt} loading="lazy" />
+                  {c.caption && <figcaption>{c.caption}</figcaption>}
+                </figure>
+                <div class="case-panel__copy">
+                  <p class="section-kicker">Case {String(i + 1).padStart(2, '0')}</p>
+                  <h3>
+                    {c.tab}
+                    {c.subtitle ? ` / ${c.subtitle.split(' / ')[0]}` : ''}
+                  </h3>
+                  {c.lede && <p class="case-panel__lede">{c.lede}</p>}
+                  {c.facts && c.facts.length > 0 && (
+                    <ul class="case-facts">
+                      {c.facts.map((f) => (
+                        <li>
+                          <strong>{f.label}.</strong> {f.text}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
+              </article>
+            ))}
+
+            <div class="case-carousel__footer">
+              <p class="case-carousel__status" data-case-status aria-live="polite">
+                1 / {cases.length}
+              </p>
+              <div class="case-carousel__controls">
+                <button class="case-arrow" type="button" data-case-prev>
+                  Previous
+                </button>
+                <button class="case-arrow" type="button" data-case-next>
+                  Next
+                </button>
               </div>
             </div>
           </div>
-        </section>
-      )
-    }
+        </div>
+      </section>
+    )}
 
     {/* ---- FAQ (native <details> accordion) ------------------------------ */}
-    {
-      d.faq && d.faq.length > 0 && (
-        <section class="section" id="faq" aria-labelledby="faq-heading">
-          <div class="site-shell">
-            <div class="section__center" data-reveal>
-              <p class="section-kicker">FAQ</p>
-              <h2 id="faq-heading">Frequently asked</h2>
-            </div>
-            <div class="faq-list">
-              {d.faq.map((item) => (
-                <details class="faq-item" data-reveal>
-                  <summary>{item.q}</summary>
-                  <p>{item.a}</p>
-                </details>
-              ))}
-            </div>
+    {d.faq && d.faq.length > 0 && (
+      <section class="section" id="faq" aria-labelledby="faq-heading">
+        <div class="site-shell">
+          <div class="section__center" data-reveal>
+            <p class="section-kicker">FAQ</p>
+            <h2 id="faq-heading">Frequently asked</h2>
           </div>
-        </section>
-      )
-    }
+          <div class="faq-list">
+            {d.faq.map((item) => (
+              <details class="faq-item" data-reveal>
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
 
     {/* ---- Citation (resource list + BibTeX) ------------------------------ */}
     <section class="section" id="citation" aria-labelledby="citation-heading">
@@ -666,32 +636,28 @@ const titleRest =
           <h2 id="citation-heading">{d.citation_heading ?? 'Citation'}</h2>
           <p class="citation-copy">{d.citation_intro ?? 'Read the paper and cite this work.'}</p>
           <div class="resource-list">
-            {
-              paper.pdf && (
-                <a
-                  class="resource-link"
-                  href={renderHref(paper.pdf)}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <span class="resource-link__title">Paper PDF</span>
-                  <span class="resource-link__meta">Open the full paper.</span>
-                </a>
-              )
-            }
-            {
-              paper.doi && (
-                <a
-                  class="resource-link"
-                  href={`https://doi.org/${paper.doi}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <span class="resource-link__title">DOI</span>
-                  <span class="resource-link__meta">Open the DOI record.</span>
-                </a>
-              )
-            }
+            {paper.pdf && (
+              <a
+                class="resource-link"
+                href={renderHref(paper.pdf)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span class="resource-link__title">Paper PDF</span>
+                <span class="resource-link__meta">Open the full paper.</span>
+              </a>
+            )}
+            {paper.doi && (
+              <a
+                class="resource-link"
+                href={`https://doi.org/${paper.doi}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span class="resource-link__title">DOI</span>
+                <span class="resource-link__meta">Open the DOI record.</span>
+              </a>
+            )}
             <a class="resource-link" href="#bibtex-heading">
               <span class="resource-link__title">BibTeX</span>
               <span class="resource-link__meta">Jump to the citation block.</span>
@@ -705,7 +671,9 @@ const titleRest =
               <p class="section-kicker">BibTeX</p>
               <h2 id="bibtex-heading">{mark}</h2>
             </div>
-            <button class="copy-button" type="button" data-copy-target="bibtex-code">Copy</button>
+            <button class="copy-button" type="button" data-copy-target="bibtex-code">
+              Copy
+            </button>
           </div>
           <pre><code id="bibtex-code">{bibtex}</code></pre>
         </article>
@@ -713,31 +681,29 @@ const titleRest =
     </section>
 
     {/* ---- Acknowledgments (quiet closing section) ----------------------- */}
-    {
-      d.acknowledgments && (
-        <section class="section section--quiet" id="acknowledgments" aria-labelledby="ack-heading">
-          <div class="site-shell section__center" data-reveal>
-            <p class="section-kicker">Acknowledgments</p>
-            <h2 id="ack-heading">Acknowledgments</h2>
-            <p class="ack-copy">{d.acknowledgments}</p>
-          </div>
-        </section>
-      )
-    }
+    {d.acknowledgments && (
+      <section class="section section--quiet" id="acknowledgments" aria-labelledby="ack-heading">
+        <div class="site-shell section__center" data-reveal>
+          <p class="section-kicker">Acknowledgments</p>
+          <h2 id="ack-heading">Acknowledgments</h2>
+          <p class="ack-copy">{d.acknowledgments}</p>
+        </div>
+      </section>
+    )}
   </main>
 
   <footer class="site-footer">
     <div class="site-shell site-footer__inner">
-      <p>{paper.authors[0]?.family ?? mark} et al. {mark}, {paper.year}.</p>
+      <p>
+        {paper.authors[0]?.family ?? mark} et al. {mark}, {paper.year}.
+      </p>
       <div class="footer-links">
         <a href="#top">Back to top</a>
-        {
-          paper.pdf && (
-            <a href={renderHref(paper.pdf)} target="_blank" rel="noreferrer">
-              Paper PDF
-            </a>
-          )
-        }
+        {paper.pdf && (
+          <a href={renderHref(paper.pdf)} target="_blank" rel="noreferrer">
+            Paper PDF
+          </a>
+        )}
       </div>
     </div>
   </footer>

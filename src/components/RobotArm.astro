@@ -82,42 +82,55 @@ const FING = [
               {/* palm bracket — slim, pelvis-like; groups the fingers without a heavy fill */}
               <path
                 class="ra-palm"
-                d="M 70 158 Q 68 148 78 146 L 100 145 Q 112 147 114 158 Q 92 163 70 158 Z"></path>
-              {
-                FING.map((f) => (
-                  <g class={f.cls}>
-                    {/* MCP: rotates around mcp — proximal drawn −Y to pip */}
-                    <g class="j-mcp" transform={`rotate(${f.splay} ${f.mcp.x} ${f.mcp.y})`}>
-                      <line class="ra-link" x1={f.mcp.x} y1={f.mcp.y} x2={f.pip.x} y2={f.pip.y} />
-                      <circle class="ra-knuckle" cx={f.mcp.x} cy={f.mcp.y} r="2.4" />
-                      {/* PIP: rotates around pip — middle drawn −Y to dip */}
-                      <g class="j-pip" transform={`rotate(8 ${f.pip.x} ${f.pip.y})`}>
-                        <line class="ra-link" x1={f.pip.x} y1={f.pip.y} x2={f.dip.x} y2={f.dip.y} />
-                        <circle class="ra-joint" cx={f.pip.x} cy={f.pip.y} r="2.1" />
-                        {/* DIP: rotates around dip — distal drawn −Y to tip */}
-                        <g class="j-dip" transform={`rotate(6 ${f.dip.x} ${f.dip.y})`}>
-                          <line
-                            class="ra-link"
-                            x1={f.dip.x}
-                            y1={f.dip.y}
-                            x2={f.tip.x}
-                            y2={f.tip.y}
-                          />
-                          <circle class="ra-tip" cx={f.tip.x} cy={f.tip.y} r="2.1" />
-                        </g>
+                d="M 70 158 Q 68 148 78 146 L 100 145 Q 112 147 114 158 Q 92 163 70 158 Z"
+              ></path>
+              {FING.map((f) => (
+                <g class={f.cls}>
+                  {/* MCP: rotates around mcp — proximal drawn −Y to pip */}
+                  <g class="j-mcp" transform={`rotate(${f.splay} ${f.mcp.x} ${f.mcp.y})`}>
+                    <line class="ra-link" x1={f.mcp.x} y1={f.mcp.y} x2={f.pip.x} y2={f.pip.y} />
+                    <circle class="ra-knuckle" cx={f.mcp.x} cy={f.mcp.y} r="2.4" />
+                    {/* PIP: rotates around pip — middle drawn −Y to dip */}
+                    <g class="j-pip" transform={`rotate(8 ${f.pip.x} ${f.pip.y})`}>
+                      <line class="ra-link" x1={f.pip.x} y1={f.pip.y} x2={f.dip.x} y2={f.dip.y} />
+                      <circle class="ra-joint" cx={f.pip.x} cy={f.pip.y} r="2.1" />
+                      {/* DIP: rotates around dip — distal drawn −Y to tip */}
+                      <g class="j-dip" transform={`rotate(6 ${f.dip.x} ${f.dip.y})`}>
+                        <line class="ra-link" x1={f.dip.x} y1={f.dip.y} x2={f.tip.x} y2={f.tip.y} />
+                        <circle class="ra-tip" cx={f.tip.x} cy={f.tip.y} r="2.1" />
                       </g>
                     </g>
                   </g>
-                ))
-              }
+                </g>
+              ))}
               {/* finger-tip drag handles (hand-local; engine repositions each frame) */}
-              <circle class="handle h-f-t" data-drag="finger:.f-t" cx="78" cy="120" r="3.2"
+              <circle
+                class="handle h-f-t"
+                data-drag="finger:.f-t"
+                cx="78"
+                cy="120"
+                r="3.2"
               ></circle>
-              <circle class="handle h-f-i" data-drag="finger:.f-i" cx="88" cy="111" r="3.2"
+              <circle
+                class="handle h-f-i"
+                data-drag="finger:.f-i"
+                cx="88"
+                cy="111"
+                r="3.2"
               ></circle>
-              <circle class="handle h-f-m" data-drag="finger:.f-m" cx="98" cy="108" r="3.2"
+              <circle
+                class="handle h-f-m"
+                data-drag="finger:.f-m"
+                cx="98"
+                cy="108"
+                r="3.2"
               ></circle>
-              <circle class="handle h-f-r" data-drag="finger:.f-r" cx="108" cy="113" r="3.2"
+              <circle
+                class="handle h-f-r"
+                data-drag="finger:.f-r"
+                cx="108"
+                cy="113"
+                r="3.2"
               ></circle>
             </g>
             {/* FK reference: hand tip = wrist − lHand along −Y (drawn up) */}
@@ -166,9 +179,9 @@ const FING = [
     width: 100%;
     opacity: 0.6; /* steady + subtle (no fade-from-bg) */
     pointer-events: none;
-    /* rise from below the line: --arm=1 standing, 0 = buried. Default 1 keeps the
-       arm visible on short unscrollable pages (footer in view at load); the engine
-       eases 1→rise on takeover, so long pages (footer off-screen) are unaffected. */
+    /* rise from below the line: --arm=1 standing, 0 = buried. Default 1 keeps the arm */
+    /* visible on short unscrollable pages (footer in view at load); the engine eases */
+    /* 1→rise on takeover, so long pages (footer off-screen) are unaffected. */
     transform: translateY(calc((1 - var(--arm, 1)) * 100%));
     will-change: transform;
   }

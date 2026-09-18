@@ -19,12 +19,11 @@ const { src, poster, alt, class: cls } = Astro.props;
     poster={poster}
     aria-label={alt}
     data-lazy-video
-    data-src={src}></video>
-  {
-    poster && (
-      <img class="lazy-video__poster" src={poster} alt="" loading="lazy" aria-hidden="true" />
-    )
-  }
+    data-src={src}
+  ></video>
+  {poster && (
+    <img class="lazy-video__poster" src={poster} alt="" loading="lazy" aria-hidden="true" />
+  )}
 </span>
 
 <script is:inline>

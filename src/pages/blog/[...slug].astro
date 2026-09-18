@@ -44,7 +44,9 @@ const fmt = (d: Date) =>
       <Toc title={post.data.title} />
       <div class="post-body">
         <nav class="post-crumbs" aria-label="Back to posts">
-          <a href="/blog"><span aria-hidden="true">←</span> blog</a>
+          <a href="/blog">
+            <span aria-hidden="true">←</span> blog
+          </a>
         </nav>
         <header class="post-header">
           <h1>{post.data.title}</h1>
@@ -53,17 +55,15 @@ const fmt = (d: Date) =>
               <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
               {post.data.author && <span>by {post.data.author}</span>}
             </span>
-            {
-              tags.length > 0 && (
-                <span class="meta-tags">
-                  {tags.map((t) => (
-                    <a class="tag-chip" href={`/blog?tag=${encodeURIComponent(t)}`}>
-                      #{tagLabel(t)}
-                    </a>
-                  ))}
-                </span>
-              )
-            }
+            {tags.length > 0 && (
+              <span class="meta-tags">
+                {tags.map((t) => (
+                  <a class="tag-chip" href={`/blog?tag=${encodeURIComponent(t)}`}>
+                    #{tagLabel(t)}
+                  </a>
+                ))}
+              </span>
+            )}
           </div>
         </header>
 
@@ -71,24 +71,21 @@ const fmt = (d: Date) =>
           <Content />
         </div>
 
-        {
-          /* Subscribe ask as a P.S. — per user directive it lives at the foot of
-            every post, BEFORE the back-link and above the comments section. */
-        }
+        {/* Subscribe ask as a P.S. — per user directive it lives at the foot of
+            every post, BEFORE the back-link and above the comments section. */}
         <SubscribePostscript />
 
-        <a class="back-link" href="/blog">← Blog</a>
+        <a class="back-link" href="/blog">
+          ← Blog
+        </a>
 
-        {
-          /* Drafts stay reachable but never load comments — no Discussion for
-            an unpublished post (§19). */
-        }
+        {/* Drafts stay reachable but never load comments — no Discussion for
+            an unpublished post (§19). */}
         {!post.data.draft && <GiscusComments term={commentTerm(post.id)} />}
 
         <p class="license-note">
-          Licensed under <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/"
-            >CC BY-NC-ND 4.0</a
-          >
+          Licensed under{' '}
+          <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
         </p>
       </div>
     </div>

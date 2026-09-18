@@ -57,29 +57,27 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
       <h1>{site.name}</h1>
       <p class="profile__role">
         {site.title} ·{' '}
-        {
-          site.department && site.department_url && (
-            <Fragment>
-              <a href={site.department_url}>{site.department}</a>,{' '}
-            </Fragment>
-          )
-        }
+        {site.department && site.department_url && (
+          <Fragment>
+            <a href={site.department_url}>{site.department}</a>,{' '}
+          </Fragment>
+        )}
         <a href={site.affiliation_url}>{site.affiliation}</a>
       </p>
-      {
-        site.advisors.length > 0 && (
-          <p class="profile__advisors">
-            Advised by{' '}
-            {site.advisors.map((a, i) => (
-              <Fragment>
-                {i > 0 && (i === site.advisors.length - 1 ? ' & ' : ', ')}
-                <a href={a.url}>{a.name}</a>
-              </Fragment>
-            ))}
-          </p>
-        )
-      }
-      <div class="profile__bio"><Markdown content={bio} /></div>
+      {site.advisors.length > 0 && (
+        <p class="profile__advisors">
+          Advised by{' '}
+          {site.advisors.map((a, i) => (
+            <Fragment>
+              {i > 0 && (i === site.advisors.length - 1 ? ' & ' : ', ')}
+              <a href={a.url}>{a.name}</a>
+            </Fragment>
+          ))}
+        </p>
+      )}
+      <div class="profile__bio">
+        <Markdown content={bio} />
+      </div>
       <Socials />
     </div>
     <div class="profile__portrait">
@@ -103,20 +101,20 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
   <section id="publications">
     <h2 class="home-head">Publications</h2>
     <div class="cpubs">
-      {papers.map((p) => <CompactPub paper={p} />)}
+      {papers.map((p) => (
+        <CompactPub paper={p} />
+      ))}
     </div>
-    {
-      morePubs.length > 0 && (
-        <details class="all-pubs">
-          <summary>All publications ({morePubs.length} more)</summary>
-          <div class="cpubs">
-            {morePubs.map((p) => (
-              <CompactPub paper={p} />
-            ))}
-          </div>
-        </details>
-      )
-    }
+    {morePubs.length > 0 && (
+      <details class="all-pubs">
+        <summary>All publications ({morePubs.length} more)</summary>
+        <div class="cpubs">
+          {morePubs.map((p) => (
+            <CompactPub paper={p} />
+          ))}
+        </div>
+      </details>
+    )}
   </section>
 
   <section id="education">
@@ -131,7 +129,11 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
 
   <section id="projects">
     <h2 class="home-head">Projects</h2>
-    <div class="wcards">{projects.map((p) => <WorkProjectRow project={p} />)}</div>
+    <div class="wcards">
+      {projects.map((p) => (
+        <WorkProjectRow project={p} />
+      ))}
+    </div>
   </section>
 
   <section id="teaching">
@@ -142,20 +144,18 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
   {/* Honors — placed above Contact to close the page on achievement */}
   <section id="honors">
     <h2 class="home-head">Honors &amp; Awards</h2>
-    {
-      honors.filter(entryVisible).map((g: { group: string; items: string[] }) => (
-        <div class="honor-group">
-          <div class="honor-group__label">{g.group}</div>
-          <ul class="honor-group__list">
-            {g.items.map((it: string) => (
-              <li>
-                <Markdown content={it} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))
-    }
+    {honors.filter(entryVisible).map((g: { group: string; items: string[] }) => (
+      <div class="honor-group">
+        <div class="honor-group__label">{g.group}</div>
+        <ul class="honor-group__list">
+          {g.items.map((it: string) => (
+            <li>
+              <Markdown content={it} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
   </section>
 
   <section id="service">
@@ -167,12 +167,11 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     <h2 class="home-head">Contact</h2>
     <p>
       I'm always up for a coffee chat about research, collaborations, internships, or wherever
-      graphics meets design. <a
-        href="#"
-        class="say-hi"
-        data-u={enc(mailUser)}
-        data-d={enc(mailDomain)}>Say hi</a
-      > anytime.
+      graphics meets design.{' '}
+      <a href="#" class="say-hi" data-u={enc(mailUser)} data-d={enc(mailDomain)}>
+        Say hi
+      </a>{' '}
+      anytime.
     </p>
   </section>
 

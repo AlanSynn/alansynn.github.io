@@ -12,24 +12,24 @@ const { title } = Astro.props;
 <aside class="toc" aria-label="Table of contents" data-toc-rail hidden>
   <nav class="toc__nav" aria-label="On this page">
     <p class="toc__title">On this page</p>
-    {
-      title && (
-        <a class="toc__doc" href="#top">
-          <span class="toc__doc-q" aria-hidden="true">
-            “
-          </span>
-          {title}
-          <span class="toc__doc-q" aria-hidden="true">
-            ”
-          </span>
-        </a>
-      )
-    }
+    {title && (
+      <a class="toc__doc" href="#top">
+        <span class="toc__doc-q" aria-hidden="true">
+          “
+        </span>
+        {title}
+        <span class="toc__doc-q" aria-hidden="true">
+          ”
+        </span>
+      </a>
+    )}
     <div class="toc__scroll">
       <span class="toc__track" aria-hidden="true"></span>
       <ol class="toc__list" id="toc-list"></ol>
     </div>
-    <a class="toc__back" href="/blog">← Blog</a>
+    <a class="toc__back" href="/blog">
+      ← Blog
+    </a>
   </nav>
 </aside>
 
@@ -43,7 +43,8 @@ const { title } = Astro.props;
         stroke="currentColor"
         stroke-width="1.5"
         stroke-linecap="round"
-        stroke-linejoin="round"></path>
+        stroke-linejoin="round"
+      ></path>
     </svg>
   </summary>
   <ol class="toc__list toc__list--mobile" id="toc-list-mobile"></ol>

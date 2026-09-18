@@ -96,11 +96,9 @@ const ogImage = abs(paper.preview) ?? `${site.url}/og.png`;
 
     {/* Google-Scholar indexing. */}
     <meta name="citation_title" content={paper.title} />
-    {
-      paper.authors.map((a) => (
-        <meta name="citation_author" content={a.given ? `${a.family}, ${a.given}` : a.family} />
-      ))
-    }
+    {paper.authors.map((a) => (
+      <meta name="citation_author" content={a.given ? `${a.family}, ${a.given}` : a.family} />
+    ))}
     {citeDate && <meta name="citation_publication_date" content={citeDate} />}
     <meta name="citation_conference_title" content={paper.venue} />
     {paper.doi && <meta name="citation_doi" content={paper.doi} />}
@@ -137,8 +135,7 @@ const ogImage = abs(paper.preview) ?? `${site.url}/og.png`;
         }
       })();
     </script>
-    <script is:inline type="application/ld+json" set:html={jsonldSafe} />
-
+    <script is:inline type="application/ld+json" set:html={jsonldSafe}></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -146,11 +143,9 @@ const ogImage = abs(paper.preview) ?? `${site.url}/og.png`;
       rel="stylesheet"
     />
 
-    {
-      /* If JS is off, reveal-on-scroll targets must be visible (they start at
+    {/* If JS is off, reveal-on-scroll targets must be visible (they start at
         opacity:0). The microsite has no no-JS fallback of its own. is:inline
-        emits the rule verbatim (no scoping/extraction) so it stays global. */
-    }
+        emits the rule verbatim (no scoping/extraction) so it stays global. */}
     <noscript>
       <style is:inline>
         [data-reveal] {

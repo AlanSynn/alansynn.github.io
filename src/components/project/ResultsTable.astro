@@ -17,18 +17,20 @@ const { columns, rows, caption, note } = Astro.props;
   <table>
     {caption && <caption>{caption}</caption>}
     <thead>
-      <tr>{columns.map((c) => <th scope="col">{c}</th>)}</tr>
+      <tr>
+        {columns.map((c) => (
+          <th scope="col">{c}</th>
+        ))}
+      </tr>
     </thead>
     <tbody>
-      {
-        rows.map((r) => (
-          <tr class:list={[{ 'is-best': r.highlight }]}>
-            {r.cells.map((cell, i) => (
-              <td class:list={[{ rtable__name: i === 0, rtable__num: i > 0 }]}>{cell}</td>
-            ))}
-          </tr>
-        ))
-      }
+      {rows.map((r) => (
+        <tr class:list={[{ 'is-best': r.highlight }]}>
+          {r.cells.map((cell, i) => (
+            <td class:list={[{ rtable__name: i === 0, rtable__num: i > 0 }]}>{cell}</td>
+          ))}
+        </tr>
+      ))}
     </tbody>
   </table>
   {note && <p class="rtable__note">{note}</p>}

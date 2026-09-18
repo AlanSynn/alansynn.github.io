@@ -174,27 +174,24 @@ const ogType = paper || article ? 'article' : 'website';
     <meta name="twitter:image" content={ogImage} />
 
     {/* Google-Scholar indexing (academic paper pages only). */}
-    {
-      paper && (
-        <>
-          <meta name="citation_title" content={paper.title} />
-          {paper.authors.map((a) => (
-            <meta name="citation_author" content={a.given ? `${a.family}, ${a.given}` : a.family} />
-          ))}
-          {citeDate && <meta name="citation_publication_date" content={citeDate} />}
-          <meta name="citation_conference_title" content={paper.venue} />
-          {paper.doi && <meta name="citation_doi" content={paper.doi} />}
-          {paper.abstract && <meta name="citation_abstract" content={paper.abstract} />}
-          {paper.pdf && <meta name="citation_pdf_url" content={abs(paper.pdf)} />}
-        </>
-      )
-    }
+    {paper && (
+      <>
+        <meta name="citation_title" content={paper.title} />
+        {paper.authors.map((a) => (
+          <meta name="citation_author" content={a.given ? `${a.family}, ${a.given}` : a.family} />
+        ))}
+        {citeDate && <meta name="citation_publication_date" content={citeDate} />}
+        <meta name="citation_conference_title" content={paper.venue} />
+        {paper.doi && <meta name="citation_doi" content={paper.doi} />}
+        {paper.abstract && <meta name="citation_abstract" content={paper.abstract} />}
+        {paper.pdf && <meta name="citation_pdf_url" content={abs(paper.pdf)} />}
+      </>
+    )}
 
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <ClientRouter />
-    <script is:inline type="application/ld+json" set:html={jsonldSafe} />
-
+    <script is:inline type="application/ld+json" set:html={jsonldSafe}></script>
     <link
       rel="alternate"
       type="application/rss+xml"
@@ -209,14 +206,12 @@ const ogType = paper || article ? 'article' : 'website';
       rel="stylesheet"
     />
     {/* Manrope — only on academic paper pages (the microsite port design). */}
-    {
-      paper && (
-        <link
-          href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
-      )
-    }
+    {paper && (
+      <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+      />
+    )}
     <link
       rel="stylesheet"
       href="https://fred-wang.github.io/MathFonts/NewComputerModern/mathfonts.css"
@@ -257,28 +252,32 @@ const ogType = paper || article ? 'article' : 'website';
     </script>
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">
+      Skip to content
+    </a>
     <main id="main" class:list={[paper && 'main--project']} data-pagefind-body tabindex="-1">
-      {
-        contained ? (
-          <div class:list={['container', wide && 'container--wide']}>
-            <slot />
-          </div>
-        ) : (
+      {contained ? (
+        <div class:list={['container', wide && 'container--wide']}>
           <slot />
-        )
-      }
+        </div>
+      ) : (
+        <slot />
+      )}
     </main>
     <footer class="site-footer">
       <div class="site-footer__inner">
-        <a class="site-footer__copy" href="https://github.com/AlanSynn/alansynn.github.io#license"
-          >© {year} {site.short_name}</a
-        >
+        <a class="site-footer__copy" href="https://github.com/AlanSynn/alansynn.github.io#license">
+          © {year} {site.short_name}
+        </a>
         <nav class="site-footer__path" aria-label="Site">
           <a href="/">{site.domain}</a>
-          <span class="site-footer__sep" aria-hidden="true">/</span>
+          <span class="site-footer__sep" aria-hidden="true">
+            /
+          </span>
           <a href="/blog">blog</a>
-          <span class="site-footer__sep" aria-hidden="true">/</span>
+          <span class="site-footer__sep" aria-hidden="true">
+            /
+          </span>
           <a href="/press">press</a>
         </nav>
         <ThemeToggle />

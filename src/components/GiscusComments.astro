@@ -48,14 +48,12 @@ const params = {
   <p class="comments__fallback">Comments require JavaScript and a GitHub account.</p>
 </section>
 
-{
-  /* data-astro-rerun: re-execute after a View-Transition swap-in (inline
+{/* data-astro-rerun: re-execute after a View-Transition swap-in (inline
      scripts never re-run on swap without it). Every execution tears down the
      previous page's observer and re-observes the fresh mount, so a stale
      observer can't fire on detached nodes and load giscus for a page the
      reader already left; per-element guards keep a same-DOM re-execution
-     from double-injecting. */
-}
+     from double-injecting. */}
 <script is:inline data-astro-rerun>
   (function () {
     var mount = document.querySelector('.comments__mount');

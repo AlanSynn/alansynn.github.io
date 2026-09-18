@@ -25,66 +25,60 @@ const fmt = (d: Date) =>
 
 <Base title="Blog">
   <Section index="01" title="Blog">
-    {
-      posts.length === 0 ? (
-        <p class="empty-state">No posts yet - check back soon.</p>
-      ) : (
-        <>
-          {allTags.length > 0 && (
-            <details class="blog-tags-wrap">
-              <summary>Tags ({allTags.length})</summary>
-              <div class="tag-filter" id="tag-filter">
-                {allTags.map((t) => (
-                  <a class="tag-chip" href={`/blog?tag=${encodeURIComponent(t)}`} data-tag={t}>
-                    #{tagLabel(t)}
-                  </a>
-                ))}
-                <span class="tag-filter__status" id="tag-filter-status" hidden />
-              </div>
-            </details>
-          )}
-          <ul class="blog-list" id="blog-list">
-            {posts.map((post) => (
-              <li data-tags={(post.data.tags ?? []).join(' ')}>
-                <h3 class="blog-list__title">
-                  <a href={`/blog/${post.id}`}>{post.data.title}</a>
-                </h3>
-                <div class="blog-list__meta">
-                  <span class="meta-core">
-                    <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
-                    {post.data.author && <span> · {post.data.author}</span>}
+    {posts.length === 0 ? (
+      <p class="empty-state">No posts yet - check back soon.</p>
+    ) : (
+      <>
+        {allTags.length > 0 && (
+          <details class="blog-tags-wrap">
+            <summary>Tags ({allTags.length})</summary>
+            <div class="tag-filter" id="tag-filter">
+              {allTags.map((t) => (
+                <a class="tag-chip" href={`/blog?tag=${encodeURIComponent(t)}`} data-tag={t}>
+                  #{tagLabel(t)}
+                </a>
+              ))}
+              <span class="tag-filter__status" id="tag-filter-status" hidden />
+            </div>
+          </details>
+        )}
+        <ul class="blog-list" id="blog-list">
+          {posts.map((post) => (
+            <li data-tags={(post.data.tags ?? []).join(' ')}>
+              <h3 class="blog-list__title">
+                <a href={`/blog/${post.id}`}>{post.data.title}</a>
+              </h3>
+              <div class="blog-list__meta">
+                <span class="meta-core">
+                  <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+                  {post.data.author && <span> · {post.data.author}</span>}
+                </span>
+                {(post.data.tags ?? []).length > 0 && (
+                  <span class="meta-tags">
+                    {(post.data.tags ?? []).map((t) => (
+                      <a class="tag-chip" href={`/blog?tag=${encodeURIComponent(t)}`}>
+                        #{tagLabel(t)}
+                      </a>
+                    ))}
                   </span>
-                  {(post.data.tags ?? []).length > 0 && (
-                    <span class="meta-tags">
-                      {(post.data.tags ?? []).map((t) => (
-                        <a class="tag-chip" href={`/blog?tag=${encodeURIComponent(t)}`}>
-                          #{tagLabel(t)}
-                        </a>
-                      ))}
-                    </span>
-                  )}
-                </div>
-                {typeof post.data.description === 'string' && post.data.description && (
-                  <p class="blog-list__desc">{post.data.description}</p>
                 )}
-              </li>
-            ))}
-          </ul>
-        </>
-      )
-    }
-    {
-      /* Subscribe ask as a P.S. (lab draft #62) — sits after the list, OUTSIDE
+              </div>
+              {typeof post.data.description === 'string' && post.data.description && (
+                <p class="blog-list__desc">{post.data.description}</p>
+              )}
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+    {/* Subscribe ask as a P.S. (lab draft #62) — sits after the list, OUTSIDE
         the <ul> (the filter script iterates #blog-list > li). Placements:
-        here, homepage foot, and every post above the comments. */
-    }
+        here, homepage foot, and every post above the comments. */}
     <SubscribePostscript />
-    {
-      /* data-astro-rerun: re-execute after a View-Transition swap-in. The
+    {/* data-astro-rerun: re-execute after a View-Transition swap-in. The
         IIFE is idempotent (fresh DOM queries), and without the attribute an
         inline script never re-runs, leaving the filter dead on a
-        client-side return to /blog. */
-    }
+        client-side return to /blog. */}
     <script is:inline data-astro-rerun>
       (function () {
         var filter = document.getElementById('tag-filter');

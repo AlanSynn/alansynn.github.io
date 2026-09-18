@@ -27,7 +27,8 @@ const { left, right, caption } = Astro.props;
         playsinline
         data-src={left.src}
         data-vcmp-leader
-        aria-label={left.label}></video>
+        aria-label={left.label}
+      ></video>
       <span class="vcmp__label">{left.label}</span>
     </div>
     <div class="vcmp__side">
@@ -37,7 +38,8 @@ const { left, right, caption } = Astro.props;
         playsinline
         data-src={right.src}
         data-vcmp-follower
-        aria-label={right.label}></video>
+        aria-label={right.label}
+      ></video>
       <span class="vcmp__label">{right.label}</span>
     </div>
   </div>
