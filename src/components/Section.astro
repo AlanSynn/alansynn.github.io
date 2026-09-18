@@ -13,13 +13,11 @@ interface Props {
 const { index, title, meta, id, divider = false } = Astro.props;
 ---
 
-{
-  divider && (
-    <div class="coupler-divider">
-      <CouplerCurve />
-    </div>
-  )
-}
+{divider && (
+  <div class="coupler-divider">
+    <CouplerCurve />
+  </div>
+)}
 <section class="section" id={id}>
   <header class="section-head">
     {index && <span class="section-head__index">§ {index}</span>}

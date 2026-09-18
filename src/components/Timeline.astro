@@ -21,21 +21,19 @@ const inline = (s: string) => (s ? (marked.parseInline(s) as string) : '');
 ---
 
 <ul class="timeline">
-  {
-    items.map((e) => (
-      <li class="timeline__item">
-        {e.period && <div class="timeline__period">{e.period}</div>}
-        <div>
-          <div class="timeline__title" set:html={inline(e.title)} />
-          {e.location && <span class="timeline__location">{e.location}</span>}
-          {(e.body || e.more) && (
-            <Markdown
-              class="timeline__body"
-              content={[e.body, e.more].filter(Boolean).join('\n\n')}
-            />
-          )}
-        </div>
-      </li>
-    ))
-  }
+  {items.map((e) => (
+    <li class="timeline__item">
+      {e.period && <div class="timeline__period">{e.period}</div>}
+      <div>
+        <div class="timeline__title" set:html={inline(e.title)} />
+        {e.location && <span class="timeline__location">{e.location}</span>}
+        {(e.body || e.more) && (
+          <Markdown
+            class="timeline__body"
+            content={[e.body, e.more].filter(Boolean).join('\n\n')}
+          />
+        )}
+      </div>
+    </li>
+  ))}
 </ul>

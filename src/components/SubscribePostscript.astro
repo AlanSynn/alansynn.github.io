@@ -31,9 +31,13 @@ const returnUrl = `${site.url.replace(/\/$/, '')}${Astro.url.pathname}`;
           maxlength="254"
           required
         />
-        <button class="psub__btn" type="submit">Subscribe</button>
+        <button class="psub__btn" type="submit">
+          Subscribe
+        </button>
         <span aria-hidden="true">·</span>
-        <a class="psub__rss" href={feedUrl}>RSS</a>
+        <a class="psub__rss" href={feedUrl}>
+          RSS
+        </a>
         <span aria-hidden="true">.</span>
       </span>
     </form>
