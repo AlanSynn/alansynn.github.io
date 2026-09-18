@@ -146,11 +146,7 @@ const FING = [
 </div>
 
 <style>
-  /* Stage = the GROUND. Bottom = footer top-border line. clip-path buries below
-     the line, leaves top/sides open so a dragged hand never clips; z-index 20
-     paints over footer content. --arm-w is pure CSS: tuned to the footer gap
-     (~192px) so the waving hand clears content on every page; homepage
-     (:has(a.say-hi)) is slightly larger so the hand hugs the "Say hi" underline. */
+  /* Stage = the GROUND. Bottom = footer top-border line. clip-path buries below the line, leaves top/sides open so a dragged hand never clips; z-index 20 paints over footer content. --arm-w is pure CSS: tuned to the footer gap (~192px) so the waving hand clears content on every page; homepage (:has(a.say-hi)) is slightly larger so the hand hugs the "Say hi" underline. */
   .robot-arm-stage {
     --arm-w: 144px; /* fits the 192px footer gap with clearance */
     position: absolute;
@@ -179,9 +175,7 @@ const FING = [
     width: 100%;
     opacity: 0.6; /* steady + subtle (no fade-from-bg) */
     pointer-events: none;
-    /* rise from below the line: --arm=1 standing, 0 = buried. Default 1 keeps the arm */
-    /* visible on short unscrollable pages (footer in view at load); the engine eases */
-    /* 1→rise on takeover, so long pages (footer off-screen) are unaffected. */
+    /* rise from below the line: --arm=1 standing, 0 = buried. Default 1 keeps the arm visible on short unscrollable pages (footer in view at load); the engine eases 1→rise on takeover, so long pages (footer off-screen) are unaffected. */
     transform: translateY(calc((1 - var(--arm, 1)) * 100%));
     will-change: transform;
   }
