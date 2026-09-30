@@ -29,7 +29,12 @@ const renderBody = (s: string) =>
         <div class="news-item__body">
           <Fragment set:html={renderBody(item.body)} />
           {item.link && (
-            <a href={item.link} target="_blank" rel="noopener" aria-label="Related link">
+            <a
+              href={item.link}
+              target={item.link.startsWith('/') ? undefined : '_blank'}
+              rel={item.link.startsWith('/') ? undefined : 'noopener'}
+              aria-label="Related link"
+            >
               ↗
             </a>
           )}

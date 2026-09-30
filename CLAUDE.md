@@ -131,6 +131,16 @@ entry.
 - **News is one file, capped to 8.** `content/news.yaml` is a single YAML list
   of `{ date, link?, highlight?, body }` items (newest first is easiest to
   read; the homepage sorts by `date` regardless and shows the 8 most recent).
+  Published (non-draft) **blog posts merge into the same list automatically**
+  as **title-only pointer rows** — `On the blog: **Title**` with the post URL
+  on the row's trailing ↗ (NewsList opens internal links same-tab), dated by
+  the post, **no description** (the digest routes; /blog + RSS reproduce).
+  Share-of-voice cap: only the **2 most recent** posts participate, so an
+  active blog can never crowd career news out of the 8 slots. Post rows are a
+  distinct item type — do NOT "fix" them into full sentences, and don't
+  hand-add posts to news.yaml (a manual news.yaml item whose `link` contains
+  the post slug suppresses the auto row, so an editorial rewrite — or a
+  genuinely newsworthy post announced as an event — wins).
   Each `body` is one full sentence sized to fill the column width (never a 2–3
   word stub), markdown inline OK (`**bold**`, `_italic_`, `[label](url)`).
   Order events across separate items by date (e.g. CHI: a January "accepted"

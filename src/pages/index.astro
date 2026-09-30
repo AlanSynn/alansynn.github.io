@@ -20,6 +20,8 @@ import {
   newsItems,
   entryVisible,
 } from '@/lib/data';
+import type { NewsItem } from '@/lib/data';
+import { getCollection } from 'astro:content';
 import { getWorkProjects } from '@/lib/projects';
 
 // One page = the whole CV. Scroll-only, no nav.
@@ -39,8 +41,25 @@ const morePubs = allPubs.filter((p) => p.fields.hidden === 'true'); // behind th
 // src/lib/projects.ts.
 const projects = await getWorkProjects();
 
-// News: newest first, top 8 shown flat (no "more" toggle). From content/news.yaml.
-const allNews = [...newsItems].sort((a, b) => b.date.valueOf() - a.date.valueOf());
+// News: newest first, top 8 shown flat (no "more" toggle). content/news.yaml
+// items PLUS blog-post pointers, merged by date. Posts are title-only pointer
+// rows — the description is /blog's job (a digest entry routes, it doesn't
+// reproduce) — and are share-of-voice-capped: only the 2 most recent published
+// posts participate, so an active blog can never crowd career news out of the
+// 8 slots. A manual news.yaml item whose `link` contains the post slug
+// suppresses the auto row: an editorial rewrite (or a genuinely newsworthy
+// post announced as an event) wins, a plain duplicate can't double-show.
+const postNews: NewsItem[] = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 2)
+  .filter((p) => !newsItems.some((n) => n.link?.includes(p.id)))
+  .map((p) => ({
+    date: p.data.date,
+    link: `/blog/${p.id}`,
+    body: `On the blog: **${p.data.title}**`,
+  }));
+const allNews = [...newsItems, ...postNews].sort((a, b) => b.date.valueOf() - a.date.valueOf());
 const news = allNews.slice(0, 8);
 
 // Join all statements so the bio can be multi-paragraph, not just the first.
