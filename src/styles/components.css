@@ -860,9 +860,10 @@ figcaption {
 .psub__form {
   display: inline;
 }
-/* The controls (email slot + button + RSS) travel as ONE unbreakable cluster:
-   the sentence wraps like prose, but the wrap point can never orphan the
-   button — either the whole tail fits on the line or it moves down together. */
+/* The controls (email slot + button) travel as ONE unbreakable cluster: the
+   sentence wraps like prose, but the wrap point can never orphan the button —
+   either the whole tail fits on the line or it moves down together. RSS is a
+   link inside the prose sentence, not part of the cluster. */
 .psub__cluster {
   display: inline-flex;
   align-items: baseline;

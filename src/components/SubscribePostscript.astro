@@ -1,10 +1,14 @@
 ---
 // SubscribePostscript — the site-wide subscribe ask as a P.S. (round-4 draft #62).
-// One sentence in the page's own voice; the only interactive silhouettes are
-// the empty underlined slot and the boxed quiet button. No drawer, no card —
-// the ?ok= return simply fills the in-flow status line (nothing to reopen).
-// Placed once per page: /blog list foot, homepage after Contact, and every
-// blog post above the comments.
+// One complete sentence in the page's own voice, form following as an act;
+// RSS is announced in-prose as the alternative. The only interactive
+// silhouettes are the empty underlined slot and the boxed quiet button. No
+// drawer, no card — the ?ok= return simply fills the in-flow status line
+// (nothing to reopen).
+// Placed where posts live (owner revision 2026-09-30 — the homepage placement
+// after Contact was removed: a blog ask under a contact invitation read as a
+// second contact form, and homepage blog discovery is the News pointers' job):
+// /blog list foot, and every blog post above the comments.
 import { site } from '@/lib/data';
 
 // Absolute feed + return URLs (the provider 302s back to `return`, blindly
@@ -19,7 +23,14 @@ const returnUrl = `${site.url.replace(/\/$/, '')}${Astro.url.pathname}`;
       <input type="hidden" name="uri" value={feedUrl} />
       <input type="hidden" name="return" value={returnUrl} />
       <input type="hidden" name="redirect" value="true" />
-      <span>P.S. New posts arrive a few times a year. Leave your email and they'll find you —</span>
+      <span>
+        P.S. New posts arrive a few times a year. Leave your email and each one will land in your
+        inbox, or follow along via{' '}
+        <a class="psub__rss" href={feedUrl}>
+          RSS
+        </a>
+        .
+      </span>
       <span class="psub__cluster">
         <input
           class="psub__input"
@@ -34,11 +45,6 @@ const returnUrl = `${site.url.replace(/\/$/, '')}${Astro.url.pathname}`;
         <button class="psub__btn" type="submit">
           Subscribe
         </button>
-        <span aria-hidden="true">·</span>
-        <a class="psub__rss" href={feedUrl}>
-          RSS
-        </a>
-        <span aria-hidden="true">.</span>
       </span>
     </form>
     <p class="psub__status" role="status" aria-live="polite" hidden></p>
