@@ -72,8 +72,9 @@ const fmt = (d: Date) =>
       </>
     )}
     {/* Subscribe ask as a P.S. (lab draft #62) — sits after the list, OUTSIDE
-        the <ul> (the filter script iterates #blog-list > li). Placements:
-        here, homepage foot, and every post above the comments. */}
+        the <ul> (the filter script iterates #blog-list > li). Placements: here
+        and every post above the comments — NOT the homepage (2026-09-30: a
+        blog ask under Contact read as a second contact form). */}
     <SubscribePostscript />
     {/* data-astro-rerun: re-execute after a View-Transition swap-in. The
         IIFE is idempotent (fresh DOM queries), and without the attribute an

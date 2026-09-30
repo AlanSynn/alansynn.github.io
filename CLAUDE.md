@@ -157,12 +157,16 @@ entry.
   list sorted date-DESC, drafts excluded from the feed, and a tag filter chip
   bar + client-side `?tag=` filtering (no-JS `<a href>` fallback). **The
   subscribe ask is a P.S., not a widget** (`src/components/SubscribePostscript.astro`,
-  placed on `/blog` after the list — outside the `<ul>`, which the filter
-  script iterates — after the homepage Contact section, and on every post page
-  above `← All posts` + the comments): one sentence set as the page's own serif
-  italic prose with the only interactive silhouettes being an underlined email
-  slot and a quiet boxed button — deliberately NO card/drawer/toggle (owner
-  directive: it must read as ordinary text). **Subscription is 0-cost static
+  placed ONLY where posts live — on `/blog` after the list (outside the `<ul>`,
+  which the filter script iterates) and on every post page above
+  `← All posts` + the comments; the earlier homepage-after-Contact placement
+  was removed 2026-09-30: a blog ask under a contact invitation read as a
+  second contact form, and homepage blog discovery is the News pointers' job.
+  Don't re-add a homepage placement without revisiting that decision): one
+  complete sentence set as the page's own serif italic prose — form follows as
+  an act, RSS announced in-prose — with the only interactive silhouettes being
+  an underlined email slot and a quiet boxed button — deliberately NO
+  card/drawer/toggle (owner directive: it must read as ordinary text). **Subscription is 0-cost static
   RSS**: `/rss.xml` (canonical, advertised in `<head>`) + `/blog/rss.xml`
   (alias) are thin callers of `src/lib/feed.ts`; per-topic feeds live at
   `/blog/rss/<tag>.xml` (`getStaticPaths` over PUBLISHED posts' tags only, so
