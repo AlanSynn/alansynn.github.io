@@ -15,6 +15,16 @@
   url: 'https://sigchi.org/'
   type: conference
 
+# CHI 2027 submission currently under review (notification 2026-12-17).
+# Distinct key + honest name (same trick as NeurIPS Demo) so no surface reads
+# as an accepted paper. type: preprint keeps it out of "Refereed Conference
+# Papers" on the CV — the CV prints the raw abbr, so the abbr itself carries
+# the "(under review)" label.
+'CHI 2027 (under review)':
+  name: 'CHI 2027 (under review)'
+  url: 'https://chi2027.acm.org/'
+  type: preprint
+
 'IEEE Access':
   name: 'IEEE Access'
   url: 'https://ieeeaccess.ieee.org/'
