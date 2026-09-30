@@ -15,6 +15,12 @@
 #
 # Bodies are single-quoted YAML. If a body contains an apostrophe ('), double
 # it inside the quotes — e.g. body: 'Alan''s paper was accepted.'
+#
+# Blog posts don't go here: published posts merge into the homepage News list
+# automatically as title-only pointer rows (`On the blog: **Title**`), capped
+# at the 2 most recent — descriptions stay on /blog. A manual item whose
+# `link` contains the post slug suppresses the automatic one (an editorial
+# rewrite or event-style announcement wins; a plain duplicate can't show twice).
 # ===========================================================================
 
 - date: 2026-09-28
