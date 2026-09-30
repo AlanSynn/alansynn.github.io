@@ -17,6 +17,13 @@
 # it inside the quotes — e.g. body: 'Alan''s paper was accepted.'
 # ===========================================================================
 
+- date: 2026-09-28
+  link: https://ceismc.gatech.edu/
+  body: 'Invited **panelist** at the **CEISMC virtual K-12 STEAM workshop on makerspaces**, sharing hands-on making ideas from the summer **GIFT** program with K-12 teachers.'
+
+- date: 2026-09-16
+  body: 'Gave an invited seminar at **KAIST** on _Toward Human-Centered Generative AI for Design and Making_.'
+
 - date: 2026-06-15
   link: https://www.ceismc.gatech.edu/gift
   body: 'Hosting **Georgia Tech GIFT** (CEISMC) teachers this summer, exploring **MotionSmith** through the _Motion, Making & Mechanical Design_ GIFT Workshop (June–August).'
