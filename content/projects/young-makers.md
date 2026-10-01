@@ -35,9 +35,9 @@ overview_heading: "Bringing expert-oriented mechanical CAD into classrooms."
 # before the System section. The co-design timeline (paper fig 4) leads its own
 # full-width row; below it, two squares cropped from the paper's deployment
 # montage (Fig. 8): the observed classroom and a construction close-up. The
-# starting-configuration figure (paper fig 3) was DROPPED — the System intro's
-# prose already states those starting conditions verbatim, and it repeated the
-# stage-04 kit material.
+# starting-configuration figure (paper fig 3) was DROPPED — the Overview body's
+# second paragraph already states those starting conditions verbatim, and it
+# repeated the stage-04 kit material.
 gallery_heading: "From co-design to the classroom"
 gallery:
   columns: 2
@@ -61,54 +61,51 @@ demo:
   poster: "/videos/young-makers-poster.webp"
   alt: "Screen recording of a guided MotionSmith walkthrough: picking the Make a hand wave starter, exploring the layered 2.5D character canvas, playing the hand-wave motion, examining the four-bar mechanism candidate and prompt panel, and viewing the build plan and assembly steps."
   intro: "A walkthrough of the revised system — the classroom-oriented authoring workflow, the reusable fabrication kit, and the instructional supports — recorded from the live system at alansynn.com/ms."
-# System section mirrors the paper's §5 (five considerations + revisions).
-# The stage panels carry the five consideration titles verbatim, each followed
-# by its resulting revision (compressed); the §5 figures (paper figs 5–7) then
-# render full-width with their verbatim captions. The paper's original-system
-# figure (fig 2) is deliberately NOT shown — owner directive (2026-10-01):
-# leading with the old system's UI confused readers; the page showcases the
-# revisions instead.
+# System section mirrors the paper's §5 (five considerations, finding →
+# revision). Cards carry the consideration titles verbatim + the finding that
+# motivated each; the bound plate (left-to-right paper strip) carries the
+# revision. The paper's original-system figure (fig 2) is deliberately NOT
+# shown — owner directive (2026-10-01): leading with the old system's UI
+# confused readers; the page showcases the revisions instead.
 system:
   heading: "Educator-informed design considerations and revisions"
-  intro: "MotionSmith is a sketch-based computational design system originally developed through participatory design with expert automata artists. Before the educator collaboration, the research team identified three assumptions of the expert workflow that might become consequential in classrooms — concerning the formulation of motion goals, the interpretation of computational information, and the transition from digital design to physical construction — and prepared starting conditions for educators to examine through hands-on use: a dual-path workflow, interactive mathematical explanations, and a grid-constrained environment paired with a reusable physical kit. Educators' input informed five design considerations linking their experiences and classroom requirements to revisions of MotionSmith, the physical kit, and instructional supports."
+  intro: "MotionSmith is a sketch-based computational design system for automata making, originally developed with expert artists. Educators' experiences and classroom requirements across the participatory design study informed five design considerations, each realized as revisions to the authoring workflow, the fabrication kit, and the instructional supports."
+  # Findings, not an inventory (owner call 2026-10-01: DC 1–5 read as a wall —
+  # the five cards each carried a feature-list revision summary that the figure
+  # caption then re-inventoried, so everything was read twice). Each card now
+  # carries the paper's FINDING (why the consideration arose, compressed from
+  # the §5 subsection prose), and the plate under it carries the revision.
+  # Stages 03/04/05 bind their paper figure (figs 5/6/7, left-to-right strips)
+  # via `figure:` — any bound figure flips the section from the card grid to
+  # linear findings. Card texts: 05-system.tex §5.1–5.5 finding paragraphs.
   stages:
     - index: "01"
       title: "Providing a Concrete Yet Revisable Design Goal"
-      text: "Motion-first is now the default workflow: the system opens with a blank articulated-character template, and users can retain the template or replace it with an imported image as their ideas develop. When the template is retained, its component outlines are incorporated into the exported fabrication files, so the character can be constructed and personalized through physical craft."
+      text: "After using both entry paths, all four educators favored motion-first as the default for classroom use: students should begin with a concrete sense of the artifact they were working toward, even if they later revised it."
     - index: "02"
       title: "Sustaining Progress Across Entry, Interruption, and Recovery"
-      text: "A browser-based version removes installation barriers on school-managed devices; prepared examples and a workflow overview provide recognizable starting points; manual save and load let users download an editable project file and reimport it to continue across class periods; and a history of up to ten coarse-grained events lets users return to earlier design states."
+      text: "Educators anticipated that activities would span multiple 40- to 80-minute class periods, so students needed to preserve their exploration and resume it in a later session. T4 described the incremental progress through which students sustained engagement as a series of “tiny victories.”"
     - index: "03"
       title: "Making Mechanism and Assembly Relationships Spatially Legible"
-      text: "The simulation canvas now uses a layered 2.5D visualization that spatially separates overlapping components while retaining the underlying planar mechanism model, fixed joints are differentiated from moving connections, and a stacked assembly view in the fabrication instructions shows component order, connection locations, and required spacing before physical construction."
+      text: "During hands-on exploration, T1 and T2 could observe changes in the simulated output but often found it difficult to determine how overlapping components and joints produced them; the same problem reappeared in fabrication."
+      figure:
+        src: "/images/young-makers/system-legible-strip.webp"
+        alt: "The paper's three-panel figure, panels reading left to right. The panels illustrate revisions to mechanism visualization and assembly guidance. Panel A shows colored links and joints overlaid on a character's raised arm and motion path. A dashed oval highlights overlapping parts and joints. Panel B shows blue links rendered with visible thickness. Callouts identify a pivot fixed to the board and a moving connection. A magnified inset shows overlapping component layers, and a legend distinguishes the two connection types. Panel C shows purple and blue links mounted on a pegboard, with an instruction to connect the output link from G10 back to J7. Beside it, an exploded schematic arranges a fastener head, linkage, spacer, and pegboard along a dashed connection axis, with the fastener tabs opened behind the board. Annotations identify the spacer's role in setting the gap and the alignment of holes along the connection axis."
+        caption: "(A) The original 2D view. (B) The revised layered 2.5D canvas. (C) The assembly guide with a schematic of component order and spacing at a board-mounted pivot."
     - index: "04"
       title: "Aligning Digital Designs with Reusable Classroom Materials"
-      text: "Cut-to-length illustration-board linkages are replaced with reusable plywood linkages in standardized lengths, a shared size and labeling scheme spans the software, fabrication files, and physical kit, printable parts condense into a one- or two-page packet, and screen-based instructions show connection locations, layering, spacers, and assembly order."
+      text: "Educators valued the reusable plywood gears and pegboard but questioned cut-to-length illustration-board linkages, which would add preparation and opportunities for cutting and measurement errors; T1 anticipated using the activity with approximately 200 students."
+      figure:
+        src: "/images/young-makers/reusable-materials-strip.webp"
+        alt: "The paper's four-panel figure, panels reading left to right. The panels illustrate revisions to materials and digital-to-physical correspondence. Panel A contrasts a schematic strip of illustration board marked for cutting with a photograph of plywood linkages arranged by length; the three-hole pair is highlighted. Panel B shows a blue three-hole linkage and four rows repeating the three-hole size label for the digital parameter, generated part list, physical kit part, and assembly instruction. Panel C shows a page titled Sample Character with separate body-part outlines, marked joint locations, and a small assembled-character preview. Panel D shows a layered character and linkage assembly on a pegboard. Below the view, Step 9 is labeled Connect character and includes the instructions Connect output and Check: Path follows. A mechanism-stack section and board-reference indicators appear beneath the instructions."
+        caption: "(A) Standard-length plywood linkages. (B) The shared three-hole size label across the software, part list, kit, and instructions. (C) A print-packet example. (D) Screen-based assembly guidance."
     - index: "05"
       title: "Supporting Educator-Configured Explanation and Activity"
-      text: "Explanatory support became a configurable resource for classroom facilitation: an on-demand prompt panel from which educators select questions asking students to predict how a change would affect motion, compare alternatives, explain an observed result, or diagnose a difference between simulated and physical behavior, supplemented by real-world application examples linked to curated online videos."
-  # Paper §5 figures (figs 5–7) as the paper's OWN left-to-right panel strips
-  # (owner call 2026-10-01: the earlier 2-row web recompositions broke the
-  # panels' reading order and hindered reading — paper-native order wins).
-  # Each is a straight 200-dpi render of the paper figure PDF (2400px wide,
-  # 2× retina at the 1120px shell — panels render ~265–360px, 2–3× the
-  # printed paper's panels). Captions are the paper's, verbatim; alt text =
-  # the paper's \Description + one sentence disclosing the arrangement.
-  # `kicker` ties each figure to the stage panel it illustrates (fig 5 → 03,
-  # fig 6 → 04, fig 7 → 05; the paper has no figure for 01–02).
-  revisions:
-    - kicker: "Consideration 03"
-      src: "/images/young-makers/system-legible-strip.webp"
-      alt: "The paper's three-panel figure, panels reading left to right. The panels illustrate revisions to mechanism visualization and assembly guidance. Panel A shows colored links and joints overlaid on a character's raised arm and motion path. A dashed oval highlights overlapping parts and joints. Panel B shows blue links rendered with visible thickness. Callouts identify a pivot fixed to the board and a moving connection. A magnified inset shows overlapping component layers, and a legend distinguishes the two connection types. Panel C shows purple and blue links mounted on a pegboard, with an instruction to connect the output link from G10 back to J7. Beside it, an exploded schematic arranges a fastener head, linkage, spacer, and pegboard along a dashed connection axis, with the fastener tabs opened behind the board. Annotations identify the spacer's role in setting the gap and the alignment of holes along the connection axis."
-      caption: "Making mechanism and assembly relationships spatially legible. (A) The original 2D view displays character motion and overlapping mechanism geometry without showing depth ordering. (B) The revised 2.5D canvas distinguishes component layers and board-fixed pivots from moving connections while retaining planar kinematics. (C) The assembly guide specifies connection locations; an accompanying schematic illustrates component order, alignment, and spacer-defined separation at a board-mounted pivot."
-    - kicker: "Consideration 04"
-      src: "/images/young-makers/reusable-materials-strip.webp"
-      alt: "The paper's four-panel figure, panels reading left to right. The panels illustrate revisions to materials and digital-to-physical correspondence. Panel A contrasts a schematic strip of illustration board marked for cutting with a photograph of plywood linkages arranged by length; the three-hole pair is highlighted. Panel B shows a blue three-hole linkage and four rows repeating the three-hole size label for the digital parameter, generated part list, physical kit part, and assembly instruction. Panel C shows a page titled Sample Character with separate body-part outlines, marked joint locations, and a small assembled-character preview. Panel D shows a layered character and linkage assembly on a pegboard. Below the view, Step 9 is labeled Connect character and includes the instructions Connect output and Check: Path follows. A mechanism-stack section and board-reference indicators appear beneath the instructions."
-      caption: "Aligning digital designs with reusable classroom materials. (A) Standard-length plywood linkages replace cut-to-length illustration board. (B) A schematic illustrates the shared three-hole size label across the digital parameter, generated part list, physical kit component, and assembly instruction. (C) A print-packet example groups articulated-character outlines and joint locations on one page. (D) Screen-based assembly guidance shows the character and mechanism together with a connection step and board references."
-    - kicker: "Consideration 05"
-      src: "/images/young-makers/educator-support-strip.webp"
-      alt: "The paper's three-panel figure, panels reading left to right. The panels connect educator-selected questions to mechanism exploration and application examples. Panel A lists Predict, Compare, Observe and explain, and Diagnose, with Observe and explain selected. The prompts ask about input speed, fixed pivots, gear rotation direction, and differences between physical and simulated behavior. Panel B shows two purple gears beside the selected question asking which gear turns the other way. The cues suggest adding an idler gear and observing tooth contact and rotation; a Hint control appears below. Panel C contains two application cards labeled Waving hand and Toy gearbox. Each card pairs a brief mechanism description with a video preview and a Watch video link. Text beneath each preview identifies the video as optional and refers to a generated loop if the video does not load."
-      caption: "Supporting educator-configured explanation and activity. (A) An on-demand prompt panel presents questions for prediction, comparison, observation and explanation, and diagnosis that educators can select based on their instructional goals. (B) The selected question appears beside the mechanism simulation with brief cues for what students could try and observe. (C) Real-world application examples identify where a mechanism is used and describe the movement it produces, with links to curated online videos. Prompts and examples supplement the mathematical explanations."
+      text: "The three middle-school educators considered the interactive mathematical explanations potentially useful but anticipated that relatively few students would engage with them independently if they remained continuously available without instructional framing."
+      figure:
+        src: "/images/young-makers/educator-support-strip.webp"
+        alt: "The paper's three-panel figure, panels reading left to right. The panels connect educator-selected questions to mechanism exploration and application examples. Panel A lists Predict, Compare, Observe and explain, and Diagnose, with Observe and explain selected. The prompts ask about input speed, fixed pivots, gear rotation direction, and differences between physical and simulated behavior. Panel B shows two purple gears beside the selected question asking which gear turns the other way. The cues suggest adding an idler gear and observing tooth contact and rotation; a Hint control appears below. Panel C contains two application cards labeled Waving hand and Toy gearbox. Each card pairs a brief mechanism description with a video preview and a Watch video link. Text beneath each preview identifies the video as optional and refers to a generated loop if the video does not load."
+        caption: "(A) The on-demand prompt panel. (B) The selected question beside the simulation, with cues for what to try and observe. (C) Real-world application examples linked to curated videos."
   zoom:
     src: "/images/young-makers/ms-canvas.webp"
     alt: "The revised MotionSmith Mechanism Foundry: a four-bar linkage candidate playing on the layered canvas beside the prompt panel, stack readout, rig-opacity and explode sliders, and kit-compatible link-hole parameters."

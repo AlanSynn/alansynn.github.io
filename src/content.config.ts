@@ -161,26 +161,18 @@ const projects = defineCollection({
                   index: z.string().optional(), // e.g. "01"
                   title: z.string(),
                   text: z.string(),
+                  // Evidence figure bound to THIS finding (paper §5 figs).
+                  // Present on any stage → the whole list renders as linear
+                  // findings (head + figure under it) instead of the card
+                  // grid, so each consideration reads once with its plate.
+                  figure: z
+                    .object({ src: z.string(), alt: z.string(), caption: z.string() })
+                    .strict()
+                    .optional(),
                 })
                 .strict(),
             )
-            .optional(), // pipeline stage panels
-          // Consideration figures (paper §5 figs): stacked full-width figures
-          // after the stage grid, each with its verbatim paper caption.
-          // `kicker` labels the unit with its consideration number (ties the
-          // figure to the stage-grid panel it illustrates).
-          revisions: z
-            .array(
-              z
-                .object({
-                  src: z.string(),
-                  alt: z.string(),
-                  caption: z.string(),
-                  kicker: z.string().optional(),
-                })
-                .strict(),
-            )
-            .optional(),
+            .optional(), // pipeline stage panels / numbered findings
           zoom: z
             .object({ src: z.string(), alt: z.string(), caption: z.string().optional() })
             .strict()
