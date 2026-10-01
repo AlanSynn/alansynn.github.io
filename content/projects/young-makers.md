@@ -13,8 +13,9 @@ title_lines:
   - { rest: "of a Mechanical CAD System" }
 # Paper teaser caption, verbatim (main.tex teaser figure).
 teaser_caption: "MotionSmith is a sketch-based computational design system for automata making, adapted for young makers through participatory design with STEM educators. From left to right: (A) educators co-design the system in a hybrid workshop; (B) the resulting system is redesigned around young makers, through a classroom-oriented authoring workflow, a reusable fabrication kit, and instructional supports, enabling a maker to sketch an intended motion and explore synthesized, fabricable mechanism candidates, and move from digital design toward physical construction; and (C) educators enact the refined system in middle-school classrooms, where young makers collaboratively design and construct automata."
-# Compressed from the abstract (00-abstract.tex); expressions preserved.
-summary: "A sketch-based system for automata making originally developed with expert artists, adapted for young makers through a three-phase participatory design study with four K–8 STEM educators — and enacted in middle-school classrooms by three of them with 129 students at two schools."
+# (No hero `summary:` — owner directive 2026-10-01: it duplicated the abstract,
+# whose full verbatim text is the Overview body. Meta/og description falls back
+# to papers.bib's abstract; the hero reads title → authors → chips → teaser.)
 affiliations:
   - "Georgia Tech"
 author_affil: [1, 1, 1, 1]
