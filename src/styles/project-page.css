@@ -826,6 +826,28 @@ code {
   margin-inline: auto;
 }
 
+/* §5 consideration figures (revisions[]): each re-composes a multi-row paper
+   figure into a 2-row layout (≈750–1500px at column width). The portrait-capture
+   cap above is exactly the illegibility this recomposition exists to fix — lift
+   it for these figures only (motionsmith's workflow figure keeps sharing the
+   capped slot). */
+.revision-figure img {
+  max-height: none;
+}
+
+/* Unit rhythm for the stacked consideration figures: without these, the first
+   figure sits flush against the stage grid and consecutive figure+caption
+   units run together (caption margin only). Neither selector matches any other
+   page: motionsmith's DOM is figure → stage-grid → interface-panel, never
+   grid→figure or figure→figure siblings. */
+.stage-grid + figure.feature-figure {
+  margin-top: 3rem;
+}
+
+figure.feature-figure + figure.feature-figure {
+  margin-top: 3.5rem;
+}
+
 .hero__figure figcaption,
 .feature-figure figcaption {
   max-width: 52rem;
