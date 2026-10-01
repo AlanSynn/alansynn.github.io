@@ -17,7 +17,7 @@ teaser_caption: "MotionSmith is a sketch-based computational design system for a
 summary: "A sketch-based system for automata making originally developed with expert artists, adapted for young makers through a three-phase participatory design study with four K–8 STEM educators — and enacted in middle-school classrooms by three of them with 129 students at two schools."
 affiliations:
   - "Georgia Tech"
-author_affil: [1, 1, 1]
+author_affil: [1, 1, 1, 1]
 # Hero CTA chips: the live revised system. links[0] renders solid; non-anchor
 # links open in a new tab (isInternalHref treats /ms as internal — see
 # AcademicProject.astro). Code / Demo / BibTeX chips derive from papers.bib +
