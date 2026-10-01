@@ -8,6 +8,7 @@ interface Item {
   alt: string;
   caption?: string;
   label?: string;
+  wide?: boolean; // contain in a 5:2 tile instead of the 1:1 cover square
 }
 interface Props {
   items: Item[];
@@ -18,7 +19,7 @@ const { items, columns = 3 } = Astro.props;
 
 <div class="rgallery" style={`--rgallery-cols: ${columns}`}>
   {items.map((it) => (
-    <figure class="rgallery__item">
+    <figure class:list={['rgallery__item', { 'rgallery__item--wide': it.wide }]}>
       {it.label && <span class="rgallery__label">{it.label}</span>}
       <img src={it.src} alt={it.alt} loading="lazy" />
       {it.caption && <figcaption>{it.caption}</figcaption>}

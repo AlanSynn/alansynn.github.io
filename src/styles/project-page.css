@@ -814,6 +814,18 @@ code {
   object-fit: cover;
 }
 
+/* Portrait multi-panel workflow figures (e.g. the revised-system figure) would
+   render ~1300px+ tall at column width — cap and center them instead. For
+   landscape figures this is a no-op: natural width exceeds the column, so
+   max-width:100% still sizes them exactly as width:100% did. */
+.feature-figure img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: min(85vh, 1050px);
+  margin-inline: auto;
+}
+
 .hero__figure figcaption,
 .feature-figure figcaption {
   max-width: 52rem;
@@ -888,6 +900,15 @@ code {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.5rem;
   margin-top: 2.5rem;
+}
+
+/* Exactly four stage panels (e.g. four consideration→revision pairs) read as a
+   2×2 quartet; three stay 3-across. Desktop only — the ≤980px collapse below
+   must keep winning, and :has() would out-rank it otherwise. */
+@media (min-width: 981px) {
+  .stage-grid:has(> .stage-panel:nth-child(4):last-child) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .stage-panel {
@@ -1492,6 +1513,13 @@ code {
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
+}
+/* Wide paper figures (`wide: true`): contain instead of cover so a caption
+   that enumerates panels never loses them; the 5:2 tile letterbox shows the
+   item's own --bg-soft, so it blends in both themes. */
+.rgallery__item--wide img {
+  aspect-ratio: 5 / 2;
+  object-fit: contain;
 }
 .rgallery__label {
   position: absolute;

@@ -75,14 +75,35 @@ const bibtex =
 // Link-chip row. Internal (same-origin / root-relative / in-page anchor) links
 // navigate client-side so View Transitions fire + local dev works; external
 // open in a new tab. Icons match the original microsite chips.
-type Chip = { label: string; href: string; icon: string; solid?: boolean };
+// `blank` forces a new tab EVEN for a same-origin URL. This is the escape hatch
+// for sibling apps on this domain (e.g. the live system at /ms): isInternalHref
+// treats both "/ms" and "https://alansynn.com/ms" as internal (src/lib/data.ts),
+// so without `blank` the ClientRouter would client-navigate and VT-swap a
+// foreign SPA into this document.
+type Chip = { label: string; href: string; icon: string; solid?: boolean; blank?: boolean };
 const chips: Chip[] = [];
-if (paper.pdf) chips.push({ label: 'Paper PDF', href: paper.pdf, icon: '📄', solid: true });
+// Frontmatter `links:` lead the row as page-author CTAs; links[0] is the
+// primary act → solid (and then Paper PDF, if any, renders non-solid). Links
+// point at external destinations by intent (live apps, repos): non-anchor
+// entries always open in a new tab.
+(d.links ?? []).forEach((l, i) => {
+  if (!l.label || !l.url) return;
+  chips.push({
+    label: l.label,
+    href: l.url,
+    icon: '▶',
+    ...(i === 0 ? { solid: true } : {}),
+    ...(!l.url.startsWith('#') ? { blank: true } : {}),
+  });
+});
+if (paper.pdf)
+  chips.push({ label: 'Paper PDF', href: paper.pdf, icon: '📄', solid: !d.links?.length });
 if (paper.doi) chips.push({ label: 'DOI', href: `https://doi.org/${paper.doi}`, icon: '🔗' });
 if (paper.code) chips.push({ label: 'Code', href: paper.code, icon: 'github' });
-// Chip set mirrors the original microsite exactly (Paper PDF, DOI, Code, Demo,
-// BibTeX). Video is reachable via the Demo section; the project `website` would
-// self-link back to this page, so neither is a separate chip.
+// Chip set mirrors the original microsite (Paper PDF, DOI, Code, Demo, BibTeX)
+// plus the frontmatter `links:` CTAs above. Video is reachable via the Demo
+// section; the project `website` stays homepage-only (CompactPub "Project
+// Page"), so neither is a separate chip here.
 if (d.demo) chips.push({ label: 'Demo', href: '#demo', icon: '▶' });
 chips.push({ label: 'BibTeX', href: '#bibtex-heading', icon: '❝' });
 
@@ -219,7 +240,7 @@ const titleRest =
           <div class="link-row" aria-label="Primary links">
             {chips.map((c) => {
               const href = renderHref(c.href);
-              const ext = isExternal(c.href);
+              const ext = c.blank || isExternal(c.href);
               return (
                 <a
                   class:list={['link-chip', { 'link-chip--solid': c.solid }]}
@@ -519,7 +540,7 @@ const titleRest =
         <div class="site-shell">
           <div class="section__center" data-reveal>
             <p class="section-kicker">Gallery</p>
-            <h2 id="gallery-heading">Result gallery</h2>
+            <h2 id="gallery-heading">{d.gallery_heading ?? 'Result gallery'}</h2>
           </div>
           <ResultsGallery items={d.gallery.items} columns={d.gallery.columns} />
         </div>
