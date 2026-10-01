@@ -29,31 +29,38 @@ nav:
   - Demo
   - System
   - Results
-  - Cases
   - Citation
 overview_heading: "Bringing expert-oriented mechanical CAD into classrooms."
-# The workshop figures (paper figs 3/4) render as a two-up gallery with their
-# verbatim captions; the heading override replaces the graphics default.
-gallery_heading: "The co-design workshop"
+# Gallery bridges co-design → classroom (the paper's §4 → §6 arc), rendered
+# before the System section. The co-design timeline (paper fig 4) leads its own
+# full-width row; below it, two squares cropped from the paper's deployment
+# montage (Fig. 8): the observed classroom and a construction close-up. The
+# starting-configuration figure (paper fig 3) was DROPPED — the System intro's
+# prose already states those starting conditions verbatim, and it repeated the
+# stage-04 kit material.
+gallery_heading: "From co-design to the classroom"
 gallery:
   columns: 2
   items:
-    - src: "/images/young-makers/workshop-preparation.webp"
-      alt: "A three-part figure comparing the original MotionSmith system with the configuration prepared for the educator participatory design workshops."
-      label: "Starting configuration"
-      wide: true
-      caption: "Researcher-led workshop starting configuration before educator co-design. (A) Original MotionSmith supported a motion-first workflow. (B) We added a mechanism-first entry point so that motion-first and mechanism-first exploration could converge in a shared authoring space. (C) We matched the constrained digital design space to a reusable physical kit through a 15 × 15 grid, four gear sizes, and ten indexed linkage lengths. These elements were study starting conditions rather than educator-derived refinements."
     - src: "/images/young-makers/workshop-timeline.webp"
       alt: "Three panels illustrating the educator co-design process, with an unnumbered research-team revision block between Panels B and C: Experience as first-time users (10 hours in person over Days 1–2), Reframe as classroom facilitators (5 hours in person on Day 3), and Review & co-design as pedagogical designers (approximately 5 hours remotely), the research-team block synthesizing revisions to the digital system, physical kit, and facilitation supports."
       label: "Three perspectives"
       wide: true
       caption: "Educator co-design across three perspectives. (A) Experience through use and fabrication as first-time users. (B) Reframe through planning as classroom facilitators. (C) Review & co-design as pedagogical designers, reviewing revisions, developing lesson plans, and commenting on draft classroom-enactment criteria. The dashed return arrow represents their further critique and proposed refinements. The unnumbered block between (B) and (C) represents a research-team synthesis of educator experiences and classroom requirements into revisions to the digital system, physical kit, and facilitation supports."
+    - src: "/images/young-makers/gallery-classroom.webp"
+      alt: "Students arranging character components on a pegboard beside a laptop."
+      label: "Classroom enactment"
+      caption: "Students arranging character components on a pegboard beside a laptop (paper Fig. 8, panel H)."
+    - src: "/images/young-makers/gallery-artifact.webp"
+      alt: "Hands positioning an articulated paper character connected to wooden linkages on a physical pegboard."
+      label: "Physical construction"
+      caption: "Hands positioning an articulated paper character connected to wooden linkages on a physical pegboard (paper Fig. 8, panel C)."
 # Demo = a scripted screen recording of the live revised system at /ms.
 demo:
   src: "/videos/young-makers-demo.mp4"
   poster: "/videos/young-makers-poster.webp"
   alt: "Screen recording of a guided MotionSmith walkthrough: picking the Make a hand wave starter, exploring the layered 2.5D character canvas, playing the hand-wave motion, examining the four-bar mechanism candidate and prompt panel, and viewing the build plan and assembly steps."
-  intro: "A walkthrough of the revised system — the classroom-oriented authoring workflow, the reusable fabrication kit, and the instructional supports — recorded from the live deployment at alansynn.com/ms."
+  intro: "A walkthrough of the revised system — the classroom-oriented authoring workflow, the reusable fabrication kit, and the instructional supports — recorded from the live system at alansynn.com/ms."
 # System section mirrors the paper's §5 (five considerations + revisions).
 # The stage panels carry the five consideration titles verbatim, each followed
 # by its resulting revision (compressed); the §5 figures (paper figs 5–7) then
@@ -73,7 +80,7 @@ system:
       text: "A browser-based version removes installation barriers on school-managed devices; prepared examples and a workflow overview provide recognizable starting points; manual save and load let users download an editable project file and reimport it to continue across class periods; and a history of up to ten coarse-grained events lets users return to earlier design states."
     - index: "03"
       title: "Making Mechanism and Assembly Relationships Spatially Legible"
-      text: "The simulation canvas now uses a layered 2.5D visualization that spatially separated overlapping components while retaining the underlying planar mechanism model, fixed joints are differentiated from moving connections, and a stacked assembly view in the fabrication instructions shows component order, connection locations, and required spacing before physical construction."
+      text: "The simulation canvas now uses a layered 2.5D visualization that spatially separates overlapping components while retaining the underlying planar mechanism model, fixed joints are differentiated from moving connections, and a stacked assembly view in the fabrication instructions shows component order, connection locations, and required spacing before physical construction."
     - index: "04"
       title: "Aligning Digital Designs with Reusable Classroom Materials"
       text: "Cut-to-length illustration-board linkages are replaced with reusable plywood linkages in standardized lengths, a shared size and labeling scheme spans the software, fabrication files, and physical kit, printable parts condense into a one- or two-page packet, and screen-based instructions show connection locations, layering, spacers, and assembly order."
@@ -87,7 +94,9 @@ system:
   # badges are the panels' own; captions are the paper's, verbatim; alt text =
   # the paper's \Description + one sentence disclosing the arrangement.
   # `kicker` ties each figure to the stage panel it illustrates (fig 5 → 03,
-  # fig 6 → 04, fig 7 → 05; the paper has no figure for 01–02).
+  # fig 6 → 04, fig 7 → 05; the paper has no figure for 01–02). Height is
+  # bounded at min(75vh, 800px) in project-page.css (owner call 2026-10-01:
+  # the uncapped recompositions rendered too large).
   revisions:
     - kicker: "Consideration 03"
       src: "/images/young-makers/system-legible.webp"
@@ -105,9 +114,8 @@ system:
     src: "/images/young-makers/ms-canvas.webp"
     alt: "The revised MotionSmith Mechanism Foundry: a four-bar linkage candidate playing on the layered canvas beside the prompt panel, stack readout, rig-opacity and explode sliders, and kit-compatible link-hole parameters."
     caption: "The revised system, live at alansynn.com/ms — a four-bar candidate in the Mechanism Foundry with the on-demand prompt panel and kit-compatible link-hole parameters (3-, 9-, 5-hole)."
-  interface:
-    heading: "The revisions, in the live system"
-    copy: "The simulation canvas uses a layered 2.5D visualization that spatially separates overlapping components, fixed joints are differentiated from moving connections, and a stacked assembly view joins the fabrication instructions. An on-demand prompt panel lets educators select questions aligned with their instructional goals — asking students to predict, compare, explain, or diagnose."
+  # (The former `interface:` copy block was dropped 2026-10-01 — it restated
+  # stages 03/05 nearly verbatim; the stage panels + zoom caption carry it.)
 # The enactment study under its own name (§6). stat values are the paper's.
 results_heading: "Classroom enactment"
 stat_callouts:
@@ -115,51 +123,30 @@ stat_callouts:
   - { value: "5", label: "educator-informed design considerations, implemented as revisions to the workflow, kit, and instructional supports" }
   - { value: "3", label: "classroom enactments at two schools, led by three of the four educators" }
   - { value: "129", label: "middle-school students in the enacted classroom activities" }
-# Compiled from §6.2's prose — the revision's old classroom-settings table is
-# commented out in the tex, so the page rebuilds the settings from the text.
+# §6.2 settings as prose (06-deployment.tex:74 + the observation note :93),
+# NOT a table: the authors themselves commented the classroom-settings table
+# out of the tex (06-deployment.tex:19–69) and let it go stale, and the
+# per-case settings live in the case tabs' subtitles below. Note-only results
+# block (no columns/rows); the note renders as centered prose.
 results:
-  caption: "Classroom settings for the three educator-led enactments, compiled from Section 6.2 of the paper."
-  note: "All three educators planned projects in groups of two or three students; 36 fabrication kits were prepared and 18 supplied to each school; both schools provide a Chromebook for every student. T1's enactment is documented through educator reports and materials, while T3's second and T4's third sessions were directly observed."
-  columns: ["Case", "Class", "Students", "Sessions"]
-  rows:
-    - {
-        cells:
-          [
-            "T1 · Grade 6 STEAM",
-            "2 classes",
-            "58",
-            "4 × ~45 min",
-          ],
-      }
-    - {
-        cells:
-          [
-            "T3 · Grade 8 Engineering Foundation",
-            "1 class",
-            "35",
-            "3 × 60 min",
-          ],
-      }
-    - {
-        cells:
-          [
-            "T4 · Grade 6 STEM",
-            "1 class",
-            "36",
-            "3 × 55 min",
-          ],
-      }
-# §6.3 accounts, verbatim where quoted. Case images are crops of the paper's
-# own deployment montage (Fig. 8): T1 → panel F, T3 → panel D, T4 → panel B
-# (the panels the prose cites for each classroom). Captions name the panel.
-cases_heading: "Educator-led classroom enactments"
-cases_intro: "Three criteria — sustained and productive engagement, intentional design and iterative revision, and interest in continuing or extending the activity — guided attention during the enactments; T2 noted that “effective iteration is more than making changes.” In post-activity interviews, all three educators reported high student engagement and expressed plans to use MotionSmith and the accompanying kits again."
+  note: "T2 could not participate because of scheduling constraints. All three educators planned projects in groups of two or three students; 36 fabrication kits were prepared and 18 supplied to each school; both schools provide a Chromebook for every student. T1's enactment is documented through educator reports and materials, while T3's second and T4's third sessions were directly observed."
+# §6.3 accounts, verbatim where quoted. FUSED into the Results section above
+# (cases_in_results) — the cases ARE the enactment results. Case images are
+# crops of the paper's own deployment montage (Fig. 8): T1 → panel I (the
+# completed automaton), T3 → panel D, T4 → panel A (assembly beside the
+# on-screen guidance — the panel the construction fact cites). Captions name
+# the panel.
+cases_in_results: true
+cases_heading: "Three educators, two schools"
+cases_intro: "Three criteria — sustained and productive engagement, intentional design and iterative revision, and interest in continuing or extending the activity — guided attention during the enactments; T2 noted that “effective iteration is more than making changes.” In post-activity interviews, all three educators reported high student engagement and expressed plans to use MotionSmith and the accompanying kits again. During our observation of T3's class, students expressed interest in trying other designs and mechanisms."
+# §7's readiness sentence, closing the merged section.
+cases_outro: "As the paper argues, “assessing classroom readiness means examining whether students can move between digital design and physical construction using the available representations, materials, and guidance, and whether educators can support that work across several groups.”"
 cases:
   - tab: "T1 · Grade 6 STEAM"
     subtitle: "2 classes · 58 students · 4 sessions"
-    image: "/images/young-makers/case-t1.webp"
-    alt: "MotionSmith running on a laptop beside a hand-drawn segmented character on paper."
-    caption: "A student-drawn character accompanies MotionSmith use (paper Fig. 8, panel F)."
+    image: "/images/young-makers/case-t1-outcome.webp"
+    alt: "A completed articulated character mounted on a pegboard and connected through wooden linkage components and fasteners."
+    caption: "A completed automaton shows the resulting character and mechanism (paper Fig. 8, panel I)."
     lede: "T1 integrated MotionSmith into an ongoing activity themed “Imagine Yourself as a Scientist”: students first drew their scientist characters and designed movements for them in MotionSmith, and divided responsibilities between digital design and physical construction when projects moved to team work."
     facts:
       - {
@@ -179,7 +166,7 @@ cases:
     image: "/images/young-makers/case-t3.webp"
     alt: "Several students gathered around a workstation running MotionSmith, with a nearby laptop displaying a teacher-provided activity document in Google Classroom."
     caption: "Students working with MotionSmith alongside a teacher-provided activity document (paper Fig. 8, panel D)."
-    lede: "T3 began with 15–20 minutes of exploration on Chromebooks, then moved the activity to a computer lab, where desktop computers offered larger monitors and each team received a fabrication kit; designs began from the blank character template, with the physical components explored alongside the mechanism designs."
+    lede: "T3's lesson plan emphasized problem-solving through a teacher-led mechanism “read-aloud,” during which the class would identify a mechanism's input, moving components, and output. In the enactment, T3 began with 15–20 minutes of exploration on Chromebooks, then moved the activity to a computer lab, where desktop computers offered larger monitors and each team received a fabrication kit; designs began from the blank character template, with the physical components explored alongside the mechanism designs."
     facts:
       - {
           label: "Purposeful revision",
@@ -195,18 +182,26 @@ cases:
         }
   - tab: "T4 · Grade 6 STEM"
     subtitle: "1 class · 36 students · 3 sessions"
-    image: "/images/young-makers/case-t4.webp"
-    alt: "Two students seated together in front of a desktop monitor displaying an articulated character and mechanism in MotionSmith."
-    caption: "Collaborative character and mechanism design at a shared workstation (paper Fig. 8, panel B)."
-    lede: "T4 devoted the first session to individual exploration and asked students to save their design files; in the second session he organized students into pairs and distributed the fabrication kits, and each pair reviewed its members' saved designs and negotiated a shared direction for the team project."
+    image: "/images/young-makers/case-t4-guidance.webp"
+    alt: "A student holding wooden linkage components beside a desktop monitor displaying a mechanism on a pegboard grid with on-screen assembly guidance."
+    caption: "Physical linkage assembly alongside the on-screen board layout and guidance (paper Fig. 8, panel A)."
+    lede: "T4's plan connected mechanism design to curricular engineering-design objectives. His plan asked students to compare mechanisms and predict how a parameter change would affect movement before testing it in the simulation. It also included a “blueprint gate,” at which teams would explain their simulated designs before receiving fabrication materials. In the enactment, T4 devoted the first session to individual exploration and asked students to save their design files; in the second session he organized students into pairs and distributed the fabrication kits, and each pair reviewed its members' saved designs and negotiated a shared direction for the team project."
     facts:
       - {
           label: "The high-five pair",
           text: "One group wanted two characters to high-five; as students developed the idea, they recognized that one character needed to use its left hand and the other its right, and coordinated changes to their designs. T4 interpreted the episode as evidence that students were developing motion ideas, identifying constraints, and working through them together.",
         }
       - {
+          label: "From screen to pegboard",
+          text: "During construction, group members divided tasks between cutting character parts and assembling mechanism components on the pegboard; students consulted the on-screen board layout and assembly guidance alongside the physical parts (paper Fig. 8).",
+        }
+      - {
           label: "Kit boxes and continuity",
           text: "T4 emphasized the value of the kit boxes, which held the accompanying components, fit the available storage, and allowed work to continue across sessions.",
+        }
+      - {
+          label: "Sustained participation",
+          text: "T4 emphasized that he valued students' willingness to explore with peers without waiting for step-by-step directions, particularly while he attended to other classroom responsibilities.",
         }
       - {
           label: "Simpler starting points",

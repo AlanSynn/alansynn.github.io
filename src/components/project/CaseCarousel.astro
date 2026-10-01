@@ -1,0 +1,89 @@
+---
+// CaseCarousel.astro — the tabbed deployment-case carousel (ARIA tablist +
+// roving focus, data-case-* hooks). Extracted from AcademicProject so it can
+// render either as the standalone #cases section or — with `cases_in_results`
+// — fused into #results after the stats/settings note. Only one instance
+// renders per page, so the tab/tabpanel ids stay unique either way.
+type Case = NonNullable<
+  import('astro:content').CollectionEntry<'projects'>['data']['cases']
+>[number];
+interface Props {
+  cases: Case[];
+}
+const { cases } = Astro.props;
+// Stable tab/tabpanel ids.
+const caseSlug = (label: string) =>
+  label
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+---
+
+<div class="case-carousel" data-case-carousel data-reveal>
+  <div class="case-tabs" role="tablist" aria-label="Deployment cases">
+    {cases.map((c, i) => (
+      <button
+        class:list={['case-tab', { 'is-active': i === 0 }]}
+        type="button"
+        id={`case-tab-${caseSlug(c.tab)}`}
+        role="tab"
+        aria-selected={i === 0 ? 'true' : 'false'}
+        aria-controls={`case-${caseSlug(c.tab)}`}
+        data-case-trigger
+      >
+        <span class="case-tab__index">{String(i + 1).padStart(2, '0')}</span>
+        <span class="case-tab__text">
+          <strong>{c.tab}</strong>
+          {c.subtitle && <span>{c.subtitle}</span>}
+        </span>
+      </button>
+    ))}
+  </div>
+
+  {cases.map((c, i) => (
+    <article
+      class:list={['case-panel', { 'is-active': i === 0 }]}
+      id={`case-${caseSlug(c.tab)}`}
+      role="tabpanel"
+      aria-labelledby={`case-tab-${caseSlug(c.tab)}`}
+      data-case-panel
+      hidden={i !== 0}
+    >
+      <figure class="case-panel__figure">
+        <img src={c.image} alt={c.alt} loading="lazy" />
+        {c.caption && <figcaption>{c.caption}</figcaption>}
+      </figure>
+      <div class="case-panel__copy">
+        <p class="section-kicker">Case {String(i + 1).padStart(2, '0')}</p>
+        <h3>
+          {c.tab}
+          {c.subtitle ? ` / ${c.subtitle.split(' / ')[0]}` : ''}
+        </h3>
+        {c.lede && <p class="case-panel__lede">{c.lede}</p>}
+        {c.facts && c.facts.length > 0 && (
+          <ul class="case-facts">
+            {c.facts.map((f) => (
+              <li>
+                <strong>{f.label}.</strong> {f.text}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </article>
+  ))}
+
+  <div class="case-carousel__footer">
+    <p class="case-carousel__status" data-case-status aria-live="polite">
+      1 / {cases.length}
+    </p>
+    <div class="case-carousel__controls">
+      <button class="case-arrow" type="button" data-case-prev>
+        Previous
+      </button>
+      <button class="case-arrow" type="button" data-case-next>
+        Next
+      </button>
+    </div>
+  </div>
+</div>
