@@ -201,16 +201,25 @@ citation_heading: "Cite this work."
 citation_intro: "The paper is under review; the BibTeX below reflects its current public citation — venue and DOI follow acceptance."
 acknowledgments: "With thanks to the four educators who co-designed, critiqued, and carried this work into their classrooms, and to the two schools that opened their doors."
 # Page-closing invitation (owner directive 2026-10-01: "try it in your
-# classroom 같은 느낌"). Page voice, like the acknowledgments — the two
-# sentences make no claim beyond established facts (the /ms deployment IS the
-# revised system; the photo is an enactment shot the paper could not include).
-# Photo: crop of IMG_5027 holding all four kit-box rows whole; privacy trims
-# (standing person top-right, celebrity cut-out board, chair at left edge),
-# modest grade (brightness ~+10%, saturation ~+14%, slight contrast), EXIF
-# stripped, new filename per the cache-bust rule.
+# classroom 같은 느낌"). Page voice, like the acknowledgments. Body =
+# opus-reviewed wording (2026-10-01): appositive, not "the same …" — an
+# identity claim between the public instance and the study instrument invites
+# provenance pedantry; the appositive traces to 05-system.tex:18 ("we
+# developed a browser-based version of MotionSmith") + 06-deployment.tex:76
+# ("browser-based MotionSmith" in all three enactments). One sentence — the
+# demo intro + zoom caption already restate it twice. Kit is deliberately
+# unmentioned: 08-limitations.tex:4 leaves independent kit preparation
+# "unexamined". The photo is owner-provided, shows no persons, and is
+# documented under the paper's educator-documentation lane
+# (06-deployment.tex:115 — educator-collected documentation with no
+# identifiable student information). Photo: crop of IMG_5027 holding all four
+# kit-box rows whole; privacy trims (standing person top-right, celebrity
+# cut-out board, chair at left edge), modest grade (brightness ~+10%,
+# saturation ~+14%, slight contrast), EXIF stripped, new filename per the
+# cache-bust rule.
 closing:
   heading: "Try it in your classroom."
-  body: "MotionSmith runs in the browser at alansynn.com/ms — the same revised system the educators co-designed and enacted in their classrooms. Open it and try a motion of your own."
+  body: "The revised MotionSmith — the browser-based system the educators enacted — is live at alansynn.com/ms."
   image: "/images/young-makers/closing-kitboxes.webp"
   alt: "Plywood kit-box pegboards set out across classroom desks in four rows, most holding paper characters in progress — a blue flying machine, a blue jersey, a yellow vehicle, an articulated pink figure with wooden linkages, a green-robed figure — with white kit boxes beneath the boards."
   caption: "Enactment photo, not a paper figure: kit-box pegboards and young makers' works in progress across classroom desks."
