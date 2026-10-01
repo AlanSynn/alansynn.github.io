@@ -124,6 +124,13 @@ const projects = defineCollection({
       // Cases section h2 + intro (cases itself is an array, so these sit beside it).
       cases_heading: z.string().optional(),
       cases_intro: z.string().optional(),
+      // Fuse the case carousel into the Results section (stats + settings note
+      // + cases in one section) instead of a standalone #cases section — for
+      // deployment papers whose cases ARE their results. `cases_heading`/
+      // `cases_intro` become an h3 + intro inside #results; `cases_outro` is a
+      // quiet closing paragraph after the carousel.
+      cases_in_results: z.boolean().default(false),
+      cases_outro: z.string().optional(),
       // Citation section h2 + copy (the BibTeX block derives from papers.bib).
       citation_heading: z.string().optional(),
       citation_intro: z.string().optional(),
@@ -210,15 +217,19 @@ const projects = defineCollection({
         .object({
           caption: z.string().optional(),
           note: z.string().optional(),
-          columns: z.array(z.string()),
-          rows: z.array(
-            z
-              .object({
-                cells: z.array(z.union([z.string(), z.number()])),
-                highlight: z.boolean().optional(),
-              })
-              .strict(),
-          ),
+          // Optional: a results block may be note-only (no table) — e.g. a
+          // deployment study whose per-case settings live in the case tabs.
+          columns: z.array(z.string()).optional(),
+          rows: z
+            .array(
+              z
+                .object({
+                  cells: z.array(z.union([z.string(), z.number()])),
+                  highlight: z.boolean().optional(),
+                })
+                .strict(),
+            )
+            .optional(),
         })
         .strict()
         .optional(),
@@ -334,6 +345,16 @@ const projects = defineCollection({
     })
     .strict()
     .superRefine((data, ctx) => {
+      // A table caption renders inside ResultsTable — without columns/rows
+      // there is no table, so the caption would silently render nowhere.
+      if (data.results && !data.results.columns && data.results.caption) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['results', 'caption'],
+          message:
+            'results.caption requires results.columns and results.rows (without a table it would render nowhere).',
+        });
+      }
       // Academic paper pages must link a papers.bib entry — the hero derives
       // title/authors/venue/BibTeX from it. Without `paper:` the academic layout
       // has nothing to render.

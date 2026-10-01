@@ -1053,6 +1053,14 @@ figure.feature-figure + figure.feature-figure {
 
 /* ===== sections.css ===================================================== */
 
+/* Cases fused into the Results section (`cases_in_results`): the h3 heading +
+   intro sit between the stats/settings note and the carousel — sized between
+   the section h2 and the case-tab labels (mirrors the ablation h3). */
+.cases-inline-heading {
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  font-weight: 700;
+}
+
 .case-carousel {
   margin-top: 2.4rem;
 }
@@ -1545,9 +1553,13 @@ figure.feature-figure + figure.feature-figure {
   aspect-ratio: 1 / 1;
   object-fit: cover;
 }
-/* Wide paper figures (`wide: true`): contain instead of cover so a caption
-   that enumerates panels never loses them; the 5:2 tile letterbox shows the
-   item's own --bg-soft, so it blends in both themes. */
+/* Wide paper figures (`wide: true`): span the full row regardless of
+   --rgallery-cols, and contain instead of cover so a caption that enumerates
+   panels never loses them; the 5:2 tile letterbox shows the item's own
+   --bg-soft, so it blends in both themes. */
+.rgallery__item--wide {
+  grid-column: 1 / -1;
+}
 .rgallery__item--wide img {
   aspect-ratio: 5 / 2;
   object-fit: contain;

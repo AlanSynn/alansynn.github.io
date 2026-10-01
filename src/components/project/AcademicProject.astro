@@ -15,6 +15,7 @@ import MicrositeShell from '@/layouts/MicrositeShell.astro';
 import type { CollectionEntry } from 'astro:content';
 import { getPaperByKey, isInternalHref, webPath } from '@/lib/data';
 import ComparisonSlider from './ComparisonSlider.astro';
+import CaseCarousel from './CaseCarousel.astro';
 import ResultsTable from './ResultsTable.astro';
 import ResultsGallery from './ResultsGallery.astro';
 import VideoComparison from './VideoComparison.astro';
@@ -117,13 +118,10 @@ const navItems = (d.nav ?? []).map((label) => ({
   href: `#${label.toLowerCase().replace(/\s+/g, '-')}`,
 }));
 
-// Cases (stable tab/tabpanel ids).
+// Cases rendered by CaseCarousel.astro — either as the standalone #cases
+// section or, with `cases_in_results`, fused into #results after the
+// stats/settings note (deployment papers whose cases ARE their results).
 const cases = d.cases ?? [];
-const caseSlug = (label: string) =>
-  label
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
 
 // Hero title: explicit hand-broken lines (1:1 with original) → title_mark fallback → plain.
 const titleLines = d.title_lines;
@@ -332,6 +330,22 @@ const titleRest =
       </section>
     )}
 
+    {/* ---- Gallery --------------------------------------------------------- */}
+    {/* Rendered BEFORE System: paper pages can front-load context here (e.g.
+        young-makers bridges co-design → classroom), mirroring the paper's own
+        §4 → §5 → §6 order. */}
+    {d.gallery && d.gallery.items.length > 0 && (
+      <section class="section" id="gallery" aria-labelledby="gallery-heading">
+        <div class="site-shell">
+          <div class="section__center" data-reveal>
+            <p class="section-kicker">Gallery</p>
+            <h2 id="gallery-heading">{d.gallery_heading ?? 'Result gallery'}</h2>
+          </div>
+          <ResultsGallery items={d.gallery.items} columns={d.gallery.columns} />
+        </div>
+      </section>
+    )}
+
     {/* ---- System (feature figure + stage grid + interface lens) ----------- */}
     {d.system && (
       <section class="section" id="system" aria-labelledby="system-heading">
@@ -493,14 +507,22 @@ const titleRest =
               ))}
             </dl>
           )}
-          {d.results && (
-            <ResultsTable
-              columns={d.results.columns}
-              rows={d.results.rows}
-              caption={d.results.caption}
-              note={d.results.note}
-            />
-          )}
+          {d.results &&
+            (d.results.columns && d.results.rows ? (
+              <ResultsTable
+                columns={d.results.columns}
+                rows={d.results.rows}
+                caption={d.results.caption}
+                note={d.results.note}
+              />
+            ) : (
+              // Note-only results (no table): render the note as centered prose.
+              d.results.note && (
+                <div class="section__center" data-reveal>
+                  <p class="rtable__note">{d.results.note}</p>
+                </div>
+              )
+            ))}
           {d.ablation && (
             <>
               <h3 style="font-size:clamp(1.2rem,2vw,1.55rem);font-weight:700;margin:2.5rem 0 0;">
@@ -512,6 +534,22 @@ const titleRest =
                 caption={d.ablation.caption}
                 note={d.ablation.note}
               />
+            </>
+          )}
+          {/* Cases fused into Results (`cases_in_results`): heading + intro as an
+              h3 block, then the shared carousel, then the closing paragraph. */}
+          {d.cases_in_results && cases.length > 0 && (
+            <>
+              <div class="section__center" data-reveal>
+                <h3 class="cases-inline-heading">{d.cases_heading ?? 'Cases'}</h3>
+                {d.cases_intro && <p>{d.cases_intro}</p>}
+              </div>
+              <CaseCarousel cases={cases} />
+              {d.cases_outro && (
+                <div class="section__center" data-reveal>
+                  <p>{d.cases_outro}</p>
+                </div>
+              )}
             </>
           )}
         </div>
@@ -546,21 +584,9 @@ const titleRest =
       </section>
     )}
 
-    {/* ---- Gallery (graphics) --------------------------------------------- */}
-    {d.gallery && d.gallery.items.length > 0 && (
-      <section class="section" id="gallery" aria-labelledby="gallery-heading">
-        <div class="site-shell">
-          <div class="section__center" data-reveal>
-            <p class="section-kicker">Gallery</p>
-            <h2 id="gallery-heading">{d.gallery_heading ?? 'Result gallery'}</h2>
-          </div>
-          <ResultsGallery items={d.gallery.items} columns={d.gallery.columns} />
-        </div>
-      </section>
-    )}
-
     {/* ---- Cases (tabbed carousel) ---------------------------------------- */}
-    {cases.length > 0 && (
+    {/* Standalone section only when NOT fused into #results (cases_in_results). */}
+    {cases.length > 0 && !d.cases_in_results && (
       <section class="section" id="cases" aria-labelledby="cases-heading">
         <div class="site-shell">
           <div class="section__center" data-reveal>
@@ -568,75 +594,7 @@ const titleRest =
             <h2 id="cases-heading">{d.cases_heading ?? 'Cases'}</h2>
             {d.cases_intro && <p>{d.cases_intro}</p>}
           </div>
-
-          <div class="case-carousel" data-case-carousel data-reveal>
-            <div class="case-tabs" role="tablist" aria-label="Deployment cases">
-              {cases.map((c, i) => (
-                <button
-                  class:list={['case-tab', { 'is-active': i === 0 }]}
-                  type="button"
-                  id={`case-tab-${caseSlug(c.tab)}`}
-                  role="tab"
-                  aria-selected={i === 0 ? 'true' : 'false'}
-                  aria-controls={`case-${caseSlug(c.tab)}`}
-                  data-case-trigger
-                >
-                  <span class="case-tab__index">{String(i + 1).padStart(2, '0')}</span>
-                  <span class="case-tab__text">
-                    <strong>{c.tab}</strong>
-                    {c.subtitle && <span>{c.subtitle}</span>}
-                  </span>
-                </button>
-              ))}
-            </div>
-
-            {cases.map((c, i) => (
-              <article
-                class:list={['case-panel', { 'is-active': i === 0 }]}
-                id={`case-${caseSlug(c.tab)}`}
-                role="tabpanel"
-                aria-labelledby={`case-tab-${caseSlug(c.tab)}`}
-                data-case-panel
-                hidden={i !== 0}
-              >
-                <figure class="case-panel__figure">
-                  <img src={c.image} alt={c.alt} loading="lazy" />
-                  {c.caption && <figcaption>{c.caption}</figcaption>}
-                </figure>
-                <div class="case-panel__copy">
-                  <p class="section-kicker">Case {String(i + 1).padStart(2, '0')}</p>
-                  <h3>
-                    {c.tab}
-                    {c.subtitle ? ` / ${c.subtitle.split(' / ')[0]}` : ''}
-                  </h3>
-                  {c.lede && <p class="case-panel__lede">{c.lede}</p>}
-                  {c.facts && c.facts.length > 0 && (
-                    <ul class="case-facts">
-                      {c.facts.map((f) => (
-                        <li>
-                          <strong>{f.label}.</strong> {f.text}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              </article>
-            ))}
-
-            <div class="case-carousel__footer">
-              <p class="case-carousel__status" data-case-status aria-live="polite">
-                1 / {cases.length}
-              </p>
-              <div class="case-carousel__controls">
-                <button class="case-arrow" type="button" data-case-prev>
-                  Previous
-                </button>
-                <button class="case-arrow" type="button" data-case-next>
-                  Next
-                </button>
-              </div>
-            </div>
-          </div>
+          <CaseCarousel cases={cases} />
         </div>
       </section>
     )}
