@@ -326,6 +326,30 @@ const projects = defineCollection({
       faq: z.array(z.object({ q: z.string(), a: z.string() }).strict()).optional(),
       // Acknowledgments prose (conventional post-citation closing section).
       acknowledgments: z.string().optional(),
+      // Page-closing invitation (after acknowledgments): photo + heading +
+      // short body + chip links, e.g. "try it in your classroom". `links` uses
+      // the hero `links` shape; non-anchor entries open in a new tab (same
+      // escape hatch as the hero chips — /ms must not VT-swap into the page).
+      closing: z
+        .object({
+          heading: z.string(),
+          body: z.string(),
+          image: z.string(),
+          alt: z.string(),
+          caption: z.string().optional(),
+          links: z
+            .array(
+              z.object({
+                label: z.string(),
+                url: z.string(),
+                // 'github' renders the mark; anything else renders verbatim.
+                icon: z.string().optional(),
+              }),
+            )
+            .default([]),
+        })
+        .strict()
+        .optional(),
       // Unlisted: builds normally (reachable by direct URL) but excluded from
       // the sitemap (astro.config filter) + emits <meta name="robots" noindex>.
       // The full-featured example page uses this — every feature present, never

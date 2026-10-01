@@ -35,16 +35,10 @@ overview_heading: "Bringing expert-oriented mechanical CAD into classrooms."
 # Gallery bridges co-design → classroom (the paper's §4 → §6 arc), rendered
 # before the System section. The co-design timeline (paper fig 4) leads its own
 # full-width row; below it, two squares cropped from the paper's deployment
-# montage (Fig. 8): the observed classroom and a construction close-up; the
-# closing full-width row is an enactment photo the paper could not include
-# (owner-provided), cropped to 2.5:1 from IMG_5027 with privacy trims — the
-# standing person at top-right, the celebrity cut-out character board in the
-# foreground, and an ambiguous dark foreground object all removed; sharp's
-# webp export strips EXIF/GPS, and the new filename follows the cache-bust
-# rule. The starting-configuration figure (paper fig 3) was DROPPED — it
-# depicts the PRE-revision system, and the owner directive on the
-# original-system figure applies here too: the page showcases the revised
-# system, not the baseline.
+# montage (Fig. 8): the observed classroom and a construction close-up. The
+# starting-configuration figure (paper fig 3) was DROPPED — it depicts the
+# PRE-revision system, and the owner directive on the original-system figure
+# applies here too: the page showcases the revised system, not the baseline.
 gallery_heading: "From co-design to the classroom"
 gallery:
   columns: 2
@@ -62,11 +56,6 @@ gallery:
       alt: "Hands positioning an articulated paper character connected to wooden linkages on a physical pegboard."
       label: "Physical construction"
       caption: "Hands positioning an articulated paper character connected to wooden linkages on a physical pegboard (paper Fig. 8, panel C)."
-    - src: "/images/young-makers/gallery-kitboxes.webp"
-      alt: "Plywood kit-box pegboards set out across classroom desks, most holding paper characters in progress — a blue flying machine, a blue jersey, a yellow vehicle, an articulated pink figure with wooden linkages — with white kit boxes beneath the boards."
-      label: "Kit boxes"
-      wide: true
-      caption: "Kit-box pegboards and young makers' works in progress across classroom desks (enactment photo, not a paper figure)."
 # Demo = a scripted screen recording of the live revised system at /ms.
 demo:
   src: "/videos/young-makers-demo.mp4"
@@ -211,6 +200,23 @@ cases:
 citation_heading: "Cite this work."
 citation_intro: "The paper is under review; the BibTeX below reflects its current public citation — venue and DOI follow acceptance."
 acknowledgments: "With thanks to the four educators who co-designed, critiqued, and carried this work into their classrooms, and to the two schools that opened their doors."
+# Page-closing invitation (owner directive 2026-10-01: "try it in your
+# classroom 같은 느낌"). Page voice, like the acknowledgments — the two
+# sentences make no claim beyond established facts (the /ms deployment IS the
+# revised system; the photo is an enactment shot the paper could not include).
+# Photo: crop of IMG_5027 holding all four kit-box rows whole; privacy trims
+# (standing person top-right, celebrity cut-out board, chair at left edge),
+# modest grade (brightness ~+10%, saturation ~+14%, slight contrast), EXIF
+# stripped, new filename per the cache-bust rule.
+closing:
+  heading: "Try it in your classroom."
+  body: "MotionSmith runs in the browser at alansynn.com/ms — the same revised system the educators co-designed and enacted in their classrooms. Open it and try a motion of your own."
+  image: "/images/young-makers/closing-kitboxes.webp"
+  alt: "Plywood kit-box pegboards set out across classroom desks in four rows, most holding paper characters in progress — a blue flying machine, a blue jersey, a yellow vehicle, an articulated pink figure with wooden linkages, a green-robed figure — with white kit boxes beneath the boards."
+  caption: "Enactment photo, not a paper figure: kit-box pegboards and young makers' works in progress across classroom desks."
+  links:
+    - { label: "Try MotionSmith", url: "/ms", icon: "▶" }
+    - { label: "Code", url: "https://github.com/alansynn/ms", icon: "github" }
 ---
 
 <!-- Overview body = the paper's abstract, VERBATIM (msym body/00-abstract.tex,
