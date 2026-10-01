@@ -160,10 +160,19 @@ const projects = defineCollection({
             .optional(), // pipeline stage panels
           // Consideration figures (paper §5 figs): stacked full-width figures
           // after the stage grid, each with its verbatim paper caption.
-          // Landscape paper strips — max-width binds long before the
-          // portrait-capture height cap, so no `wide` flag is needed here.
+          // `kicker` labels the unit with its consideration number (ties the
+          // figure to the stage-grid panel it illustrates).
           revisions: z
-            .array(z.object({ src: z.string(), alt: z.string(), caption: z.string() }).strict())
+            .array(
+              z
+                .object({
+                  src: z.string(),
+                  alt: z.string(),
+                  caption: z.string(),
+                  kicker: z.string().optional(),
+                })
+                .strict(),
+            )
             .optional(),
           zoom: z
             .object({ src: z.string(), alt: z.string(), caption: z.string().optional() })

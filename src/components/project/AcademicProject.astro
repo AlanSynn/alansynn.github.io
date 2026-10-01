@@ -362,9 +362,12 @@ const titleRest =
           )}
 
           {/* Consideration figures (revisions[]): stacked full-width under the
-              stage grid they illustrate — captions are the paper's, verbatim. */}
+              stage grid they illustrate — captions are the paper's, verbatim.
+              `revision-figure` lifts the portrait-capture height cap (these are
+              re-composed 2-row figures, deliberately tall). */}
           {d.system.revisions?.map((r) => (
-            <figure class="feature-figure" data-reveal>
+            <figure class="feature-figure revision-figure" data-reveal>
+              {r.kicker && <p class="section-kicker">{r.kicker}</p>}
               <img src={r.src} alt={r.alt} loading="lazy" />
               <figcaption>{r.caption}</figcaption>
             </figure>
