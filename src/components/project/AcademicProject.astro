@@ -695,6 +695,52 @@ const titleRest =
         </div>
       </section>
     )}
+
+    {/* ---- Closing invitation (optional page-voice CTA after acks) -------- */}
+    {d.closing && (
+      <section class="section section--quiet" id="closing" aria-labelledby="closing-heading">
+        <div class="site-shell closing-grid" data-reveal>
+          <figure class="closing__media">
+            <img src={d.closing.image} alt={d.closing.alt} loading="lazy" />
+            {d.closing.caption && <figcaption>{d.closing.caption}</figcaption>}
+          </figure>
+          <div class="closing__body">
+            <p class="section-kicker">{mark}</p>
+            <h2 id="closing-heading">{d.closing.heading}</h2>
+            <p class="closing__copy">{d.closing.body}</p>
+            {d.closing.links.length > 0 && (
+              <div class="link-row" aria-label="Closing links">
+                {d.closing.links.map((l, i) => {
+                  const href = renderHref(l.url);
+                  // Same escape hatch as the hero `links:` chips — non-anchor
+                  // entries always open in a new tab so /ms can never be
+                  // VT-swapped into this document.
+                  const ext = !l.url.startsWith('#');
+                  return (
+                    <a
+                      class:list={['link-chip', { 'link-chip--solid': i === 0 }]}
+                      href={href}
+                      {...(ext ? { target: '_blank', rel: 'noreferrer' } : {})}
+                    >
+                      <span class="link-chip__icon" aria-hidden="true">
+                        {l.icon === 'github' ? (
+                          <svg viewBox="0 0 16 16" role="img" focusable="false" aria-hidden="true">
+                            <path d="M8 .2A8 8 0 0 0 5.47 15.8c.4.08.55-.17.55-.38l-.01-1.49c-2.24.49-2.71-.95-2.71-.95-.36-.93-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.82 1.23.82.72 1.21 1.87.86 2.33.65.07-.51.28-.86.5-1.06-1.79-.2-3.67-.88-3.67-3.93 0-.87.31-1.58.82-2.14-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.52 7.52 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.14 0 3.06-1.88 3.72-3.68 3.92.29.24.55.73.55 1.48l-.01 2.19c0 .21.14.46.55.38A8 8 0 0 0 8 .2Z" />
+                          </svg>
+                        ) : (
+                          (l.icon ?? '▶')
+                        )}
+                      </span>
+                      {l.label}
+                    </a>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    )}
   </main>
 
   <footer class="site-footer">

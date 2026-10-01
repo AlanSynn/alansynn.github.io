@@ -324,7 +324,11 @@ entry.
     fallback), `algorithm` (pseudocode box, auto line numbers), `code` (filename
     bar + copy, plain mono — Shiki highlights only markdown fences, not
     frontmatter strings, so this is first-party by design), `faq` (native
-    `<details>` accordion — no JS), `acknowledgments` (quiet closing section).
+    `<details>` accordion — no JS), `acknowledgments` (quiet closing section),
+    `closing` (page-closing invitation after acknowledgments: photo + heading +
+    body + chip links — the owner-sanctioned page-voice slot; its `links`
+    reuse the hero chips' escape hatch, non-anchor entries always open in a
+    new tab so `/ms` can never be VT-swapped into the document).
     These are the commonly-needed graphics/AI/robotics layouts, pre-built so a
     real paper page copies only what it needs. All token-driven in
     `project-page.css`, so they adapt to dark mode automatically.
