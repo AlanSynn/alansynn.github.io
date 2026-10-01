@@ -63,7 +63,13 @@ system:
   intro: "MotionSmith is a sketch-based computational design system originally developed through participatory design with expert automata artists. Before the educator collaboration, the research team identified three assumptions of the expert workflow that might become consequential in classrooms — concerning the formulation of motion goals, the interpretation of computational information, and the transition from digital design to physical construction — and prepared starting conditions for educators to examine through hands-on use: a dual-path workflow, interactive mathematical explanations, and a grid-constrained environment paired with a reusable physical kit. Educators' input informed five design considerations linking their experiences and classroom requirements to revisions of MotionSmith, the physical kit, and instructional supports."
   workflow:
     src: "/images/young-makers/original-system.webp"
-    alt: "A three-panel pipeline diagram showing the MotionSmith workflow from sketching a motion goal, through exploring parameterized mechanism candidates, to exporting fabrication-ready files, with bidirectional arrows indicating iteration between stages."
+    # Paper fig 2, panels verbatim (letter badges intact) but arranged in two
+    # rows — A | C on top, B full-width below — so the original system's UI
+    # (panel B) renders ~1100px wide on the page instead of ~610px in the
+    # paper's 3:1 strip; the caption stays verbatim. `wide: true` lifts the
+    # portrait-capture max-height cap (the composite is landscape-shaped).
+    wide: true
+    alt: "Three panels from the paper's original-system figure, arranged in two rows for legibility: the sketched motion path on the articulated character rig (A) and the fabricated physical automaton (C) on top, and the original MotionSmith interface — Welcome, Character Selection, Path Editor, and Mechanism Design steps with the mechanism-generation controls — full-width below."
     caption: "Original MotionSmith workflow. Users (A) sketch a motion path on an articulated character rig, (B) compare and edit synthesized mechanism candidates, and (C) export fabrication files for physical construction."
   stages:
     - index: "01"
