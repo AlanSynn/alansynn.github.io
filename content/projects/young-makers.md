@@ -46,7 +46,7 @@ gallery:
       alt: "Three panels illustrating the educator co-design process, with an unnumbered research-team revision block between Panels B and C: Experience as first-time users (10 hours in person over Days 1–2), Reframe as classroom facilitators (5 hours in person on Day 3), and Review & co-design as pedagogical designers (approximately 5 hours remotely), the research-team block synthesizing revisions to the digital system, physical kit, and facilitation supports."
       label: "Three perspectives"
       wide: true
-      caption: "Educator co-design across three perspectives. (A) Experience through use and fabrication as first-time users. (B) Reframe through planning as classroom facilitators. (C) Review & co-design as pedagogical designers, reviewing revisions, developing lesson plans, and commenting on draft classroom-enactment criteria. The dashed return arrow represents their further critique and proposed refinements. The unnumbered block between (B) and (C) represents a research-team synthesis of educator experiences and classroom requirements into revisions to the digital system, physical kit, and facilitation supports."
+      caption: "Educator co-design across three perspectives. (A) Experience through use and fabrication as first-time users. (B) Reframe through planning as classroom facilitators. (C) Review & co-design as pedagogical designers, reviewing revisions, developing lesson plans, and commenting on draft classroom-enactment criteria. The dashed return arrow represents their further critique and proposed refinements."
     - src: "/images/young-makers/gallery-classroom.webp"
       alt: "Students arranging character components on a pegboard beside a laptop."
       label: "Classroom enactment"
@@ -116,7 +116,6 @@ system:
 results_heading: "Classroom enactment"
 stat_callouts:
   - { value: "4", label: "K–8 STEM educators in the three-phase participatory design study" }
-  - { value: "5", label: "educator-informed design considerations, implemented as revisions to the workflow, kit, and instructional supports" }
   - { value: "3", label: "classroom enactments at two schools, led by three of the four educators" }
   - { value: "129", label: "middle-school students in the enacted classroom activities" }
 # §6.2 settings as prose (06-deployment.tex:74 + the observation note :93),
@@ -125,7 +124,7 @@ stat_callouts:
 # per-case settings live in the case tabs' subtitles below. Note-only results
 # block (no columns/rows); the note renders as centered prose.
 results:
-  note: "T2 could not participate because of scheduling constraints. All three educators planned projects in groups of two or three students; 36 fabrication kits were prepared and 18 supplied to each school; both schools provide a Chromebook for every student. T1's enactment is documented through educator reports and materials, while T3's second and T4's third sessions were directly observed."
+  note: "T2 could not participate because of scheduling constraints. All three educators planned projects in groups of two or three students; 36 fabrication kits were prepared and 18 supplied to each school."
 # §6.3 accounts, verbatim where quoted. FUSED into the Results section above
 # (cases_in_results) — the cases ARE the enactment results. Case images are
 # crops of the paper's own deployment montage (Fig. 8): T1 → panel I (the
@@ -134,24 +133,22 @@ results:
 # the panel.
 cases_in_results: true
 cases_heading: "Three educators, two schools"
-cases_intro: "Three criteria — sustained and productive engagement, intentional design and iterative revision, and interest in continuing or extending the activity — guided attention during the enactments; T2 noted that “effective iteration is more than making changes.” In post-activity interviews, all three educators reported high student engagement and expressed plans to use MotionSmith and the accompanying kits again. During our observation of T3's class, students expressed interest in trying other designs and mechanisms."
-# §7's readiness sentence, closing the merged section.
-cases_outro: "As the paper argues, “assessing classroom readiness means examining whether students can move between digital design and physical construction using the available representations, materials, and guidance, and whether educators can support that work across several groups.”"
+cases_intro: "Three criteria — sustained and productive engagement, intentional design and iterative revision, and interest in continuing or extending the activity — guided attention during the enactments. In post-activity interviews, all three educators reported high student engagement and expressed plans to use MotionSmith and the accompanying kits again."
 cases:
   - tab: "T1 · Grade 6 STEAM"
     subtitle: "2 classes · 58 students · 4 sessions"
     image: "/images/young-makers/case-t1-outcome.webp"
     alt: "A completed articulated character mounted on a pegboard and connected through wooden linkage components and fasteners."
     caption: "A completed automaton shows the resulting character and mechanism (paper Fig. 8, panel I)."
-    lede: "T1 integrated MotionSmith into an ongoing activity themed “Imagine Yourself as a Scientist”: students first drew their scientist characters and designed movements for them in MotionSmith, and divided responsibilities between digital design and physical construction when projects moved to team work."
+    lede: "T1 integrated MotionSmith into an ongoing activity themed “Imagine Yourself as a Scientist”: students first drew their scientist characters and designed movements for them in MotionSmith."
     facts:
       - {
           label: "Differentiated roles",
           text: "“We split the class into roles, computer scientists and graphic designers,” T1 reported during enactment; some students concentrated on digital design while others constructed the mechanisms for their envisioned scientist characters.",
         }
       - {
-          label: "Engagement and access",
-          text: "T1 reported in text messages that students “really like the simulation,” and recorded in his written notes that students wanted to continue working on their projects; the simulation was initially blocked and ran slowly on the school network, and he described difficulty recalling a procedure during class: “I couldn't remember how to do it and I don't have the time to try and figure it out with the students here.”",
+          label: "Engagement",
+          text: "T1 reported in text messages that students “really like the simulation,” and recorded in his written notes that students wanted to continue working on their projects.",
         }
       - {
           label: "Continuity across sessions",
@@ -162,7 +159,7 @@ cases:
     image: "/images/young-makers/case-t3.webp"
     alt: "Several students gathered around a workstation running MotionSmith, with a nearby laptop displaying a teacher-provided activity document in Google Classroom."
     caption: "Students working with MotionSmith alongside a teacher-provided activity document (paper Fig. 8, panel D)."
-    lede: "T3's lesson plan emphasized problem-solving through a teacher-led mechanism “read-aloud,” during which the class would identify a mechanism's input, moving components, and output. In the enactment, T3 began with 15–20 minutes of exploration on Chromebooks, then moved the activity to a computer lab, where desktop computers offered larger monitors and each team received a fabrication kit; designs began from the blank character template, with the physical components explored alongside the mechanism designs."
+    lede: "T3's lesson plan emphasized problem-solving through a teacher-led mechanism “read-aloud,” during which the class would identify a mechanism's input, moving components, and output. In the enactment, T3 began with 15–20 minutes of exploration on Chromebooks; designs began from the blank character template, with the physical components explored alongside the mechanism designs."
     facts:
       - {
           label: "Purposeful revision",
@@ -172,16 +169,12 @@ cases:
           label: "An alternative six-bar",
           text: "When a student asked whether the physical assembly could differ from the generated blueprint, T3 documented his encouragement of the direction; the student explored an alternative six-bar configuration, consulted the school-supported AI chat for guidance on how the mechanism could be constructed, and continued developing the design — exploration T3 described as educationally valuable.",
         }
-      - {
-          label: "What T3 asked for next",
-          text: "T3 noted that students “stayed on it” and wanted more time; he proposed networked access to saved group projects so he could review progress from his own computer, a teacher-facing interface for selecting shared projects as whole-class examples, and support for more advanced students to design complex mechanisms from scratch.",
-        }
   - tab: "T4 · Grade 6 STEM"
     subtitle: "1 class · 36 students · 3 sessions"
     image: "/images/young-makers/case-t4-guidance.webp"
     alt: "A student holding wooden linkage components beside a desktop monitor displaying a mechanism on a pegboard grid with on-screen assembly guidance."
     caption: "Physical linkage assembly alongside the on-screen board layout and guidance (paper Fig. 8, panel A)."
-    lede: "T4's plan connected mechanism design to curricular engineering-design objectives. His plan asked students to compare mechanisms and predict how a parameter change would affect movement before testing it in the simulation. It also included a “blueprint gate,” at which teams would explain their simulated designs before receiving fabrication materials. In the enactment, T4 devoted the first session to individual exploration and asked students to save their design files; in the second session he organized students into pairs and distributed the fabrication kits, and each pair reviewed its members' saved designs and negotiated a shared direction for the team project."
+    lede: "T4's plan connected mechanism design to curricular engineering-design objectives. His plan asked students to compare mechanisms and predict how a parameter change would affect movement before testing it in the simulation. It also included a “blueprint gate,” at which teams would explain their simulated designs before receiving fabrication materials."
     facts:
       - {
           label: "The high-five pair",
@@ -194,10 +187,6 @@ cases:
       - {
           label: "Kit boxes and continuity",
           text: "T4 emphasized the value of the kit boxes, which held the accompanying components, fit the available storage, and allowed work to continue across sessions.",
-        }
-      - {
-          label: "Sustained participation",
-          text: "T4 emphasized that he valued students' willingness to explore with peers without waiting for step-by-step directions, particularly while he attended to other classroom responsibilities.",
         }
       - {
           label: "Simpler starting points",
