@@ -144,7 +144,15 @@ const projects = defineCollection({
           heading: z.string().optional(), // section h2
           intro: z.string().optional(), // section__center subcopy
           workflow: z
-            .object({ src: z.string(), alt: z.string(), caption: z.string().optional() })
+            .object({
+              src: z.string(),
+              alt: z.string(),
+              caption: z.string().optional(),
+              // Landscape figures (e.g. a multi-panel figure re-composed into a
+              // 2-row grid): exempt from the portrait-capture max-height cap so
+              // they render full column width. Mirrors the gallery `wide` flag.
+              wide: z.boolean().optional(),
+            })
             .strict()
             .optional(),
           stages: z

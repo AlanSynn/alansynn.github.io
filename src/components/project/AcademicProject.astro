@@ -343,7 +343,10 @@ const titleRest =
           </div>
 
           {d.system.workflow && (
-            <figure class="feature-figure" data-reveal>
+            <figure
+              class:list={['feature-figure', { 'feature-figure--wide': d.system.workflow.wide }]}
+              data-reveal
+            >
               <img src={d.system.workflow.src} alt={d.system.workflow.alt} loading="lazy" />
               {d.system.workflow.caption && <figcaption>{d.system.workflow.caption}</figcaption>}
             </figure>
