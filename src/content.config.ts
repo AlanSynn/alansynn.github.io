@@ -144,15 +144,7 @@ const projects = defineCollection({
           heading: z.string().optional(), // section h2
           intro: z.string().optional(), // section__center subcopy
           workflow: z
-            .object({
-              src: z.string(),
-              alt: z.string(),
-              caption: z.string().optional(),
-              // Landscape figures (e.g. a multi-panel figure re-composed into a
-              // 2-row grid): exempt from the portrait-capture max-height cap so
-              // they render full column width. Mirrors the gallery `wide` flag.
-              wide: z.boolean().optional(),
-            })
+            .object({ src: z.string(), alt: z.string(), caption: z.string().optional() })
             .strict()
             .optional(),
           stages: z
@@ -166,6 +158,13 @@ const projects = defineCollection({
                 .strict(),
             )
             .optional(), // pipeline stage panels
+          // Consideration figures (paper §5 figs): stacked full-width figures
+          // after the stage grid, each with its verbatim paper caption.
+          // Landscape paper strips — max-width binds long before the
+          // portrait-capture height cap, so no `wide` flag is needed here.
+          revisions: z
+            .array(z.object({ src: z.string(), alt: z.string(), caption: z.string() }).strict())
+            .optional(),
           zoom: z
             .object({ src: z.string(), alt: z.string(), caption: z.string().optional() })
             .strict()
