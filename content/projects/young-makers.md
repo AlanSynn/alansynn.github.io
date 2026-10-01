@@ -60,7 +60,9 @@ demo:
   src: "/videos/young-makers-demo.mp4"
   poster: "/videos/young-makers-poster.webp"
   alt: "Screen recording of a guided MotionSmith walkthrough: picking the Make a hand wave starter, exploring the layered 2.5D character canvas, playing the hand-wave motion, examining the four-bar mechanism candidate and prompt panel, and viewing the build plan and assembly steps."
-  intro: "A walkthrough of the revised system — the classroom-oriented authoring workflow, the reusable fabrication kit, and the instructional supports — recorded from the live system at alansynn.com/ms."
+  # Dash clause deleted (full-page audit): the workflow/kit/supports triad was
+  # carried by the teaser + abstract + §5 intro already; the alt details the video.
+  intro: "A walkthrough of the revised system recorded from the live system at alansynn.com/ms."
 # System section mirrors the paper's §5 (five considerations, finding →
 # revision). Cards carry the consideration titles verbatim + the finding that
 # motivated each; the bound plate (left-to-right paper strip) carries the
@@ -69,7 +71,9 @@ demo:
 # confused readers; the page showcases the revisions instead.
 system:
   heading: "Educator-informed design considerations and revisions"
-  intro: "MotionSmith is a sketch-based computational design system for automata making, originally developed with expert artists. Educators' experiences and classroom requirements across the participatory design study informed five design considerations, each realized as revisions to the authoring workflow, the fabrication kit, and the instructional supports."
+  # Intro = the paper's own §5 opening sentence, VERBATIM (05-system.tex:4) —
+  # the earlier page-authored pair re-announced the abstract one section up.
+  intro: "We identified five design considerations linking educators’ experiences and classroom requirements to revisions of MotionSmith, the physical kit, and instructional supports."
   # Findings, not an inventory (owner call 2026-10-01: DC 1–5 read as a wall —
   # the five cards each carried a feature-list revision summary that the figure
   # caption then re-inventoried, so everything was read twice). Each card now
@@ -81,10 +85,10 @@ system:
   stages:
     - index: "01"
       title: "Providing a Concrete Yet Revisable Design Goal"
-      text: "After using both entry paths, all four educators favored motion-first as the default for classroom use: students should begin with a concrete sense of the artifact they were working toward, even if they later revised it."
+      text: "After using both entry paths, all four educators favored motion-first as the default entry point for classroom use. T2 and T3 emphasized that students should begin with a concrete sense of the artifact they were working toward, even if they later revised it."
     - index: "02"
       title: "Sustaining Progress Across Entry, Interruption, and Recovery"
-      text: "Educators anticipated that activities would span multiple 40- to 80-minute class periods, so students needed to preserve their exploration and resume it in a later session. T4 described the incremental progress through which students sustained engagement as a series of “tiny victories.”"
+      text: "Educators emphasized that activities would likely span multiple 40- to 80-minute class periods, so students needed to preserve their design exploration and resume it in a later session. T4 described the incremental progress as a series of “tiny victories.”"
     - index: "03"
       title: "Making Mechanism and Assembly Relationships Spatially Legible"
       text: "During hands-on exploration, T1 and T2 could observe changes in the simulated output but often found it difficult to determine how overlapping components and joints produced them; the same problem reappeared in fabrication."
@@ -94,7 +98,7 @@ system:
         caption: "(A) The original 2D view. (B) The revised layered 2.5D canvas. (C) The assembly guide with a schematic of component order and spacing at a board-mounted pivot."
     - index: "04"
       title: "Aligning Digital Designs with Reusable Classroom Materials"
-      text: "Educators valued the reusable plywood gears and pegboard but questioned cut-to-length illustration-board linkages, which would add preparation and opportunities for cutting and measurement errors; T1 anticipated using the activity with approximately 200 students."
+      text: "Educators valued the reusable plywood gears and pegboard but questioned the use of cut-to-length illustration-board linkages, which would require repeated preparation and introduce additional opportunities for cutting and measurement errors; T1 anticipated using the activity with approximately 200 students."
       figure:
         src: "/images/young-makers/reusable-materials-strip.webp"
         alt: "The paper's four-panel figure, panels reading left to right. The panels illustrate revisions to materials and digital-to-physical correspondence. Panel A contrasts a schematic strip of illustration board marked for cutting with a photograph of plywood linkages arranged by length; the three-hole pair is highlighted. Panel B shows a blue three-hole linkage and four rows repeating the three-hole size label for the digital parameter, generated part list, physical kit part, and assembly instruction. Panel C shows a page titled Sample Character with separate body-part outlines, marked joint locations, and a small assembled-character preview. Panel D shows a layered character and linkage assembly on a pegboard. Below the view, Step 9 is labeled Connect character and includes the instructions Connect output and Check: Path follows. A mechanism-stack section and board-reference indicators appear beneath the instructions."
@@ -124,7 +128,7 @@ stat_callouts:
 # per-case settings live in the case tabs' subtitles below. Note-only results
 # block (no columns/rows); the note renders as centered prose.
 results:
-  note: "T2 could not participate because of scheduling constraints. All three educators planned projects in groups of two or three students; 36 fabrication kits were prepared and 18 supplied to each school."
+  note: "T2 could not participate because of scheduling constraints. All three educators planned projects in groups of two or three students; we prepared 36 fabrication kits and supplied 18 to each school."
 # §6.3 accounts, verbatim where quoted. FUSED into the Results section above
 # (cases_in_results) — the cases ARE the enactment results. Case images are
 # crops of the paper's own deployment montage (Fig. 8): T1 → panel I (the
@@ -152,7 +156,7 @@ cases:
         }
       - {
           label: "Continuity across sessions",
-          text: "Students lost unsaved progress when they reloaded the page or reopened the browser window, and the limited recovery history was insufficient for some students; T1 requested browser-based autosaving and additional recovery checkpoints, since manual save and load still depended on students remembering to save.",
+          text: "T1 reported that students lost unsaved progress when they reloaded the page or reopened the browser window, and that the limited recovery history was insufficient for some students; he emphasized the need for browser-based autosaving and additional recovery checkpoints.",
         }
   - tab: "T3 · Grade 8 Engineering Foundation"
     subtitle: "1 class · 35 students · 3 sessions"
