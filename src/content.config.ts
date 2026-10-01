@@ -223,6 +223,9 @@ const projects = defineCollection({
         })
         .strict()
         .optional(),
+      // Gallery section h2 override (default "Result gallery") — e.g. paper
+      // figures that aren't results (a co-design workshop) rename the section.
+      gallery_heading: z.string().optional(),
       // Results gallery — multi-image grid with optional per-tile label + caption.
       gallery: z
         .object({
@@ -234,6 +237,10 @@ const projects = defineCollection({
                 alt: z.string(),
                 caption: z.string().optional(),
                 label: z.string().optional(),
+                // Wide paper figures (multi-panel, ~3:1): contain them in a 5:2
+                // tile instead of cropping to the default 1:1 cover square —
+                // a caption that enumerates panels must not lose panels.
+                wide: z.boolean().optional(),
               })
               .strict(),
           ),
