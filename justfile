@@ -118,11 +118,17 @@ clips:
 check-isolation: web
     #!/usr/bin/env bash
     set -euo pipefail
-    bun run preview &
+    # Pin port 4322 and measure THAT server. Two traps this avoids:
+    # - `astro preview` exits early when a preview daemon is already running
+    #   (it reports the daemon instead of starting a server), so the recipe
+    #   cannot assume it spawned the server it polls;
+    # - `just dev` serves :4321 — polling the 4321 default once measured a
+    #   dev server instead of the built dist and the guard failed spuriously.
+    bun run preview --port 4322 &
     SERVER_PID=$!
     trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
-    for i in $(seq 1 40); do curl -sSf http://localhost:4321/ >/dev/null 2>&1 && break || sleep 0.5; done
-    node scripts/check-isolation.mjs
+    for i in $(seq 1 40); do curl -sSf http://localhost:4322/ >/dev/null 2>&1 && break || sleep 0.5; done
+    BASE=http://localhost:4322 node scripts/check-isolation.mjs
 
 clean:
     rm -rf dist .astro
