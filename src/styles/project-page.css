@@ -903,11 +903,18 @@ code {
 }
 
 /* Exactly four stage panels (e.g. four consideration→revision pairs) read as a
-   2×2 quartet; three stay 3-across. Desktop only — the ≤980px collapse below
-   must keep winning, and :has() would out-rank it otherwise. */
+   2×2 quartet; five (the young-makers paper's considerations) read as a 2×2
+   quartet plus a full-width fifth; three stay 3-across. Desktop only — the
+   ≤980px collapse below must keep winning, and :has() would out-rank it. */
 @media (min-width: 981px) {
   .stage-grid:has(> .stage-panel:nth-child(4):last-child) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .stage-grid:has(> .stage-panel:nth-child(5):last-child) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .stage-grid:has(> .stage-panel:nth-child(5):last-child) .stage-panel:nth-child(5) {
+    grid-column: 1 / -1;
   }
 }
 
