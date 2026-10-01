@@ -328,6 +328,13 @@ entry.
     These are the commonly-needed graphics/AI/robotics layouts, pre-built so a
     real paper page copies only what it needs. All token-driven in
     `project-page.css`, so they adapt to dark mode automatically.
+  - Hero CTA chips accept frontmatter `links:` (`{label,url}`) — rendered
+    ahead of the derived Code/Demo/BibTeX chips; `links[0]` is solid and every
+    non-anchor link is forced `target="_blank"` because `isInternalHref` treats
+    root-relative AND same-origin absolute URLs as internal, so a bare `/ms`
+    chip would let the ClientRouter VT-swap that foreign SPA into the document
+    (`young-makers` "Try MotionSmith" → `/ms`; its demo section is a scripted
+    Playwright recording of that live app, re-recordable the same way).
   - Bibliographic fields (title/authors/venue/DOI/PDF/code/video/BibTeX) all
     **derive** from the linked `papers.bib` entry via `paper:` frontmatter —
     never duplicate them in the `.md`. The BibTeX block is a **clean citation**
