@@ -35,9 +35,9 @@ overview_heading: "Bringing expert-oriented mechanical CAD into classrooms."
 # before the System section. The co-design timeline (paper fig 4) leads its own
 # full-width row; below it, two squares cropped from the paper's deployment
 # montage (Fig. 8): the observed classroom and a construction close-up. The
-# starting-configuration figure (paper fig 3) was DROPPED — the Overview body's
-# second paragraph already states those starting conditions verbatim, and it
-# repeated the stage-04 kit material.
+# starting-configuration figure (paper fig 3) was DROPPED — it depicts the
+# PRE-revision system, and the owner directive on the original-system figure
+# applies here too: the page showcases the revised system, not the baseline.
 gallery_heading: "From co-design to the classroom"
 gallery:
   columns: 2
@@ -197,6 +197,9 @@ citation_intro: "The paper is under review; the BibTeX below reflects its curren
 acknowledgments: "With thanks to the four educators who co-designed, critiqued, and carried this work into their classrooms, and to the two schools that opened their doors."
 ---
 
+<!-- Overview body = the paper's abstract, VERBATIM (msym body/00-abstract.tex,
+     de-LaTeX'd: K--8 → K–8). Owner directive 2026-10-01: no recount, and no
+     §1/RQ/limitations paragraphs ported over — the abstract is the overview. -->
 Bringing expert-oriented mechanical CAD into classrooms requires attention to
 novice learners, material constraints, and instructional goals. We examine this
 adaptation through MotionSmith, a sketch-based system for automata making
@@ -207,40 +210,8 @@ considerations and revisions to the authoring workflow, reusable fabrication
 kit, and instructional supports. Subsequent classroom enactments led by three
 educators involved 129 middle-school students at two schools. Educator accounts
 and classroom observations documented how educators adapted the shared workflow
-while preserving student design choices, how they guided purposeful revision,
-and how project continuity required preserving digital designs and unfinished
-physical builds across class periods.
-
-Moving novel interactive systems from research prototypes or expert practice
-into educational settings remains difficult: educators must learn the
-technology, manage technical and material friction for novice students,
-coordinate shared resources and limited class time, and translate the
-system-enabled activities into meaningful learning opportunities. Before the
-educator collaboration, the research team prepared three starting conditions
-for educators to examine through hands-on use — a dual-path workflow supporting
-motion-first and mechanism-first design, interactive mathematical explanations,
-and a grid-constrained software environment paired with a reusable physical
-fabrication kit — alongside three anticipated educational tensions concerning
-how learners formulate motion goals, interpret computational feedback, and
-translate digital designs into physical artifacts.
-
-The study asks how STEM educators identify and reshape the system, material,
-and facilitation conditions needed to adapt an expert-oriented mechanical CAD
-tool for classroom use; how they translate computational mechanism design into
-classroom automata-making activities, instructional supports, and learning
-goals; and how the educator-informed system is enacted in middle-school
-classrooms — what supports and breakdowns emerge as students design and
-fabricate automata. It contributes the five design considerations, the revised
-workflow, kit, and instructional resources that implement them, and situated
-classroom accounts documenting how educators guided design exploration, sought
-different levels of mechanical complexity, and encountered difficulties
-preserving unfinished projects.
-
-Several limitations bound these findings: the classroom educators had
-participated in the co-design, direct researcher observation covered one
-session each in T3's and T4's classes while T1's enactment is documented
-through educator reports, and the analysis examined classroom organization and
-resource use rather than learning gains. The paper concludes: "Adapting
-expert-oriented CAD for classrooms involves shaping the software, materials,
-and instructional supports around how young makers collaboratively develop
-their projects and how educators guide that work."
+while preserving student design choices. Educators guided purposeful revision,
+while project continuity required preserving digital designs and unfinished
+physical builds across class periods. The findings show how educator co-design
+connects computational capabilities, materials, and facilitation to support
+young makers’ collaborative projects.
