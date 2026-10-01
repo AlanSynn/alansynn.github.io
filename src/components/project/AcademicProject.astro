@@ -363,29 +363,43 @@ const titleRest =
             </figure>
           )}
 
-          {d.system.stages && d.system.stages.length > 0 && (
-            <div class="stage-grid">
-              {d.system.stages.map((s) => (
-                <article class="stage-panel" data-reveal>
-                  {s.index && <p class="stage-panel__index">{s.index}</p>}
-                  <h3>{s.title}</h3>
-                  <p>{s.text}</p>
-                </article>
-              ))}
-            </div>
-          )}
-
-          {/* Consideration figures (revisions[]): the paper's own left-to-right
-              panel strips, stacked under the stage grid they illustrate —
-              captions are the paper's, verbatim. `revision-figure` is a DOM
-              hook; sizing rides the generic feature-figure slot. */}
-          {d.system.revisions?.map((r) => (
-            <figure class="feature-figure revision-figure" data-reveal>
-              {r.kicker && <p class="section-kicker">{r.kicker}</p>}
-              <img src={r.src} alt={r.alt} loading="lazy" />
-              <figcaption>{r.caption}</figcaption>
-            </figure>
-          ))}
+          {/* Findings: when any stage carries an evidence figure, the list
+              renders as linear numbered findings (head + plate directly under
+              it — the paper's §5 shape: finding → evidence) so each
+              consideration reads once; pages whose stages are plain cards keep
+              the compact grid. `revision-figure` is a DOM hook; sizing rides
+              the generic feature-figure slot. */}
+          {d.system.stages &&
+            d.system.stages.length > 0 &&
+            (d.system.stages.some((s) => s.figure) ? (
+              <div class="finding-list">
+                {d.system.stages.map((s) => (
+                  <article class="finding" data-reveal>
+                    <div class="finding__head">
+                      {s.index && <p class="stage-panel__index">{s.index}</p>}
+                      <h3>{s.title}</h3>
+                      <p>{s.text}</p>
+                    </div>
+                    {s.figure && (
+                      <figure class="feature-figure revision-figure">
+                        <img src={s.figure.src} alt={s.figure.alt} loading="lazy" />
+                        <figcaption>{s.figure.caption}</figcaption>
+                      </figure>
+                    )}
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <div class="stage-grid">
+                {d.system.stages.map((s) => (
+                  <article class="stage-panel" data-reveal>
+                    {s.index && <p class="stage-panel__index">{s.index}</p>}
+                    <h3>{s.title}</h3>
+                    <p>{s.text}</p>
+                  </article>
+                ))}
+              </div>
+            ))}
 
           {(d.system.zoom || d.system.interface) && (
             <div class="interface-panel" data-reveal>

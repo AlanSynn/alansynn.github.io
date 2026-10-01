@@ -833,19 +833,6 @@ code {
    far under its 1050px cap — so they need no rule of their own. The
    `revision-figure` class stays as the section's DOM hook. */
 
-/* Unit rhythm for the stacked consideration figures: without these, the first
-   figure sits flush against the stage grid and consecutive figure+caption
-   units run together (caption margin only). Neither selector matches any other
-   page: motionsmith's DOM is figure → stage-grid → interface-panel, never
-   grid→figure or figure→figure siblings. */
-.stage-grid + figure.feature-figure {
-  margin-top: 3rem;
-}
-
-figure.feature-figure + figure.feature-figure {
-  margin-top: 3.5rem;
-}
-
 .hero__figure figcaption,
 .feature-figure figcaption {
   max-width: 52rem;
@@ -958,6 +945,61 @@ figure.feature-figure + figure.feature-figure {
   margin-top: 0.7rem;
 }
 
+/* Linear numbered findings (stages carrying evidence figures — the paper §5
+   shape "finding → plate"): each unit is a hairline-topped head (index chip,
+   title, ~2-line why) with its full-width figure directly under it, so a
+   consideration and its evidence read once, together. Pages whose stages are
+   plain cards keep .stage-grid above. */
+.finding-list {
+  display: grid;
+  gap: 2.6rem;
+  margin-top: 3rem;
+}
+
+.finding {
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--line-strong);
+}
+
+.finding__head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 1.4rem;
+  row-gap: 0.7rem;
+  align-items: baseline;
+}
+
+.finding__head .stage-panel__index {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.finding__head h3 {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+}
+
+.finding__head p:not(.stage-panel__index) {
+  grid-column: 2;
+  max-width: 46rem;
+  color: var(--muted);
+}
+
+.finding .feature-figure {
+  margin-top: 1.75rem;
+}
+
+/* The plate's caption is a left-aligned panel key (A)(B)(C)(D), not a centered
+   essay: the finding head above already says what the figure shows, and a
+   centered multi-line block under a full-width strip has no stable
+   return-sweep. Alt text carries the paper's full \Description. */
+.revision-figure figcaption {
+  max-width: none;
+  margin: 0.8rem 0 0;
+  text-align: left;
+}
+
 .interface-panel {
   margin-top: 3rem;
 }
@@ -1030,6 +1072,15 @@ figure.feature-figure + figure.feature-figure {
     margin-right: 0;
     max-width: none;
     text-align: left;
+  }
+
+  .finding__head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .finding__head h3,
+  .finding__head p {
+    grid-column: 1;
   }
 
   .section {
