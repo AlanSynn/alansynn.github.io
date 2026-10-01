@@ -343,10 +343,7 @@ const titleRest =
           </div>
 
           {d.system.workflow && (
-            <figure
-              class:list={['feature-figure', { 'feature-figure--wide': d.system.workflow.wide }]}
-              data-reveal
-            >
+            <figure class="feature-figure" data-reveal>
               <img src={d.system.workflow.src} alt={d.system.workflow.alt} loading="lazy" />
               {d.system.workflow.caption && <figcaption>{d.system.workflow.caption}</figcaption>}
             </figure>
@@ -363,6 +360,15 @@ const titleRest =
               ))}
             </div>
           )}
+
+          {/* Consideration figures (revisions[]): stacked full-width under the
+              stage grid they illustrate — captions are the paper's, verbatim. */}
+          {d.system.revisions?.map((r) => (
+            <figure class="feature-figure" data-reveal>
+              <img src={r.src} alt={r.alt} loading="lazy" />
+              <figcaption>{r.caption}</figcaption>
+            </figure>
+          ))}
 
           {(d.system.zoom || d.system.interface) && (
             <div class="interface-panel" data-reveal>

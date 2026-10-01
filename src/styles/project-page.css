@@ -826,13 +826,6 @@ code {
   margin-inline: auto;
 }
 
-/* Landscape workflow figures (`wide: true`): the cap above exists for portrait
-   captures; a wide figure re-composed for legibility (e.g. a 2-row panel grid)
-   must render full column width instead. */
-.feature-figure--wide img {
-  max-height: none;
-}
-
 .hero__figure figcaption,
 .feature-figure figcaption {
   max-width: 52rem;

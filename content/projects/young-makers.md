@@ -54,23 +54,16 @@ demo:
   poster: "/videos/young-makers-poster.webp"
   alt: "Screen recording of a guided MotionSmith walkthrough: picking the Make a hand wave starter, exploring the layered 2.5D character canvas, playing the hand-wave motion, examining the four-bar mechanism candidate and prompt panel, and viewing the build plan and assembly steps."
   intro: "A walkthrough of the revised system — the classroom-oriented authoring workflow, the reusable fabrication kit, and the instructional supports — recorded from the live deployment at alansynn.com/ms."
-# System section mirrors the paper's §3 (baseline + tensions) → §5 (five
-# considerations + revisions). The workflow figure is paper fig 2 with its
-# verbatim caption; the stage panels carry the five consideration titles
-# verbatim, each followed by its resulting revision (compressed).
+# System section mirrors the paper's §5 (five considerations + revisions).
+# The stage panels carry the five consideration titles verbatim, each followed
+# by its resulting revision (compressed); the §5 figures (paper figs 5–7) then
+# render full-width with their verbatim captions. The paper's original-system
+# figure (fig 2) is deliberately NOT shown — owner directive (2026-10-01):
+# leading with the old system's UI confused readers; the page showcases the
+# revisions instead.
 system:
   heading: "Educator-informed design considerations and revisions"
   intro: "MotionSmith is a sketch-based computational design system originally developed through participatory design with expert automata artists. Before the educator collaboration, the research team identified three assumptions of the expert workflow that might become consequential in classrooms — concerning the formulation of motion goals, the interpretation of computational information, and the transition from digital design to physical construction — and prepared starting conditions for educators to examine through hands-on use: a dual-path workflow, interactive mathematical explanations, and a grid-constrained environment paired with a reusable physical kit. Educators' input informed five design considerations linking their experiences and classroom requirements to revisions of MotionSmith, the physical kit, and instructional supports."
-  workflow:
-    src: "/images/young-makers/original-system.webp"
-    # Paper fig 2, panels verbatim (letter badges intact) but arranged in two
-    # rows — A | C on top, B full-width below — so the original system's UI
-    # (panel B) renders ~1100px wide on the page instead of ~610px in the
-    # paper's 3:1 strip; the caption stays verbatim. `wide: true` lifts the
-    # portrait-capture max-height cap (the composite is landscape-shaped).
-    wide: true
-    alt: "Three panels from the paper's original-system figure, arranged in two rows for legibility: the sketched motion path on the articulated character rig (A) and the fabricated physical automaton (C) on top, and the original MotionSmith interface — Welcome, Character Selection, Path Editor, and Mechanism Design steps with the mechanism-generation controls — full-width below."
-    caption: "Original MotionSmith workflow. Users (A) sketch a motion path on an articulated character rig, (B) compare and edit synthesized mechanism candidates, and (C) export fabrication files for physical construction."
   stages:
     - index: "01"
       title: "Providing a Concrete Yet Revisable Design Goal"
@@ -87,6 +80,19 @@ system:
     - index: "05"
       title: "Supporting Educator-Configured Explanation and Activity"
       text: "Explanatory support became a configurable resource for classroom facilitation: an on-demand prompt panel from which educators select questions asking students to predict how a change would affect motion, compare alternatives, explain an observed result, or diagnose a difference between simulated and physical behavior, supplemented by real-world application examples linked to curated online videos."
+  # Paper §5 figures (figs 5–7), captions verbatim; alt text = the paper's own
+  # \Description blocks. Each illustrates one consideration's revisions
+  # (fig 5 → 03, fig 6 → 04, fig 7 → 05; the paper has no figure for 01–02).
+  revisions:
+    - src: "/images/young-makers/system-legible.webp"
+      alt: "Three panels illustrate revisions to mechanism visualization and assembly guidance. Panel A shows colored links and joints overlaid on a character's raised arm and motion path. A dashed oval highlights overlapping parts and joints. Panel B shows blue links rendered with visible thickness. Callouts identify a pivot fixed to the board and a moving connection. A magnified inset shows overlapping component layers, and a legend distinguishes the two connection types. Panel C shows purple and blue links mounted on a pegboard, with an instruction to connect the output link from G10 back to J7. Beside it, an exploded schematic arranges a fastener head, linkage, spacer, and pegboard along a dashed connection axis, with the fastener tabs opened behind the board. Annotations identify the spacer's role in setting the gap and the alignment of holes along the connection axis."
+      caption: "Making mechanism and assembly relationships spatially legible. (A) The original 2D view displays character motion and overlapping mechanism geometry without showing depth ordering. (B) The revised 2.5D canvas distinguishes component layers and board-fixed pivots from moving connections while retaining planar kinematics. (C) The assembly guide specifies connection locations; an accompanying schematic illustrates component order, alignment, and spacer-defined separation at a board-mounted pivot."
+    - src: "/images/young-makers/reusable-materials.webp"
+      alt: "Four panels illustrate revisions to materials and digital-to-physical correspondence. Panel A contrasts a schematic strip of illustration board marked for cutting with a photograph of plywood linkages arranged by length; the three-hole pair is highlighted. Panel B shows a blue three-hole linkage and four rows repeating the three-hole size label for the digital parameter, generated part list, physical kit part, and assembly instruction. Panel C shows a page titled Sample Character with separate body-part outlines, marked joint locations, and a small assembled-character preview. Panel D shows a layered character and linkage assembly on a pegboard. Below the view, Step 9 is labeled Connect character and includes the instructions Connect output and Check: Path follows. A mechanism-stack section and board-reference indicators appear beneath the instructions."
+      caption: "Aligning digital designs with reusable classroom materials. (A) Standard-length plywood linkages replace cut-to-length illustration board. (B) A schematic illustrates the shared three-hole size label across the digital parameter, generated part list, physical kit component, and assembly instruction. (C) A print-packet example groups articulated-character outlines and joint locations on one page. (D) Screen-based assembly guidance shows the character and mechanism together with a connection step and board references."
+    - src: "/images/young-makers/educator-support.webp"
+      alt: "Three panels connect educator-selected questions to mechanism exploration and application examples. Panel A lists Predict, Compare, Observe and explain, and Diagnose, with Observe and explain selected. The prompts ask about input speed, fixed pivots, gear rotation direction, and differences between physical and simulated behavior. Panel B shows two purple gears beside the selected question asking which gear turns the other way. The cues suggest adding an idler gear and observing tooth contact and rotation; a Hint control appears below. Panel C contains two application cards labeled Waving hand and Toy gearbox. Each card pairs a brief mechanism description with a video preview and a Watch video link. Text beneath each preview identifies the video as optional and refers to a generated loop if the video does not load."
+      caption: "Supporting educator-configured explanation and activity. (A) An on-demand prompt panel presents questions for prediction, comparison, observation and explanation, and diagnosis that educators can select based on their instructional goals. (B) The selected question appears beside the mechanism simulation with brief cues for what students could try and observe. (C) Real-world application examples identify where a mechanism is used and describe the movement it produces, with links to curated online videos. Prompts and examples supplement the mathematical explanations."
   zoom:
     src: "/images/young-makers/ms-canvas.webp"
     alt: "The revised MotionSmith Mechanism Foundry: a four-bar linkage candidate playing on the layered canvas beside the prompt panel, stack readout, rig-opacity and explode sliders, and kit-compatible link-hole parameters."
