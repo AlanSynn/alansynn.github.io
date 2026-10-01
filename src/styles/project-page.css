@@ -827,12 +827,14 @@ code {
 }
 
 /* §5 consideration figures (revisions[]): each re-composes a multi-row paper
-   figure into a 2-row layout (≈750–1500px at column width). The portrait-capture
-   cap above is exactly the illegibility this recomposition exists to fix — lift
-   it for these figures only (motionsmith's workflow figure keeps sharing the
-   capped slot). */
+   figure into a 2-row layout, so panels stay readable at a bounded size —
+   without the recomposition these caps would shrink panels back to ~250px.
+   Tighter than the shared portrait-capture slot above (owner call: three
+   stacked figures must not dominate the section — each unit stays within a
+   viewport at laptop heights; measured 675–750px tall at 900–1000px viewports,
+   panel cells ~246–368px). Motionsmith's workflow figure keeps the 1050px slot. */
 .revision-figure img {
-  max-height: none;
+  max-height: min(75vh, 800px);
 }
 
 /* Unit rhythm for the stacked consideration figures: without these, the first
