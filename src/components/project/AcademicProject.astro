@@ -375,10 +375,10 @@ const titleRest =
             </div>
           )}
 
-          {/* Consideration figures (revisions[]): stacked full-width under the
-              stage grid they illustrate — captions are the paper's, verbatim.
-              `revision-figure` lifts the portrait-capture height cap (these are
-              re-composed 2-row figures, deliberately tall). */}
+          {/* Consideration figures (revisions[]): the paper's own left-to-right
+              panel strips, stacked under the stage grid they illustrate —
+              captions are the paper's, verbatim. `revision-figure` is a DOM
+              hook; sizing rides the generic feature-figure slot. */}
           {d.system.revisions?.map((r) => (
             <figure class="feature-figure revision-figure" data-reveal>
               {r.kicker && <p class="section-kicker">{r.kicker}</p>}

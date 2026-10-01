@@ -826,16 +826,12 @@ code {
   margin-inline: auto;
 }
 
-/* §5 consideration figures (revisions[]): each re-composes a multi-row paper
-   figure into a 2-row layout, so panels stay readable at a bounded size —
-   without the recomposition these caps would shrink panels back to ~250px.
-   Tighter than the shared portrait-capture slot above (owner call: three
-   stacked figures must not dominate the section — each unit stays within a
-   viewport at laptop heights; measured 675–750px tall at 900–1000px viewports,
-   panel cells ~246–368px). Motionsmith's workflow figure keeps the 1050px slot. */
-.revision-figure img {
-  max-height: min(75vh, 800px);
-}
+/* §5 consideration figures (revisions[]) are the paper's OWN left-to-right
+   panel strips (owner call 2026-10-01: paper-native reading order beats the
+   earlier 2-row web recompositions). Landscape at 2.9–3.6:1, they render at
+   full shell width through the generic slot above — 314–386px tall at 1120px,
+   far under its 1050px cap — so they need no rule of their own. The
+   `revision-figure` class stays as the section's DOM hook. */
 
 /* Unit rhythm for the stacked consideration figures: without these, the first
    figure sits flush against the stage grid and consecutive figure+caption
