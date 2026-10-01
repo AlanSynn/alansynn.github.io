@@ -448,7 +448,7 @@ const titleRest =
         <div class="site-shell">
           <div class="section__center" data-reveal>
             <p class="section-kicker">Results</p>
-            <h2 id="results-heading">Quantitative results</h2>
+            <h2 id="results-heading">{d.results_heading ?? 'Quantitative results'}</h2>
           </div>
           {d.stat_callouts && d.stat_callouts.length > 0 && (
             <dl class="stat-grid" data-reveal>

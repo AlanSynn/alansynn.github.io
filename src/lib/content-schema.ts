@@ -111,7 +111,10 @@ export const newsItemSchema = z
 export const venueSchema = z
   .object({
     name: z.string(),
-    url: z.url(),
+    // url is optional: an entry can exist purely to label the badge — e.g. an
+    // under-review paper's "In review" has no venue page to link (linking one
+    // would disclose the venue). CompactPub renders name as bare text then.
+    url: z.url().optional(),
     type: z.enum(['journal', 'conference', 'preprint']).optional(),
   })
   .strict();

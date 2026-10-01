@@ -187,6 +187,9 @@ const projects = defineCollection({
         )
         .optional(),
       // Quantitative results table (mono numerics, highlighted best row).
+      // results_heading overrides the section h2 (default "Quantitative
+      // results") — e.g. an HCI deployment paper renames it to its study name.
+      results_heading: z.string().optional(),
       results: z
         .object({
           caption: z.string().optional(),
