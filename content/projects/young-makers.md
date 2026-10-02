@@ -2,6 +2,12 @@
 title: "MotionSmith for Young Makers: Educator Co-Design and Enactment of a Mechanical CAD System"
 category: "research"
 paper: "synn2027youngmakers"
+# Unlisted per owner directive 2026-10-01: the page still BUILDS (direct URL
+# for owner review) but is held from public navigation — noindex via
+# MicrositeShell + sitemap exclusion (astro.config.mjs filter), and the
+# homepage pub row links nothing (bib `website` deliberately absent).
+# Taking it public = the checklist in content/projects/CLAUDE.md.
+unlisted: true
 order: 1
 hero_eyebrow: "In review"
 # Hand-broken hero title lines — the mark carries the accent color.
