@@ -19,6 +19,11 @@ title_lines:
   - { rest: "of a Mechanical CAD System" }
 # Paper teaser caption, verbatim (main.tex teaser figure).
 teaser_caption: "MotionSmith is a sketch-based computational design system for automata making, adapted for young makers through participatory design with STEM educators. From left to right: (A) educators co-design the system in a hybrid workshop; (B) the resulting system is redesigned around young makers, through a classroom-oriented authoring workflow, a reusable fabrication kit, and instructional supports, enabling a maker to sketch an intended motion and explore synthesized, fabricable mechanism candidates, and move from digital design toward physical construction; and (C) educators enact the refined system in middle-school classrooms, where young makers collaboratively design and construct automata."
+# Hero keeps the narrative 3-panel paper teaser (the caption above describes
+# it panel by panel). The bib `preview` — homepage row thumb + og:image —
+# points at the live interface capture instead (owner directive 2026-10-02),
+# so this pin decouples the hero from it.
+teaser_image: "/images/papers/synn2027youngmakers.webp"
 # (No hero `summary:` — owner directive 2026-10-01: it duplicated the abstract,
 # whose full verbatim text is the Overview body. Meta/og description falls back
 # to papers.bib's abstract; the hero reads title → authors → chips → teaser.)

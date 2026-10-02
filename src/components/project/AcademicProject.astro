@@ -261,9 +261,9 @@ const titleRest =
           </div>
         </div>
 
-        {paper.preview && (
+        {(d.teaser_image ?? paper.preview) && (
           <figure class="hero__figure" data-reveal>
-            <img src={paper.preview} alt={d.teaser_caption ?? ''} loading="eager" />
+            <img src={d.teaser_image ?? paper.preview} alt={d.teaser_caption ?? ''} loading="eager" />
             {d.teaser_caption && <figcaption>{d.teaser_caption}</figcaption>}
           </figure>
         )}
