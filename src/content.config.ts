@@ -50,7 +50,15 @@ const blog = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: glob({ base: './content/projects', pattern: '**/*.md' }),
+  // Never let agent-guidance files parse as project entries: this dir carries
+  // its own scoped CLAUDE.md (authoring rules), and the root convention is a
+  // CLAUDE.md/AGENTS.md symlink pair — a stray one here would either fail the
+  // strict schema or become a phantom entry that trips the [slug].astro
+  // getStaticPaths footgun guard at build time.
+  loader: glob({
+    base: './content/projects',
+    pattern: ['**/*.md', '!**/CLAUDE.md', '!**/AGENTS.md'],
+  }),
   schema: z
     .object({
       title: z.string(),
