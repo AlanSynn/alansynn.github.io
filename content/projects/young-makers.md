@@ -212,16 +212,26 @@ acknowledgments: "With thanks to the four educators who co-designed, critiqued, 
 # "unexamined". The photo is owner-provided, shows no persons, and is
 # documented under the paper's educator-documentation lane
 # (06-deployment.tex:115 — educator-collected documentation with no
-# identifiable student information). Photo: crop of IMG_5027 holding all four
-# kit-box rows whole; privacy trims (standing person top-right, celebrity
-# cut-out board, chair at left edge), modest grade (brightness ~+10%,
-# saturation ~+14%, slight contrast), EXIF stripped, new filename per the
-# cache-bust rule.
+# identifiable student information). Photo: crop of IMG_5027, window
+# x460 y380 2940×3410 → 1500×1740 — opus-review fix (2026-10-01): the first
+# window (bottom y3370) ended exactly at the front row's boards, so the frame
+# read as cut (the owner's original 위아래 complaint); this window ends at
+# y3790 with the front row's bottom edges + desk inside and stops short of the
+# next board row (~y3862) and the celebrity cut-out board (y≥3912). Privacy:
+# trims as before (standing person top-right, celebrity board, chair at left
+# edge) PLUS a feathered in-place blur over a child's handwritten label on the
+# pink figure (asset x219 y484 62×80) — readings of it were contested (one
+# vision read name-like), the consent lane is "no identifiable student
+# information", and a redaction patch is invisible at display size; this is a
+# redaction, not beautification. Modest grade (brightness ~+10%, saturation
+# ~+14%, slight contrast), EXIF stripped, new filename per the cache-bust
+# rule. Slot renders at natural aspect (no aspect-ratio/cover) so a
+# documentary photo is never silently cropped again.
 closing:
   heading: "Try it in your classroom."
   body: "The revised MotionSmith — the browser-based system the educators enacted — is live at alansynn.com/ms."
-  image: "/images/young-makers/closing-kitboxes.webp"
-  alt: "Plywood kit-box pegboards set out across classroom desks in four rows, most holding paper characters in progress — a blue flying machine, a blue jersey, a yellow vehicle, an articulated pink figure with wooden linkages, a green-robed figure — with white kit boxes beneath the boards."
+  image: "/images/young-makers/closing-kitboxes-2.webp"
+  alt: "Plywood kit-box pegboards set out across classroom desks in rows, most holding paper characters in progress — a blue flying machine, a blue jersey, a yellow vehicle, an articulated pink figure with wooden linkages, a green-robed figure — with white kit boxes beneath the boards."
   caption: "Enactment photo, not a paper figure: kit-box pegboards and young makers' works in progress across classroom desks."
   links:
     - { label: "Try MotionSmith", url: "/ms", icon: "▶" }
