@@ -58,27 +58,36 @@ filename** (cache-bust).
   navigation.
 - `draft: true` → skipped from the production build entirely (dev-only).
 - An in-review paper's homepage row visibility is controlled separately, by
-  the bib entry's flags (`hidden`/`featured`/`selected` — see the legend at
-  the top of `content/papers.bib`) and by whether `website=` is present
-  (absent `website` = unlinked title, no Project Page chip).
+  the bib entry's flags (`hidden`/`web_off`/`featured`/`selected` — see the
+  legend at the top of `content/papers.bib`) and by whether `website=` is
+  present (absent `website` = unlinked title, no Project Page chip). Mind the
+  difference: `hidden` folds the row behind the "All publications" toggle but
+  the title/authors STAY in the served HTML + the Pagefind index; `web_off`
+  removes the row entirely. Under a double-anonymous review, use `web_off`.
 
 ## Taking young-makers public
 
-`content/projects/young-makers.md` + its bib entry are currently **held**: the
-page is `unlisted` (direct URL only, noindex, out of the sitemap) and the
-homepage row lists it top-of-publications with a bare "In review" abbr and no
-link. To publish (owner decision — do not do this unprompted):
+`content/projects/young-makers.md` + its bib entry are currently **fully held
+from the web** (owner directive 2026-10-02, CHI 2027 double-anonymous review
+— notification 2026-12-17): the page is `draft: true` (404s in production,
+renders in `just dev`) and the homepage row is excluded entirely via
+`web_off={true}` in the bib entry. To publish (owner decision — do not do
+this unprompted):
 
-1. `content/papers.bib` (synn2027youngmakers): re-add
-   `website={/projects/young-makers}` — restores the row's title link and the
-   "Project Page" chip. Then `just pdfs` and commit the regenerated PDFs (the
-   bib is PDF-source; check-pdf-sync enforces this at commit).
-2. `content/projects/young-makers.md`: delete `unlisted: true`.
+1. `content/papers.bib` (synn2027youngmakers): delete the `web_off={true}`
+   line and re-add `website={/projects/young-makers}` — restores the row
+   (title links the page + "Project Page" chip). Then `just pdfs` and commit
+   the regenerated PDFs (the bib is PDF-source; check-pdf-sync enforces this
+   at commit).
+2. `content/projects/young-makers.md`: delete `draft: true`.
 3. `astro.config.mjs`: drop the `!page.includes('/projects/young-makers')`
    line from the sitemap filter.
-4. `just web`, then verify: homepage row title links the page, the page is in
-   `sitemap-0.xml`, and no `noindex` meta remains on it.
-5. **At acceptance** (notification 2026-12-17), additionally: restore
+4. `scripts/check-isolation.mjs`: re-add `/projects/young-makers` to
+   `ACADEMIC_ROUTES` (the route exists again).
+5. `just web`, then verify: the homepage row is visible top-of-publications
+   with the title linking the page, the page is in `sitemap-0.xml`, and no
+   `noindex` meta remains on it.
+6. **At acceptance** (notification 2026-12-17), additionally: restore
    `booktitle`, fill `doi`/`pdf`, switch `abbr` to the real `venues.yaml` key,
    and update the project page's links — `/ms` and the GitHub repo move to
    `motionsmith.org` / `github.com/motionsmith/motionsmith`. The
@@ -86,5 +95,6 @@ link. To publish (owner decision — do not do this unprompted):
    `papers.bib` comment above the entry.
 
 The same steps template any future in-review paper page: author the page,
-`unlisted: true` + sitemap path, bib entry without `website` and with a bare
-"In review" abbr until acceptance.
+`draft: true` (+ `unlisted: true` + sitemap path if it must stay reachable),
+bib entry with `web_off={true}`, no `website`, and a bare "In review" abbr
+until acceptance.

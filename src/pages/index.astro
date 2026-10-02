@@ -25,11 +25,16 @@ import { getWorkProjects } from '@/lib/projects';
 
 // One page = the whole CV. Scroll-only, no nav.
 // `demo` papers (the unpublished example page's fictional entry) never appear
-// in the live publications list — they're resolvable by citekey only.
+// in the live publications list — they're resolvable by citekey only. Same for
+// `web_off` papers (a submission held from the web during double-anonymous
+// review): title/authors must not render anywhere, NOT even behind the
+// `hidden` toggle, whose rows stay in the served HTML + the Pagefind index.
 // `hidden` papers collapse behind the homepage "All publications" toggle (still
-// on the PDF resume/CV — the complete formal record). `demo` is fully excluded.
-// See the per-entry flag docs atop content/papers.bib.
-const allPubs = getPapers().filter((p) => p.fields.demo !== 'true');
+// on the PDF resume/CV — the complete formal record). `demo`/`web_off` are
+// fully excluded. See the per-entry flag docs atop content/papers.bib.
+const allPubs = getPapers().filter(
+  (p) => p.fields.demo !== 'true' && p.fields.web_off !== 'true',
+);
 const papers = allPubs.filter((p) => p.fields.hidden !== 'true'); // default-visible (international)
 const morePubs = allPubs.filter((p) => p.fields.hidden === 'true'); // behind the toggle
 

@@ -12,9 +12,10 @@ import { readdirSync, readFileSync } from 'node:fs';
 // filter below also drops them. The filter sees only URL strings, so compute the
 // draft slugs once at config load by scanning the .typ sources (the draft flag
 // lives in the #show: main.with(...) header near the top of each file). Project
-// `unlisted` pages are excluded by hardcoded path instead (rare; currently
-// example-graphics — the feature-exercising template — and young-makers,
-// held from public navigation until the paper is accepted).
+// `unlisted` pages are excluded by hardcoded path (rare; currently
+// example-graphics — the feature-exercising template). young-makers is
+// `draft: true` during CHI review (never built at all), but its filter line
+// below stays as a second layer while held — see content/projects/CLAUDE.md.
 const blogDir = resolve(process.cwd(), 'content/blog');
 const blogDraftSlugs = readdirSync(blogDir)
   .filter((f) => f.endsWith('.typ'))
@@ -39,10 +40,11 @@ export default defineConfig({
       // ALSO emits <meta robots noindex> as a belt-and-suspenders guard
       // (MicrositeShell `noindex` for unlisted projects, Base.astro `noindex`
       // for draft posts). Two exclusion kinds: project `unlisted` → hardcoded
-      // path (rare; currently example-graphics + young-makers, unlisted until
-      // the paper is accepted — see content/projects/CLAUDE.md); blog drafts →
-      // blogDraftSlugs, scanned at config load above, so adding a draft needs
-      // no manual filter edit.
+      // path (currently example-graphics; young-makers is `draft: true` during
+      // CHI review so it never builds — its line below is a second layer while
+      // held — see content/projects/CLAUDE.md); blog drafts → blogDraftSlugs,
+      // scanned at config load above, so adding a draft needs no manual filter
+      // edit.
       filter: (page) =>
         !page.includes('/projects/example-graphics') &&
         !page.includes('/projects/young-makers') &&

@@ -13,6 +13,10 @@
 %              The PDF (resume/CV) still shows the entry — the formal record
 %              stays complete. Used for non-first-author domestic venues kept
 %              off the public web.
+%   web_off  = omit from the WEB #publications list ENTIRELY — not even the
+%              hidden toggle, whose rows stay in the served HTML and the
+%              Pagefind index (so the title/authors would eventually be
+%              searchable). Hold flag; see the young-makers entry below.
 %
 % When adding an entry, fill EVERY applicable field (preview, doi, pdf, code,
 % website, video) via search/extraction; never leave a gap you can fill.
@@ -24,32 +28,38 @@
 @string{acm = {Association for Computing Machinery,}}
 @string{ieee = {Institute of Electrical and Electronics Engineers,}}
 
-% Under review (notification 2026-12-17). Owner directive 2026-10-01: the
-% entry lists DEFAULT-VISIBLE at the top of the homepage publications (no
-% hidden flag; year 2027 sorts sole-top) but "in review only" — the venue is
-% deliberately NOT named on any public surface: abbr is a bare "In review"
-% (what the CV prints verbatim) with no venues.yaml url, and the booktitle
-% field is OMITTED because it leaks into rendered HTML (scholar JSON-LD
-% isPartOf, citation_conference_title, and the project page's synthesized
-% BibTeX all print it verbatim). Do NOT add a "%" comment inside the entry
-% instead — stripComments() only strips "%" outside entry braces, and an
-% inline comment breaks the field parse (year -> 0).
-% `website` is intentionally ABSENT: it would link the row title and add a
-% "Project Page" chip pointing at /projects/young-makers, which the owner
-% holds back from public navigation until acceptance (the page still builds,
-% but is unlisted/noindex — see content/projects/young-makers.md). Never
-% promoted: no featured, no hosted PDF. Title and abstract are synced
-% verbatim from the submission source (~/Workspace/msym main.tex /
-% body/00-abstract.tex) — re-sync there after every paper edit.
-% Representative image = the live /ms interface capture (owner directive
-% 2026-10-02: show the web interface, not the 3-panel narrative teaser — that
-% teaser stays on the project page hero via `teaser_image` in
-% content/projects/young-makers.md). Drives the homepage row thumb +
-% og:image/JSON-LD.
+% UNDER CHI 2027 DOUBLE-ANONYMOUS REVIEW (notification 2026-12-17). Owner
+% directive 2026-10-02: the paper is FULLY OFF the web while under review —
+% CHI 2027's anonymization policy permits non-archival publication but warns
+% it erodes double-anonymity, and the owner chose maximum discretion.
+%   - `web_off` (below) drops the entry from the homepage publications list
+%     ENTIRELY — deliberately NOT `hidden`, which only folds the row behind
+%     the "All publications" toggle, leaving title + author names in the
+%     served HTML and the Pagefind search index.
+%   - The project page (content/projects/young-makers.md) is `draft: true` —
+%     excluded from the production build entirely (direct URL 404s; still
+%     renders in `just dev`, which is why this entry must stay parseable).
+%   - `selected={false}` already keeps it out of the resume/CV PDFs.
+% The entry therefore renders NOWHERE in production; it exists only so the
+% drafted page still resolves in dev. While held, also keep: venue NOT named
+% on any surface (abbr is a bare "In review"; the booktitle field is OMITTED
+% because it leaks into rendered HTML — scholar JSON-LD isPartOf,
+% citation_conference_title, the project page's synthesized BibTeX), no
+% featured, no hosted PDF, `website` ABSENT (it would link the row title +
+% add a Project Page chip). Title and abstract are synced verbatim from the
+% submission source (~/Workspace/msym main.tex / body/00-abstract.tex) —
+% re-sync there after every paper edit.
+% Representative image (relevant again at go-public) = the live /ms interface
+% capture (owner directive 2026-10-02: show the web interface, not the
+% 3-panel narrative teaser — that teaser stays on the project page hero via
+% `teaser_image` in content/projects/young-makers.md).
+% Do NOT add a "%" comment inside the entry braces — stripComments() only
+% strips "%" outside entry braces; an inline comment breaks the field parse
+% (year -> 0).
 % GO-PUBLIC CHECKLIST: content/projects/CLAUDE.md ("Taking young-makers
-% public") — website restore + unlisted flip + sitemap filter drop here, and
-% at acceptance: booktitle, doi/pdf, real venue abbr, project-page link swap
-% (/ms and the GitHub repo move to motionsmith.org /
+% public") — web_off removal + un-draft + sitemap filter drop + website
+% restore, and at acceptance: booktitle, doi/pdf, real venue abbr,
+% project-page link swap (/ms and the GitHub repo move to motionsmith.org /
 % github.com/motionsmith/motionsmith).
 @inproceedings{synn2027youngmakers,
   abbr={In review},
@@ -60,6 +70,7 @@
   preview={/images/young-makers/ms-canvas.webp},
   code={https://github.com/alansynn/ms},
   abstract={Bringing expert-oriented mechanical CAD into classrooms requires attention to novice learners, material constraints, and instructional goals. We examine this adaptation through MotionSmith, a sketch-based system for automata making originally developed with expert artists. In a three-phase participatory design study, four K-8 STEM educators used the system, proposed and reviewed revisions, and developed classroom activities. Their input informed five design considerations and revisions to the authoring workflow, reusable fabrication kit, and instructional supports. Subsequent classroom enactments led by three educators involved 129 middle-school students at two schools. Educator accounts and classroom observations documented how educators adapted the shared workflow while preserving student design choices. Educators guided purposeful revision, while project continuity required preserving digital designs and unfinished physical builds across class periods. The findings show how educator co-design connects computational capabilities, materials, and facilitation to support young makers’ collaborative projects.},
+  web_off={true},
   selected={false}
 }
 
