@@ -2,12 +2,13 @@
 title: "MotionSmith for Young Makers: Educator Co-Design and Enactment of a Mechanical CAD System"
 category: "research"
 paper: "synn2027youngmakers"
-# Unlisted per owner directive 2026-10-01: the page still BUILDS (direct URL
-# for owner review) but is held from public navigation — noindex via
-# MicrositeShell + sitemap exclusion (astro.config.mjs filter), and the
-# homepage pub row links nothing (bib `website` deliberately absent).
-# Taking it public = the checklist in content/projects/CLAUDE.md.
-unlisted: true
+# Draft per owner directive 2026-10-02: the paper is under CHI 2027
+# double-anonymous review, so this page is excluded from the PRODUCTION build
+# entirely (direct URL 404s; still renders in `just dev` for owner review).
+# The homepage pub row is likewise fully excluded (bib `web_off`), not just
+# unlinked — title/authors must not render anywhere public. Taking it public
+# = the checklist in content/projects/CLAUDE.md.
+draft: true
 order: 1
 hero_eyebrow: "In review"
 # Hand-broken hero title lines — the mark carries the accent color.

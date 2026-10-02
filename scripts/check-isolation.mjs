@@ -25,7 +25,10 @@ import { chromium } from 'playwright';
 const BASE = process.env.BASE || 'http://localhost:4321';
 // Real academic routes (paper: frontmatter → MicrositeShell). Work-project
 // routes legitimately use Base + site CSS, so don't add them here.
-const ACADEMIC_ROUTES = ['/projects/motionsmith', '/projects/young-makers'];
+// `/projects/young-makers` is `draft: true` during CHI 2027 review (it 404s
+// in production) — re-add it here when the page goes public (checklist:
+// content/projects/CLAUDE.md).
+const ACADEMIC_ROUTES = ['/projects/motionsmith'];
 
 const SITE_STYLESHEET = /(^|\/)(main|tokens|base)(\.|[A-Za-z0-9_]*\.css)/;
 const EXPECTED_LIGHT_INK = 'rgb(27, 31, 40)'; // microsite --text #1b1f28
