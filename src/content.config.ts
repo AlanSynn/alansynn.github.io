@@ -86,6 +86,12 @@ const projects = defineCollection({
       // src/pages/projects/[slug].astro getStaticPaths.
       paper: z.string().optional(),
       teaser_caption: z.string().optional(),
+      // Hero teaser override. The hero figure defaults to `paper.preview` (the
+      // bib field that also drives the homepage pub-row thumb + og:image) —
+      // set this when the bib preview represents the paper one way (e.g. the
+      // live interface) while the page hero should keep the narrative paper
+      // teaser whose caption lives in `teaser_caption`.
+      teaser_image: z.string().optional(),
       // Hero eyebrow override (defaults to "<Venue> <year>"). Original
       // motionsmith uses "CHI 2026 Full Paper".
       hero_eyebrow: z.string().optional(),
