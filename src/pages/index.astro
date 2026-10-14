@@ -32,9 +32,7 @@ import { getWorkProjects } from '@/lib/projects';
 // `hidden` papers collapse behind the homepage "All publications" toggle (still
 // on the PDF resume/CV — the complete formal record). `demo`/`web_off` are
 // fully excluded. See the per-entry flag docs atop content/papers.bib.
-const allPubs = getPapers().filter(
-  (p) => p.fields.demo !== 'true' && p.fields.web_off !== 'true',
-);
+const allPubs = getPapers().filter((p) => p.fields.demo !== 'true' && p.fields.web_off !== 'true');
 const papers = allPubs.filter((p) => p.fields.hidden !== 'true'); // default-visible (international)
 const morePubs = allPubs.filter((p) => p.fields.hidden === 'true'); // behind the toggle
 
@@ -74,7 +72,7 @@ const [mailUser, mailDomain] = site.email.split('@');
 const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
 ---
 
-<Base>
+<Base profile>
   <section id="profile" class="profile">
     <div class="profile__text">
       <h1>{site.name}</h1>
