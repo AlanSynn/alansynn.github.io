@@ -1,5 +1,6 @@
 ---
 import Base from '@/layouts/Base.astro';
+import TypstProse from '@/components/TypstProse.astro';
 import Toc from '@/components/Toc.astro';
 import GiscusComments from '@/components/GiscusComments.astro';
 import SubscribePostscript from '@/components/SubscribePostscript.astro';
@@ -74,7 +75,9 @@ const fmt = (d: Date) =>
         </header>
 
         <div class="prose">
-          <Content />
+          <TypstProse>
+            <Content />
+          </TypstProse>
         </div>
 
         {/* Subscribe ask as a P.S. — per user directive it lives at the foot of

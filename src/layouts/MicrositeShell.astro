@@ -29,7 +29,18 @@ const { title, description, paper, noindex } = Astro.props;
 if (!paper) throw new Error('MicrositeShell requires a `paper` prop');
 
 const pageTitle = title ?? paper.title;
-const desc = description ?? paper.abstract ?? '';
+// Meta/OG descriptions get cut around ~160ch; the paper abstract (often
+// 1000+ch) dumped verbatim lets engines pick their own truncation point.
+// Cap the derived fallback at the last whole word under 160. The full
+// abstract still ships via citation_abstract + JSON-LD.
+const rawDesc = description ?? paper.abstract ?? '';
+const desc =
+  rawDesc.length <= 160
+    ? rawDesc
+    : `${rawDesc
+        .slice(0, 157)
+        .replace(/\s+\S*$/, '')
+        .trimEnd()}…`;
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const citeDate =
   paper.year && paper.month

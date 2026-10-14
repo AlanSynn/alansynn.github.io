@@ -9,8 +9,14 @@ interface Props {
   meta?: string; // right-aligned mono caption
   id?: string;
   divider?: boolean; // render coupler divider above
+  /* Standalone pages (/blog, /search) pass "h1": their page title must be the
+     document's single top-level heading. Homepage sections keep the default
+     h2 — the hero h1 is already the page's one h1. Both tags share the same
+     .section-head__title class styling, so the swap is visually inert. */
+  headingLevel?: 'h1' | 'h2';
 }
-const { index, title, meta, id, divider = false } = Astro.props;
+const { index, title, meta, id, divider = false, headingLevel = 'h2' } = Astro.props;
+const HeadingTag = headingLevel;
 ---
 
 {divider && (
@@ -21,7 +27,7 @@ const { index, title, meta, id, divider = false } = Astro.props;
 <section class="section" id={id}>
   <header class="section-head">
     {index && <span class="section-head__index">§ {index}</span>}
-    <h2 class="section-head__title">{title}</h2>
+    <HeadingTag class="section-head__title">{title}</HeadingTag>
     {meta && <span class="section-head__meta">{meta}</span>}
   </header>
   <slot />

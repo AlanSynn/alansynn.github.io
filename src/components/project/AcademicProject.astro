@@ -190,17 +190,24 @@ const titleRest =
           <p class="eyebrow">{d.hero_eyebrow ?? `${paper.abbr ?? 'Research'} ${paper.year}`}</p>
           {titleLines ? (
             <h1 id="project-title">
-              {titleLines.map((ln) => (
-                <span class:list={['hero__title-line', !ln.mark && 'hero__title-rest']}>
-                  {ln.mark ? (
-                    <>
-                      <span class="hero__title-mark">{ln.mark}</span>{' '}
-                      <span class="hero__title-rest">{ln.rest}</span>
-                    </>
-                  ) : (
-                    ln.rest
-                  )}
-                </span>
+              {titleLines.map((ln, i) => (
+                <>
+                  {/* Whitespace between the line spans: they are display:block
+                      (visually inert), but without a text node the extracted
+                      textContent of the h1 concatenates the lines ("…Design
+                      Systemfor…") — garbling snippets and LLM extraction. */}
+                  {i > 0 && ' '}
+                  <span class:list={['hero__title-line', !ln.mark && 'hero__title-rest']}>
+                    {ln.mark ? (
+                      <>
+                        <span class="hero__title-mark">{ln.mark}</span>{' '}
+                        <span class="hero__title-rest">{ln.rest}</span>
+                      </>
+                    ) : (
+                      ln.rest
+                    )}
+                  </span>
+                </>
               ))}
             </h1>
           ) : titleMark ? (
@@ -263,7 +270,11 @@ const titleRest =
 
         {(d.teaser_image ?? paper.preview) && (
           <figure class="hero__figure" data-reveal>
-            <img src={d.teaser_image ?? paper.preview} alt={d.teaser_caption ?? ''} loading="eager" />
+            <img
+              src={d.teaser_image ?? paper.preview}
+              alt={d.teaser_caption ?? ''}
+              loading="eager"
+            />
             {d.teaser_caption && <figcaption>{d.teaser_caption}</figcaption>}
           </figure>
         )}
