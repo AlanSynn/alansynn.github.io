@@ -71,3 +71,30 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # Ask the IndexNow engines (Bing, Yandex, Naver, Seznam, Yep — Google is not
+  # a participant and needs nothing) to fetch changed pages right after deploy.
+  # Simplest correct shape at ~15 URLs: read the JUST-DEPLOYED sitemap off the
+  # live site and submit every URL — under every quota, no path→URL mapping,
+  # misses nothing (research agents' consensus, 2026-10). The key is not a
+  # secret (it is served publicly at /<key>.txt for ownership verification);
+  # the key FILE is committed so engines can validate it. Failure to ping must
+  # never fail a finished deploy → continue-on-error.
+  ping-indexnow:
+    needs: deploy
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Submit URLs to IndexNow
+        continue-on-error: true
+        run: |
+          KEY='87642b6e732c32916636de79ab984619'
+          URLS=$(curl -fsS --retry 3 https://alansynn.com/sitemap-0.xml \
+            | grep -o '<loc>[^<]*</loc>' \
+            | sed -e 's/<loc>/"/' -e 's#</loc>#"#' \
+            | paste -sd, -)
+          [ -n "$URLS" ] || { echo "no URLs parsed from sitemap"; exit 1; }
+          curl -fsS --retry 2 -X POST https://api.indexnow.org/IndexNow \
+            -H 'Content-Type: application/json; charset=utf-8' \
+            -d "{\"host\":\"alansynn.com\",\"key\":\"$KEY\",\"keyLocation\":\"https://alansynn.com/$KEY.txt\",\"urlList\":[$URLS]}"
+          echo "IndexNow accepted: [$URLS]"

@@ -97,12 +97,14 @@ const citeDate =
 // The site owner as a schema.org entity. `@id` gives it a stable identity that
 // other pages' JSON-LD can point at (BlogPosting author does, via the
 // conditional below). Real profile photo, not the og composite — entity
-// identity wants a face.
+// identity wants a face. alternateName carries BOTH public name variants so
+// queries on the legal name ("DoangJoo Synn") resolve to the same entity.
+const legalName = `${site.first_name} ${site.last_name}`;
 const personNode = {
   '@type': 'Person',
   '@id': `${site.url}/#person`,
   name: site.name,
-  alternateName: site.short_name,
+  alternateName: [site.short_name, legalName],
   description: site.description,
   jobTitle: site.title,
   url: site.url,
@@ -111,6 +113,17 @@ const personNode = {
   subjectOf: { '@type': 'WebSite', url: site.url },
   ...(site.keywords?.length ? { knowsAbout: site.keywords } : {}),
   sameAs,
+};
+// Top-level WebSite node — Google's site-name SERP feature reads `name`/
+// `alternateName` from exactly this shape (the nested Person.subjectOf node
+// has no name and is ignored for it). Emitted alongside the ProfilePage.
+const websiteNode = {
+  '@type': 'WebSite',
+  '@id': `${site.url}/#website`,
+  url: site.url,
+  name: site.short_name,
+  alternateName: [legalName],
+  publisher: { '@id': `${site.url}/#person` },
 };
 const jsonld = paper
   ? JSON.stringify({
@@ -259,9 +272,25 @@ const ogType = paper || article ? 'article' : 'website';
     )}
 
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <!-- robots: drafts/unlisted get noindex; indexable pages explicitly opt
+         into large image previews (Google Images) + unrestricted snippets. -->
+    <meta
+      name="robots"
+      content={
+        noindex
+          ? 'noindex, nofollow'
+          : 'max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+      }
+    />
     <ClientRouter />
     <script is:inline type="application/ld+json" set:html={jsonldSafe}></script>
+    {profile && (
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(websiteNode).replace(/</g, '\\u003c')}
+      ></script>
+    )}
     <link
       rel="alternate"
       type="application/rss+xml"

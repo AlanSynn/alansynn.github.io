@@ -109,7 +109,16 @@ const ogImage = abs(paper.preview) ?? `${site.url}/og.png`;
     {paper.pdf && <meta name="citation_pdf_url" content={abs(paper.pdf)} />}
 
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <!-- robots: unlisted pages get noindex; indexed paper pages explicitly opt
+         into large image previews + unrestricted snippets (parity with Base). -->
+    <meta
+      name="robots"
+      content={
+        noindex
+          ? 'noindex, nofollow'
+          : 'max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+      }
+    />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <ClientRouter />
     <script is:inline>

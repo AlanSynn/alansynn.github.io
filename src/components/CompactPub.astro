@@ -45,7 +45,7 @@ const clip = paper.video
         alt={paper.title}
       />
     ) : paper.preview ? (
-      <img src={paper.preview} alt="" loading="lazy" />
+      <img src={paper.preview} alt={`Teaser figure for ${paper.title}`} loading="lazy" />
     ) : (
       <span>{paper.abbr ?? paper.type.slice(0, 4)}</span>
     )}

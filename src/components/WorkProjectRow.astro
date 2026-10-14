@@ -44,7 +44,7 @@ const links: { label: string; url: string }[] = [
     {clip ? (
       <LazyVideo src={clip.clip} poster={clip.poster ?? imgSrc ?? undefined} alt={d.title} />
     ) : imgSrc ? (
-      <img src={imgSrc} alt="" loading="lazy" />
+      <img src={imgSrc} alt={`Teaser figure for ${d.title}`} loading="lazy" />
     ) : (
       <span>{thumbLabel}</span>
     )}
