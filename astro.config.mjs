@@ -4,8 +4,7 @@ import { typst } from 'astro-typst';
 import sitemap from '@astrojs/sitemap';
 import yaml from '@modyfi/vite-plugin-yaml';
 import { resolve } from 'node:path';
-import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { readdirSync, readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 
 // Blog drafts (draft: true) build + are reachable by direct URL but must never
@@ -26,57 +25,45 @@ const blogDraftSlugs = readdirSync(blogDir)
   )
   .map((f) => f.slice(0, -'.typ'.length));
 
-// Injects a <lastmod> per URL into dist/sitemap-0.xml AFTER @astrojs/sitemap
-// writes it — so this integration MUST be registered after `sitemap()`
-// (build:done hooks run in registration order). lastmod is the one sitemap
-// field search engines actually use, and only when they can trust it, so each
-// URL gets its SOURCE file's last git commit date — never the build time, so
-// redeploying unchanged content never claims fake freshness. Where no git
-// date is determinable (unmapped path, or a shallow CI checkout) the URL keeps
-// NO lastmod: absent is honest, wrong is worse (deploy.yml pins
-// fetch-depth: 0 for this reason).
-function sitemapLastmod() {
-  /** Map a sitemap URL to the content source that governs its freshness. */
-  const sourceFor = (loc) => {
-    const path = loc.replace(/^https?:\/\/[^/]+/, '');
-    if (path === '/') return 'content'; // homepage freshness = newest content change
-    if (/^\/blog\/?$/.test(path)) return 'content/blog'; // the list re-dates on any post change
-    const post = path.match(/^\/blog\/([^/]+)\/$/);
-    if (post) return `content/blog/${post[1]}.typ`;
-    const project = path.match(/^\/projects\/([^/]+)\/$/);
-    if (project) return `content/projects/${project[1]}.md`;
-    return null;
-  };
-  return {
-    name: 'sitemap-lastmod',
-    hooks: {
-      'astro:build:done': ({ dir }) => {
-        const file = resolve(fileURLToPath(dir), 'sitemap-0.xml');
-        if (!existsSync(file)) return;
-        let xml = readFileSync(file, 'utf-8');
-        for (const m of xml.matchAll(/<loc>([^<]+)<\/loc>/g)) {
-          const src = sourceFor(m[1]);
-          if (!src) continue;
-          let date = '';
-          try {
-            date = execFileSync('git', ['log', '-1', '--format=%cI', '--', src], {
-              cwd: process.cwd(),
-              encoding: 'utf-8',
-            }).trim();
-          } catch {
-            date = ''; // no git history reachable → omit, don't guess
-          }
-          if (date) {
-            // String replace on the exact <loc> — locs are unique, and the
-            // file is machine-generated in this exact shape.
-            xml = xml.replace(`<loc>${m[1]}</loc>`, `<loc>${m[1]}</loc><lastmod>${date}</lastmod>`);
-          }
-        }
-        writeFileSync(file, xml);
-      },
-    },
-  };
-}
+// Maps a sitemap URL to the content source whose last git commit dates it.
+// Homepage freshness = newest change anywhere under content/ (it renders the
+// publications + news); the blog list re-dates on any post change.
+const sitemapSourceFor = (loc) => {
+  const path = loc.replace(/^https?:\/\/[^/]+/, '');
+  if (path === '/') return 'content';
+  if (/^\/blog\/?$/.test(path)) return 'content/blog';
+  const post = path.match(/^\/blog\/([^/]+)\/$/);
+  if (post) return `content/blog/${post[1]}.typ`;
+  const project = path.match(/^\/projects\/([^/]+)\/$/);
+  if (project) return `content/projects/${project[1]}.md`;
+  return null;
+};
+
+// Per-URL <lastmod> from the page's SOURCE file's last git commit — never the
+// build time, so redeploying unchanged content never claims fake freshness.
+// lastmod is the one sitemap field search engines actually use, and only when
+// they can trust it; where no git date is determinable (unmapped path, or a
+// shallow CI checkout) the URL keeps NO lastmod: absent is honest, wrong is
+// worse (deploy.yml pins fetch-depth: 0 for this reason). Implemented as a
+// sitemap `serialize()` — the package's supported per-URL hook, since its own
+// `lastmod` option is SITE-WIDE (one date for every URL, which would re-date
+// unchanged pages on every deploy).
+const sitemapSerialize = (item) => {
+  let lastmod;
+  const src = sitemapSourceFor(item.url);
+  if (src) {
+    try {
+      lastmod =
+        execFileSync('git', ['log', '-1', '--format=%cI', '--', src], {
+          cwd: process.cwd(),
+          encoding: 'utf-8',
+        }).trim() || undefined;
+    } catch {
+      lastmod = undefined; // no git history reachable → omit, don't guess
+    }
+  }
+  return { ...item, lastmod };
+};
 
 // Alan Synn — academic homepage. Deploys to alansynn.com (root path).
 // https://astro.build/config
@@ -88,7 +75,8 @@ export default defineConfig({
     sitemap({
       // No changefreq/priority: uniform values across every URL carry no
       // signal (engines ignore them). The meaningful field — <lastmod> — is
-      // injected per-URL by the sitemapLastmod integration registered below.
+      // set per-URL by `serialize` below.
+      serialize: sitemapSerialize,
       // Reachable-but-not-indexed pages (project `unlisted` + blog drafts) build
       // and serve by direct URL but must never be advertised to crawlers. The
       // filter sees only URL strings, so exclusions are path-based; each page
@@ -113,8 +101,6 @@ export default defineConfig({
         !/(^|\/)search\/?$/.test(page) &&
         !blogDraftSlugs.some((slug) => page.includes(`/blog/${slug}/`)),
     }),
-    // AFTER sitemap() — see the hook comment for why order is load-bearing.
-    sitemapLastmod(),
     typst({
       target: () => 'html',
     }),
