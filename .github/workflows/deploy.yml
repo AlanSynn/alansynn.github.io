@@ -21,6 +21,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Full history, not the default depth-1: the sitemap-lastmod
+          # integration (astro.config.mjs) derives each URL's <lastmod> from
+          # its source file's last commit. A shallow checkout can't answer
+          # per-file `git log`, which would silently strip every lastmod.
+          fetch-depth: 0
 
       - name: Setup bun
         uses: oven-sh/setup-bun@v2
