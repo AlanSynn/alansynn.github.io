@@ -6,6 +6,7 @@ import SubscribePostscript from '@/components/SubscribePostscript.astro';
 import { getCollection, render } from 'astro:content';
 import { commentTerm } from '@/lib/giscus';
 import { tagLabel } from '@/lib/tags';
+import { site } from '@/lib/data';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -15,6 +16,10 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 const tags = (post.data.tags ?? []) as string[];
+// Canonical URL for the ready-made citation line at the foot of the post —
+// same shape Base.astro computes for og:url/canonical, so they never disagree.
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const citeYear = post.data.date.getUTCFullYear();
 const fmt = (d: Date) =>
   d.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -37,6 +42,7 @@ const fmt = (d: Date) =>
     datePublished: post.data.date.toISOString(),
     dateModified: post.data.updatedDate?.toISOString(),
     authorName: post.data.author,
+    keywords: tags,
   }}
 >
   <article class="post" id="top">
@@ -84,6 +90,7 @@ const fmt = (d: Date) =>
         {!post.data.draft && <GiscusComments term={commentTerm(post.id)} />}
 
         <p class="license-note">
+          Cite as: {post.data.author ?? site.name}, “{post.data.title}” ({citeYear}), {canonical}.
           Licensed under{' '}
           <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>
         </p>

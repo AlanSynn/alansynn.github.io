@@ -17,7 +17,10 @@ const d = project.data;
 const isLocalVideo = !!d.video && /\.(mp4|webm|ogg)$/i.test(d.video);
 ---
 
-<Base title={d.title} wide>
+{/* description + image: unique meta description (frontmatter summary) and the
+    project artwork as the share card instead of the site-default og.png — a
+    work-project page shouldn't share with the homepage's description. */}
+<Base title={d.title} description={d.summary} image={d.image} wide>
   <article>
     <a class="back-link back-link--top" href="/" data-home>
       ← Home

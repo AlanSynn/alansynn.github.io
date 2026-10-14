@@ -27,8 +27,21 @@ interface Props {
      are never indexed — parity with project `unlisted` (MicrositeShell noindex).
      The sitemap filter (astro.config.mjs) also drops draft URLs. */
   noindex?: boolean;
+  /* Page-specific share image (root-relative or absolute). Work-project pages
+     pass their frontmatter `image`; paper pages use paper.preview instead, and
+     everything else falls back to the site-default og.png. */
+  image?: string;
 }
-const { title, description, wide = false, contained = true, paper, article, noindex } = Astro.props;
+const {
+  title,
+  description,
+  wide = false,
+  contained = true,
+  paper,
+  article,
+  noindex,
+  image,
+} = Astro.props;
 
 interface ArticleMeta {
   headline: string;
@@ -36,6 +49,7 @@ interface ArticleMeta {
   datePublished?: string; // ISO 8601; Google's primary Article field
   dateModified?: string; // ISO 8601; only when a post carries updatedDate
   authorName?: string; // post author (defaults to site.name in the JSON-LD)
+  keywords?: string[]; // post tags → BlogPosting `keywords` (SEO/LLM topicality)
 }
 
 const pageTitle = title
@@ -91,6 +105,7 @@ const jsonld = paper
             ? `${paper.year}`
             : undefined,
       isAccessibleForFree: true,
+      inLanguage: 'en',
       ...(paper.fields.publisher
         ? { publisher: { '@type': 'Organization', name: paper.fields.publisher } }
         : {}),
@@ -115,6 +130,13 @@ const jsonld = paper
         // their own, so the site-default composite carries it.
         image: defaultOg,
         mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+        // License + topical keywords: the machine-readable attribution trail.
+        // (Papers above do NOT get this license — their copyright belongs to
+        // the publisher; only the blog text is CC BY-NC-ND.)
+        license: 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
+        isAccessibleForFree: true,
+        inLanguage: 'en',
+        ...(article.keywords?.length ? { keywords: article.keywords.join(', ') } : {}),
         ...(article.datePublished ? { datePublished: article.datePublished } : {}),
         ...(article.dateModified ? { dateModified: article.dateModified } : {}),
       })
@@ -127,6 +149,7 @@ const jsonld = paper
         image: `${site.url}/og.png`,
         worksFor: { '@type': 'Organization', name: site.affiliation },
         subjectOf: { '@type': 'WebSite', url: site.url },
+        ...(site.keywords?.length ? { knowsAbout: site.keywords } : {}),
         sameAs,
       });
 
@@ -138,11 +161,13 @@ const jsonld = paper
 // first-party, but the hardening is cheap and removes the footgun for good.)
 const jsonldSafe = jsonld.replace(/</g, '\\u003c');
 
-// OG/Twitter: paper teaser (absolute) on paper pages; otherwise the site
-// default robot-composite og.png. Blog posts have no per-post image yet, so
-// they use the default too.
+// OG/Twitter: paper teaser (absolute) on paper pages; explicit page image
+// (work projects) next; otherwise the site-default robot-composite og.png.
 const ogTitle = paper ? paper.title : (article?.headline ?? pageTitle);
-const ogImage = abs(paper?.preview) ?? defaultOg;
+const ogImage = abs(paper?.preview) ?? abs(image) ?? defaultOg;
+// The default card's dimensions are known (public/og.png is 1200×630); any
+// override image has its own aspect, so dimensions are only declared for it.
+const ogImageIsDefault = ogImage === defaultOg;
 const ogType = paper || article ? 'article' : 'website';
 ---
 
@@ -168,10 +193,18 @@ const ogType = paper || article ? 'article' : 'website';
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={desc} />
     <meta property="og:image" content={ogImage} />
+    {ogImageIsDefault && (
+      <>
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+      </>
+    )}
+    <meta property="og:image:alt" content={ogTitle} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={desc} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogTitle} />
 
     {/* Google-Scholar indexing (academic paper pages only). */}
     {paper && (

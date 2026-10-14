@@ -60,6 +60,7 @@ const jsonld = JSON.stringify({
         ? `${paper.year}`
         : undefined,
   isAccessibleForFree: true,
+  inLanguage: 'en',
   ...(paper.fields.publisher
     ? { publisher: { '@type': 'Organization', name: paper.fields.publisher } }
     : {}),
@@ -89,10 +90,12 @@ const ogImage = abs(paper.preview) ?? `${site.url}/og.png`;
     <meta property="og:title" content={paper.title} />
     <meta property="og:description" content={desc} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={paper.title} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={paper.title} />
     <meta name="twitter:description" content={desc} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={paper.title} />
 
     {/* Google-Scholar indexing. */}
     <meta name="citation_title" content={paper.title} />
