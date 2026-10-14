@@ -250,6 +250,11 @@ const ogType = paper || article ? 'article' : 'website';
       </>
     )}
     <meta property="og:image:alt" content={ogTitle} />
+    {/* OG article times: some scrapers (Slack, iMessage) read these instead of
+        the JSON-LD dates. */}
+    {article?.datePublished && (
+      <meta property="article:published_time" content={article.datePublished} />
+    )}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={ogTitle} />
     <meta name="twitter:description" content={desc} />
@@ -311,10 +316,17 @@ const ogType = paper || article ? 'article' : 'website';
         rel="stylesheet"
       />
     )}
-    <link
-      rel="stylesheet"
-      href="https://fred-wang.github.io/MathFonts/NewComputerModern/mathfonts.css"
-    />
+    {/* MathML fonts — only blog posts render MathML (mathyml prelude), so the
+        third-party stylesheet is scoped to post pages; on every other page it
+        would be a render-blocking request for a font face nothing uses.
+        (Search-result snippets may show math in the browser's native MathML
+        styling — degraded typography, not broken rendering.) */}
+    {article && (
+      <link
+        rel="stylesheet"
+        href="https://fred-wang.github.io/MathFonts/NewComputerModern/mathfonts.css"
+      />
+    )}
 
     <script is:inline>
       // No-flash theme init: resolve stored pref or system preference BEFORE paint.
