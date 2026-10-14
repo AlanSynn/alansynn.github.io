@@ -51,6 +51,7 @@ keywords:
 socials:
   - { label: 'Email', url: 'mailto:alansynn@gatech.edu', icon: 'email' }
   - { label: 'Scholar', url: 'https://scholar.google.com/citations?user=tAfkWYcAAAAJ', icon: 'scholar' }
+  - { label: 'ORCID', url: 'https://orcid.org/0000-0002-8992-4634', icon: 'orcid' }
   - { label: 'GitHub', url: 'https://github.com/AlanSynn', icon: 'github' }
   - { label: 'LinkedIn', url: 'https://www.linkedin.com/in/alansynn', icon: 'linkedin' }
   - { label: 'CV', url: '/pdfs/alansynn-cv.pdf', icon: 'cv' }

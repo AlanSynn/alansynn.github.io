@@ -73,6 +73,7 @@ export const GET: APIRoute = async () => {
   lines.push(`- [Blog](${URL_BASE}/blog/): long-form essays and notes. RSS: ${URL_BASE}/rss.xml`);
   if (social('CV')) lines.push(`- [Curriculum Vitae (PDF)](${abs(social('CV'))})`);
   if (social('Scholar')) lines.push(`- [Google Scholar](${social('Scholar')})`);
+  if (social('ORCID')) lines.push(`- [ORCID](${social('ORCID')})`);
   if (social('GitHub')) lines.push(`- [GitHub](${social('GitHub')})`);
   if (social('LinkedIn')) lines.push(`- [LinkedIn](${social('LinkedIn')})`);
   lines.push('');
