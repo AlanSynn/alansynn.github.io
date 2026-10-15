@@ -46,7 +46,7 @@ const projects = await getWorkProjects();
 // News: newest first, top 8 shown flat (no "more" toggle). content/news.yaml
 // items PLUS blog-post pointers, merged by date. Posts are title-only pointer
 // rows — the description is /blog's job (a digest entry routes, it doesn't
-// reproduce) — and are share-of-voice-capped: only the 2 most recent published
+// reproduce) — and are share-of-voice-capped: only the 4 most recent published
 // posts participate, so an active blog can never crowd career news out of the
 // 8 slots. A manual news.yaml item whose `link` contains the post slug
 // suppresses the auto row: an editorial rewrite (or a genuinely newsworthy
@@ -54,7 +54,7 @@ const projects = await getWorkProjects();
 const postNews: NewsItem[] = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 2)
+  .slice(0, 4)
   .filter((p) => !newsItems.some((n) => n.link?.includes(p.id)))
   .map((p) => ({
     date: p.data.date,
