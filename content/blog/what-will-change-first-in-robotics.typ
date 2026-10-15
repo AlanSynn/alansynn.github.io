@@ -5,7 +5,7 @@
 // Place this file in content/blog/ of alansynn/alansynn.github.io.
 // Uses the site's existing HTML template and registered tags. Review before publishing.
 #show: main.with(
-  title: "What Will Change First in Robotics? — Part 1",
+  title: "What Will Change First in Robotics? Part 1",
   desc: "What AI's uneven progress in systems, theory, and learning algorithms suggests about the next few years of robotics, and the work of researching it.",
   date: "2026-06-30",
   tags: ("robotics", "ai", "history-of-science"),
@@ -89,4 +89,4 @@ Several developments could change this forecast. Much stronger out-of-the-box ge
 
 When I first worried about language models in systems research, I imagined competing with a machine's interpretation of a performance trace. I now think the larger change concerns which parts of a problem we can afford to search, test, and reuse. Robotics adds physical consequences and, often, people whose purposes are not fully specified by the task description. Those conditions will shape the order of progress. They need not stop it. Perhaps one of the next important changes will be that teaching a robot something new becomes less of a research project. For researchers, that is not only a reason to ask what has become ordinary. It is a reason to ask what we can finally investigate once it has.
 
-_Continued in #link("/blog/when-doing-the-task-is-not-enough")[Part 2 — When Doing the Task Is Not Enough], which asks what happens after a robot can do the task._
+_Continued in #link("/blog/when-doing-the-task-is-not-enough")[Part 2, When Doing the Task Is Not Enough], which asks what happens after a robot can do the task._

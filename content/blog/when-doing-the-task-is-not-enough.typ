@@ -5,7 +5,7 @@
 // Place this file in content/blog/ of alansynn/alansynn.github.io.
 // Uses the site's existing HTML template and registered tags. Review before publishing.
 #show: main.with(
-  title: "When Doing the Task Is Not Enough — Part 2",
+  title: "When Doing the Task Is Not Enough, Part 2",
   desc: "What graphics, perceptual evaluation, and human-robot interaction suggest about the next demands on capable robots, and where new research may begin.",
   date: "2026-07-07",
   tags: ("robotics", "ai", "philosophy-of-science"),
