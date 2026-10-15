@@ -7,9 +7,10 @@
 // script supplies the static target: one .md file per HTML page in dist/.
 //
 // Mirror layout is `<dir>/index.md` on purpose: the edge rule rewrites
-// `/blog/foo/` → `/blog/foo/index.md` and `/` → `/index.md` — and free-plan
-// rules have no regex (Business+), so the rule uses only ends_with/if_else
-// against a uniform `…/index.md` layout. Keep the two in sync.
+// `/blog/foo/` → `/blog/foo/index.md` and `/` → `/index.md` — the rules
+// language has no conditional functions, so the applied rule is a plain
+// `concat(uri.path, "index.md")` against this uniform `…/index.md` layout.
+// Keep the two in sync.
 //
 // Output shape mirrors Cloudflare's converter: YAML frontmatter
 // (title/description/canonical/og image), body markdown with page chrome
@@ -51,6 +52,31 @@ function extractContent(html) {
     .replaceAll(/<script[\s\S]*?<\/script>/gi, '')
     .replaceAll(/<style[\s\S]*?<\/style>/gi, '')
     .replaceAll(/<template[\s\S]*?<\/template>/gi, '');
+}
+
+// Media elements have no markdown equivalent, so replace them with plain
+// links and let agents keep a path to the asset instead of losing it
+// silently. Returns whether any media was present, so the mirror can point
+// readers at the HTML page for the full interactive version.
+function preserveMedia(chunk) {
+  let hasMedia = false;
+  const videoLink = (src) => `<p><a href="${src}">▶ Video: ${src}</a></p>`;
+  chunk = chunk
+    .replaceAll(/<video[^>]*\bsrc="([^"]+)"[^>]*>([\s\S]*?)<\/video>/gi, (_, src, inner) => {
+      hasMedia = true;
+      return videoLink(inner.match(/<source[^>]*\bsrc="([^"]+)"/i)?.[1] ?? src);
+    })
+    .replaceAll(/<video[^>]*>([\s\S]*?)<\/video>/gi, (m, inner) => {
+      const src = inner.match(/<source[^>]*\bsrc="([^"]+)"/i)?.[1];
+      if (!src) return m;
+      hasMedia = true;
+      return videoLink(src);
+    })
+    .replaceAll(/<iframe[^>]*\bsrc="([^"]+)"[^>]*>([\s\S]*?)<\/iframe>/gi, (_, src) => {
+      hasMedia = true;
+      return `<p><a href="${src}">▶ Embedded content: ${src}</a></p>`;
+    });
+  return { chunk, hasMedia };
 }
 
 function firstMatch(html, ...patterns) {
@@ -103,9 +129,15 @@ const htmlFiles = walk(DIST, '.html').filter((p) => !SKIP.has(relative(DIST, p))
 let written = 0;
 for (const htmlPath of htmlFiles) {
   const html = readFileSync(htmlPath, 'utf8');
-  const body = converter.translate(extractContent(html)).trim();
-  if (!body && !html.includes('application/ld+json')) continue;
-  const md = `${frontmatter(html)}${body}\n${jsonLdBlocks(html)}`;
+  const { chunk, hasMedia } = preserveMedia(extractContent(html));
+  const body = converter.translate(chunk).trim();
+  if (!body && !hasMedia && !html.includes('application/ld+json')) continue;
+  const canonical = firstMatch(html, /<link[^>]*rel="canonical"[^>]*href="([^"]*)"/i);
+  const mediaNote =
+    hasMedia && canonical
+      ? `\n> This page embeds video and interactive figures that plain text can't carry. View the HTML page at ${canonical} for the full version.\n`
+      : '';
+  const md = `${frontmatter(html)}${body}${mediaNote}\n${jsonLdBlocks(html)}`;
   writeFileSync(mirrorPath(htmlPath), md.endsWith('\n') ? md : `${md}\n`);
   written++;
 }
