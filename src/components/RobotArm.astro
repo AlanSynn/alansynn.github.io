@@ -1,8 +1,8 @@
 ---
-// RobotArm.astro — humanoid arm for the RobotIK engine. 3-DOF chain
+// RobotArm.astro: humanoid arm for the RobotIK engine. 3-DOF chain
 // (shoulder/elbow/wrist) + a hand of four 3-DOF fingers (MCP/PIP/DIP).
 // Hairline-mechanism idiom (links drawn −Y → root offset −π/2). Lives in the
-// footer; the stage's top border = the GROUND — it clips at the line and the arm
+// footer; the stage's top border = the GROUND: it clips at the line and the arm
 // rises from below on scroll (--arm, set by the engine). Joints are alive;
 // shoulder/elbow/wrist + fingertips are grab handles. Reduced-motion: static pose.
 //
@@ -58,43 +58,43 @@ const FING = [
 <div class="robot-arm-stage" aria-hidden="true">
   <div class="robot-arm" data-rig="arm" data-zone={zone}>
     <svg viewBox="0 0 180 360" xmlns="http://www.w3.org/2000/svg">
-      {/* floor mount + shoulder bracket (base of the rig — mirrors the legs' pelvis) */}
+      {/* floor mount + shoulder bracket (base of the rig: mirrors the legs' pelvis) */}
       <line class="ra-mount" x1="56" y1="346" x2="124" y2="346"></line>
       <line class="ra-mount" x1="72" y1="340" x2="108" y2="340"></line>
       <rect class="ra-mount" x="84" y="337" width="12" height="9" rx="1.5"></rect>
 
-      {/* shoulder: rotates around (90,340) — upper arm drawn −Y to elbow (90,245) */}
+      {/* shoulder: rotates around (90,340): upper arm drawn −Y to elbow (90,245) */}
       <g class="j-shoulder" transform={`rotate(0 ${SH.x} ${SH.y})`}>
         <line class="ra-link" x1={SH.x} y1={SH.y} x2={EL.x} y2={EL.y}></line>
         <line class="ra-tendon" x1={SH.x - 4} y1={SH.y - 6} x2={EL.x - 4} y2={EL.y + 6}></line>
         <line class="ra-tendon" x1={SH.x + 4} y1={SH.y - 6} x2={EL.x + 4} y2={EL.y + 6}></line>
         <circle class="ra-joint" cx={SH.x} cy={SH.y} r="4.4"></circle>
         <circle class="ra-joint" cx={EL.x} cy={EL.y} r="3.8"></circle>
-        {/* elbow: rotates around (90,245) — forearm drawn −Y to wrist (90,157) */}
+        {/* elbow: rotates around (90,245): forearm drawn −Y to wrist (90,157) */}
         <g class="j-elbow" transform={`rotate(0 ${EL.x} ${EL.y})`}>
           <line class="ra-link" x1={EL.x} y1={EL.y} x2={WR.x} y2={WR.y}></line>
           <line class="ra-tendon" x1={EL.x - 4} y1={EL.y - 6} x2={WR.x - 4} y2={WR.y + 6}></line>
           <line class="ra-tendon" x1={EL.x + 4} y1={EL.y - 6} x2={WR.x + 4} y2={WR.y + 6}></line>
           <circle class="ra-joint" cx={WR.x} cy={WR.y} r="3.6"></circle>
-          {/* wrist: rotates around (90,157) — the WAVE pivot. slim palm + 4 fingers */}
+          {/* wrist: rotates around (90,157): the WAVE pivot. slim palm + 4 fingers */}
           <g class="j-wrist" transform={`rotate(0 ${WR.x} ${WR.y})`}>
             <g class="hand">
-              {/* palm bracket — slim, pelvis-like; groups the fingers without a heavy fill */}
+              {/* palm bracket: slim, pelvis-like; groups the fingers without a heavy fill */}
               <path
                 class="ra-palm"
                 d="M 70 158 Q 68 148 78 146 L 100 145 Q 112 147 114 158 Q 92 163 70 158 Z"
               ></path>
               {FING.map((f) => (
                 <g class={f.cls}>
-                  {/* MCP: rotates around mcp — proximal drawn −Y to pip */}
+                  {/* MCP: rotates around mcp: proximal drawn −Y to pip */}
                   <g class="j-mcp" transform={`rotate(${f.splay} ${f.mcp.x} ${f.mcp.y})`}>
                     <line class="ra-link" x1={f.mcp.x} y1={f.mcp.y} x2={f.pip.x} y2={f.pip.y} />
                     <circle class="ra-knuckle" cx={f.mcp.x} cy={f.mcp.y} r="2.4" />
-                    {/* PIP: rotates around pip — middle drawn −Y to dip */}
+                    {/* PIP: rotates around pip: middle drawn −Y to dip */}
                     <g class="j-pip" transform={`rotate(8 ${f.pip.x} ${f.pip.y})`}>
                       <line class="ra-link" x1={f.pip.x} y1={f.pip.y} x2={f.dip.x} y2={f.dip.y} />
                       <circle class="ra-joint" cx={f.pip.x} cy={f.pip.y} r="2.1" />
-                      {/* DIP: rotates around dip — distal drawn −Y to tip */}
+                      {/* DIP: rotates around dip: distal drawn −Y to tip */}
                       <g class="j-dip" transform={`rotate(6 ${f.dip.x} ${f.dip.y})`}>
                         <line class="ra-link" x1={f.dip.x} y1={f.dip.y} x2={f.tip.x} y2={f.tip.y} />
                         <circle class="ra-tip" cx={f.tip.x} cy={f.tip.y} r="2.1" />

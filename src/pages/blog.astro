@@ -10,7 +10,7 @@ const posts = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 // Every tag across published posts → the /blog filter chip bar. Sorted for a
-// stable reading order (data-derived; no manual ordering knob — see memory).
+// stable reading order (data-derived; no manual ordering knob: see memory).
 const allTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].sort();
 const fmt = (d: Date) =>
   d.toLocaleDateString('en-US', {
@@ -71,9 +71,9 @@ const fmt = (d: Date) =>
         </ul>
       </>
     )}
-    {/* Subscribe ask as a P.S. (lab draft #62) — sits after the list, OUTSIDE
+    {/* Subscribe ask as a P.S. (lab draft #62): sits after the list, OUTSIDE
         the <ul> (the filter script iterates #blog-list > li). Placements: here
-        and every post above the comments — NOT the homepage (2026-09-30: a
+        and every post above the comments: NOT the homepage (2026-09-30: a
         blog ask under Contact read as a second contact form). */}
     <SubscribePostscript />
     {/* data-astro-rerun: re-execute after a View-Transition swap-in. The
@@ -118,7 +118,7 @@ const fmt = (d: Date) =>
         }
 
         // Restore from a shared deep link (/blog?tag=foo). The tags drawer is
-        // collapsed by default, so an active filter must re-open it — else the
+        // collapsed by default, so an active filter must re-open it: else the
         // chips explaining the filtered list stay hidden.
         var param = new URLSearchParams(location.search).get('tag');
         apply(param);

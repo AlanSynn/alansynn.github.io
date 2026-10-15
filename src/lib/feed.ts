@@ -1,8 +1,8 @@
 // Shared blog RSS feed builder. One content source (the `blog` collection),
 // three route families: `/rss.xml` (canonical, advertised in <head>/footer),
-// `/blog/rss.xml` (alias, reachable by direct URL — some readers expect the
+// `/blog/rss.xml` (alias, reachable by direct URL: some readers expect the
 // feed at the blog subpath), and `/blog/rss/<tag>.xml` (per-topic feeds, one
-// static file per tag appearing on at least one PUBLISHED post — draft tags
+// static file per tag appearing on at least one PUBLISHED post: draft tags
 // never surface, mirroring the /blog chip bar). All endpoints are thin callers
 // of this helper so feed content is never duplicated.
 import rss from '@astrojs/rss';
@@ -33,7 +33,7 @@ export async function blogFeedResponse(context: APIContext, tag?: string) {
       link: `/blog/${p.id}/`,
       description: p.data.description ? String(p.data.description) : undefined,
       categories: p.data.tags ?? [],
-      // `<atom:updated>` only when the post declares an updatedDate — same
+      // `<atom:updated>` only when the post declares an updatedDate: same
       // source→output coupling as date → pubDate above.
       customData: p.data.updatedDate
         ? `<atom:updated>${p.data.updatedDate.toISOString()}</atom:updated>`

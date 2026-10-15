@@ -132,7 +132,7 @@ main {
   align-items: center;
   gap: var(--space-2);
 }
-/* Faint path separator — present but barely, so the eye reads a URL path. */
+/* Faint path separator: present but barely, so the eye reads a URL path. */
 .site-footer__sep {
   color: color-mix(in srgb, var(--muted) 45%, transparent);
 }

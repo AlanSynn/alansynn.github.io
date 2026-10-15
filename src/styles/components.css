@@ -84,7 +84,7 @@
 }
 
 /* ---- Theme toggle ------------------------------------------------------
-   Pinned to the top-right corner on EVERY viewport as a fixed overlay —
+   Pinned to the top-right corner on EVERY viewport as a fixed overlay:
    occupies no layout row, sits at roughly the title-start band, and never
    scrolls away. Lifted out of the footer (where it lives in the DOM) by
    position: fixed, so the footer simply no longer renders it. */
@@ -733,7 +733,7 @@ figcaption {
 }
 
 /* ==========================================================================
-   Tags  —  .tag-chip is the shared pill (post header meta + /blog filter bar)
+   Tags :  .tag-chip is the shared pill (post header meta + /blog filter bar)
    ========================================================================== */
 .tag-chip {
   display: inline-flex;
@@ -764,7 +764,7 @@ figcaption {
   border-color: var(--accent);
 }
 
-/* Meta-line overflow helpers — shared by the post header (.post-meta) and the
+/* Meta-line overflow helpers: shared by the post header (.post-meta) and the
    /blog list rows (.blog-list__meta). `.meta-core` glues date·author on one
    nowrap line; `.meta-tags` is a flex-wrap group of tag chips. Few tags →
    reads inline with the meta; many tags → the parent flex-wrap drops the WHOLE
@@ -810,7 +810,7 @@ figcaption {
    Native <details> collapsed by default; the summary copies the prose-fold
    idiom (no native marker, +/− caret) at mono microtype scale. The filter
    script re-opens the drawer when ?tag= is present. (The subscribe ask is no
-   longer a drawer — see the .psub block below.) */
+   longer a drawer: see the .psub block below.) */
 .blog-tags-wrap {
   margin-bottom: var(--space-5);
 }
@@ -839,9 +839,9 @@ figcaption {
   content: '−';
 }
 
-/* ---- Subscribe postscript (.psub — SubscribePostscript.astro) -----------
+/* ---- Subscribe postscript (.psub: SubscribePostscript.astro) -----------
    The site-wide subscribe ask as a P.S., not a widget (lab draft #62): one
-   sentence set like the page's own prose — serif italic at body scale — so
+   sentence set like the page's own prose (serif italic at body scale) so
    it reads as ordinary text, never a card/popup/toggle. The ONLY interactive
    silhouettes are the empty underlined email slot (dashed hairline that
    solidifies accent on focus) and a quiet boxed mono button. The form is a
@@ -861,7 +861,7 @@ figcaption {
   display: inline;
 }
 /* The controls (email slot + button) travel as ONE unbreakable cluster: the
-   sentence wraps like prose, but the wrap point can never orphan the button —
+   sentence wraps like prose, but the wrap point can never orphan the button:
    either the whole tail fits on the line or it moves down together. RSS is a
    link inside the prose sentence, not part of the cluster. */
 .psub__cluster {
@@ -933,7 +933,7 @@ figcaption {
 }
 
 /* ==========================================================================
-   Blog post / prose  —  two-column reading layout (TOC rail | prose)
+   Blog post / prose :  two-column reading layout (TOC rail | prose)
    ========================================================================== */
 .post-layout {
   display: grid;
@@ -1088,7 +1088,7 @@ figcaption {
 /* ---- Prose folds (details.fold from the `fold` Typst helper) ------------
    Collapsed per-field sections. The summary echoes .prose h3 typography but
    is interactive: pointer cursor, accent on hover, mono +/- marker at the
-   right edge. Inner rhythm is re-declared — `.prose > * + *` only matches
+   right edge. Inner rhythm is re-declared: `.prose > * + *` only matches
    DIRECT children of .prose, and fold contents sit one level down. Native
    <details>: no JS, keyboard-accessible, token-driven so dark mode is free. */
 .prose details.fold {
@@ -1177,7 +1177,7 @@ figcaption {
 }
 /* typst html.frame renders figures as inline <svg width="…pt">; cap them to the
    column so they never overflow on phones (covers blogimg and native-svg
-   figures). max-width only shrinks — desktop size is unchanged. */
+   figures). max-width only shrinks: desktop size is unchanged. */
 .prose figure svg,
 .prose figure img {
   max-width: 100%;
@@ -1214,7 +1214,7 @@ figcaption {
 .prose tbody tr:nth-child(even) {
   background: color-mix(in srgb, var(--paper-sunken) 55%, transparent);
 }
-/* On phones a 4-col reference table can't fit — let it scroll sideways
+/* On phones a 4-col reference table can't fit: let it scroll sideways
    instead of crushing every cell into one word per line. */
 @media (max-width: 720px) {
   .prose table {
@@ -1238,7 +1238,7 @@ figcaption {
   color: var(--accent);
   text-decoration: none;
 }
-/* Top-of-page Home back-link (work project pages — Base is headerless, so this
+/* Top-of-page Home back-link (work project pages: Base is headerless, so this
    is the explicit "back to home" affordance, mirroring the academic pages'
    header Home link). Sits above .post-header with breathing room top+bottom. */
 .back-link--top {
@@ -1246,7 +1246,7 @@ figcaption {
   margin-bottom: var(--space-5);
 }
 
-/* ---- Table of contents — desktop rail -------------------------------- */
+/* ---- Table of contents: desktop rail -------------------------------- */
 .toc[hidden],
 .toc-mobile[hidden] {
   display: none;
@@ -1303,7 +1303,7 @@ figcaption {
   background: var(--hairline);
   border-radius: 2px;
 }
-/* The sliding accent bar — JS translates it to the active item. */
+/* The sliding accent bar: JS translates it to the active item. */
 .toc__track {
   position: absolute;
   left: 0;
@@ -1347,7 +1347,7 @@ figcaption {
   color: var(--accent);
   font-weight: 600;
 }
-/* Exit affordance at the rail's foot — separated from the section list by a
+/* Exit affordance at the rail's foot: separated from the section list by a
    hairline so it reads as "leave this page", not as one more heading. */
 .toc__back {
   display: block;
@@ -1364,7 +1364,7 @@ figcaption {
   color: var(--accent);
 }
 
-/* ---- Table of contents — mobile disclosure (quiet inline trigger) ----- */
+/* ---- Table of contents: mobile disclosure (quiet inline trigger) ----- */
 .toc-mobile {
   margin-bottom: var(--space-5);
   font-family: var(--font-mono);
@@ -1397,7 +1397,7 @@ figcaption {
 .toc-mobile[open] > summary .toc-mobile__chevron {
   transform: rotate(180deg);
 }
-/* Expanded list hangs off a left hairline — same language as the desktop rail. */
+/* Expanded list hangs off a left hairline: same language as the desktop rail. */
 .toc-mobile .toc__list {
   padding: var(--space-3) 0 var(--space-2) var(--space-4);
   margin-top: var(--space-2);
@@ -1409,10 +1409,10 @@ figcaption {
 }
 
 /* Responsive: rail on desktop, disclosure on tablet/mobile.
-   (Reduced-motion is handled globally in base.css — transition-duration is
+   (Reduced-motion is handled globally in base.css: transition-duration is
    forced to ~0 and scroll-behavior to auto there.) */
 @media (max-width: 879px) {
-  /* Single column on phones + phone-landscape. No max-width cap — the prose
+  /* Single column on phones + phone-landscape. No max-width cap: the prose
      fills the viewport (its own 54rem cap only bites past ~864px, which this
      range never reaches), so there is no centered block with empty sides. */
   .post-layout {

@@ -1,5 +1,5 @@
 # ============================================================================
-# justfile — Alan Synn's academic homepage. Drives the Typst CV/resume
+# justfile: Alan Synn's academic homepage. Drives the Typst CV/resume
 # pipeline (reads the SAME content/*.yaml + src/data/papers.json the Astro web
 # reads) and the Astro web build.
 #
@@ -23,7 +23,7 @@ default: build
 # the research blurb + filters/reorders publications accordingly.
 #
 # Typst version is pinned in .tool-versions (currently 0.15.x). The pin is a
-# reproducibility floor, not a ceiling — bump it (and .tool-versions) when you
+# reproducibility floor, not a ceiling: bump it (and .tool-versions) when you
 # want to adopt a newer Typst release. Layout primitives are first-party in
 # resume/typst/layout.typ (no @preview runtime dependency).
 
@@ -55,7 +55,7 @@ pdfs: resume cv
 
 # Build resume + CV for the default + EVERY target variant in content/targets.yaml
 # (rebuilds the committed *-graphics.pdf / *-ml-systems.pdf etc. that `pdfs` and
-# `build` skip — those variants otherwise go stale after a targets.yaml edit or a
+# `build` skip: those variants otherwise go stale after a targets.yaml edit or a
 # per-entry only:/except: change). Run after editing targets or cv structure.
 pdfs-all:
     #!/usr/bin/env bash
@@ -98,7 +98,7 @@ build: web pdfs
 
 # Dev server (localhost:4321). Clears .astro first: Astro's content-collection
 # cache + astro-typst's compile cache (.astro/integrations/typst) both live
-# there and go stale on .typ edits / new posts — HMR doesn't reliably re-index
+# there and go stale on .typ edits / new posts: HMR doesn't reliably re-index
 # them, so a stale cache is why content sometimes won't show in dev. Clearing
 # guarantees dev reflects content. ~2-4s slower cold start; .astro regenerates.
 dev:
@@ -112,7 +112,7 @@ clips:
 
 # CSS-isolation guard for academic project pages. Builds the site, serves it via
 # `astro preview`, and asserts (Playwright) that the academic /projects/<slug>
-# route carries NO site main/tokens/base stylesheet in light + dark — the
+# route carries NO site main/tokens/base stylesheet in light + dark: the
 # load-bearing route-split invariant. Needs chromium (`bunx playwright install
 # chromium`). Mirrors what CI runs after build.
 check-isolation: web
@@ -122,7 +122,7 @@ check-isolation: web
     # - `astro preview` exits early when a preview daemon is already running
     #   (it reports the daemon instead of starting a server), so the recipe
     #   cannot assume it spawned the server it polls;
-    # - `just dev` serves :4321 — polling the 4321 default once measured a
+    # - `just dev` serves on 4321: polling the 4321 default once measured a
     #   dev server instead of the built dist and the guard failed spuriously.
     bun run preview --port 4322 &
     SERVER_PID=$!

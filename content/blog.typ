@@ -6,7 +6,7 @@
 #let blockquote(body) = html.elem("blockquote", body)
 #let hr = html.elem("hr")
 
-// A stack of short, related example sentences — e.g. "typical sentences sound
+// A stack of short, related example sentences, e.g. "typical sentences sound
 // like this". Each argument becomes its own <p> inside a blockquote.examples,
 // so the reader can scan one sentence per line instead of meeting a run-on
 // italic wall. Use `blockquote` for a single pull-quote/callout, `examples`
@@ -18,13 +18,13 @@
   items.pos().map((it) => html.elem("p", it)).join(),
 )
 
-// A collapsed section: native <details>/<summary>, folded by default — no JS,
+// A collapsed section: native <details>/<summary>, folded by default, no JS,
 // keyboard-toggleable, plain HTML so ClientRouter swaps are harmless (open state
 // resets on nav; acceptable). The title lives in <summary> ONLY, never an h2/h3:
 // Toc.astro builds its TOC + scroll-spy from .prose h2/h3, and a heading inside a
 // CLOSED details has no box (getBoundingClientRect() = 0), which would break the
 // active-entry math. Subsections inside a fold must therefore start at === (h4).
-// The body may hold paragraphs, lists, #examples(...), #blockquote[...] — anything
+// The body may hold paragraphs, lists, #examples(...), #blockquote[...], anything
 // HTML-representable; images only via #blogimg (it wraps the html.frame in a
 // <figure>). Call as:
 //   #fold("Performance in systems")[
@@ -39,10 +39,10 @@
 
 // A co-located figure: image + optional caption, emitted as a semantic
 // <figure>. The image is read at build time and embedded via html.frame, so no
-// separate static file is served — co-location (a folder next to the post's
+// separate static file is served; co-location (a folder next to the post's
 // .typ) is for source organization only. `src` is project-root-absolute, e.g.
 // "/content/blog/<slug>/diagram.svg"; `alt` is required (accessibility);
-// `caption` adds a <figcaption>. `width` must be an ABSOLUTE length (pt) — the
+// `caption` adds a <figcaption>. `width` must be an ABSOLUTE length (pt); the
 // html export frame has no reference width, so relative `%` renders at 0.
 // Figures are capped to the column on phones via `.prose figure svg` in CSS.
 // Call as:
@@ -70,7 +70,7 @@
   updatedDate: none,
 ) = {
 
-  // Every post must declare its own title / desc / date — never fall through to
+  // Every post must declare its own title / desc / date; never fall through to
   // a stock placeholder. `desc` drives <meta description>, OG/Twitter, RSS, and
   // the BlogPosting JSON-LD, so a missing one silently leaks a placeholder into
   // all of them. Fail the build loudly (same discipline as the strict content
@@ -81,12 +81,12 @@
   // lexicographic, which is only chronologically correct for that exact format.
   // Without this guard a dropped leading zero (e.g. updatedDate:"2026-2-28" vs
   // date:"2026-12-01") would sort BEFORE Dec and silently ship dateModified
-  // < datePublished — the very defect this assert exists to catch. Reject
+  // < datePublished, the very defect this assert exists to catch. Reject
   // non-conforming values at the source so the error points here, not at a
   // downstream Zod parse. Semantic validity (month/day range, leap years) is
   // left to z.coerce.date() in content.config.ts as a second backstop.
   // repr() (not str()) in the messages: assert args are evaluated eagerly even
-  // when the condition holds, and str(none) is itself a Typst error — so a
+  // when the condition holds, and str(none) is itself a Typst error, so a
   // post with no updatedDate would crash compiling the message, not failing the
   // assert. repr() stringifies any value (none → "none", "2026-2-28" → that).
   let iso = regex("^\\d{4}-\\d{2}-\\d{2}$")
@@ -129,13 +129,13 @@
     
 
     // Footnotes: the inline marker is an HTML anchor to #footnote-N (not a
-    // Typst link(label()) — that needs a real <footnote-N> label, which the
+    // Typst link(label()); that needs a real <footnote-N> label, which the
     // endnote div below can't synthesize). The matching id lives on the div.
     show footnote: it => context {
       let num = counter(footnote).get().at(0)
       html.elem("a", attrs: ("href": "#footnote-" + str(num)), super(str(num)))
     }
-    // Suppress Typst's NATIVE footnote entries — they would double-render
+    // Suppress Typst's NATIVE footnote entries; they would double-render
     // alongside the manual query(footnote) endnote list below. Must live at
     // this (document) scope, NOT nested in a `show: it =>` block: footnote
     // entries are emitted at document finalize, outside the body content `it`,
@@ -143,9 +143,9 @@
     show footnote.entry: none
 
 
-    // Main body. (No inline outline — the floating scroll-spy TOC is built
+    // Main body. (No inline outline: the floating scroll-spy TOC is built
     // client-side from the rendered <h2>/<h3> in Toc.astro; see src/pages/blog/[...slug].astro.)
-    // Left-aligned (not justified) — justification creates rivers on the web.
+    // Left-aligned (not justified): justification creates rivers on the web.
     it
 
   }

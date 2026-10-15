@@ -1,5 +1,5 @@
 // ============================================================================
-// academic.typ — first-party port of the owner's LaTeX CV class
+// academic.typ: first-party port of the owner's LaTeX CV class
 // (academiccv.cls v1.1, 2026/09/30; article-based, Latin Modern, hidelinks).
 //
 // CV-only layout family: resume.typ / paper-page.typ keep the
@@ -25,7 +25,7 @@
 //   hidelinks: links stay clickable but carry NO visible styling  → no show rule
 //
 // Deliberately NOT ported: the review-mode machinery (Q-labels), the phone
-// number in \cvcontact (owner directive — the contact line is built from
+// number in \cvcontact (owner directive: the contact line is built from
 // site.yaml and carries only email · site url), and \cvdate (the footer date
 // is the compile date; the cls pins it manually).
 //
@@ -60,7 +60,7 @@
   set page(
     paper: "us-letter",
     margin: margin,
-    // cls: page 1 uses \thispagestyle{cvfirst} — no running header there.
+    // cls: page 1 uses \thispagestyle{cvfirst}: no running header there.
     header: context {
       if counter(page).get().first() > 1 {
         set text(size: 10pt, fill: acad-gray)
@@ -73,7 +73,7 @@
     },
     footer: {
       // cls \fancyfoot: \cv@date left, "n / LastPage" right, footnotesize gray.
-      // The date is the compile date — the PDF is rebuilt on every content
+      // The date is the compile date: the PDF is rebuilt on every content
       // change, so it never goes stale (the cls pins it via \cvdate instead).
       let today = datetime.today().display("[day] [month repr:long] [year]")
       set text(size: 9pt, fill: acad-gray)
@@ -116,7 +116,7 @@
 }
 
 // cls cventry/cvcompact tabularx row: X (raggedright) | p{1.48in} raggedleft.
-// Param names must NOT be left/right — they shadow Typst's alignment constants
+// Param names must NOT be left/right: they shadow Typst's alignment constants
 // (first port attempt did, and `left + top` became content + alignment).
 #let acad-entry-grid(left-text, right-text, left-weight: none) = {
   grid(
@@ -135,7 +135,7 @@
   list(marker: [•], indent: 1.1em, body-indent: 0.5em, spacing: spacing, ..items)
 }
 
-// cls cvpublications: hanging list — label width 2.05em right-aligned bold,
+// cls cvpublications: hanging list: label width 2.05em right-aligned bold,
 // 0.5em label separation (→ 2.55em left margin), 6pt between items.
 #let acad-pub-item(label, body) = {
   grid(

@@ -1,5 +1,5 @@
 // @ts-nocheck
-// robot-ik.ts — real-time IK engine, lazily imported by RobotIK.astro.
+// robot-ik.ts: real-time IK engine, lazily imported by RobotIK.astro.
 // @ts-nocheck (line 1): DOM glue (DOMPoint/getScreenCTM/rAF); correctness proven
 // by the Playwright DOM-FK test + ik.ts, not types. Directive MUST be line 1.
 import { ikLeg, ikLegPole, gaitFoot, V, add, sub, fkLeg } from '@/lib/ik';
@@ -8,7 +8,7 @@ const PI2 = Math.PI / 2;
 const clamp01 = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
 const lerp = (a, b, t) => a + (b - a) * t;
 // delta-gate DOM writes: a joint's pivot is constant, so the rounded angle string
-// uniquely identifies the transform — skip the build + setAttribute when unchanged.
+// uniquely identifies the transform: skip the build + setAttribute when unchanged.
 // Cuts string alloc + SVG style invalidation on frames where toFixed(2) collapses
 // (sine terms near extrema) or a rig is effectively still.
 const _lastJ = new WeakMap();
@@ -106,7 +106,7 @@ function dangleAngles(id, frame, piv, l1, ikSol, ikShin, ikMid, footAbs) {
   } else {
     const k = 1 - Math.exp(-lastDt / 140);
     ov.blend = lerp(ov.blend, 0, k);
-    // ikMid?.x — null-safe: caller passes null on the idle path; the deref only
+    // ikMid?.x: null-safe: caller passes null on the idle path; the deref only
     // runs post-`!ov` guard, but the ?. keeps dangleAngles robust to reordering.
     ov.target = V(
       lerp(ov.target.x, ikMid?.x ?? ov.target.x, k),
@@ -247,7 +247,7 @@ let LEG_RIGS = [],
   ARM_RIGS = [];
 // IO-visible rig elements. driveLegs/driveArm are gated on membership so an
 // off-screen rig (footer arm while reading the hero, legs past the fold) is skipped
-// entirely — a level-of-detail cull. The harness forces every rig intersecting, so
+// entirely: a level-of-detail cull. The harness forces every rig intersecting, so
 // this stays bit-exact; in production it cuts ~half the solves in single-rig bands.
 const visible = new Set();
 
@@ -324,7 +324,7 @@ function onPointerUp(e) {
 
 // View-Transition safety. The engine module is a singleton (Astro dedupes the
 // <script>, so its top level runs once), but every client-side nav swaps the
-// [data-rig] DOM nodes out from under it — the cached rig refs go stale and the
+// [data-rig] DOM nodes out from under it: the cached rig refs go stale and the
 // new rigs freeze at their rest pose. init() is exported so RobotIK.astro can
 // re-call it on `astro:page-load`; it tears down the previous instance (cancel
 // rAF, disconnect IO, strip window listeners, clear rig caches + drag state)
@@ -353,7 +353,7 @@ function init() {
   const rigs = [...document.querySelectorAll('[data-rig]')];
   if (!rigs.length) return;
 
-  // window listeners are tracked so teardown can remove every one — without this
+  // window listeners are tracked so teardown can remove every one: without this
   // each re-init would stack another pointerdown/scroll/resize handler (leak +
   // double-work). addWin is the single registration path.
   const win: Array<[string, EventListenerOrEventListenerObject, AddEventListenerOptions?]> = [];

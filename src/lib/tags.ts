@@ -1,4 +1,4 @@
-// Tag display label — single source shared by /blog, the post page, and the
+// Tag display label: single source shared by /blog, the post page, and the
 // RSS feed titles (feed.ts must stay server-only, hence this plain module).
 // Title-cases a kebab slug (career-advice → "Career Advice"); lowercase
 // acronyms go all-caps via an explicit set (ai → "AI"); short stopwords stay

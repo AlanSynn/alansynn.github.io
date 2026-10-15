@@ -1,18 +1,18 @@
 ---
-// SubscribePostscript — the site-wide subscribe ask as a P.S. (round-4 draft #62).
+// SubscribePostscript: the site-wide subscribe ask as a P.S. (round-4 draft #62).
 // One complete sentence in the page's own voice, form following as an act;
 // RSS is announced in-prose as the alternative. The only interactive
 // silhouettes are the empty underlined slot and the boxed quiet button. No
-// drawer, no card — the ?ok= return simply fills the in-flow status line
+// drawer, no card: the ?ok= return simply fills the in-flow status line
 // (nothing to reopen).
-// Placed where posts live (owner revision 2026-09-30 — the homepage placement
+// Placed where posts live (owner revision 2026-09-30: the homepage placement
 // after Contact was removed: a blog ask under a contact invitation read as a
 // second contact form, and homepage blog discovery is the News pointers' job):
 // /blog list foot, and every blog post above the comments.
 import { site } from '@/lib/data';
 
 // Absolute feed + return URLs (the provider 302s back to `return`, blindly
-// appending ?title=…&message=…&ok=… — so `return` must be query-free).
+// appending ?title=…&message=…&ok=…: so `return` must be query-free).
 const feedUrl = `${site.url.replace(/\/$/, '')}/rss.xml`;
 const returnUrl = `${site.url.replace(/\/$/, '')}${Astro.url.pathname}`;
 ---
@@ -54,8 +54,8 @@ const returnUrl = `${site.url.replace(/\/$/, '')}${Astro.url.pathname}`;
 <script is:inline data-astro-rerun>
   (function () {
     // Email-subscription result. Simple Newsletter 302s back with
-    // title/message/ok; only `ok` is read — provider text is untrusted and
-    // never rendered — and the message is a local string. The status is a
+    // title/message/ok; only `ok` is read: provider text is untrusted and
+    // never rendered, and the message is a local string. The status is a
     // plain in-flow paragraph now, so there is no drawer to reopen: it just
     // appears and is scrolled into view. Params are scrubbed afterwards.
     var status = document.querySelector('.psub__status');

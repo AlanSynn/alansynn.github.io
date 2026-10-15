@@ -3,7 +3,7 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 
 // Fetch a single project by its slug (the filename stem under content/projects/).
 // Used by the per-work-project static route files (see src/pages/projects/*.astro
-// for the 3 work projects) — academic/paper projects are served by [slug].astro.
+// for the 3 work projects): academic/paper projects are served by [slug].astro.
 export async function getProjectBySlug(slug: string): Promise<CollectionEntry<'projects'>> {
   const all = await getCollection('projects');
   const project = all.find((p) => p.id === slug);
@@ -17,7 +17,7 @@ export async function getProjectBySlug(slug: string): Promise<CollectionEntry<'p
 }
 
 // Canonical sort/group year for a project. For a work project this is its MOST
-// RECENT activity — the END of the period range — so newest-first ordering
+// RECENT activity (the END of the period range) so newest-first ordering
 // matches #publications (a pub's year is its "of record"/end event). An explicit
 // frontmatter `date` overrides the period-string parse as a deterministic
 // escape hatch for odd ranges. Returns null only if neither yields a 4-digit
@@ -34,7 +34,7 @@ export function projectYear(p: CollectionEntry<'projects'>): number | null {
 
 // Homepage #projects = work/engineering only, newest year first (end-of-range),
 // mirroring #publications. `order` is now just an in-year tiebreaker (higher =
-// earlier within the same year) — no global manual rank, so adding a project
+// earlier within the same year): no global manual rank, so adding a project
 // never requires renumbering. Throws if a work project has no parseable year
 // (no 4-digit year in `period` and no `date`), matching the repo's fail-loud
 // convention so a future entry can't silently misorder.
@@ -44,7 +44,7 @@ export async function getWorkProjects(): Promise<CollectionEntry<'projects'>[]> 
   for (const p of work) {
     if (projectYear(p) === null) {
       throw new Error(
-        `[content] work project "${p.id}" has no parseable year — give its ` +
+        `[content] work project "${p.id}" has no parseable year: give its ` +
           `frontmatter a \`period\` with a 4-digit year (e.g. "2024") or an ` +
           `explicit \`date\`. The homepage sorts projects by year.`,
       );

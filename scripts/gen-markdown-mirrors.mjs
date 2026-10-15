@@ -1,4 +1,4 @@
-// gen-markdown-mirrors.mjs — emit a text/markdown sibling for every built page.
+// gen-markdown-mirrors.mjs: emit a text/markdown sibling for every built page.
 //
 // "Markdown for Agents" (Cloudflare's documented agent-content pattern): agents
 // that send `Accept: text/markdown` should get markdown instead of dense HTML.
@@ -7,7 +7,7 @@
 // script supplies the static target: one .md file per HTML page in dist/.
 //
 // Mirror layout is `<dir>/index.md` on purpose: the edge rule rewrites
-// `/blog/foo/` → `/blog/foo/index.md` and `/` → `/index.md` — the rules
+// `/blog/foo/` → `/blog/foo/index.md` and `/` → `/index.md`: the rules
 // language has no conditional functions, so the applied rule is a plain
 // `concat(uri.path, "index.md")` against this uniform `…/index.md` layout.
 // Keep the two in sync.
@@ -44,7 +44,7 @@ function mirrorPath(htmlPath) {
 
 // Pages carry exactly one content container: site pages use
 // <main id="main" data-pagefind-body>, academic project pages (MicrositeShell)
-// use their own markup — fall back to <body> minus scripts/styles.
+// use their own markup: fall back to <body> minus scripts/styles.
 function extractContent(html) {
   const main = html.match(/<main[^>]*>([\s\S]*?)<\/main>/i);
   const chunk = main ? main[1] : (html.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1] ?? '');

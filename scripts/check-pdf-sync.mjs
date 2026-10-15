@@ -3,7 +3,7 @@
 // CI is web-only (`bun run build`), so the committed resume/CV PDFs in
 // public/pdfs/ are only ever rebuilt locally by `just pdfs`. If a dev edits a
 // PDF-source file and commits WITHOUT rebuilding + staging the PDFs, the live
-// site's web reflects the edit but its PDFs go stale — silent drift with zero
+// site's web reflects the edit but its PDFs go stale: silent drift with zero
 // detection. This guard fails the commit in that case (the --no-verify escape
 // hatch covers a genuinely PDF-inert edit, e.g. a venue for a paper that isn't
 // selected).
@@ -20,7 +20,7 @@
 import { execSync } from 'node:child_process';
 
 // Content files the Typst template reads (lib.typ data loaders) PLUS the Typst
-// sources themselves — any can change PDF output; an edit with no staged PDF =
+// sources themselves: any can change PDF output; an edit with no staged PDF =
 // drift risk. (Typst sources included because a lib.typ/layout edit changes
 // every PDF just as a cv.yaml edit does.)
 const PDF_SOURCES = [
@@ -66,19 +66,19 @@ if (changedPdfs.length === 0) {
 }
 // A variant-affecting source changed but no targeted-variant PDF was staged →
 // `just pdfs` (defaults only) was run; the committed *-<target>.pdf go stale.
-// (Typst embeds a build timestamp, so `just pdfs-all` churns every variant —
+// (Typst embeds a build timestamp, so `just pdfs-all` churns every variant:
 // "no variant PDF staged" reliably signals pdfs-all was NOT run.)
 const variantSourceChanged = changedSources.some((f) => !DEFAULT_ONLY_SOURCES.has(f));
 if (variantSourceChanged && variantPdfs.length === 0) {
   problems.push(
-    'a variant-affecting source changed but no targeted-variant PDF (*-graphics.pdf / *-ml-systems.pdf) is staged — `just pdfs` rebuilds defaults only; run `just pdfs-all`',
+    'a variant-affecting source changed but no targeted-variant PDF (*-graphics.pdf / *-ml-systems.pdf) is staged: `just pdfs` rebuilds defaults only; run `just pdfs-all`',
   );
 }
 
 if (problems.length === 0) process.exit(0);
 
 console.error(
-  '\n[check-pdf-sync] PDF drift — CI is web-only and never rebuilds the committed\n' +
+  '\n[check-pdf-sync] PDF drift: CI is web-only and never rebuilds the committed\n' +
     'PDFs, so a content/Typst edit must ship with its rebuilt public/pdfs/*.pdf:\n' +
     problems.map((p) => `  - ${p}`).join('\n') +
     '\n  Fix: `just pdfs-all` (defaults + every target variant), then\n' +

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// video-clips.mjs — build-time pipeline: each paper/project video → small muted
+// video-clips.mjs: build-time pipeline: each paper/project video → small muted
 // ~0-15s clip (lazy thumbnail). Output: public/video-clips/ + src/data/video-clips.json.
 // Sources: papers.bib `video={}` + projects/*.md `video:` frontmatter.
 // Idempotent (skips existing); skips YouTube if yt-dlp missing. Usage: node scripts/video-clips.mjs
@@ -44,7 +44,7 @@ function classify(source) {
   if (/youtube\.com|youtu\.be/i.test(source)) return 'youtube';
   if (YOUTUBE_ID.test(source)) return 'youtube'; // bare 11-char id
   if (/^https?:\/\/.+\.(mp4)(\?.*)?$/i.test(source)) return 'direct';
-  if (/^https?:\/\//i.test(source)) return 'direct'; // remote, non-mp4 — try anyway
+  if (/^https?:\/\//i.test(source)) return 'direct'; // remote, non-mp4: try anyway
   if (source.startsWith('/')) return 'direct'; // local public/ path
   return 'direct';
 }
@@ -103,7 +103,7 @@ function discoverFromBib() {
       else if (c === '}') depth--;
       j++;
     }
-    if (depth !== 0) break; // unbalanced bib — stop
+    if (depth !== 0) break; // unbalanced bib: stop
     const inner = text.slice(openBrace + 1, j - 1);
     i = j;
     // citekey = up to first comma

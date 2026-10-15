@@ -1,4 +1,4 @@
-// gen-papers-json.mjs — bridges the BibTeX parser (src/lib/papers.ts) to Typst
+// gen-papers-json.mjs: bridges the BibTeX parser (src/lib/papers.ts) to Typst
 // (which can't read .bib): emits a JSON array via json("..."). Reuses getPapers()
 // so web + resume + CV agree. Usage: node scripts/gen-papers-json.mjs
 import { writeFileSync } from 'node:fs';

@@ -18,7 +18,7 @@
   --hairline-strong: #d3d7dd; /* emphasized rules                            */
   --grid-line: transparent; /* grid removed for a clean academic surface   */
 
-  --accent: #1d4e89; /* royal blue — avatar's blue spoke band       */
+  --accent: #1d4e89; /* royal blue: avatar's blue spoke band       */
   --accent-strong: #163a6b; /* hover / pressed (deeper navy)               */
   --accent-soft: rgba(29, 78, 137, 0.1);
   --accent-softer: rgba(29, 78, 137, 0.05);
@@ -107,7 +107,7 @@
   --hairline-strong: #3a444c;
   --grid-line: rgba(255, 255, 255, 0.028);
 
-  --accent: #6ba8ff; /* sky azure — lifted avatar blue, dark-bg pop */
+  --accent: #6ba8ff; /* sky azure: lifted avatar blue, dark-bg pop */
   --accent-strong: #8fbcff;
   --accent-soft: rgba(107, 168, 255, 0.14);
   --accent-softer: rgba(107, 168, 255, 0.07);

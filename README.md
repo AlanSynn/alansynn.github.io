@@ -1,11 +1,11 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/coupler-dark.svg">
-    <img src="docs/coupler.svg" width="280" alt="Four-bar coupler curve — the site's kinematics motif">
+    <img src="docs/coupler.svg" width="280" alt="Four-bar coupler curve: the site's kinematics motif">
   </picture>
 </p>
 
-<h1 align="center">Alan Synn — An Academic in Motion</h1>
+<h1 align="center">Alan Synn: An Academic in Motion</h1>
 
 <p align="center">
   One repo, one content source → <strong>website + resume + CV + targeted variants.</strong><br>
@@ -29,7 +29,7 @@
 
 > **Dual license.** Code is MIT; written content (blog, CV, projects) is © Alan Synn under CC BY-NC-ND 4.0. See [License](#license) for the split.
 
-The curve above traces motion itself — the path a point on a moving linkage follows (a **coupler curve**, from the kinematics Alan works on). That same spare line-drawing style runs through the live site, where a robot arm waves from the footer.
+The curve above traces motion itself: the path a point on a moving linkage follows (a **coupler curve**, from the kinematics Alan works on). That same spare line-drawing style runs through the live site, where a robot arm waves from the footer.
 
 ```mermaid
 flowchart LR
@@ -39,10 +39,10 @@ flowchart LR
   PDF --> OUT["public/pdfs/*.pdf"]
 ```
 
-- **Web** — Astro + Typst. Prose and equations render to clean HTML at build time — no heavy math scripts in your browser.
-- **Resume / CV** — one Typst template turns the same data into PDFs (`public/pdfs/`).
-- **Targeted variants** — spin a graphics-focused or ML-systems-focused resume with one command (`just resume graphics`). Add your own target in `content/targets.yaml` — no code change.
-- **Validated** — every content file is checked at build, so a typo or stale field fails loudly instead of silently doing nothing.
+- **Web**: Astro + Typst. Prose and equations render to clean HTML at build time, no heavy math scripts in your browser.
+- **Resume / CV**: one Typst template turns the same data into PDFs (`public/pdfs/`).
+- **Targeted variants**: spin a graphics-focused or ML-systems-focused resume with one command (`just resume graphics`). Add your own target in `content/targets.yaml`, no code change.
+- **Validated**: every content file is checked at build, so a typo or stale field fails loudly instead of silently doing nothing.
 
 ## Quick start
 
@@ -67,7 +67,7 @@ just build       # web + default resume/CV PDFs
 Requirements: `bun` 1.3+, `just`, `typst` 0.15+ (pinned in `.tool-versions`), `ffmpeg` (`yt-dlp` optional).
 
 <details>
-<summary><strong>Content map</strong> — what lives where</summary>
+<summary><strong>Content map</strong>: what lives where</summary>
 
 ```
 content/                   ← edit EVERYTHING here; the only dir a human edits
@@ -79,16 +79,16 @@ content/                   ← edit EVERYTHING here; the only dir a human edits
   venues.yaml              venue badges + pub type (journal / conference / preprint)
   coauthors.yaml           author-name hyperlinks
   targets.yaml             targeted PDF variants (graphics / ml-systems)
-  papers.bib               publications — the ONLY pub source
+  papers.bib               publications: the ONLY pub source
   news.yaml                news items (homepage shows the 8 most recent)
   projects/*.md            project pages (one file per project)
   blog/*.typ               long-form posts (Typst)
 
-src/lib/content-schema.ts  Zod schemas — the shape of every YAML above (strict)
+src/lib/content-schema.ts  Zod schemas: the shape of every YAML above (strict)
 src/content.config.ts      Zod schema for projects/*.md + blog/*.typ frontmatter
 src/lib/data.ts            single import surface; parses each YAML through its schema
 src/lib/papers.ts          dependency-free BibTeX parser (build-time)
-src/data/                  generated only — never hand-edit (papers.json, video-clips.json)
+src/data/                  generated only: never hand-edit (papers.json, video-clips.json)
 resume/typst/              Typst CV/resume engine (PDF)
   layout.typ               first-party layout toolkit (CV primitives)
   lib.typ                  shared module: data loaders, target logic, render fns
@@ -101,11 +101,11 @@ justfile                   the build orchestrator
 </details>
 
 <details>
-<summary><strong>Edit cycle</strong> — how to change each kind of thing</summary>
+<summary><strong>Edit cycle</strong>: how to change each kind of thing</summary>
 
 - **A publication** → add an `@inproceedings{…}` / `@article{…}` entry to `content/papers.bib` (`selected`, `featured`, `abbr`, `pdf`, `code`, `website`, `video`, `preview`, `abstract`). Then `just build`.
 - **A news item** → add a `{ date, link?, highlight?, body }` entry to `content/news.yaml`.
-- **A project / blog post** → drop a file in `content/projects/*.md` or `content/blog/*.typ`. A *work* project (`category: work`) also needs a static route file `src/pages/projects/<slug>.astro` (copy an existing one) — the build fails with a precise message otherwise. Research/paper pages (`category: research` + a `paper:` citekey) need no route file.
+- **A project / blog post** → drop a file in `content/projects/*.md` or `content/blog/*.typ`. A *work* project (`category: work`) also needs a static route file `src/pages/projects/<slug>.astro` (copy an existing one): the build fails with a precise message otherwise. Research/paper pages (`category: research` + a `paper:` citekey) need no route file.
 - **A CV detail** → edit the matching section in `content/cv.yaml`. Web + resume + CV all update.
 - **A targeted resume** → `just resume <target>` (`graphics`, `ml-systems` built in). Add a target in `content/targets.yaml`. Per-entry show/hide: any YAML entry may carry `only: [graphics]` or `except: [ml-systems]`, honored on **both** web and PDF.
 - **A video figure** → set `video={...}` in `papers.bib` or a project's frontmatter, run `just clips`, commit the clip + manifest.
@@ -113,14 +113,14 @@ justfile                   the build orchestrator
 </details>
 
 <details>
-<summary><strong>Validation</strong> — how the build catches mistakes</summary>
+<summary><strong>Validation</strong>: how the build catches mistakes</summary>
 
 `src/lib/content-schema.ts` holds a **strict** Zod schema for every structured YAML in `content/`. `src/lib/data.ts` parses each through its schema, so:
 
 - a **bad key / wrong type / missing field** → build fails with a located error;
-- an **unknown field** (a typo, or a key with no consumer) → build fails too — a dead field can never silently do nothing.
+- an **unknown field** (a typo, or a key with no consumer) → build fails too: a dead field can never silently do nothing.
 
-Three cross-reference rules are enforced at build — **all fail the build** with a located message:
+Three cross-reference rules are enforced at build: **all fail the build** with a located message:
 
 - a paper whose `abbr` has no matching key in `venues.yaml` → the badge would render bare (add the venue key);
 - a paper flagged `featured` (web-top) without `selected` (PDF) → a featured paper must also appear in the CV/resume;
@@ -146,7 +146,7 @@ Web on [`ahxt/academic-homepage-typst`](https://github.com/ahxt/academic-homepag
 
 ## License
 
-This repo is dual-licensed — the license follows the nature of each file.
+This repo is dual-licensed: the license follows the nature of each file.
 
 | Scope | License | Covers |
 |---|---|---|
@@ -155,4 +155,4 @@ This repo is dual-licensed — the license follows the nature of each file.
 
 Generated artifacts (`src/data/*.json`) and rendered PDFs are derivatives of `content/` and follow the content license. Third-party layout primitives (`resume/typst/layout.typ`, adapted from `cv-soft-and-hard`, MIT) and vendored libraries (`src/3rd_party/`) retain their upstream licenses. Full details in [`NOTICE`](./NOTICE).
 
-**Forking the code?** Replace `content/` with your own — the default prose is CC BY-NC-ND, not MIT.
+**Forking the code?** Replace `content/` with your own: the default prose is CC BY-NC-ND, not MIT.

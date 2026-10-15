@@ -1,4 +1,4 @@
-// data.ts — single access point for all structured content. YAML lives in
+// data.ts: single access point for all structured content. YAML lives in
 // content/ (sole user-edit zone); papers.bib parsed at build by papers.ts.
 // Every YAML is parsed through a strict Zod schema (content-schema.ts), so a
 // typo or unknown key fails loudly at build. enforcePaperIntegrity runs at
@@ -30,7 +30,7 @@ import {
 } from './content-schema';
 
 // Parse through a schema; on failure rethrow with the source filename so the
-// error names the YAML. Zod gives a field path but NOT the file — a bare
+// error names the YAML. Zod gives a field path but NOT the file: a bare
 // "education[0].title: Required" becomes "[content/cv.yaml] education[0].title".
 function parseFile<T>(schema: z.ZodType<T>, data: unknown, file: string): T {
   try {
@@ -116,7 +116,7 @@ export const newsItems: NewsItem[] = parseFile(z.array(newsItemSchema), newsRaw,
 
 // Cross-ref integrity. All THROW, fire once at init:
 //  - only:/except: ids on cv/honors entries must be real target ids (a typo
-//    otherwise hides the entry on web AND every PDF target — silent vanish).
+//    otherwise hides the entry on web AND every PDF target: silent vanish).
 //  - paper abbr ∈ venues.yaml; featured → selected.
 enforceTargetFlags(
   [...cv.education, ...cv.experience, ...cv.teaching, ...cv.activities, ...cv.outreach],
@@ -152,7 +152,7 @@ export function coauthorUrl(family: string, given: string): string | null {
 // Lookup a paper by its bib citekey. Academic project pages DRY-link their
 // hero/citation/BibTeX to the papers.bib source via a `paper:` frontmatter
 // field; this resolves it. Linear scan over the cached list (tiny). Returns
-// null if not found — the caller in [slug].astro getStaticPaths throws on miss.
+// null if not found: the caller in [slug].astro getStaticPaths throws on miss.
 export function getPaperByKey(key: string): Paper | null {
   return getPapers().find((p) => p.key === key) ?? null;
 }
@@ -162,7 +162,7 @@ const ORIGIN = (site.url as string).replace(/\/$/, '');
 
 // True for URLs that point at a route ON THIS SITE (root-relative paths or
 // same-origin absolute). Such links must navigate client-side (same tab) so
-// Astro's ClientRouter view-transitions fire — opening them in a new tab or as
+// Astro's ClientRouter view-transitions fire: opening them in a new tab or as
 // a full load to the production origin defeats both transitions and local dev.
 export function isInternalHref(u: string | null | undefined): boolean {
   if (!u) return false;

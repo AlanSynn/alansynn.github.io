@@ -1,5 +1,5 @@
 ---
-// Base.astro — document shell. Headerless (single-page CV); theme toggle replaces nav.
+// Base.astro: document shell. Headerless (single-page CV); theme toggle replaces nav.
 import '../styles/main.css';
 import { ClientRouter } from 'astro:transitions';
 import ThemeToggle from '../components/ThemeToggle.astro';
@@ -24,7 +24,7 @@ interface Props {
   article?: ArticleMeta;
   /* emit <meta name="robots" content="noindex, nofollow">. Passed from
      [...slug].astro as `post.data.draft` so reachable-but-unreleased draft posts
-     are never indexed — parity with project `unlisted` (MicrositeShell noindex).
+     are never indexed: parity with project `unlisted` (MicrositeShell noindex).
      The sitemap filter (astro.config.mjs) also drops draft URLs. */
   noindex?: boolean;
   /* Page-specific share image (root-relative or absolute). Work-project pages
@@ -34,7 +34,7 @@ interface Props {
   /* The homepage passes this: the page IS the person's profile, so its JSON-LD
      is a Google-supported ProfilePage wrapping the Person (bare `Person` alone
      never triggers a rich result). Other non-article pages keep the plain
-     Person node — valid entity data without claiming to be a profile page. */
+     Person node: valid entity data without claiming to be a profile page. */
   profile?: boolean;
 }
 const {
@@ -78,8 +78,8 @@ const abs = (u?: string | null) =>
 // Site-default social image = the robot-motif composite (public/og.png,
 // rasterized from public/og.svg: arm rising bottom-left, legs hanging
 // top-right). Paper pages override with their own `preview`; project pages
-// carry their own image in MicrositeShell. Everything else — home, /blog,
-// /search, individual posts — falls back to this.
+// carry their own image in MicrositeShell. Everything else: home, /blog,
+// /search, individual posts: falls back to this.
 const defaultOg = abs('/og.png');
 const canonical = new URL(Astro.url.pathname, site.url).href;
 // Scholar prefers YYYY/MM (or YYYY/MM/DD); fall back to bare year.
@@ -92,11 +92,11 @@ const citeDate =
 
 // ScholarlyArticle for paper pages; BlogPosting for blog posts; Person (or the
 // homepage's ProfilePage wrapping it) for everything else. The branch keeps
-// each page type's structured data honest — a blog post is an Article, not a
+// each page type's structured data honest: a blog post is an Article, not a
 // Person.
 // The site owner as a schema.org entity. `@id` gives it a stable identity that
 // other pages' JSON-LD can point at (BlogPosting author does, via the
-// conditional below). Real profile photo, not the og composite — entity
+// conditional below). Real profile photo, not the og composite: entity
 // identity wants a face. alternateName carries BOTH public name variants so
 // queries on the legal name ("DoangJoo Synn") resolve to the same entity.
 const legalName = `${site.first_name} ${site.last_name}`;
@@ -114,7 +114,7 @@ const personNode = {
   ...(site.keywords?.length ? { knowsAbout: site.keywords } : {}),
   sameAs,
 };
-// Top-level WebSite node — Google's site-name SERP feature reads `name`/
+// Top-level WebSite node: Google's site-name SERP feature reads `name`/
 // `alternateName` from exactly this shape (the nested Person.subjectOf node
 // has no name and is ignored for it). Emitted alongside the ProfilePage.
 const websiteNode = {
@@ -163,7 +163,7 @@ const jsonld = paper
           name: article.authorName ?? site.name,
           url: site.url,
           // Entity-link the author to the homepage's ProfilePage node when the
-          // author IS the site owner — Google uses @id links to attach recent
+          // author IS the site owner: Google uses @id links to attach recent
           // articles to the profile. A future guest author must NOT claim
           // that identity, so the id is conditional on the name.
           ...([site.name, site.short_name].includes(article.authorName ?? site.name)
@@ -178,7 +178,7 @@ const jsonld = paper
         image: defaultOg,
         mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
         // License + topical keywords: the machine-readable attribution trail.
-        // (Papers above do NOT get this license — their copyright belongs to
+        // (Papers above do NOT get this license: their copyright belongs to
         // the publisher; only the blog text is CC BY-NC-ND.)
         license: 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
         isAccessibleForFree: true,
@@ -193,7 +193,7 @@ const jsonld = paper
               // Google's supported rich-result type for a page that IS a
               // person's profile ("About me" pages are explicitly valid); bare
               // Person never triggers a rich result. dateCreated/dateModified
-              // are recommended but omitted — the template has no honest value
+              // are recommended but omitted: the template has no honest value
               // for them, and wrong dates are worse than none.
               '@context': 'https://schema.org',
               '@type': 'ProfilePage',
@@ -206,7 +206,7 @@ const jsonld = paper
 // Harden the JSON-LD against inline-script breakout: JSON.stringify escapes
 // quotes/backslashes but NOT `<`, so a paper title, venue, or author containing
 // `</script>` would terminate this <script> early. Replacing `<` with its JSON
-// unicode escape is the standard mitigation — JSON parsers still decode it to
+// unicode escape is the standard mitigation: JSON parsers still decode it to
 // `<`, but the HTML tokenizer sees no closing tag. (Paper/blog content is
 // first-party, but the hardening is cheap and removes the footgun for good.)
 const jsonldSafe = jsonld.replace(/</g, '\\u003c');
@@ -312,18 +312,18 @@ const ogType = paper || article ? 'article' : 'website';
       href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Hanken+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    {/* Manrope — only on academic paper pages (the microsite port design). */}
+    {/* Manrope: only on academic paper pages (the microsite port design). */}
     {paper && (
       <link
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
         rel="stylesheet"
       />
     )}
-    {/* MathML fonts — only blog posts render MathML (mathyml prelude), so the
+    {/* MathML fonts: only blog posts render MathML (mathyml prelude), so the
         third-party stylesheet is scoped to post pages; on every other page it
         would be a render-blocking request for a font face nothing uses.
         (Search-result snippets may show math in the browser's native MathML
-        styling — degraded typography, not broken rendering.) */}
+        styling: degraded typography, not broken rendering.) */}
     {article && (
       <link
         rel="stylesheet"
@@ -337,12 +337,12 @@ const ogType = paper || article ? 'article' : 'website';
       // persistent `astro:after-swap` listener below. Without that re-run, the
       // `data-theme` attribute (set here at runtime, not in the HTML source) is
       // lost when the ClientRouter swaps to/from the isolated MicrositeShell
-      // (academic project pages — no theme script of their own), and the
+      // (academic project pages: no theme script of their own), and the
       // `:root:not([data-theme])` + `prefers-color-scheme: dark` fallback in
       // tokens.css flips the site dark regardless of the stored choice. The
       // listener is registered once on first load and survives all client-side
       // navs (the ClientRouter keeps the same `document`), so it fires on every
-      // swap — before paint, so there's no flash.
+      // swap: before paint, so there's no flash.
       (function () {
         document.documentElement.classList.remove('no-js'); // JS is on -> reveal animations active
         function applyTheme() {
@@ -371,7 +371,7 @@ const ogType = paper || article ? 'article' : 'website';
     </a>
     {/* noindex pages (blog drafts, 404, /search) also drop out of the on-site
         Pagefind index: once ANY page emits data-pagefind-body, Pagefind
-        excludes every page that lacks it — reachable-but-not-indexed pages
+        excludes every page that lacks it: reachable-but-not-indexed pages
         shouldn't surface in site search either. */}
     <main
       id="main"

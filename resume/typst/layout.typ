@@ -1,20 +1,20 @@
 // ============================================================================
-// layout.typ — first-party paper-handout layout toolkit.
+// layout.typ: first-party paper-handout layout toolkit.
 //
 // Adapted from cv-soft-and-hard 0.1.0 by Jonas Pleyer (MIT License,
 // © Jonas Pleyer; source https://github.com/jonaspleyer/cv-soft-and-hard).
 // Brought in-house as first-party code so the template is fully owned and
-// freely editable — the upstream @preview package is no longer a runtime
+// freely editable: the upstream @preview package is no longer a runtime
 // dependency. (MIT attribution preserved per license; see CLAUDE.md "Stack".)
 //
 // The CV and resume now render in the academiccv.cls 양식 (academic.typ);
 // this toolkit's remaining consumer is the one-page paper handout
 // (paper-page.typ). Provides:
-//   global-theme — accent-color state shared across sections/links
-//   styling      — page margins + link underline + accent setup
-//   section      — level-2 heading with an accent rule beneath
+//   global-theme: accent-color state shared across sections/links
+//   styling     : page margins + link underline + accent setup
+//   section     : level-2 heading with an accent rule beneath
 // (The old two-column `entry` and `subsection` primitives were removed once
-// their last consumer — the pre-academic resume layout — was replaced.)
+// their last consumer (the pre-academic resume layout) was replaced.)
 //
 // Two intentional changes vs upstream 0.1.0:
 //   1. styling(accent-color:) is FIXED here. Upstream's state-update lambda
@@ -26,7 +26,7 @@
 //      it from upstream if icon badges are ever wanted.
 // ============================================================================
 
-// Page theme state — single source for the accent color.
+// Page theme state: single source for the accent color.
 #let global-theme = state("theme", ("accent-color": black))
 
 // Page styling: set the accent color, underline links in the accent, set page

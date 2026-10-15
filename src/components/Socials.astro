@@ -1,5 +1,5 @@
 ---
-// Socials.astro — inline contact row ("Email · Scholar · …", no icons).
+// Socials.astro: inline contact row ("Email · Scholar · …", no icons).
 // Email obfuscated: base64 halves, JS-decoded mailto → raw address never in HTML.
 import { site } from '@/lib/data';
 
@@ -25,7 +25,7 @@ const socials = ((site.socials ?? []) as { label: string; url: string; icon: str
       </a>
     </>
   ))}
-  {/* Internal writing properties — same row, same-tab nav. Press is long-form
+  {/* Internal writing properties: same row, same-tab nav. Press is long-form
       (books / articles / slides / PDFs, Typst-set); the tooltip preempts the
       "press = press release" misread without renaming the section. */}
   <span class="contact-links__sep" aria-hidden="true">
@@ -42,7 +42,7 @@ const socials = ((site.socials ?? []) as { label: string; url: string; icon: str
   <a
     class="contact-links__item"
     href="/press"
-    title="Long-form works — books, articles, slides and PDFs, typeset in Typst"
+    title="Long-form works: books, articles, slides and PDFs, typeset in Typst"
   >
     Press
   </a>

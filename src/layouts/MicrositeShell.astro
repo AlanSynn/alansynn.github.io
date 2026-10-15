@@ -1,5 +1,5 @@
 ---
-// MicrositeShell.astro — the ISOLATED document shell for academic project pages.
+// MicrositeShell.astro: the ISOLATED document shell for academic project pages.
 // Unlike Base.astro (which loads the site's main.css/tokens + site chrome:
 // ThemeToggle, SiteChrome, RobotArm, site-footer), this shell loads ONLY the
 // ported microsite stylesheet (src/styles/project-page.css) + Manrope. The
@@ -138,7 +138,7 @@ const ogImage = abs(paper.preview) ?? `${site.url}/og.png`;
       // View-Transition swap via a persistent astro:after-swap listener so the
       // attribute survives client-side nav to/from site pages (which share this
       // document). The __themeListenerBound guard means if Base.astro already
-      // bound the listener on a prior site page, we don't double-bind — exactly
+      // bound the listener on a prior site page, we don't double-bind: exactly
       // one listener across both shells. Dark mode is styled in project-page.css
       // :root[data-theme='dark'] and mirrors the main site palette.
       (function () {

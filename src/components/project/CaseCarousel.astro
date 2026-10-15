@@ -1,8 +1,8 @@
 ---
-// CaseCarousel.astro — the tabbed deployment-case carousel (ARIA tablist +
+// CaseCarousel.astro: the tabbed deployment-case carousel (ARIA tablist +
 // roving focus, data-case-* hooks). Extracted from AcademicProject so it can
-// render either as the standalone #cases section or — with `cases_in_results`
-// — fused into #results after the stats/settings note. Only one instance
+// render either as the standalone #cases section or: with `cases_in_results`
+//: fused into #results after the stats/settings note. Only one instance
 // renders per page, so the tab/tabpanel ids stay unique either way.
 type Case = NonNullable<
   import('astro:content').CollectionEntry<'projects'>['data']['cases']

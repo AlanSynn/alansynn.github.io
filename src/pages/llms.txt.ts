@@ -1,8 +1,8 @@
-// llms.txt — machine-readable site index for LLM crawlers (llmstxt.org shape:
+// llms.txt: machine-readable site index for LLM crawlers (llmstxt.org shape:
 // H1 title, blockquote summary, H2 sections of `- [title](url): description`
-// lines). Generated at build from the SAME content source as the site — papers
+// lines). Generated at build from the SAME content source as the site: papers
 // via getPapers(), posts via the blog collection, projects via the projects
-// collection — so it can never drift from what is actually served.
+// collection: so it can never drift from what is actually served.
 //
 // Visibility mirrors the production surfaces exactly:
 //   papers   → same predicate as index.astro #publications (demo/web_off out),
@@ -69,7 +69,7 @@ export const GET: APIRoute = async () => {
   lines.push('');
   lines.push('## About');
   lines.push('');
-  lines.push(`- [Homepage](${URL_BASE}/): interactive CV — profile, publications, projects, news.`);
+  lines.push(`- [Homepage](${URL_BASE}/): interactive CV: profile, publications, projects, news.`);
   lines.push(`- [Blog](${URL_BASE}/blog/): long-form essays and notes. RSS: ${URL_BASE}/rss.xml`);
   if (social('CV')) lines.push(`- [Curriculum Vitae (PDF)](${abs(social('CV'))})`);
   if (social('Scholar')) lines.push(`- [Google Scholar](${social('Scholar')})`);
@@ -86,7 +86,7 @@ export const GET: APIRoute = async () => {
         .map((a) => (a.given ? `${a.given} ${a.family}` : a.family))
         .join(', ');
       // Venue + year, but not twice: some booktitles already carry the year
-      // ("… Proceedings of the 2026 CHI Conference …") — append only when absent.
+      // ("… Proceedings of the 2026 CHI Conference …"): append only when absent.
       const venue = oneline(p.venue || p.abbr || '');
       const venueLine =
         venue && venue.includes(String(p.year))

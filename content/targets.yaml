@@ -7,7 +7,7 @@
 #   keywords = substring match against each paper's title + venue + abbr
 #              (lowercased). Matched pubs sort to the TOP of the CV and are the
 #              ONLY pubs on the resume.
-# Adding a target here is the only step — resume/typst/lib.typ picks it up
+# Adding a target here is the only step; resume/typst/lib.typ picks it up
 # automatically (no code edit). Validated at build by targetsSchema
 # (src/lib/content-schema.ts), so a typo fails loudly.
 # ============================================================================
@@ -32,7 +32,7 @@ graphics:
     - design
 
 ml-systems:
-  # NOTE: "system" / "cloud" are intentionally omitted — the substring match
+  # NOTE: "system" / "cloud" are intentionally omitted: the substring match
   # caught "Design System" (MotionSmith title), "Computing Systems" (CHI venue
   # boilerplate → Tangible), and "Point Cloud" (FBS title), pulling graphics
   # papers to the TOP of the ml-systems resume. Every legit ML-systems paper

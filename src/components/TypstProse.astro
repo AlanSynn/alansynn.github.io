@@ -2,7 +2,7 @@
 // Renders its slot (the Typst-derived blog `Content`) to a string so the
 // render artifact can be repaired in place: astro-typst (default htmlMode
 // 'hast') emits the Typst document's <body> element around the prose, which
-// stringified inside .prose produced an INVALID nested <body> — browsers
+// stringified inside .prose produced an INVALID nested <body>: browsers
 // recover, naive scrapers/LLM parsers may not. Upstream carries an open
 // "remove body" TODO, and Astro 7 removed the @astrojs/markdown-remark
 // rehype hook the library forwards to, so this is the first-party strip.

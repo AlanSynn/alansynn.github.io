@@ -8,15 +8,15 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 
 // Blog drafts (draft: true) build + are reachable by direct URL but must never
-// be indexed or advertised to crawlers — parity with project `unlisted`.
+// be indexed or advertised to crawlers: parity with project `unlisted`.
 // [...slug].astro → Base.astro's `noindex` prop emits <meta robots>; the sitemap
 // filter below also drops them. The filter sees only URL strings, so compute the
 // draft slugs once at config load by scanning the .typ sources (the draft flag
 // lives in the #show: main.with(...) header near the top of each file). Project
 // `unlisted` pages are excluded by hardcoded path (rare; currently
-// example-graphics — the feature-exercising template). young-makers is
+// example-graphics: the feature-exercising template). young-makers is
 // `draft: true` during CHI review (never built at all), but its filter line
-// below stays as a second layer while held — see content/projects/CLAUDE.md.
+// below stays as a second layer while held: see content/projects/CLAUDE.md.
 const blogDir = resolve(process.cwd(), 'content/blog');
 const blogDraftSlugs = readdirSync(blogDir)
   .filter((f) => f.endsWith('.typ'))
@@ -39,13 +39,13 @@ const sitemapSourceFor = (loc) => {
   return null;
 };
 
-// Per-URL <lastmod> from the page's SOURCE file's last git commit — never the
+// Per-URL <lastmod> from the page's SOURCE file's last git commit: never the
 // build time, so redeploying unchanged content never claims fake freshness.
 // lastmod is the one sitemap field search engines actually use, and only when
 // they can trust it; where no git date is determinable (unmapped path, or a
 // shallow CI checkout) the URL keeps NO lastmod: absent is honest, wrong is
 // worse (deploy.yml pins fetch-depth: 0 for this reason). Implemented as a
-// sitemap `serialize()` — the package's supported per-URL hook, since its own
+// sitemap `serialize()`: the package's supported per-URL hook, since its own
 // `lastmod` option is SITE-WIDE (one date for every URL, which would re-date
 // unchanged pages on every deploy).
 const sitemapSerialize = (item) => {
@@ -65,7 +65,7 @@ const sitemapSerialize = (item) => {
   return { ...item, lastmod };
 };
 
-// Alan Synn — academic homepage. Deploys to alansynn.com (root path).
+// Alan Synn: academic homepage. Deploys to alansynn.com (root path).
 // https://astro.build/config
 export default defineConfig({
   site: 'https://alansynn.com',
@@ -74,7 +74,7 @@ export default defineConfig({
   integrations: [
     sitemap({
       // No changefreq/priority: uniform values across every URL carry no
-      // signal (engines ignore them). The meaningful field — <lastmod> — is
+      // signal (engines ignore them). The meaningful field (<lastmod>) is
       // set per-URL by `serialize` below.
       serialize: sitemapSerialize,
       // Reachable-but-not-indexed pages (project `unlisted` + blog drafts) build
@@ -84,19 +84,19 @@ export default defineConfig({
       // (MicrositeShell `noindex` for unlisted projects, Base.astro `noindex`
       // for draft posts). Two exclusion kinds: project `unlisted` → hardcoded
       // path (currently example-graphics; young-makers is `draft: true` during
-      // CHI review so it never builds — its line below is a second layer while
-      // held — see content/projects/CLAUDE.md); blog drafts → blogDraftSlugs,
+      // CHI review so it never builds: its line below is a second layer while
+      // held: see content/projects/CLAUDE.md); blog drafts → blogDraftSlugs,
       // scanned at config load above, so adding a draft needs no manual filter
       // edit.
       filter: (page) =>
         !page.includes('/projects/example-graphics') &&
         !page.includes('/projects/young-makers') &&
-        // Feeds: /rss.xml, /blog/rss.xml, and per-topic /blog/rss/<tag>.xml —
+        // Feeds: /rss.xml, /blog/rss.xml, and per-topic /blog/rss/<tag>.xml:
         // XML, not pages, so none belong in the sitemap. Anchored to those feed
         // shapes only: a hypothetical post slug `rss` (/blog/rss/, no .xml) is
         // NOT matched, and neither is `rss-guide`.
         !/(^|\/)rss\.xml$|(^|\/)rss\/[^/]+\.xml$/.test(page) &&
-        // /search is a thin client-side Pagefind UI, not indexable content —
+        // /search is a thin client-side Pagefind UI, not indexable content:
         // it stays crawlable (robots.txt allows it), just not advertised here.
         !/(^|\/)search\/?$/.test(page) &&
         !blogDraftSlugs.some((slug) => page.includes(`/blog/${slug}/`)),
@@ -129,7 +129,7 @@ export default defineConfig({
       cssCodeSplit: true,
       minify: 'esbuild',
       sourcemap: false,
-      target: 'es2022', // modern browsers only — skip ES5/ES2015 transpilation
+      target: 'es2022', // modern browsers only: skip ES5/ES2015 transpilation
       reportCompressedSize: false, // skip brotli/gzip size reporting → faster builds
     },
     resolve: {

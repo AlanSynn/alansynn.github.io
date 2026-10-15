@@ -1,10 +1,10 @@
 ---
 # ──────────────────────────────────────────────────────────────────────────
-# TEMPLATE / EXAMPLE PAGE — unlisted (built + reachable by direct URL, but
+# TEMPLATE / EXAMPLE PAGE: unlisted (built + reachable by direct URL, but
 # excluded from the sitemap + any listing, and emits <meta robots noindex>).
 # Exercises every feature of the academic project-page system so it doubles as
-# living documentation. (One exception: `title_lines` — hand-broken multi-line
-# title — is shown in motionsmith.md; this template uses `title_mark`, the two
+# living documentation. (One exception: `title_lines`, the hand-broken
+# multi-line title, is shown in motionsmith.md; this template uses `title_mark`, the two
 # being alternative title treatments.) Every asset below is branded placeholder
 # filler under public/images/example/ (clearly not real results). Copy this file, swap the
 # `paper:` citekey, drop the fields you don't need, and replace the SVGs.
@@ -14,7 +14,7 @@
 #
 # Field guide: bibliographic facts (title / authors / venue / DOI / PDF / code /
 # video / abstract / BibTeX) all DERIVE from the `paper:` citekey via
-# content/papers.bib — never re-state them here. The fields below are
+# content/papers.bib: never re-state them here. The fields below are
 # PRESENTATION only: they shape how the derived facts are laid out. Every field
 # is optional (drop the ones you don't want → that section hides). Block
 # comments below mark each section the body renders.
@@ -36,13 +36,13 @@ unlisted: true
 hero_eyebrow: "SIGGRAPH 2026 (Template)"
 title_mark: "NeuralCaustic:"
 teaser_caption: "Given a target light pattern (left), NeuralCaustic recovers the refracting surface that focuses it into the intended caustic (right). Placeholder art."
-summary: "Specify a target light pattern and recover the lens geometry that focuses it — in seconds, with measurably lower error than optimization baselines."
-event_dates: "August 9–13, 2026"
+summary: "Specify a target light pattern and recover the lens geometry that focuses it, in seconds, with measurably lower error than optimization baselines."
+event_dates: "August 9-13, 2026"
 
 # Author affiliation superscripts + legend. `affiliations` is the numbered
 # legend (1-based); `author_affil` is the per-author index INTO that list, in
 # author order. Its length MUST equal the paper's author count (enforced at
-# build — AcademicProject throws if they differ), since each author gets one
+# build: AcademicProject throws if they differ), since each author gets one
 # superscript. Drop both fields to render authors with no superscripts.
 affiliations:
   - "Georgia Tech"
@@ -51,7 +51,7 @@ author_affil: [1, 2, 1]
 
 # --- Overview ---------------------------------------------------------------
 # overview_heading: the section <h2> (defaults to "Overview"). `takeaways` is the
-# 3-up highlight grid BELOW the overview body prose — each { title, text } is a card.
+# 3-up highlight grid BELOW the overview body prose: each { title, text } is a card.
 overview_heading: "Invert the caustic, keep the surface fabricable."
 takeaways:
   - title: "Differentiable ray tracing drives the inversion."
@@ -83,11 +83,11 @@ nav:
 demo:
   src: "/videos/motionsmith-demo.mp4"
   poster: "/images/example/demo-poster.svg"
-  alt: "NeuralCaustic pipeline walkthrough — target image to recovered lens to projected caustic. Placeholder footage."
-  intro: "A walkthrough of the NeuralCaustic pipeline — from a target light pattern through surface recovery to the projected caustic. (Placeholder footage in the template.)"
+  alt: "NeuralCaustic pipeline walkthrough: target image to recovered lens to projected caustic. Placeholder footage."
+  intro: "A walkthrough of the NeuralCaustic pipeline: from a target light pattern through surface recovery to the projected caustic. (Placeholder footage in the template.)"
 
 # --- System (workflow figure + pipeline + zoom interface) -------------------
-# `intro` prose, a `workflow` figure, numbered `stages` (the pipeline cards —
+# `intro` prose, a `workflow` figure, numbered `stages` (the pipeline cards:
 # `index` is the big marker, e.g. "01"), and a `zoom` magnifier image (hover to
 # inspect on hover-capable devices; hidden on touch). `interface` is an optional
 # paired heading + copy block under the zoom.
@@ -96,7 +96,7 @@ system:
   intro: "NeuralCaustic pairs a differentiable ray tracer with a neural radiance prior. A designer specifies a target light pattern; the tracer inverts it to candidate surface geometry; the prior regularizes the surface toward something smooth and fabricable; the result is exported as a printable mesh."
   workflow:
     src: "/images/example/workflow.svg"
-    alt: "NeuralCaustic system workflow — target image, differentiable tracing, neural regularization, fabricable mesh. Placeholder diagram."
+    alt: "NeuralCaustic system workflow: target image, differentiable tracing, neural regularization, fabricable mesh. Placeholder diagram."
   stages:
     - index: "01"
       title: "Specify a target"
@@ -109,7 +109,7 @@ system:
       text: "Export the recovered surface as a printable mesh and verify the projected caustic under real illumination."
   zoom:
     src: "/images/example/interface.svg"
-    alt: "NeuralCaustic interface — target pattern next to the recovered lens mesh. Placeholder art."
+    alt: "NeuralCaustic interface: target pattern next to the recovered lens mesh. Placeholder art."
     caption: "The interface shows the target pattern beside the recovered lens; hover the lens to inspect surface detail. Placeholder art."
   interface:
     heading: "One workspace for target, recovery, and fabrication preview."
@@ -131,10 +131,10 @@ equations:
         <mo>+</mo><mi>λ</mi><mi mathvariant="double-struck">Ω</mi><mo>(</mo><msub><mi>R</mi><mi>θ</mi></msub><mo>)</mo>
       </math>
   - label: "Edge-preserving smoothness prior (keeps surfaces printable)"
-    latex: "Ω(R_θ) = Σᵢ Δ²h / (1 + Δ²h)    — penalizes roughness while preserving sharp caustic detail"
+    latex: "Ω(R_θ) = Σᵢ Δ²h / (1 + Δ²h)   (penalizes roughness while preserving sharp caustic detail)"
 # Pseudocode / algorithm box. `lines` carry `code` + optional `comment`.
 algorithm:
-  caption: "Algorithm 1 — NeuralCaustic surface recovery"
+  caption: "Algorithm 1: NeuralCaustic surface recovery"
   lines:
     - { code: "Input:  target image T, prior weight λ", comment: "fabricability ↔ fidelity knob" }
     - { code: "Initialize surface S₀ ← flat lens" }
@@ -145,7 +145,7 @@ algorithm:
     - { code: "until ‖g‖ < ε" }
     - { code: "return mesh(S_K)", comment: "export printable STL" }
 # Code block with filename + copy. Plain mono (Shiki highlights only markdown
-# fences, not frontmatter strings) — kept first-party on purpose.
+# fences, not frontmatter strings): kept first-party on purpose.
 code:
   filename: "recover.py"
   language: "python"
@@ -202,7 +202,7 @@ results:
     - { cells: ["NeuralCaustic (ours)", 27.8, 0.087, 4.2], highlight: true }
 
 # --- Ablation table ---------------------------------------------------------
-# Same shape as `results` (columns/rows/highlight/caption) — isolate each
+# Same shape as `results` (columns/rows/highlight/caption): isolate each
 # component to show it earns its keep. Rendered as a second table under Results.
 ablation:
   caption: "Ablation isolating each component. Removing the prior hurts smoothness; removing the differentiable tracer hurts fidelity."
@@ -214,16 +214,16 @@ ablation:
 
 # --- Results gallery --------------------------------------------------------
 # Multi-image grid; `columns` sets the column count. Each item is
-# { src, alt, caption, label } — `label` is the small tag on the tile.
+# { src, alt, caption, label }: `label` is the small tag on the tile.
 gallery:
   columns: 3
   items:
-    - { src: "/images/example/gallery-1.svg", alt: "Recovered caustic — spiral. Placeholder art.", caption: "Spiral target, recovered in 3.8 s.", label: "spiral" }
-    - { src: "/images/example/gallery-2.svg", alt: "Recovered caustic — leaf. Placeholder art.", caption: "Leaf target, fine venation preserved.", label: "leaf" }
-    - { src: "/images/example/gallery-3.svg", alt: "Recovered caustic — wave. Placeholder art.", caption: "Wave target, smooth leading edge.", label: "wave" }
-    - { src: "/images/example/gallery-4.svg", alt: "Recovered caustic — grid. Placeholder art.", caption: "Grid target, sharp intersections.", label: "grid" }
-    - { src: "/images/example/gallery-5.svg", alt: "Recovered caustic — bloom. Placeholder art.", caption: "Bloom target, radial symmetry.", label: "bloom" }
-    - { src: "/images/example/gallery-6.svg", alt: "Recovered caustic — echo. Placeholder art.", caption: "Echo target, nested rings.", label: "echo" }
+    - { src: "/images/example/gallery-1.svg", alt: "Recovered caustic: spiral. Placeholder art.", caption: "Spiral target, recovered in 3.8 s.", label: "spiral" }
+    - { src: "/images/example/gallery-2.svg", alt: "Recovered caustic: leaf. Placeholder art.", caption: "Leaf target, fine venation preserved.", label: "leaf" }
+    - { src: "/images/example/gallery-3.svg", alt: "Recovered caustic: wave. Placeholder art.", caption: "Wave target, smooth leading edge.", label: "wave" }
+    - { src: "/images/example/gallery-4.svg", alt: "Recovered caustic: grid. Placeholder art.", caption: "Grid target, sharp intersections.", label: "grid" }
+    - { src: "/images/example/gallery-5.svg", alt: "Recovered caustic: bloom. Placeholder art.", caption: "Bloom target, radial symmetry.", label: "bloom" }
+    - { src: "/images/example/gallery-6.svg", alt: "Recovered caustic: echo. Placeholder art.", caption: "Echo target, nested rings.", label: "echo" }
 
 # --- Synced video comparison ------------------------------------------------
 # Side-by-side players; scrubbing one seeks the other (the synced "play head").
@@ -237,7 +237,7 @@ video_comparison:
     src: "/videos/motionsmith-demo.mp4"
     poster: "/images/example/video-right.svg"
     label: "Ours"
-  caption: "Side-by-side synced playback — scrub one and the other follows. (Placeholder footage stands in for both sides in the template.)"
+  caption: "Side-by-side synced playback: scrub one and the other follows. (Placeholder footage stands in for both sides in the template.)"
 
 # --- Cases (tabbed carousel) ------------------------------------------------
 # `cases_heading`/`cases_intro` open the section; each `cases[].tab` is a
@@ -249,7 +249,7 @@ cases:
   - tab: "Spiral lens"
     subtitle: "Spiral / Differentiable tracer"
     image: "/images/example/gallery-1.svg"
-    alt: "Spiral caustic case — target, recovered lens, projected result. Placeholder art."
+    alt: "Spiral caustic case: target, recovered lens, projected result. Placeholder art."
     caption: "Target, recovered surface, and projected caustic for the spiral case. Placeholder art."
     lede: "A spiral target stress-tests the tracer's ability to reproduce continuous curvature."
     facts:
@@ -268,7 +268,7 @@ cases:
   - tab: "Grid lens"
     subtitle: "Grid / Neural prior"
     image: "/images/example/gallery-4.svg"
-    alt: "Grid caustic case — target, recovered lens, projected result. Placeholder art."
+    alt: "Grid caustic case: target, recovered lens, projected result. Placeholder art."
     caption: "Target, recovered surface, and projected caustic for the grid case. Placeholder art."
     lede: "A grid target isolates the neural prior's contribution to sharp-feature fidelity."
     facts:
@@ -291,12 +291,12 @@ cases:
 # abstract feeds the document <head> (scholar meta + description), not this block.
 citation_heading: "Read the paper and cite NeuralCaustic."
 citation_intro: "The full paper is available as a local PDF. The DOI and BibTeX are included below for quick reference."
-# FAQ accordion (native <details> — no JS). Closing-section convention.
+# FAQ accordion (native <details>: no JS). Closing-section convention.
 faq:
   - q: "Does this need a GPU?"
     a: "Recovery runs on a single laptop GPU in seconds; the differentiable tracer is the bottleneck, not the prior."
   - q: "Can I fabricate the recovered lenses myself?"
-    a: "Yes — export the recovered mesh as STL and print on a resin SLA printer at 25 µm. Polish the optical face flat before illumination testing."
+    a: "Yes: export the recovered mesh as STL and print on a resin SLA printer at 25 µm. Polish the optical face flat before illumination testing."
   - q: "Which targets fail?"
     a: "Discrete high-contrast targets with sharp intersections ring slightly; the ablation shows the prior trades a hair of sharpness for fabricability."
   - q: "Is the code released?"
@@ -306,7 +306,7 @@ acknowledgments: "Thanks to the fabrication lab for SLA print time, and to the r
 ---
 
 > **This is a template page.** It renders every feature of the project-page
-> system — hero with affiliation superscripts, summary, sticky scroll-spy nav,
+> system: hero with affiliation superscripts, summary, sticky scroll-spy nav,
 > overview + takeaways, click-to-launch demo, system pipeline + zoom magnifier,
 > numbered equations, pseudocode algorithm, copy-able code block, stat callouts,
 > results + ablation tables, comparison slider, results gallery, synced video
@@ -319,7 +319,7 @@ NeuralCaustic inverts the caustic-design problem: rather than search for a
 surface that *might* focus light into a desired pattern, a differentiable ray
 tracer propagates the target image's gradients directly back into lens geometry.
 The result is a recovered surface that, once fabricated, focuses real light into
-the intended caustic — produced in seconds instead of the hours of
+the intended caustic, produced in seconds instead of the hours of
 trial-and-error optimization that earlier methods required.
 
 The central difficulty is that many surfaces produce nearly identical caustics,
@@ -331,6 +331,6 @@ fabricable lens without a manual cleanup pass.
 
 Across a 24-image gallery spanning continuous and discrete targets, the
 recovered surfaces reproduce the intended patterns under real-world illumination
-with measurably lower error than optimization baselines — and the ablation
+with measurably lower error than optimization baselines, and the ablation
 confirms that both the differentiable tracer and the prior are load-bearing,
 with the tracer driving fidelity and the prior keeping the surface fabricable.

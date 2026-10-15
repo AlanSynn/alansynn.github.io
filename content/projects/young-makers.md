@@ -6,12 +6,12 @@ paper: "synn2027youngmakers"
 # double-anonymous review, so this page is excluded from the PRODUCTION build
 # entirely (direct URL 404s; still renders in `just dev` for owner review).
 # The homepage pub row is likewise fully excluded (bib `web_off`), not just
-# unlinked — title/authors must not render anywhere public. Taking it public
+# unlinked: title/authors must not render anywhere public. Taking it public
 # = the checklist in content/projects/CLAUDE.md.
 draft: true
 order: 1
 hero_eyebrow: "In review"
-# Hand-broken hero title lines — the mark carries the accent color.
+# Hand-broken hero title lines: the mark carries the accent color.
 # Title text = the paper title verbatim (main.tex), line-broken for the web.
 title_mark: "MotionSmith"
 title_lines:
@@ -21,18 +21,18 @@ title_lines:
 # Paper teaser caption, verbatim (main.tex teaser figure).
 teaser_caption: "MotionSmith is a sketch-based computational design system for automata making, adapted for young makers through participatory design with STEM educators. From left to right: (A) educators co-design the system in a hybrid workshop; (B) the resulting system is redesigned around young makers, through a classroom-oriented authoring workflow, a reusable fabrication kit, and instructional supports, enabling a maker to sketch an intended motion and explore synthesized, fabricable mechanism candidates, and move from digital design toward physical construction; and (C) educators enact the refined system in middle-school classrooms, where young makers collaboratively design and construct automata."
 # Hero keeps the narrative 3-panel paper teaser (the caption above describes
-# it panel by panel). The bib `preview` — homepage row thumb + og:image —
+# it panel by panel). The bib `preview` (homepage row thumb + og:image)
 # points at the live interface capture instead (owner directive 2026-10-02),
 # so this pin decouples the hero from it.
 teaser_image: "/images/papers/synn2027youngmakers.webp"
-# (No hero `summary:` — owner directive 2026-10-01: it duplicated the abstract,
+# (No hero `summary:`: owner directive 2026-10-01: it duplicated the abstract,
 # whose full verbatim text is the Overview body. Meta/og description falls back
 # to papers.bib's abstract; the hero reads title → authors → chips → teaser.)
 affiliations:
   - "Georgia Tech"
 author_affil: [1, 1, 1, 1]
 # Hero CTA chips: the live revised system. links[0] renders solid; non-anchor
-# links open in a new tab (isInternalHref treats /ms as internal — see
+# links open in a new tab (isInternalHref treats /ms as internal: see
 # AcademicProject.astro). Code / Demo / BibTeX chips derive from papers.bib +
 # the demo block.
 links:
@@ -48,7 +48,7 @@ overview_heading: "Bringing expert-oriented mechanical CAD into classrooms."
 # before the System section. The co-design timeline (paper fig 4) leads its own
 # full-width row; below it, two squares cropped from the paper's deployment
 # montage (Fig. 8): the observed classroom and a construction close-up. The
-# starting-configuration figure (paper fig 3) was DROPPED — it depicts the
+# starting-configuration figure (paper fig 3) was DROPPED: it depicts the
 # PRE-revision system, and the owner directive on the original-system figure
 # applies here too: the page showcases the revised system, not the baseline.
 gallery_heading: "From co-design to the classroom"
@@ -56,7 +56,7 @@ gallery:
   columns: 2
   items:
     - src: "/images/young-makers/workshop-timeline.webp"
-      alt: "Three panels illustrating the educator co-design process, with an unnumbered research-team revision block between Panels B and C: Experience as first-time users (10 hours in person over Days 1–2), Reframe as classroom facilitators (5 hours in person on Day 3), and Review & co-design as pedagogical designers (approximately 5 hours remotely), the research-team block synthesizing revisions to the digital system, physical kit, and facilitation supports."
+      alt: "Three panels illustrating the educator co-design process, with an unnumbered research-team revision block between Panels B and C: Experience as first-time users (10 hours in person over Days 1-2), Reframe as classroom facilitators (5 hours in person on Day 3), and Review & co-design as pedagogical designers (approximately 5 hours remotely), the research-team block synthesizing revisions to the digital system, physical kit, and facilitation supports."
       label: "Three perspectives"
       wide: true
       caption: "Educator co-design across three perspectives. (A) Experience through use and fabrication as first-time users. (B) Reframe through planning as classroom facilitators. (C) Review & co-design as pedagogical designers, reviewing revisions, developing lesson plans, and commenting on draft classroom-enactment criteria. The dashed return arrow represents their further critique and proposed refinements."
@@ -80,21 +80,21 @@ demo:
 # revision). Cards carry the consideration titles verbatim + the finding that
 # motivated each; the bound plate (left-to-right paper strip) carries the
 # revision. The paper's original-system figure (fig 2) is deliberately NOT
-# shown — owner directive (2026-10-01): leading with the old system's UI
+# shown: owner directive (2026-10-01): leading with the old system's UI
 # confused readers; the page showcases the revisions instead.
 system:
   heading: "Educator-informed design considerations and revisions"
-  # Intro = the paper's own §5 opening sentence, VERBATIM (05-system.tex:4) —
+  # Intro = the paper's own §5 opening sentence, VERBATIM (05-system.tex:4):
   # the earlier page-authored pair re-announced the abstract one section up.
   intro: "We identified five design considerations linking educators’ experiences and classroom requirements to revisions of MotionSmith, the physical kit, and instructional supports."
-  # Findings, not an inventory (owner call 2026-10-01: DC 1–5 read as a wall —
+  # Findings, not an inventory (owner call 2026-10-01: DC 1-5 read as a wall:
   # the five cards each carried a feature-list revision summary that the figure
   # caption then re-inventoried, so everything was read twice). Each card now
   # carries the paper's FINDING (why the consideration arose, compressed from
   # the §5 subsection prose), and the plate under it carries the revision.
   # Stages 03/04/05 bind their paper figure (figs 5/6/7, left-to-right strips)
-  # via `figure:` — any bound figure flips the section from the card grid to
-  # linear findings. Card texts: 05-system.tex §5.1–5.5 finding paragraphs.
+  # via `figure:`: any bound figure flips the section from the card grid to
+  # linear findings. Card texts: 05-system.tex §5.1-5.5 finding paragraphs.
   stages:
     - index: "01"
       title: "Providing a Concrete Yet Revisable Design Goal"
@@ -126,31 +126,31 @@ system:
   zoom:
     src: "/images/young-makers/ms-canvas.webp"
     alt: "The revised MotionSmith Mechanism Foundry: a four-bar linkage candidate playing on the layered canvas beside the prompt panel, stack readout, rig-opacity and explode sliders, and kit-compatible link-hole parameters."
-    caption: "The revised system, live at alansynn.com/ms — a four-bar candidate in the Mechanism Foundry with the on-demand prompt panel and kit-compatible link-hole parameters (3-, 9-, 5-hole)."
-  # (The former `interface:` copy block was dropped 2026-10-01 — it restated
+    caption: "The revised system, live at alansynn.com/ms: a four-bar candidate in the Mechanism Foundry with the on-demand prompt panel and kit-compatible link-hole parameters (3-, 9-, 5-hole)."
+  # (The former `interface:` copy block was dropped 2026-10-01: it restated
   # stages 03/05 nearly verbatim; the stage panels + zoom caption carry it.)
 # The enactment study under its own name (§6). stat values are the paper's.
 results_heading: "Classroom enactment"
 stat_callouts:
-  - { value: "4", label: "K–8 STEM educators in the three-phase participatory design study" }
+  - { value: "4", label: "K-8 STEM educators in the three-phase participatory design study" }
   - { value: "3", label: "classroom enactments at two schools, led by three of the four educators" }
   - { value: "129", label: "middle-school students in the enacted classroom activities" }
 # §6.2 settings as prose (06-deployment.tex:74 + the observation note :93),
 # NOT a table: the authors themselves commented the classroom-settings table
-# out of the tex (06-deployment.tex:19–69) and let it go stale, and the
+# out of the tex (06-deployment.tex:19-69) and let it go stale, and the
 # per-case settings live in the case tabs' subtitles below. Note-only results
 # block (no columns/rows); the note renders as centered prose.
 results:
   note: "T2 could not participate because of scheduling constraints. All three educators planned projects in groups of two or three students; we prepared 36 fabrication kits and supplied 18 to each school."
 # §6.3 accounts, verbatim where quoted. FUSED into the Results section above
-# (cases_in_results) — the cases ARE the enactment results. Case images are
+# (cases_in_results): the cases ARE the enactment results. Case images are
 # crops of the paper's own deployment montage (Fig. 8): T1 → panel I (the
 # completed automaton), T3 → panel D, T4 → panel A (assembly beside the
-# on-screen guidance — the panel the construction fact cites). Captions name
+# on-screen guidance: the panel the construction fact cites). Captions name
 # the panel.
 cases_in_results: true
 cases_heading: "Three educators, two schools"
-cases_intro: "Three criteria — sustained and productive engagement, intentional design and iterative revision, and interest in continuing or extending the activity — guided attention during the enactments. In post-activity interviews, all three educators reported high student engagement and expressed plans to use MotionSmith and the accompanying kits again."
+cases_intro: "Three criteria (sustained and productive engagement, intentional design and iterative revision, and interest in continuing or extending the activity) guided attention during the enactments. In post-activity interviews, all three educators reported high student engagement and expressed plans to use MotionSmith and the accompanying kits again."
 cases:
   - tab: "T1 · Grade 6 STEAM"
     subtitle: "2 classes · 58 students · 4 sessions"
@@ -176,15 +176,15 @@ cases:
     image: "/images/young-makers/case-t3.webp"
     alt: "Several students gathered around a workstation running MotionSmith, with a nearby laptop displaying a teacher-provided activity document in Google Classroom."
     caption: "Students working with MotionSmith alongside a teacher-provided activity document (paper Fig. 8, panel D)."
-    lede: "T3's lesson plan emphasized problem-solving through a teacher-led mechanism “read-aloud,” during which the class would identify a mechanism's input, moving components, and output. In the enactment, T3 began with 15–20 minutes of exploration on Chromebooks; designs began from the blank character template, with the physical components explored alongside the mechanism designs."
+    lede: "T3's lesson plan emphasized problem-solving through a teacher-led mechanism “read-aloud,” during which the class would identify a mechanism's input, moving components, and output. In the enactment, T3 began with 15-20 minutes of exploration on Chromebooks; designs began from the blank character template, with the physical components explored alongside the mechanism designs."
     facts:
       - {
           label: "Purposeful revision",
-          text: "“What change had the biggest effect on the movement? What happened? Why do you think this happened?” — T3 reported asking questions like these frequently; his Exploration Challenge sheet asked students to change a motion or setting, try an alternative mechanism or design choice, and document the result through a screenshot and written reflection.",
+          text: "“What change had the biggest effect on the movement? What happened? Why do you think this happened?”: T3 reported asking questions like these frequently; his Exploration Challenge sheet asked students to change a motion or setting, try an alternative mechanism or design choice, and document the result through a screenshot and written reflection.",
         }
       - {
           label: "An alternative six-bar",
-          text: "When a student asked whether the physical assembly could differ from the generated blueprint, T3 documented his encouragement of the direction; the student explored an alternative six-bar configuration, consulted the school-supported AI chat for guidance on how the mechanism could be constructed, and continued developing the design — exploration T3 described as educationally valuable.",
+          text: "When a student asked whether the physical assembly could differ from the generated blueprint, T3 documented his encouragement of the direction; the student explored an alternative six-bar configuration, consulted the school-supported AI chat for guidance on how the mechanism could be constructed, and continued developing the design, an exploration T3 described as educationally valuable.",
         }
   - tab: "T4 · Grade 6 STEM"
     subtitle: "1 class · 36 students · 3 sessions"
@@ -210,29 +210,29 @@ cases:
           text: "Complex character-motion design remained demanding for his Grade 6 students, T4 felt; he wanted activities to begin with simpler mechanical actions, such as moving an object, while retaining students' freedom to personalize and decorate their artifacts.",
         }
 citation_heading: "Cite this work."
-citation_intro: "The paper is under review; the BibTeX below reflects its current public citation — venue and DOI follow acceptance."
+citation_intro: "The paper is under review; the BibTeX below reflects its current public citation; venue and DOI follow acceptance."
 acknowledgments: "With thanks to the four educators who co-designed, critiqued, and carried this work into their classrooms, and to the two schools that opened their doors."
 # Page-closing invitation (owner directive 2026-10-01: "try it in your
 # classroom 같은 느낌"). Page voice, like the acknowledgments. Body =
-# opus-reviewed wording (2026-10-01): appositive, not "the same …" — an
+# opus-reviewed wording (2026-10-01): appositive, not "the same …": an
 # identity claim between the public instance and the study instrument invites
 # provenance pedantry; the appositive traces to 05-system.tex:18 ("we
 # developed a browser-based version of MotionSmith") + 06-deployment.tex:76
-# ("browser-based MotionSmith" in all three enactments). One sentence — the
+# ("browser-based MotionSmith" in all three enactments). One sentence: the
 # demo intro + zoom caption already restate it twice. Kit is deliberately
 # unmentioned: 08-limitations.tex:4 leaves independent kit preparation
 # "unexamined". The photo is owner-provided, shows no persons, and is
 # documented under the paper's educator-documentation lane
-# (06-deployment.tex:115 — educator-collected documentation with no
+# (06-deployment.tex:115: educator-collected documentation with no
 # identifiable student information). Photo: crop of IMG_5027, window
-# x460 y380 2940×3410 → 1500×1740 — opus-review fix (2026-10-01): the first
+# x460 y380 2940×3410 → 1500×1740: opus-review fix (2026-10-01): the first
 # window (bottom y3370) ended exactly at the front row's boards, so the frame
 # read as cut (the owner's original 위아래 complaint); this window ends at
 # y3790 with the front row's bottom edges + desk inside and stops short of the
 # next board row (~y3862) and the celebrity cut-out board (y≥3912). Privacy:
 # trims as before (standing person top-right, celebrity board, chair at left
 # edge) PLUS a feathered in-place blur over a child's handwritten label on the
-# pink figure (asset x219 y484 62×80) — readings of it were contested (one
+# pink figure (asset x219 y484 62×80): readings of it were contested (one
 # vision read name-like), the consent lane is "no identifiable student
 # information", and a redaction patch is invisible at display size; this is a
 # redaction, not beautification. Modest grade (brightness ~+10%, saturation
@@ -241,9 +241,9 @@ acknowledgments: "With thanks to the four educators who co-designed, critiqued, 
 # documentary photo is never silently cropped again.
 closing:
   heading: "Try it in your classroom."
-  body: "The revised MotionSmith — the browser-based system the educators enacted — is live at alansynn.com/ms."
+  body: "The revised MotionSmith (the browser-based system the educators enacted) is live at alansynn.com/ms."
   image: "/images/young-makers/closing-kitboxes-2.webp"
-  alt: "Plywood kit-box pegboards set out across classroom desks in rows, most holding paper characters in progress — a blue flying machine, a blue jersey, a yellow vehicle, an articulated pink figure with wooden linkages, a green-robed figure — with white kit boxes beneath the boards."
+  alt: "Plywood kit-box pegboards set out across classroom desks in rows, most holding paper characters in progress (a blue flying machine, a blue jersey, a yellow vehicle, an articulated pink figure with wooden linkages, a green-robed figure) with white kit boxes beneath the boards."
   caption: "Enactment photo, not a paper figure: kit-box pegboards and young makers' works in progress across classroom desks."
   links:
     - { label: "Try MotionSmith", url: "/ms", icon: "▶" }
@@ -251,13 +251,13 @@ closing:
 ---
 
 <!-- Overview body = the paper's abstract, VERBATIM (msym body/00-abstract.tex,
-     de-LaTeX'd: K--8 → K–8). Owner directive 2026-10-01: no recount, and no
-     §1/RQ/limitations paragraphs ported over — the abstract is the overview. -->
+     de-LaTeX'd: K--8 → K-8). Owner directive 2026-10-01: no recount, and no
+     §1/RQ/limitations paragraphs ported over: the abstract is the overview. -->
 Bringing expert-oriented mechanical CAD into classrooms requires attention to
 novice learners, material constraints, and instructional goals. We examine this
 adaptation through MotionSmith, a sketch-based system for automata making
 originally developed with expert artists. In a three-phase participatory design
-study, four K–8 STEM educators used the system, proposed and reviewed revisions,
+study, four K-8 STEM educators used the system, proposed and reviewed revisions,
 and developed classroom activities. Their input informed five design
 considerations and revisions to the authoring workflow, reusable fabrication
 kit, and instructional supports. Subsequent classroom enactments led by three

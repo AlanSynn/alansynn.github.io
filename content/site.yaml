@@ -15,7 +15,7 @@ affiliation_url: 'https://www.gatech.edu'
 department: 'School of Interactive Computing'
 department_url: 'https://ic.gatech.edu'
 
-# PhD advisors — rendered on the homepage hero and the CV/resume title block.
+# PhD advisors, rendered on the homepage hero and the CV/resume title block.
 # The most-likely-to-change CV fact, so it lives here (not hardcoded in a
 # template). Add/remove entries freely; the hero joins them with '&'.
 advisors:

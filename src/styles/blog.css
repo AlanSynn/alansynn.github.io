@@ -48,7 +48,7 @@
 
 /* ---- Comments (giscus) --------------------------------------------------
    Quiet terminal section below the post: hairline break, no card/shadow, and
-   no reserved height — the mount stays empty until the reader nears it and
+   no reserved height: the mount stays empty until the reader nears it and
    the observer injects giscus, so the iframe only ever grows the page below
    the fold. Heading + fallback use the site's mono-microtype quiet idiom
    (.toc__title / .psub__status); tokens drive everything, so
@@ -60,7 +60,7 @@
 }
 /* Post-foot rhythm: the P.S. subscribe ask sits right above the back-link,
    so the base .back-link margin-top (space-7, tuned for the projects footer)
-   reads too airy here — tighten the P.S. → back-link → comments stack. */
+   reads too airy here: tighten the P.S. → back-link → comments stack. */
 .post-body .psub {
   margin-block: var(--space-5) 0;
 }

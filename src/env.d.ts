@@ -15,7 +15,7 @@ declare module '*.typ?html&body' {
   const Component: () => any;
   export default Component;
 }
-// Window globals set by site inline scripts — declared so processed <script>
+// Window globals set by site inline scripts: declared so processed <script>
 // blocks type-check: Base.astro/MicrositeShell's no-flash theme listener guard,
 // GiscusComments' MutationObserver binding guard and its page-scoped
 // IntersectionObserver (torn down + replaced on every View-Transition swap).

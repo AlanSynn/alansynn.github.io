@@ -1,5 +1,5 @@
 ---
-// WorkProjectRow.astro — engineering/work-project row for the single-page CV.
+// WorkProjectRow.astro: engineering/work-project row for the single-page CV.
 // Mirrors CompactPub (thumb | body grid, same hairline rhythm + token scale) so a
 // work project reads as a first-class entry beside the publications, not a
 // tucked-away gallery card. Content mapping is the optimization:
@@ -7,7 +7,7 @@
 //   pub `venue`   → work `summary` (what it is, one line)
 //   pub `year`    → work `period`
 // Title links to the project's own /projects/<slug> page (the single internal
-// nav target — thumb is a non-clickable <div>, mirroring CompactPub). `links`
+// nav target: thumb is a non-clickable <div>, mirroring CompactPub). `links`
 // holds the project's declared EXTERNAL links only (org site, demo, etc.).
 // Body is the same 4-line density as .cpub → height ≤ a publication row.
 import type { CollectionEntry } from 'astro:content';
@@ -32,7 +32,7 @@ const thumbLabel = (d.org ?? d.title).slice(0, 8);
 // "Project Page" leads the link row as an explicit affordance to the project's
 // own /projects/<slug> page (mirrors how CompactPub leads with "Project Page"),
 // then the project's declared external links. The title links the same target
-// too — the text link is the explicit, publication-convention entry in the row.
+// too: the text link is the explicit, publication-convention entry in the row.
 const links: { label: string; url: string }[] = [
   { label: 'Project Page', url: `/projects/${slug}` },
   ...(d.links ?? []),

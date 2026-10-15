@@ -3,7 +3,7 @@
 The CV template (`resume/typst/academic.typ`) reproduces the owner's LaTeX CV
 class (`academiccv.cls`), which sets Latin Modern. The four roman faces
 (regular / bold / italic / bold-italic) are vendored here so `typst compile`
-renders identically on any machine — Typst's bundled set does not include
+renders identically on any machine: Typst's bundled set does not include
 Latin Modern.
 
 - Source: TeX Live (`texmf-dist/fonts/opentype/public/lm/`), copied 2026-10-15.

@@ -17,7 +17,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 const tags = (post.data.tags ?? []) as string[];
-// Canonical URL for the ready-made citation line at the foot of the post —
+// Canonical URL for the ready-made citation line at the foot of the post:
 // same shape Base.astro computes for og:url/canonical, so they never disagree.
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const citeYear = post.data.date.getUTCFullYear();
@@ -80,7 +80,7 @@ const fmt = (d: Date) =>
           </TypstProse>
         </div>
 
-        {/* Subscribe ask as a P.S. — per user directive it lives at the foot of
+        {/* Subscribe ask as a P.S.: per user directive it lives at the foot of
             every post, BEFORE the back-link and above the comments section. */}
         <SubscribePostscript />
 
@@ -88,7 +88,7 @@ const fmt = (d: Date) =>
           ← Blog
         </a>
 
-        {/* Drafts stay reachable but never load comments — no Discussion for
+        {/* Drafts stay reachable but never load comments: no Discussion for
             an unpublished post (§19). */}
         {!post.data.draft && <GiscusComments term={commentTerm(post.id)} />}
 

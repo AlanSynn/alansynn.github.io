@@ -1,8 +1,8 @@
-// ik.ts — closed-form inverse kinematics for the mechanism motifs. Pure math,
+// ik.ts: closed-form inverse kinematics for the mechanism motifs. Pure math,
 // no DOM. Angles in radians; coords are SVG user units (y-down). Standard matrix
 // rotation: +angle reads clockwise on screen (y-down), maps 1:1 to SVG rotate(+deg).
 //
-// PERF: the per-frame hot path (one rAF, ~7 solves) is allocation-bound — every
+// PERF: the per-frame hot path (one rAF, ~7 solves) is allocation-bound: every
 // vector op used to allocate a fresh {x,y}. The composite solvers below now write
 // internal temporaries into module-scope `_s[]` scratch and return FRESH result
 // objects, so callers can hold several results without aliasing. Scratch safety:
@@ -28,10 +28,10 @@ export const rot = (a: V2, ang: number): V2 => {
 };
 
 // RULE: never return `_s`; never hold a `_s`-derived ref across a rotN/sub-call.
-// Each consumer reads `_s` into a fresh local before the next rotN — that's the
+// Each consumer reads `_s` into a fresh local before the next rotN: that's the
 // whole safety contract (the call tree is non-recursive, see header).
 const _s: V2 = { x: 0, y: 0 };
-// raw rotate of (x,y) by ang into `out` — skips the V(...) alloc that rot() pays.
+// raw rotate of (x,y) by ang into `out`: skips the V(...) alloc that rot() pays.
 // returns void on purpose: forces callers to read `out` (here `_s`) into a fresh
 // local, so a `const v = rotN(...)` capture CAN'T alias `_s` (the rotN trap).
 const rotN = (x: number, y: number, ang: number, out: V2): void => {

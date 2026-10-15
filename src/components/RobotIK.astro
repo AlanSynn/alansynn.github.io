@@ -1,5 +1,5 @@
 ---
-// RobotIK.astro — boots the real-time IK engine (src/scripts/robot-ik.ts), which
+// RobotIK.astro: boots the real-time IK engine (src/scripts/robot-ik.ts), which
 // solves closed-form IK (src/lib/ik.ts) per frame and writes `rotate()` onto SVG
 // joint groups. One rAF loop, IntersectionObserver-gated; reduced-motion skips it
 // (each rig ships a static rest pose). Two rigs: [data-rig="legs"] (hero) +
@@ -19,7 +19,7 @@
   // View-Transition re-init: Astro dedupes this module <script> so the IIFE runs
   // once, but every client-side nav swaps the [data-rig] nodes. Once the engine
   // is loaded we register a PERSISTENT `astro:page-load` listener on `document`
-  // (which survives swaps) that re-runs init() — init() tears down the stale
+  // (which survives swaps) that re-runs init(): init() tears down the stale
   // instance and re-binds to the new rigs. Without this, returning to a page
   // with rigs (homepage/footer arm) after visiting another left them frozen at
   // the rest pose: the engine kept driving detached nodes. The gating below

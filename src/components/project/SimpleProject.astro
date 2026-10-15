@@ -1,5 +1,5 @@
 ---
-// SimpleProject.astro — work/engineering project page. The original layout that
+// SimpleProject.astro: work/engineering project page. The original layout that
 // lived inline in [slug].astro; extracted so [slug].astro can branch between
 // this and AcademicProject (research/paper pages). Behavior is identical for
 // the 3 existing work projects.
@@ -18,7 +18,7 @@ const isLocalVideo = !!d.video && /\.(mp4|webm|ogg)$/i.test(d.video);
 ---
 
 {/* description + image: unique meta description (frontmatter summary) and the
-    project artwork as the share card instead of the site-default og.png — a
+    project artwork as the share card instead of the site-default og.png: a
     work-project page shouldn't share with the homepage's description. */}
 <Base title={d.title} description={d.summary} image={d.image} wide>
   <article>

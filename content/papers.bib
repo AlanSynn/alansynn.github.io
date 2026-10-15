@@ -2,7 +2,7 @@
 ---
 
 % ============================================================================
-% Papers — the single publication source. Web (src/lib/papers.ts) + PDF
+% Papers: the single publication source. Web (src/lib/papers.ts) + PDF
 % (resume/typst/lib.typ via src/data/papers.json) both read this file.
 %
 % Per-entry flags:
@@ -10,10 +10,10 @@
 %   featured = reserved for homepage top-of-list surfacing; currently inert
 %              (homepage lists all papers flat, newest-first). Web-only.
 %   hidden   = omit from the WEB #publications list only (index.astro filter).
-%              The PDF (resume/CV) still shows the entry — the formal record
+%              The PDF (resume/CV) still shows the entry: the formal record
 %              stays complete. Used for non-first-author domestic venues kept
 %              off the public web.
-%   web_off  = omit from the WEB #publications list ENTIRELY — not even the
+%   web_off  = omit from the WEB #publications list ENTIRELY: not even the
 %              hidden toggle, whose rows stay in the served HTML and the
 %              Pagefind index (so the title/authors would eventually be
 %              searchable). Hold flag; see the young-makers entry below.
@@ -29,35 +29,35 @@
 @string{ieee = {Institute of Electrical and Electronics Engineers,}}
 
 % UNDER CHI 2027 DOUBLE-ANONYMOUS REVIEW (notification 2026-12-17). Owner
-% directive 2026-10-02: the paper is FULLY OFF the web while under review —
+% directive 2026-10-02: the paper is FULLY OFF the web while under review:
 % CHI 2027's anonymization policy permits non-archival publication but warns
 % it erodes double-anonymity, and the owner chose maximum discretion.
 %   - `web_off` (below) drops the entry from the homepage publications list
-%     ENTIRELY — deliberately NOT `hidden`, which only folds the row behind
+%     ENTIRELY: deliberately NOT `hidden`, which only folds the row behind
 %     the "All publications" toggle, leaving title + author names in the
 %     served HTML and the Pagefind search index.
-%   - The project page (content/projects/young-makers.md) is `draft: true` —
+%   - The project page (content/projects/young-makers.md) is `draft: true`:
 %     excluded from the production build entirely (direct URL 404s; still
 %     renders in `just dev`, which is why this entry must stay parseable).
 %   - `selected={false}` already keeps it out of the resume/CV PDFs.
 % The entry therefore renders NOWHERE in production; it exists only so the
 % drafted page still resolves in dev. While held, also keep: venue NOT named
 % on any surface (abbr is a bare "In review"; the booktitle field is OMITTED
-% because it leaks into rendered HTML — scholar JSON-LD isPartOf,
+% because it leaks into rendered HTML: scholar JSON-LD isPartOf,
 % citation_conference_title, the project page's synthesized BibTeX), no
 % featured, no hosted PDF, `website` ABSENT (it would link the row title +
 % add a Project Page chip). Title and abstract are synced verbatim from the
-% submission source (~/Workspace/msym main.tex / body/00-abstract.tex) —
+% submission source (~/Workspace/msym main.tex / body/00-abstract.tex):
 % re-sync there after every paper edit.
 % Representative image (relevant again at go-public) = the live /ms interface
 % capture (owner directive 2026-10-02: show the web interface, not the
-% 3-panel narrative teaser — that teaser stays on the project page hero via
+% 3-panel narrative teaser: that teaser stays on the project page hero via
 % `teaser_image` in content/projects/young-makers.md).
-% Do NOT add a "%" comment inside the entry braces — stripComments() only
+% Do NOT add a "%" comment inside the entry braces: stripComments() only
 % strips "%" outside entry braces; an inline comment breaks the field parse
 % (year -> 0).
 % GO-PUBLIC CHECKLIST: content/projects/CLAUDE.md ("Taking young-makers
-% public") — web_off removal + un-draft + sitemap filter drop + website
+% public"): web_off removal + un-draft + sitemap filter drop + website
 % restore, and at acceptance: booktitle, doi/pdf, real venue abbr,
 % project-page link swap (/ms and the GitHub repo move to motionsmith.org /
 % github.com/motionsmith/motionsmith).
@@ -261,7 +261,7 @@
 }
 
 % ============================================================================
-% TEMPLATE ENTRY — a fictional paper used ONLY by the unpublished draft
+% TEMPLATE ENTRY: a fictional paper used ONLY by the unpublished draft
 % example page (content/projects/example-graphics.md, draft:true). `demo=true`
 % keeps it out of the live #publications list and the CV (filtered in
 % index.astro + gen-papers-json.mjs). Resolvable by citekey for the academic
@@ -280,7 +280,7 @@
   website={https://alansynn.com/projects/example-graphics},
   code={https://github.com/AlanSynn/example-graphics},
   video={/videos/motionsmith-demo.mp4},
-  abstract={Designing caustic patterns — the bright curves focused by a refracting surface — has traditionally required expensive trial-and-error optimization. We present NeuralCaustic, a differentiable pipeline that inverts from a target image to the lens or reflector geometry that produces it. Our method pairs a differentiable ray tracer with a neural radiance prior, letting designers specify a desired light pattern and obtain a fabricable surface in seconds. We evaluate the approach on a gallery of target images and show that recovered surfaces reproduce the intended caustics under real-world illumination, with measurably lower error than prior optimization baselines. (This is a fictional template entry demonstrating the project-page system; not a real publication.)},
+  abstract={Designing caustic patterns (the bright curves focused by a refracting surface) has traditionally required expensive trial-and-error optimization. We present NeuralCaustic, a differentiable pipeline that inverts from a target image to the lens or reflector geometry that produces it. Our method pairs a differentiable ray tracer with a neural radiance prior, letting designers specify a desired light pattern and obtain a fabricable surface in seconds. We evaluate the approach on a gallery of target images and show that recovered surfaces reproduce the intended caustics under real-world illumination, with measurably lower error than prior optimization baselines. (This is a fictional template entry demonstrating the project-page system; not a real publication.)},
   demo={true},
   selected={false},
   featured={false}

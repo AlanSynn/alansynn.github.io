@@ -36,7 +36,7 @@
 
 - date: 2026-06-15
   link: https://www.ceismc.gatech.edu/gift
-  body: 'Hosting **Georgia Tech GIFT** (CEISMC) teachers this summer, exploring **MotionSmith** through the _Motion, Making & Mechanical Design_ GIFT Workshop (June–August).'
+  body: 'Hosting **Georgia Tech GIFT** (CEISMC) teachers this summer, exploring **MotionSmith** through the _Motion, Making & Mechanical Design_ GIFT Workshop (June-August).'
 
 - date: 2026-05-17
   link: https://www.automatacon.org/programming-2026
@@ -50,7 +50,7 @@
 - date: 2026-04-13
   link: https://chi2026.acm.org/
   highlight: true
-  body: 'Presenting **MotionSmith** at **CHI 2026** in Barcelona (Apr 13–17), a sketch-based tool for designing mechanical automata.'
+  body: 'Presenting **MotionSmith** at **CHI 2026** in Barcelona (Apr 13-17), a sketch-based tool for designing mechanical automata.'
 
 - date: 2026-01-22
   link: https://doi.org/10.1145/3772318.3791545

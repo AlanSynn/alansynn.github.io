@@ -1,16 +1,16 @@
 # https://alansynn.com
 # Crawling policy (owner directive, 2026-10-14): the whole site is public and
-# WELCOME to every crawler — search engines and AI/LLM crawlers (GPTBot,
+# WELCOME to every crawler: search engines and AI/LLM crawlers (GPTBot,
 # ClaudeBot, PerplexityBot, and whatever ships next) alike. Unlisted bots fall
 # back to the `*` group below, so no per-bot listing is needed to include one.
 # Attribution is expressed in the content itself (JSON-LD license metadata, the
 # per-post citation line, CC BY-NC-ND in NOTICE) and in the machine-readable
-# site index at /llms.txt — not via robots.txt blocks.
+# site index at /llms.txt: not via robots.txt blocks.
 User-agent: *
 Allow: /
 
 # Content Signals (https://contentsignals.org, Cloudflare's AI-preference
-# standard): explicit opt-IN to all three uses — search indexing, AI training,
+# standard): explicit opt-IN to all three uses: search indexing, AI training,
 # and AI input (RAG/grounding, i.e. being cited in AI answers). This restates
 # the 2026-10-14 welcome policy above as a machine-readable signal for
 # auditors; omitted signals already default to allowed, so this changes nothing

@@ -2,7 +2,7 @@
 #import "/src/3rd_party/mathyml/lib.typ" as mathyml
 #import mathyml.prelude: *
 
-// Unpublished (draft: true) — excluded from the /blog feed but reachable at
+// Unpublished (draft: true): excluded from the /blog feed but reachable at
 // /blog/usage-guide. A reference for how this site is written and a tour of
 // what the Typst→HTML pipeline renders. Not an essay.
 #show: main.with(
@@ -30,7 +30,7 @@ PDF outputs both update. There is no second copy to drift.
 
 A blog post is a single `.typ` file under `content/blog/`. The header wires up
 the title, description, date, and tags. A tag must be a slug listed in
-`content/tags.yaml` (add it there first), and a post carries at most three —
+`content/tags.yaml` (add it there first), and a post carries at most three:
 the first is its home subject, extras only when genuinely intersectional:
 
 ```typst
@@ -59,8 +59,8 @@ with underscores. Lists work as expected:
 
 == Math, typeset at build time
 
-Because the site compiles Typst to HTML at build time, equations become MathML
-— no client-side MathJax, no layout shift. Inline math is wrapped in dollar
+Because the site compiles Typst to HTML at build time, equations become MathML:
+no client-side MathJax, no layout shift. Inline math is wrapped in dollar
 signs: the mean-squared loss is
 $cal(L)(theta) = (1)/(2n) sum_(i=1)^n (hat(y)_i - y_i)^2$.
 
@@ -97,14 +97,14 @@ absolute or relative to the container:
   caption: [A native Typst polygon, rendered to SVG at build time.],
 )
 
-That is the whole pipeline — write prose and math, get crisp typeset output.
+That is the whole pipeline: write prose and math, get crisp typeset output.
 
 == Callouts and images
 
 A blockquote callout:
 
 #blockquote[
-This is a callout block — a left accent bar with a sunken background. Use it for illustrative sentences or key restatements.
+This is a callout block: a left accent bar with a sunken background. Use it for illustrative sentences or key restatements.
 ]
 
 A co-located image lives in a folder next to the post's `.typ` file

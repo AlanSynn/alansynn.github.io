@@ -13,11 +13,11 @@ import AcademicProject from '@/components/project/AcademicProject.astro';
 // one [slug] route, Astro bundled both stylesheets into every project page and
 // the site's global element rules + colliding class names (.site-footer, .hero,
 // .section, …) leaked into the microsite (serif headings, mono footer, 6% font
-// upscale) — and CSS load order was nondeterministic, so it broke unpredictably.
+// upscale), and CSS load order was nondeterministic, so it broke unpredictably.
 // Separate routes = each page links only its own stylesheet. Load-order-safe.
 export async function getStaticPaths() {
   const all = await getCollection('projects');
-  // Drafts render in `just dev` only — filtered out of the production build so
+  // Drafts render in `just dev` only: filtered out of the production build so
   // they never ship to the live site (the unpublished example page uses this).
   const projects = import.meta.env.PROD ? all.filter((p) => !p.data.draft) : all;
 
@@ -34,7 +34,7 @@ export async function getStaticPaths() {
 
   // Footgun guard: every NON-paper (work) project needs a matching static route
   // file in this directory, else it 404s. Fail the build with a precise message
-  // instead of silently dropping the page. Use process.cwd() (project root) —
+  // instead of silently dropping the page. Use process.cwd() (project root):
   // import.meta.url is rebased to the build chunk dir during `astro build`, so
   // it can't locate source files.
   const routeDir = `${process.cwd()}/src/pages/projects/`;
@@ -54,7 +54,7 @@ export async function getStaticPaths() {
   // typo renders a broken image under a green build. Walks each entry and
   // existsSync's root-relative strings against public/. Only string values whose
   // IMMEDIATE key is a known asset-path field (src/poster/image/video/preview/
-  // pdf) are checked — walking every string would false-positive on prose fields
+  // pdf) are checked: walking every string would false-positive on prose fields
   // that legitimately begin with '/' (a code snippet's path, an faq answer, a
   // latex fallback). New path fields are covered as long as they're so-named.
   // Skipped in dev so a project page can be drafted before its assets land.
@@ -72,7 +72,7 @@ export async function getStaticPaths() {
         )
           missing.push(`${trail} → ${node}`);
       } else if (Array.isArray(node)) {
-        // Bare strings inside arrays (e.g. nav labels) aren't paths — reset key.
+        // Bare strings inside arrays (e.g. nav labels) aren't paths: reset key.
         node.forEach((c, i) => visit(c, `${trail}[${i}]`, null));
       } else if (node && typeof node === 'object') {
         for (const [k, v] of Object.entries(node as Record<string, unknown>))

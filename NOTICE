@@ -44,12 +44,12 @@ are not copyrightable; only the abstracts, annotations, and curation are.
 
 THIRD-PARTY ATTRIBUTIONS
 ------------------------
-- resume/typst/layout.typ — first-party layout primitives adapted from
+- resume/typst/layout.typ: first-party layout primitives adapted from
   cv-soft-and-hard 0.1.0 (MIT, © Jonas Pleyer):
   https://github.com/typst/packages/raw/main/preview/cv-soft-and-hard/0.1.0
-- src/3rd_party/mathyml/ — vendored Typst library; retains its upstream license.
-- Fonts (web): Newsreader, Hanken Grotesk, IBM Plex Mono — SIL OFL.
-- Fonts (PDF): Libertinus Serif — SIL OFL.
+- src/3rd_party/mathyml/: vendored Typst library; retains its upstream license.
+- Fonts (web): Newsreader, Hanken Grotesk, IBM Plex Mono: SIL OFL.
+- Fonts (PDF): Libertinus Serif: SIL OFL.
 
 
 FORK NOTE

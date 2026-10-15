@@ -1,4 +1,4 @@
-This MIT License applies to the source code only — templates, build scripts,
+This MIT License applies to the source code only: templates, build scripts,
 the Typst CV engine, and configuration under src/, resume/typst/, scripts/,
 and the repo-root build files. Written content under content/, public/pdfs/,
 and public/images/ is licensed separately under CC BY-NC-ND 4.0; see the

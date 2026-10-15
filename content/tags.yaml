@@ -5,7 +5,7 @@
 #
 # Design:
 #   - SPECIFIC-but-legible register: each chip promises a particular flavor a
-#     browsing reader understands instantly and gets curious about — standard
+#     browsing reader understands instantly and gets curious about, standard
 #     discipline/topic nouns, not one-size-fits-all mega-buckets, not
 #     subculture jargon. When two chips' reader-promises stop being
 #     distinguishable in 3 seconds, merge or retire one.
@@ -18,27 +18,27 @@
 #     technology does not get it). First used by the robotics two-part series.
 #   - `tutorial` is the sanctioned FORMAT-tag exception (minority rule): it may
 #     exist only while how-to posts stay a small minority of the blog.
-#   - Validation-only — this list is NOT the display source. The chip text is
+#   - Validation-only: this list is NOT the display source. The chip text is
 #     title-cased from the slug in the component, so keep entries as bare
 #     kebab-case slugs. Add a tag here first, then use it on a post.
 #
 # Buckets in use:
-#   sociology-of-science — research as a social/institutional machine:
+#   sociology-of-science: research as a social/institutional machine:
 #                          careers, incentives, fields
-#   philosophy-of-science— what counts as knowledge, rigor, or truth in a field
-#   academia             — life and structure inside the academic research world
-#   computer-science     — CS as one discipline with many subfield identities
-#   robotics             — robots, embodied AI, and making machine capability dependable
-#   history-of-science   — episodes and turning points from the record of science
-#   career-advice        — steering a working life: preparation, reinvention,
+#   philosophy-of-science: what counts as knowledge, rigor, or truth in a field
+#   academia: life and structure inside the academic research world
+#   computer-science: CS as one discipline with many subfield identities
+#   robotics: robots, embodied AI, and making machine capability dependable
+#   history-of-science: episodes and turning points from the record of science
+#   career-advice: steering a working life: preparation, reinvention,
 #                          decisions
-#   uncertainty          — reasoning and deciding when you can't know
-#   education            — learning, teaching, and the institutions that shape both
-#   participatory-design — designing with the people affected; PD methods and lessons
-#   humility             — the stance of knowing what your best answer can't see
-#   ethics               — harm, care, and competing goods in practice
-#   meta, typst, tutorial — site/writing mechanics (draft usage guide only)
-#   ai                   — reserved, see above (first uses: robotics series)
+#   uncertainty: reasoning and deciding when you can't know
+#   education: learning, teaching, and the institutions that shape both
+#   participatory-design: designing with the people affected; PD methods and lessons
+#   humility: the stance of knowing what your best answer can't see
+#   ethics: harm, care, and competing goods in practice
+#   meta, typst, tutorial: site/writing mechanics (draft usage guide only)
+#   ai: reserved, see above (first uses: robotics series)
 # ============================================================================
 - sociology-of-science
 - philosophy-of-science

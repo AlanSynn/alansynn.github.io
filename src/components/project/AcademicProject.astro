@@ -1,9 +1,9 @@
 ---
-// AcademicProject.astro — academic paper project page. A 1:1 port of the
+// AcademicProject.astro: academic paper project page. A 1:1 port of the
 // motionsmith microsite DOM (github.com/AlanSynn/motionsmith index.html) using
 // the ORIGINAL class names. Renders inside MicrositeShell.astro, which loads
 // ONLY src/styles/project-page.css (the verbatim port of the microsite's 4 CSS
-// files) + Manrope — NO site main.css/tokens, NO site chrome. So the page is a
+// files) + Manrope: NO site main.css/tokens, NO site chrome. So the page is a
 // standalone microsite, visually identical to the original.
 //
 // Bibliographic fields (title/authors/venue/DOI/PDF/code/video/BibTeX) DERIVE
@@ -46,9 +46,9 @@ if (d.author_affil && d.author_affil.length !== paper.authors.length) {
 const titleMark = d.title_mark ?? '';
 const mark = titleMark ? titleMark.replace(/:$/, '') : paper.title.split(/[\s:]+/)[0];
 
-// Hero meta line: "CHI 2026, Barcelona, Spain / April 13–17, 2026". Leads with
+// Hero meta line: "CHI 2026, Barcelona, Spain / April 13-17, 2026". Leads with
 // the venue ABBR + year (concise, same form as the eyebrow), NOT the full
-// proceedings booktitle — the long booktitle was the widest hero__intro child
+// proceedings booktitle: the long booktitle was the widest hero__intro child
 // and bloated the whole hero column vs the original microsite.
 const metaLine = [
   paper.abbr ? `${paper.abbr} ${paper.year}` : paper.venue,
@@ -61,7 +61,7 @@ const metaLine = [
 // preview, video, pdf, website, code, abstract, isbn, …) that must NEVER appear
 // in a citation a reader copies. Synthesize a minimal bibliographic entry
 // (type + title + author + venue + year + doi) matching the original
-// microsite's hand-curated block — anything more would bloat the panel.
+// microsite's hand-curated block: anything more would bloat the panel.
 const bibType = (paper.raw.match(/@(\w+)\s*{/) || [, 'misc'])[1].toLowerCase();
 const bibRows: Array<[string, string]> = [];
 if (paper.fields.title) bibRows.push(['title', paper.fields.title]);
@@ -118,7 +118,7 @@ const navItems = (d.nav ?? []).map((label) => ({
   href: `#${label.toLowerCase().replace(/\s+/g, '-')}`,
 }));
 
-// Cases rendered by CaseCarousel.astro — either as the standalone #cases
+// Cases rendered by CaseCarousel.astro: either as the standalone #cases
 // section or, with `cases_in_results`, fused into #results after the
 // stats/settings note (deployment papers whose cases ARE their results).
 const cases = d.cases ?? [];
@@ -195,7 +195,7 @@ const titleRest =
                   {/* Whitespace between the line spans: they are display:block
                       (visually inert), but without a text node the extracted
                       textContent of the h1 concatenates the lines ("…Design
-                      Systemfor…") — garbling snippets and LLM extraction. */}
+                      Systemfor…"): garbling snippets and LLM extraction. */}
                   {i > 0 && ' '}
                   <span class:list={['hero__title-line', !ln.mark && 'hero__title-rest']}>
                     {ln.mark ? (
@@ -376,7 +376,7 @@ const titleRest =
 
           {/* Findings: when any stage carries an evidence figure, the list
               renders as linear numbered findings (head + plate directly under
-              it — the paper's §5 shape: finding → evidence) so each
+              it: the paper's §5 shape: finding → evidence) so each
               consideration reads once; pages whose stages are plain cards keep
               the compact grid. `revision-figure` is a DOM hook; sizing rides
               the generic feature-figure slot. */}
@@ -723,7 +723,7 @@ const titleRest =
               <div class="link-row" aria-label="Closing links">
                 {d.closing.links.map((l, i) => {
                   const href = renderHref(l.url);
-                  // Same escape hatch as the hero `links:` chips — non-anchor
+                  // Same escape hatch as the hero `links:` chips: non-anchor
                   // entries always open in a new tab so /ms can never be
                   // VT-swapped into this document.
                   const ext = !l.url.startsWith('#');
@@ -803,7 +803,7 @@ const titleRest =
     const buttons = Array.from(document.querySelectorAll<HTMLElement>('[data-copy-target]'));
     // Per-button pending-reset timer. Without this, rapid clicks stack timeouts:
     // the first fires and resets to the resting label while a later click's
-    // "Copied" is still showing — a visible flash. Clearing the prior timer
+    // "Copied" is still showing: a visible flash. Clearing the prior timer
     // before setting a new one makes each click authoritative.
     const timers = new WeakMap<HTMLElement, number>();
     buttons.forEach((button) => {
@@ -816,8 +816,8 @@ const titleRest =
         const target = id ? document.getElementById(id) : null;
         if (!target || !navigator.clipboard) return;
         // Capture the RESTING label on first click (cache on the element). A
-        // naive `prev = textContent` snapshots whatever is showing — including
-        // the transient "Copied" if the user double-clicks — so the reset would
+        // naive `prev = textContent` snapshots whatever is showing: including
+        // the transient "Copied" if the user double-clicks: so the reset would
         // pin the button to "Copied" permanently.
         if (!button.dataset.restLabel) button.dataset.restLabel = button.textContent ?? 'Copy';
         const rest = button.dataset.restLabel;

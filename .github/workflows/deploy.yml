@@ -72,10 +72,10 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-  # Ask the IndexNow engines (Bing, Yandex, Naver, Seznam, Yep — Google is not
+  # Ask the IndexNow engines (Bing, Yandex, Naver, Seznam, Yep: Google is not
   # a participant and needs nothing) to fetch changed pages right after deploy.
   # Simplest correct shape at ~15 URLs: read the JUST-DEPLOYED sitemap off the
-  # live site and submit every URL — under every quota, no path→URL mapping,
+  # live site and submit every URL: under every quota, no path→URL mapping,
   # misses nothing (research agents' consensus, 2026-10). The key is not a
   # secret (it is served publicly at /<key>.txt for ownership verification);
   # the key FILE is committed so engines can validate it. Failure to ping must

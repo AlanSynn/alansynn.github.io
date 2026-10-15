@@ -7,7 +7,7 @@
 #          classifies from this field and falls back to a string heuristic
 #          only when it is absent.
 # (Per-venue color was retired when publication labels were unified to the
-# accent color — kept out to avoid a field with no consumer.)
+# accent color, kept out to avoid a field with no consumer.)
 # ============================================================================
 
 'CHI':
@@ -16,7 +16,7 @@
   type: conference
 
 # Under-review submission (notification expected 2026-12-17). The venue is
-# deliberately NOT named anywhere public — the key/name are a bare "In review"
+# deliberately NOT named anywhere public; the key/name are a bare "In review"
 # and there is no url (an unlinked badge; linking a venue page would disclose
 # the venue). type: preprint keeps it out of "Refereed Conference Papers" on
 # the CV, where the venue line prints the raw abbr.
@@ -34,7 +34,7 @@
   url: 'https://neurips.cc/'
   type: conference
 
-# NeurIPS Demo track — peer-reviewed but a non-archival demo/exhibit, NOT a
+# NeurIPS Demo track: peer-reviewed but a non-archival demo/exhibit, NOT a
 # main-track NeurIPS paper. Distinct key + name so the badge reads "NeurIPS
 # Demo" (never bare "NeurIPS"). type: conference sorts it among conference
 # papers on the CV, where the badge carries the truth.
@@ -68,7 +68,7 @@
   url: 'https://www.kips.or.kr/'
   type: journal
 
-# SIGGRAPH papers publish in ACM Transactions on Graphics (TOG) — a journal,
+# SIGGRAPH papers publish in ACM Transactions on Graphics (TOG), a journal,
 # so type: journal drives correct CV grouping even though the venue is a conf.
 'SIGGRAPH':
   name: 'ACM SIGGRAPH'

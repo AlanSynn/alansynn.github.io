@@ -12,13 +12,13 @@
 //
 // Checks:
 //  1. Stylesheet graph (both modes): no <link> matching site main/tokens/base.
-//     This is the robust invariant — it discriminates a leak regardless of theme.
+//     This is the robust invariant: it discriminates a leak regardless of theme.
 //  2. Light-mode body color: the microsite light ink #1b1f28 (rgb(27,31,40)) is
 //     DISTINCT from the site light ink #15171c, so this catches an effective
-//     leak (base.css would recolor the body). Skipped in dark — the two dark
+//     leak (base.css would recolor the body). Skipped in dark: the two dark
 //     palettes converge by design (mirroring main), so it can't discriminate.
 //  3. data-theme set + correct: MicrositeShell's no-flash init must set it, else
-//     the theme toggle is broken. (It once had to be ABSENT — that was before
+//     the theme toggle is broken. (It once had to be ABSENT: that was before
 //     the academic route shipped its own theme init for dark mode.)
 import { chromium } from 'playwright';
 
@@ -26,7 +26,7 @@ const BASE = process.env.BASE || 'http://localhost:4321';
 // Real academic routes (paper: frontmatter → MicrositeShell). Work-project
 // routes legitimately use Base + site CSS, so don't add them here.
 // `/projects/young-makers` is `draft: true` during CHI 2027 review (it 404s
-// in production) — re-add it here when the page goes public (checklist:
+// in production): re-add it here when the page goes public (checklist:
 // content/projects/CLAUDE.md).
 const ACADEMIC_ROUTES = ['/projects/motionsmith'];
 

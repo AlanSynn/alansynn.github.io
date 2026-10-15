@@ -1,5 +1,5 @@
 ---
-// Section.astro — section wrapper with a mono head (index + title + meta).
+// Section.astro: section wrapper with a mono head (index + title + meta).
 // Numbered because these are real sequences (CV timeline, pubs-by-year).
 import CouplerCurve from './CouplerCurve.astro';
 
@@ -11,7 +11,7 @@ interface Props {
   divider?: boolean; // render coupler divider above
   /* Standalone pages (/blog, /search) pass "h1": their page title must be the
      document's single top-level heading. Homepage sections keep the default
-     h2 — the hero h1 is already the page's one h1. Both tags share the same
+     h2: the hero h1 is already the page's one h1. Both tags share the same
      .section-head__title class styling, so the swap is visually inert. */
   headingLevel?: 'h1' | 'h2';
 }

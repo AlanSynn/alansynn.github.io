@@ -1,7 +1,7 @@
 ---
-// Toc.astro — scroll-spy TOC for blog posts. Built client-side from rendered
+// Toc.astro: scroll-spy TOC for blog posts. Built client-side from rendered
 // <h2>/<h3> so it never drifts from prose. Desktop: sticky rail; <880px: disclosure.
-// Empty until JS runs — TOC is enhancement, not content. The rail is anchored
+// Empty until JS runs: TOC is enhancement, not content. The rail is anchored
 // by the essay's own title (a link back to the top) and closes with ← Blog.
 interface Props {
   title?: string;
@@ -52,17 +52,17 @@ const { title }: Props = Astro.props;
 
 <script is:inline data-astro-rerun>
   // data-astro-rerun: inline scripts re-run on a View-Transition swap only with
-  // this attribute — without it, post → post navigation swaps in a fresh
+  // this attribute: without it, post → post navigation swaps in a fresh
   // `hidden` rail but never runs this builder again (Astro executes an
   // unchanged inline script once per session), leaving the rail invisible.
-  // Runs after DOM parse — we render before .prose, can't query it at parse time.
+  // Runs after DOM parse: we render before .prose, can't query it at parse time.
   function initBlogToc() {
     var prose = document.querySelector('.prose');
     if (!prose) return;
     var heads = Array.prototype.slice.call(prose.querySelectorAll('h2, h3'));
     if (!heads.length) return;
 
-    // Skip a body heading that repeats the <h1> title (essay duplication) — noise entry.
+    // Skip a body heading that repeats the <h1> title (essay duplication): noise entry.
     var docTitle = '';
     var h1 = document.querySelector('.post-header h1, article h1');
     if (h1) docTitle = (h1.textContent || '').trim();
@@ -175,7 +175,7 @@ const { title }: Props = Astro.props;
     }
     // Teardown before re-bind: every swap-in re-executes this script (see
     // data-astro-rerun above), and window listeners are NOT swapped with the
-    // DOM — a previous page's handler would keep stacking and scroll stale
+    // DOM: a previous page's handler would keep stacking and scroll stale
     // nodes. Remove the last handler, then bind this page's fresh closure.
     if (window.__blogTocScrollHandler) {
       window.removeEventListener('scroll', window.__blogTocScrollHandler);

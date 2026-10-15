@@ -200,10 +200,10 @@ main :is(section, .cv-section) {
   color: var(--ink-soft);
   margin-top: 0.125rem;
 }
-/* Venue: its own line, visually paired with the authors line above it — same
+/* Venue: its own line, visually paired with the authors line above it: same
    body face + size (--step--1), ink-soft, regular weight. Links to the venue
    homepage; hover lifts to accent. (Was a mono/bold/accent badge jammed into a
-   flex row with the links — now a plain line that reads like the author line,
+   flex row with the links: now a plain line that reads like the author line,
    matching the reference layout: Title / Authors / Venue / Links.) */
 .cpub__venue {
   display: block;
@@ -239,7 +239,7 @@ main :is(section, .cv-section) {
 /* Same thumb|body grid, same hairline rhythm, same 4-line body density as a
    publication row → height ≤ a .cpub entry by construction. All token-driven,
    so dark mode adapts automatically. Body lines map: title+period / org /
-   summary / links — the work-content analog of title+year / authors / venue /
+   summary / links: the work-content analog of title+year / authors / venue /
    links. Summary is clamped to 2 lines so a long sentence can never let a row
    run taller than the tallest (multi-author) publication row. */
 .wcard {

@@ -1,4 +1,4 @@
-// papers.ts — dependency-free BibTeX parser for the al-folio flavour in
+// papers.ts: dependency-free BibTeX parser for the al-folio flavour in
 // content/papers.bib. Build-time only (Node fs). Handles @string macros,
 // nested braces, {}/""/bare values, author split, month names; preserves raw
 // entry text for BibTeX export.

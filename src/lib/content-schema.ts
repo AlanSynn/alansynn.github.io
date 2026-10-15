@@ -1,12 +1,12 @@
-// content-schema.ts — strict Zod schemas for every structured YAML in content/.
+// content-schema.ts: strict Zod schemas for every structured YAML in content/.
 // .strict(): an unknown key (typo / dead field) fails the build loudly, not
-// silently — the failure mode that once left tagline/skills.yaml/bibtex_show
+// silently: the failure mode that once left tagline/skills.yaml/bibtex_show
 // edited-but-ignored. Three cross-ref rules at the bottom (all THROW):
 // abbr∈venues, featured→selected, and only/except target ids ∈ targets.yaml.
 
 import { z } from 'astro/zod';
 
-// only:/except: on any CV entry — string or list (mirrors lib.typ entry-visible).
+// only:/except: on any CV entry: string or list (mirrors lib.typ entry-visible).
 const targetList = z.union([z.string(), z.array(z.string())]);
 
 // Shared timeline entry for all 4 cv.yaml sections. body/location optional.
@@ -22,7 +22,7 @@ export const timelineEntry = z
     // full CV, never the compact resume).
     more: z.string().optional(),
     // CV-only formal two-line form (academiccv.cls cventry): org renders as the
-    // bold grid row and role as the italic line beneath. Optional — when
+    // bold grid row and role as the italic line beneath. Optional: when
     // absent the CV falls back to `title` on the grid row. The web and the
     // resume always render `title` and never see org/role.
     org: z.string().optional(),
@@ -38,7 +38,7 @@ export const cvSchema = z
     experience: z.array(timelineEntry),
     teaching: z.array(timelineEntry),
     activities: z.array(timelineEntry),
-    // Invited Talks & Outreach — CV-only section (plan §5.8). Same entry model.
+    // Invited Talks & Outreach: CV-only section (plan §5.8). Same entry model.
     // Not rendered on the web homepage (only the Typst CV consumes it), but
     // validated here so a typo fails the web build before a bad PDF.
     outreach: z.array(timelineEntry),
@@ -49,7 +49,7 @@ export const cvSchema = z
     //   service  → "Scholarly Activities" (reviewer/committee service)
     projects: z.array(timelineEntry),
     service: z.array(timelineEntry),
-    // Patent Applications — rendered publication-style (hanging label IP1…),
+    // Patent Applications: rendered publication-style (hanging label IP1…),
     // so the full citation line lives in `body` (authors, quoted title,
     // application number, dates, applicant) instead of the title/period grid.
     patents: z.array(z.object({ body: z.string() }).strict()),
@@ -124,11 +124,11 @@ export const newsItemSchema = z
   .strict();
 
 // `type` drives CV pub grouping (journal/conference/preprint); lib.typ heuristics
-// only when absent. `color` retired when labels unified to accent — not re-added.
+// only when absent. `color` retired when labels unified to accent: not re-added.
 export const venueSchema = z
   .object({
     name: z.string(),
-    // url is optional: an entry can exist purely to label the badge — e.g. an
+    // url is optional: an entry can exist purely to label the badge: e.g. an
     // under-review paper's "In review" has no venue page to link (linking one
     // would disclose the venue). CompactPub renders name as bare text then.
     url: z.url().optional(),
@@ -191,7 +191,7 @@ export function enforcePaperIntegrity(
   const asymmetric = papers.filter((p) => p.featured && !p.selected);
   if (asymmetric.length > 0) {
     throw new Error(
-      `[content] ${asymmetric.length} paper(s) are featured (web-top) but not selected (PDF) — ` +
+      `[content] ${asymmetric.length} paper(s) are featured (web-top) but not selected (PDF): ` +
         `a featured paper must also appear in the CV/resume. Set selected={true} (or featured={false}) in content/papers.bib for:\n  ` +
         asymmetric.map((p) => `- ${p.title.slice(0, 80)}`).join('\n  '),
     );
@@ -200,8 +200,8 @@ export function enforcePaperIntegrity(
 
 // only:/except: on cv.yaml timeline entries + honors.yaml groups must reference
 // real target ids (keys in targets.yaml). A typo like `only: [graphcs]` HIDES
-// the entry everywhere — web (only is defined → entry hidden as target-specific)
-// AND every PDF target (no target matches the typo) — a silent vanish with no
+// the entry everywhere: web (only is defined → entry hidden as target-specific)
+// AND every PDF target (no target matches the typo): a silent vanish with no
 // build signal. Throws naming each offender + the known target ids.
 export function enforceTargetFlags(
   entries: { only?: string | string[]; except?: string | string[] }[],
@@ -217,7 +217,7 @@ export function enforceTargetFlags(
       const ids = Array.isArray(v) ? v : [v];
       // An empty list (only: [] / except: []) is defined-but-empty → the entry
       // is hidden on web (entry-visible returns false) AND every PDF target,
-      // with no build signal — the same silent-vanish class as a typo'd id.
+      // with no build signal: the same silent-vanish class as a typo'd id.
       if (ids.length === 0) {
         bad.push(`${source} → ${fld}: [] (empty list hides the entry everywhere)`);
         continue;
@@ -228,7 +228,7 @@ export function enforceTargetFlags(
   if (bad.length > 0) {
     throw new Error(
       `[content] ${bad.length} only:/except: value(s) are not target ids in content/targets.yaml ` +
-        `(a typo here hides the entry on web AND every PDF target — silent vanish). ` +
+        `(a typo here hides the entry on web AND every PDF target: silent vanish). ` +
         `Known target ids: [${targetIds.join(', ') || '(none defined)'}]. Offenders:\n  ` +
         bad.join('\n  '),
     );

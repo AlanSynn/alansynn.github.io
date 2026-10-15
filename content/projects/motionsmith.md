@@ -5,7 +5,7 @@ paper: "synn2026motionsmith"
 order: 0
 hero_eyebrow: "CHI 2026 Full Paper"
 title_mark: "MotionSmith:"
-# Pixel-exact hero title line-breaks — 1:1 with the original microsite's
+# Pixel-exact hero title line-breaks: 1:1 with the original microsite's
 # hand-broken <h1>. Line 1 carries the bold mark; lines 2-3 are the muted rest.
 title_lines:
   - { mark: "MotionSmith:", rest: "A Sketch-Based" }
@@ -13,7 +13,7 @@ title_lines:
   - { rest: "for Automata Making" }
 teaser_caption: "Three artist-led automata pair motion sketches with fabricated outcomes across four-bar and cam-driven mechanisms."
 summary: "A sketch-based computational design system that helps automata makers express motion, compare mechanisms, refine designs, and export fabrication-ready parts."
-event_dates: "April 13–17, 2026"
+event_dates: "April 13-17, 2026"
 affiliations:
   - "Georgia Tech"
   - "UC Santa Barbara"

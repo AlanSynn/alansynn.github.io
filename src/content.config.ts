@@ -7,8 +7,8 @@ import tagRegistry from '@content/tags.yaml';
 
 // Blog tag registry (content/tags.yaml): every `tags:` value on a post
 // (content/blog/*.typ) must appear in that list, or the build fails with a
-// located Zod error. Topic-only, kebab-case. Validated inline as a z.enum —
-// not a separate `enforceX` — because blog posts are parsed by THIS Astro
+// located Zod error. Topic-only, kebab-case. Validated inline as a z.enum:
+// not a separate `enforceX`: because blog posts are parsed by THIS Astro
 // collection schema, not by src/lib/data.ts (which can't reach them:
 // getCollection is async, only callable in .astro frontmatter). Mirrors how
 // `category: z.enum(['work','research'])` already gates a closed vocabulary.
@@ -29,7 +29,7 @@ const blog = defineCollection({
     title: z.string(),
     author: z.string().optional(),
     // `description` (from blog.typ's `desc:` arg, emitted via #metadata). A
-    // REQUIRED non-empty (after trim) string — it drives <meta
+    // REQUIRED non-empty (after trim) string: it drives <meta
     // name="description">, OG/Twitter, the RSS <description>, and the
     // BlogPosting JSON-LD. `.trim().min(1)` mirrors blog.typ's own
     // `desc.trim() != ""` assert so both layers enforce the same thing: even a
@@ -41,7 +41,7 @@ const blog = defineCollection({
     // `<atom:updated>` (RSS). The z.preprocess null→undefined guard is
     // defense-in-depth: blog.typ emits the key only when set, but `z.coerce.date()`
     // would otherwise turn an accidental `null` into the Unix epoch (1970-01-01)
-    // — `.optional()` allows undefined but NOT null, so a stray null must map to
+    //: `.optional()` allows undefined but NOT null, so a stray null must map to
     // undefined rather than coerce to the epoch.
     updatedDate: z.preprocess((v) => (v === null ? undefined : v), z.coerce.date()).optional(),
     tags: tagSchema.optional(),
@@ -52,7 +52,7 @@ const blog = defineCollection({
 const projects = defineCollection({
   // Never let agent-guidance files parse as project entries: this dir carries
   // its own scoped CLAUDE.md (authoring rules), and the root convention is a
-  // CLAUDE.md/AGENTS.md symlink pair — a stray one here would either fail the
+  // CLAUDE.md/AGENTS.md symlink pair: a stray one here would either fail the
   // strict schema or become a phantom entry that trips the [slug].astro
   // getStaticPaths footgun guard at build time.
   loader: glob({
@@ -71,7 +71,7 @@ const projects = defineCollection({
       category: z.enum(['work', 'research']).default('work'),
       // Within-year tiebreaker ONLY (higher = earlier inside the same year).
       // Primary homepage sort is now year-DESC (end-of-range `period`, or an
-      // explicit `date`) via getWorkProjects() in src/lib/projects.ts — `order`
+      // explicit `date`) via getWorkProjects() in src/lib/projects.ts: `order`
       // no longer drives global order, so adding a project needs no renumbering.
       order: z.number().default(0),
       date: z.coerce.date().optional(),
@@ -87,7 +87,7 @@ const projects = defineCollection({
       paper: z.string().optional(),
       teaser_caption: z.string().optional(),
       // Hero teaser override. The hero figure defaults to `paper.preview` (the
-      // bib field that also drives the homepage pub-row thumb + og:image) —
+      // bib field that also drives the homepage pub-row thumb + og:image):
       // set this when the bib preview represents the paper one way (e.g. the
       // live interface) while the page hero should keep the narrative paper
       // teaser whose caption lives in `teaser_caption`.
@@ -95,7 +95,7 @@ const projects = defineCollection({
       // Hero eyebrow override (defaults to "<Venue> <year>"). Original
       // motionsmith uses "CHI 2026 Full Paper".
       hero_eyebrow: z.string().optional(),
-      // Bold/dark title prefix (e.g. "MotionSmith:") — the rest of the title
+      // Bold/dark title prefix (e.g. "MotionSmith:"): the rest of the title
       // renders muted. Optional; absent → uniform title.
       title_mark: z.string().optional(),
       // Explicit hero title line-breaks for pixel-exact parity with the original
@@ -106,7 +106,7 @@ const projects = defineCollection({
         .array(z.object({ mark: z.string().optional(), rest: z.string() }).strict())
         .optional(),
       // Conference/workshop date range shown in the venue line (e.g.
-      // "April 13–17, 2026"); the venue + city already derive from the bib.
+      // "April 13-17, 2026"); the venue + city already derive from the bib.
       event_dates: z.string().optional(),
       // Institution legend + per-author superscript index (1-based, in bib
       // author order). Renders affiliation superscripts + a legend line.
@@ -139,7 +139,7 @@ const projects = defineCollection({
       cases_heading: z.string().optional(),
       cases_intro: z.string().optional(),
       // Fuse the case carousel into the Results section (stats + settings note
-      // + cases in one section) instead of a standalone #cases section — for
+      // + cases in one section) instead of a standalone #cases section: for
       // deployment papers whose cases ARE their results. `cases_heading`/
       // `cases_intro` become an h3 + intro inside #results; `cases_outro` is a
       // quiet closing paragraph after the carousel.
@@ -149,7 +149,7 @@ const projects = defineCollection({
       citation_heading: z.string().optional(),
       citation_intro: z.string().optional(),
       // Structured media sections rendered by AcademicProject (not the markdown
-      // body — Astro .md can't inject custom components, so bespoke blocks are
+      // body: Astro .md can't inject custom components, so bespoke blocks are
       // frontmatter-driven like `cases:`). All optional; present → section shows.
       demo: z
         .object({
@@ -217,13 +217,13 @@ const projects = defineCollection({
         .optional(),
       // Quantitative results table (mono numerics, highlighted best row).
       // results_heading overrides the section h2 (default "Quantitative
-      // results") — e.g. an HCI deployment paper renames it to its study name.
+      // results"): e.g. an HCI deployment paper renames it to its study name.
       results_heading: z.string().optional(),
       results: z
         .object({
           caption: z.string().optional(),
           note: z.string().optional(),
-          // Optional: a results block may be note-only (no table) — e.g. a
+          // Optional: a results block may be note-only (no table): e.g. a
           // deployment study whose per-case settings live in the case tabs.
           columns: z.array(z.string()).optional(),
           rows: z
@@ -256,10 +256,10 @@ const projects = defineCollection({
         })
         .strict()
         .optional(),
-      // Gallery section h2 override (default "Result gallery") — e.g. paper
+      // Gallery section h2 override (default "Result gallery"): e.g. paper
       // figures that aren't results (a co-design workshop) rename the section.
       gallery_heading: z.string().optional(),
-      // Results gallery — multi-image grid with optional per-tile label + caption.
+      // Results gallery: multi-image grid with optional per-tile label + caption.
       gallery: z
         .object({
           columns: z.number().int().positive().optional(),
@@ -271,7 +271,7 @@ const projects = defineCollection({
                 caption: z.string().optional(),
                 label: z.string().optional(),
                 // Wide paper figures (multi-panel, ~3:1): contain them in a 5:2
-                // tile instead of cropping to the default 1:1 cover square —
+                // tile instead of cropping to the default 1:1 cover square:
                 // a caption that enumerates panels must not lose panels.
                 wide: z.boolean().optional(),
               })
@@ -303,7 +303,7 @@ const projects = defineCollection({
         .array(z.object({ value: z.string(), label: z.string() }).strict())
         .optional(),
       // Numbered equation figures. `mathml` is hand-authored MathML rendered
-      // natively via set:html (no KaTeX dependency — first-party); `latex` is a
+      // natively via set:html (no KaTeX dependency: first-party); `latex` is a
       // plain-text fallback when no MathML is supplied. Auto-numbered (1), (2), …
       equations: z
         .array(
@@ -325,7 +325,7 @@ const projects = defineCollection({
         })
         .strict()
         .optional(),
-      // Code block with filename + copy button. Plain monospace — Shiki only
+      // Code block with filename + copy button. Plain monospace: Shiki only
       // highlights markdown code fences, not frontmatter strings, so we keep it
       // first-party (no client-side highlighter dep). Copy reuses data-copy-target.
       code: z
@@ -336,14 +336,14 @@ const projects = defineCollection({
         })
         .strict()
         .optional(),
-      // FAQ accordion (native <details>/<summary> — no JS, VT-safe, accessible).
+      // FAQ accordion (native <details>/<summary>: no JS, VT-safe, accessible).
       faq: z.array(z.object({ q: z.string(), a: z.string() }).strict()).optional(),
       // Acknowledgments prose (conventional post-citation closing section).
       acknowledgments: z.string().optional(),
       // Page-closing invitation (after acknowledgments): photo + heading +
       // short body + chip links, e.g. "try it in your classroom". `links` uses
       // the hero `links` shape; non-anchor entries open in a new tab (same
-      // escape hatch as the hero chips — /ms must not VT-swap into the page).
+      // escape hatch as the hero chips: /ms must not VT-swap into the page).
       closing: z
         .object({
           heading: z.string(),
@@ -366,7 +366,7 @@ const projects = defineCollection({
         .optional(),
       // Unlisted: builds normally (reachable by direct URL) but excluded from
       // the sitemap (astro.config filter) + emits <meta name="robots" noindex>.
-      // The full-featured example page uses this — every feature present, never
+      // The full-featured example page uses this: every feature present, never
       // indexed or linked. `draft:` (below) is the harder exclusion: skipped
       // entirely from the production build (getStaticPaths filters on PROD),
       // still renderable in `just dev`.
@@ -375,7 +375,7 @@ const projects = defineCollection({
     })
     .strict()
     .superRefine((data, ctx) => {
-      // A table caption renders inside ResultsTable — without columns/rows
+      // A table caption renders inside ResultsTable: without columns/rows
       // there is no table, so the caption would silently render nowhere.
       if (data.results && !data.results.columns && data.results.caption) {
         ctx.addIssue({
@@ -385,7 +385,7 @@ const projects = defineCollection({
             'results.caption requires results.columns and results.rows (without a table it would render nowhere).',
         });
       }
-      // Academic paper pages must link a papers.bib entry — the hero derives
+      // Academic paper pages must link a papers.bib entry: the hero derives
       // title/authors/venue/BibTeX from it. Without `paper:` the academic layout
       // has nothing to render.
       if (data.category === 'research' && !data.paper) {

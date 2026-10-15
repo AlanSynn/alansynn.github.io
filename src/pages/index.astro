@@ -25,19 +25,19 @@ import { getWorkProjects } from '@/lib/projects';
 
 // One page = the whole CV. Scroll-only, no nav.
 // `demo` papers (the unpublished example page's fictional entry) never appear
-// in the live publications list — they're resolvable by citekey only. Same for
+// in the live publications list: they're resolvable by citekey only. Same for
 // `web_off` papers (a submission held from the web during double-anonymous
 // review): title/authors must not render anywhere, NOT even behind the
 // `hidden` toggle, whose rows stay in the served HTML + the Pagefind index.
 // `hidden` papers collapse behind the homepage "All publications" toggle (still
-// on the PDF resume/CV — the complete formal record). `demo`/`web_off` are
+// on the PDF resume/CV: the complete formal record). `demo`/`web_off` are
 // fully excluded. See the per-entry flag docs atop content/papers.bib.
 const allPubs = getPapers().filter((p) => p.fields.demo !== 'true' && p.fields.web_off !== 'true');
 const papers = allPubs.filter((p) => p.fields.hidden !== 'true'); // default-visible (international)
 const morePubs = allPubs.filter((p) => p.fields.hidden === 'true'); // behind the toggle
 
 // Projects = work/engineering only, sorted by year (newest first) via
-// getWorkProjects() — mirrors #publications. The year derives from each
+// getWorkProjects(): mirrors #publications. The year derives from each
 // project's `period` (end of range) or an explicit `date`; `order` is now just
 // an in-year tiebreaker. Adding a project needs no renumbering. See
 // src/lib/projects.ts.
@@ -45,8 +45,8 @@ const projects = await getWorkProjects();
 
 // News: newest first, top 8 shown flat (no "more" toggle). content/news.yaml
 // items PLUS blog-post pointers, merged by date. Posts are title-only pointer
-// rows — the description is /blog's job (a digest entry routes, it doesn't
-// reproduce) — and are share-of-voice-capped: only the 2 most recent published
+// rows: the description is /blog's job (a digest entry routes, it doesn't
+// reproduce), and are share-of-voice-capped: only the 2 most recent published
 // posts participate, so an active blog can never crowd career news out of the
 // 8 slots. A manual news.yaml item whose `link` contains the post slug
 // suppresses the auto row: an editorial rewrite (or a genuinely newsworthy
@@ -67,7 +67,7 @@ const news = allNews.slice(0, 8);
 // Join all statements so the bio can be multi-paragraph, not just the first.
 const bio = researchInterests.statements.join('\n\n');
 
-// "Say hi" email obfuscation (base64 halves, JS-decoded) — same as Socials.astro.
+// "Say hi" email obfuscation (base64 halves, JS-decoded): same as Socials.astro.
 const [mailUser, mailDomain] = site.email.split('@');
 const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
 ---
@@ -162,7 +162,7 @@ const enc = (s: string) => Buffer.from(s, 'utf-8').toString('base64');
     <Timeline items={teaching} />
   </section>
 
-  {/* Honors — placed above Contact to close the page on achievement */}
+  {/* Honors: placed above Contact to close the page on achievement */}
   <section id="honors">
     <h2 class="home-head">Honors &amp; Awards</h2>
     {honors.filter(entryVisible).map((g: { group: string; items: string[] }) => (

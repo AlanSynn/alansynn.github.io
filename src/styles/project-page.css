@@ -1,12 +1,12 @@
 /* ============================================================================
-   project-page.css — academic project page. A VERBATIM 1:1 port of the original
+   project-page.css: academic project page. A VERBATIM 1:1 port of the original
    motionsmith microsite styles (static/css/{index,header,page,sections}.css from
    github.com/AlanSynn/motionsmith), using the ORIGINAL class names
    (.site-header, .hero, .section, .link-chip, .video-figure, .case-carousel,
    .citation-grid, .site-footer, …). This file is intentionally a near-exact
    copy so the ported page is visually identical to the standalone microsite.
    The academic project page renders in an ISOLATED shell (MicrositeShell.astro)
-   that loads ONLY this stylesheet + Manrope — it does NOT load the site's
+   that loads ONLY this stylesheet + Manrope: it does NOT load the site's
    main.css/tokens, so the original class names cannot collide with anything.
    The graphics-researcher extras (comparison slider / results table / gallery /
    synced video) are NOT in the original microsite; their styles are appended at
@@ -26,10 +26,10 @@
      chip/button stays legible when --text flips to a light ink in dark mode
      (a hardcoded #fff goes white-on-near-white = invisible). */
   --on-fill: #ffffff;
-  /* Hero title muted "rest" — a step lifted from --text, readable in both themes. */
+  /* Hero title muted "rest": a step lifted from --text, readable in both themes. */
   --title-rest: #434a59;
   /* Raised/translucent surfaces. These are token-driven (not hardcoded) so dark
-     mode can flip them — the microsite hardcoded rgba(255,255,255,…) panels,
+     mode can flip them: the microsite hardcoded rgba(255,255,255,…) panels,
      which go invisible on a dark bg. Mirrors main --paper-raised in dark. */
   --surface: rgba(255, 255, 255, 0.92); /* play button, round toggle */
   --surface-header: rgba(255, 255, 255, 0.86); /* sticky header (lets content scroll under) */
@@ -46,7 +46,7 @@
 /* Light mode is the bespoke microsite (Manrope/indigo). Dark mode adopts the
    MAIN site's dark palette so the project page reads as part of alansynn.com
    when the reader switches themes: paper #13171a, ink #e9e6e0, hairline #2a3137,
-   accent sky-blue #6ba8ff — identical values to src/styles/tokens.css
+   accent sky-blue #6ba8ff: identical values to src/styles/tokens.css
    :root[data-theme='dark']. Triggered by [data-theme='dark'] on <html> (set by
    MicrositeShell's no-flash script + the ThemeToggle), with a prefers-color-scheme
    fallback for the no-JS / pre-script case. Surface tokens flip to main
@@ -453,7 +453,7 @@ code {
 
 /* Back-to-home affordance (header left): replaces the project mark glyph with a
    left-pointing chevron so readers can always return to the main site. Quiet +
-   disciplined — the homepage mark is the page's signature; this is just the door
+   disciplined: the homepage mark is the page's signature; this is just the door
    out. Hover/focus lifts to accent + nudges the chevron. */
 .site-mark--home {
   gap: 0.45rem;
@@ -815,7 +815,7 @@ code {
 }
 
 /* Portrait multi-panel workflow figures (e.g. the revised-system figure) would
-   render ~1300px+ tall at column width — cap and center them instead. For
+   render ~1300px+ tall at column width: cap and center them instead. For
    landscape figures this is a no-op: natural width exceeds the column, so
    max-width:100% still sizes them exactly as width:100% did. */
 .feature-figure img {
@@ -828,9 +828,9 @@ code {
 
 /* §5 consideration figures (revisions[]) are the paper's OWN left-to-right
    panel strips (owner call 2026-10-01: paper-native reading order beats the
-   earlier 2-row web recompositions). Landscape at 2.9–3.6:1, they render at
-   full shell width through the generic slot above — 314–386px tall at 1120px,
-   far under its 1050px cap — so they need no rule of their own. The
+   earlier 2-row web recompositions). Landscape at 2.9-3.6:1, they render at
+   full shell width through the generic slot above: 314-386px tall at 1120px,
+   far under its 1050px cap: so they need no rule of their own. The
    `revision-figure` class stays as the section's DOM hook. */
 
 .hero__figure figcaption,
@@ -911,7 +911,7 @@ code {
 
 /* Exactly four stage panels (e.g. four consideration→revision pairs) read as a
    2×2 quartet; five (the young-makers paper's considerations) read as a 2×2
-   quartet plus a full-width fifth; three stay 3-across. Desktop only — the
+   quartet plus a full-width fifth; three stay 3-across. Desktop only: the
    ≤980px collapse below must keep winning, and :has() would out-rank it. */
 @media (min-width: 981px) {
   .stage-grid:has(> .stage-panel:nth-child(4):last-child) {
@@ -945,7 +945,7 @@ code {
   margin-top: 0.7rem;
 }
 
-/* Linear numbered findings (stages carrying evidence figures — the paper §5
+/* Linear numbered findings (stages carrying evidence figures: the paper §5
    shape "finding → plate"): each unit is a hairline-topped head (index chip,
    title, ~2-line why) with its full-width figure directly under it, so a
    consideration and its evidence read once, together. Pages whose stages are
@@ -1101,7 +1101,7 @@ code {
 /* ===== sections.css ===================================================== */
 
 /* Cases fused into the Results section (`cases_in_results`): the h3 heading +
-   intro sit between the stats/settings note and the carousel — sized between
+   intro sit between the stats/settings note and the carousel: sized between
    the section h2 and the case-tab labels (mirrors the ablation h3). */
 .cases-inline-heading {
   font-size: clamp(1.2rem, 2vw, 1.55rem);
@@ -1411,8 +1411,8 @@ code {
 
 /* ============================================================================
    GRAPHICS-RESEARCHER EXTRAS (not in the original microsite).
-   These four blocks — comparison slider, results/ablation table, results
-   gallery, synced video comparison — are rendered only on pages that carry the
+   These four blocks: comparison slider, results/ablation table, results
+   gallery, synced video comparison: are rendered only on pages that carry the
    matching frontmatter (e.g. the draft example-graphics template). They are
    styled in the SAME microsite design language (Manrope, --accent, --radius-lg,
    --bg-soft) so they read as native to the page. Class names are unprefixed
@@ -1460,7 +1460,7 @@ code {
   border-radius: 999px;
 }
 /* Labels mirror the clip: at pos=50 the AFTER image is inset from the right,
-   so AFTER shows on the LEFT half and BEFORE on the RIGHT — label--after sits
+   so AFTER shows on the LEFT half and BEFORE on the RIGHT: label--after sits
    left, label--before sits right. (Inverting these put "Ours" under "Target".) */
 .cmp__label--before {
   right: 0.75rem;
@@ -1711,7 +1711,7 @@ code {
 }
 
 /* ============================================================================
-   Method blocks — equations / algorithm / code / stat callouts / FAQ / ack.
+   Method blocks: equations / algorithm / code / stat callouts / FAQ / ack.
    All token-driven (--bg-soft/--line/--text/--muted/--accent/--surface), so
    they adapt to dark mode automatically; no per-block dark overrides needed.
    ============================================================================ */
@@ -1940,7 +1940,7 @@ code {
 .closing__media img {
   display: block;
   width: 100%;
-  /* natural aspect, no cover — a documentary photo must never be silently
+  /* natural aspect, no cover: a documentary photo must never be silently
      cropped by the slot (the 1:1 cover here once trimmed the source and made
      flush-bottom crops look cut). Constrain the photo itself at export. */
   border: 1px solid var(--line);
