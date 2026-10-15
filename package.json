@@ -11,7 +11,7 @@
   "scripts": {
     "dev": "astro dev",
     "check": "astro check",
-    "build": "astro build && pagefind --site dist",
+    "build": "astro build && pagefind --site dist && bun scripts/gen-markdown-mirrors.mjs",
     "clips": "bun scripts/video-clips.mjs",
     "preview": "astro preview",
     "astro": "astro",
@@ -26,7 +26,8 @@
     "@modyfi/vite-plugin-yaml": "^1.1.1",
     "astro": "^7.3.3",
     "astro-typst": "^0.12.4",
-    "marked": "^18.0.13"
+    "marked": "^18.0.13",
+    "node-html-markdown": "^2.0.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
