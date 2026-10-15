@@ -14,7 +14,6 @@ Up close, it contains many research cultures.
 A theory paper, a systems paper, a vision paper, an NLP paper, a graphics paper, and an HCI paper may all contain algorithms, experiments, datasets, and software. But they can disagree sharply about what makes a contribution convincing.
 
 The difference is not simply that they use different methods.
-
 They learn to see different things first.
 
 A systems researcher may first see workload, latency, locality, resource cost, and failure modes. An HCI researcher may first see interpretation, context, agency, appropriation, and sensemaking. A theory researcher may first see definitions, assumptions, quantifiers, counterexamples, and proof obligations. A graphics researcher may have to see representation, optimization, perception, interaction, and speed at the same time.
@@ -65,7 +64,6 @@ Each field below is folded; open the ones you want to read.
   )
 
   Here, abstraction is not something that comes after the “real” problem.
-
   The abstraction is part of the real work.
 
   A theorem separates the conditions under which a statement is true from the conditions under which it is not. That is why one counterexample can matter so much. If the paper makes a universal claim, one valid counterexample can break it.
@@ -246,7 +244,6 @@ Each field below is folded; open the ones you want to read.
 
 #fold("Graphics")[
   Graphics is a particularly interesting case because several research cultures coexist inside one field.
-
   What counts as “working” depends heavily on what kind of graphics problem is being solved.
 
   === Rendering and graphics systems
@@ -263,7 +260,6 @@ Each field below is folded; open the ones you want to read.
   A method that produces an excellent image in ten minutes and one that produces a slightly worse image in sixteen milliseconds may be solving different problems.
 
   So raw visual quality is not enough.
-
   The operating regime matters.
 
   === Geometry processing
@@ -310,7 +306,6 @@ Each field below is folded; open the ones you want to read.
 
 #fold("HCI and design research")[
   HCI begins from a different object.
-
   The system matters, but so do people, interpretation, practice, context, and use.
 
   Typical sentences sound like:
@@ -325,7 +320,6 @@ Each field below is folded; open the ones you want to read.
   )
 
   To someone trained in systems or theory, this language can initially sound vague.
-
   But it usually signals a different type of contribution.
 
   The field may not yet have a closed objective to optimize. The research may instead be trying to make a phenomenon, practice, tension, or design possibility visible.
@@ -406,14 +400,12 @@ Each field below is folded; open the ones you want to read.
   A method can work perfectly in simulation and fail because of friction, sensing noise, calibration, latency, unmodeled contact, or a slightly different environment.
 
   So robustness in robotics is not an abstract preference.
-
   It is often the difference between a method that works in a figure and one that works in the world.
 ]
 
 = Three recurring orientations
 
 Once the fields are introduced separately, a broader pattern becomes visible.
-
 Three questions appear again and again.
 
 They are not fields.
@@ -532,7 +524,6 @@ What can be stated generally, proved, bounded, or falsified?
 ]
 
 But fields should not be placed permanently into corners.
-
 A better description is that different fields often *start* closer to different questions.
 
 Theory and formal methods often start near principle.
@@ -571,7 +562,6 @@ Then it may become more principled:
 ]
 
 The direction can also go the other way.
-
 A theorem may suggest a representation.
 A new representation may enable a system.
 A system may make a new interaction possible.
@@ -584,7 +574,6 @@ Once fields protect different kinds of claims, even ordinary technical words bec
 The easiest example is *performance*.
 
 Everyone talks about performance.
-
 They do not necessarily mean the same thing.
 
 #fold("Performance in systems")[
@@ -609,7 +598,6 @@ They do not necessarily mean the same thing.
   The workload matters.
   The hardware matters.
   The operating conditions matter.
-
   A throughput number with no workload is barely a claim.
 ]
 
@@ -664,7 +652,6 @@ They do not necessarily mean the same thing.
   Fluency is one property.
   Correctness is another.
   Factuality is another.
-
   They should not be collapsed into a single notion of “good language.”
 ]
 
@@ -801,7 +788,6 @@ For example:
 
 The difference is not cosmetic.
 It changes where the research looks for the problem.
-
 A systems researcher may look for the missing mechanism in an abstraction.
 An HCI researcher may look for the relation among representation, interaction, interpretation, and context.
 
@@ -869,7 +855,6 @@ A robotics researcher may first notice:
 A graphics researcher may need to notice representation, optimization, perception, interaction, and speed all at once.
 
 These are not merely different methods.
-
 They are different senses of where a claim is most likely to break.
 
 == A systems sentence heard by HCI
@@ -919,7 +904,6 @@ A systems researcher may still ask:
 
 Again, both questions are legitimate.
 They simply protect different parts of the claim.
-
 The conflict appears when either side treats its own first question as the only serious one.
 
 = What breaks a contribution also differs by field
