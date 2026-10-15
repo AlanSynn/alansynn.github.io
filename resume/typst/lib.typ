@@ -1,20 +1,18 @@
 // ============================================================================
-// lib.typ — shared CV/resume template. Page style (margins + link underline),
-// section headers (heading + accent rule), and the two-column entry grid come
-// from the first-party layout.typ toolkit (adapted from cv-soft-and-hard 0.1.0,
-// MIT, © Jonas Pleyer — brought in-house so the template is fully owned and
-// freely editable; no @preview runtime dependency). We deliberately do NOT
-// override Typst's default text font (Libertinus Serif), size, or paragraph
-// leading/spacing — those defaults ARE the reference template's typography, and
-// overriding them (an earlier version set New Computer Modern + 0.9em leading)
-// was the source of the line-spacing mismatch.
+// lib.typ — shared CV/resume/paper-handout template. The CV and resume render
+// in the owner's academiccv.cls 양식 (academic.typ: Latin Modern, cls geometry,
+// gray running header/footer, hidelinks-style links — the resume compressed to
+// one page via density knobs); the one-page paper handout keeps the first-party
+// layout.typ toolkit (adapted from cv-soft-and-hard 0.1.0, MIT, © Jonas Pleyer
+// — brought in-house so the template is fully owned and freely editable; no
+// @preview runtime dependency).
 //
-// Layered on top of the toolkit: the markdown-inline parser, "me"-author
-// bolding, publication classification (journal / conference / preprint), and
-// the per-target variant logic.
+// Layered on top: the markdown-inline parser, self-author bolding, publication
+// classification (journal / conference / preprint), and the per-target variant
+// logic.
 //
 // Reads the SAME content source the Astro web reads (content/*.yaml +
-// content/cv.yaml for the four timeline sections + src/data/papers.json), so
+// content/cv.yaml for the career-timeline sections + src/data/papers.json), so
 // editing a YAML field updates web + CV + resume together.
 //
 // Variants (per-target show/hide):
@@ -36,10 +34,11 @@
 //   typst compile --root . resume/typst/cv.typ public/pdfs/alansynn-cv-graphics.pdf --input target=graphics
 // ============================================================================
 
-#import "./layout.typ": styling, section, entry, global-theme
+#import "./layout.typ": styling, section
+#import "./academic.typ": acad-page, acad-name-header, acad-section, acad-subsection, acad-entry-grid, acad-items, acad-pub-item
 
-// Brand accent (web --accent navy #1d4e89) — passed to styling() so section
-// rules + link underlines carry the site brand across the CV/resume.
+// Brand accent (web --accent navy #1d4e89) — passed to styling() so the paper
+// handout's section rules + link underlines carry the site brand.
 #let accent = rgb("1d4e89")
 
 // ---- 1. Load shared data (root-relative via --root .) ---------------------
@@ -50,6 +49,9 @@
 #let teaching    = cvdata.teaching
 #let activities  = cvdata.activities
 #let outreach    = cvdata.outreach
+#let projects    = cvdata.projects
+#let service     = cvdata.service
+#let patents     = cvdata.patents
 #let honors      = yaml("/content/honors.yaml")
 #let references  = yaml("/content/references.yaml")
 #let ri          = yaml("/content/research-interests.yaml")
@@ -158,53 +160,62 @@
   s
 }
 
-// ---- 6. Entry on the package grid (cv-soft-and-hard idiom) ----------------
-// Mirrors template/main.typ: entry(left-text, right-text) where left-text is
-// markup — a bold title followed by a native bullet list — and right-text is
-// the italic period. Bullets live in the LEFT (1fr) column by design (the
-// package template does the same); the right (auto) column carries only the
-// date. (An earlier version put bullets in `description` colspan-2 — that is a
-// real package feature, but the reference template does not use it, and using
-// it diverged from the canonical spacing.)
-#let cv-entry = (e, doc: "cv", gap: 0.3em) => {
+// ---- 6. Entry row (academiccv.cls cventry, both docs) ----------------------
+// The cls cventry form for BOTH the CV and the resume — same 4pt pre-entry
+// gap and cls bullet rhythm (3pt/2pt) on each: left / \small raggedleft-right
+// tabularx row, the optional italic "role or description" line, then cvitems
+// bullets. The left cell is BOLD on the CV (the cls look) and regular weight
+// on the resume. The row carries `org` when the entry has it (fallback:
+// title) on the CV; the resume keeps `title` on the row and drops the italic
+// line. The italic line carries `role`
+// (fallback: `location`); a location it doesn't consume leads the resume's
+// bullets (the old resume layout's behavior — no current resume entry has
+// one, so this is defensive). `more` carries CV/web-only detail the resume
+// omits (a 2nd experience bullet, an advisor line, military service); the web
+// Timeline mirrors the CV by concatenating body+more in data. Kept whole
+// across page breaks (the cls \Needspace guard ≈ breakable: false).
+#let cv-entry = (e, doc: "cv") => {
   if not entry-visible(e) { return [] }
   let period = format-period(e.at("period", default: ""))
   let title = e.at("title", default: "")
   let location = e.at("location", default: none)
   let body = e.at("body", default: none)
   let more = e.at("more", default: none)
-  // `more` carries CV/web-only detail the resume omits (a 2nd experience bullet,
-  // an advisor line, military service). Dropped when doc == "resume"; appended
-  // after the core body lines otherwise. The web Timeline mirrors this by
-  // concatenating body+more in data — both renderers keep the resume compact.
   let lines = parse-body-lines(body)
   let more-lines = if more != none and doc != "resume" { parse-body-lines(more) } else { () }
-  let lead = ()
-  if location != none and location != "" { lead.push((level: 0, text: location)) }
+  let org = e.at("org", default: none)
+  let role = e.at("role", default: none)
+  let row-left = if doc == "cv" and org != none and org != "" { org } else { title }
+  let italic-line = if doc == "cv" {
+    if role != none and role != "" { role }
+      else if location != none and location != "" { location }
+      else { none }
+  } else { none }
+  let lead = if doc != "cv" and location != none and location != "" {
+    ((level: 0, text: location),)
+  } else { () }
   let items = lead + lines + more-lines
-
-  let left = {
-    text(weight: "bold")[#md-inline(title)]
-    if items.len() > 0 {
-      v(gap)
-      list(
-        marker: [•],
-        indent: 1.2em,
-        body-indent: 0.5em,
-        ..items.map(l => {
-          if l.level == 0 { md-inline(l.text) }
-          else { emph[#md-inline(l.text)] }
-        }),
-      )
+  // Row weight: the bold left cell is the cls cventry look on the CV; on the
+  // resume the rows render in regular weight — nine consecutive bold rows
+  // read heavy at one-page density (owner feedback, 2026-10-15). The CV path
+  // is unchanged.
+  block(breakable: false)[
+    #v(4pt)
+    #acad-entry-grid(md-inline(row-left), period, left-weight: if doc == "cv" { "bold" } else { none })
+    #if italic-line != none {
+      par(emph[#md-inline(italic-line)])
     }
-  }
-  // Keep each entry whole across a page break (CV pagination rule, plan §5.12:
-  // never split an experience/teaching entry).
-  block(breakable: false)[#entry(left, emph[#period])]
+    #if items.len() > 0 {
+      acad-items(..items.map(l => {
+        if l.level == 0 { md-inline(l.text) }
+        else { emph[#md-inline(l.text)] }
+      }))
+    }
+  ]
 }
 
-#let entries = (list, doc: "cv", gap: 0.3em) => {
-  for e in list { cv-entry(e, doc: doc, gap: gap) }
+#let entries = (list, doc: "cv") => {
+  for e in list { cv-entry(e, doc: doc) }
 }
 
 // ---- 7. Publications ------------------------------------------------------
@@ -219,21 +230,9 @@
   }
 }
 
-// Surname + initial (e.g. "D. Synn") — the convention both reference CVs
-// (Sehoon Ha, Danfei Xu) use; full given names are unusual in publication lists.
-#let format-name = a => {
-  if a.given != none and a.given != "" {
-    [#(a.given.first() + ".")~#a.family]
-  } else { a.family }
-}
-
-#let format-authors = authors => {
-  let parts = authors.map(a => {
-    let name = format-name(a)
-    if lower(a.family) == me-family {
-      text(weight: "bold")[#underline[#name]]
-    } else { name }
-  })
+// Join rendered author-name parts with commas + a final "and". Shared by the
+// CV/resume academic publication lines (pub-line-academic).
+#let join-and = parts => {
   let n = parts.len()
   if n == 0 { [] }
   else if n == 1 { parts.first() }
@@ -279,18 +278,27 @@
   "conference"
 }
 
-// Numbered publication item: hanging indent so wrapped lines clear the [n].
-#let pub-item = (n, p) => {
-  let venue = if p.abbr != none and p.abbr != "" { p.abbr } else { p.venue }
-  block(width: 100%, spacing: 0.5em, breakable: false)[
-    #grid(
-      columns: (1.5em, 1fr),
-      column-gutter: 0.3em,
-      align: (right + top, left + top),
-      [#text(weight: "bold")[#n]],
-      [#format-authors(p.authors), "#p.title," #emph[#venue], #datestamp(p).],
-    )
-  ]
+// Academic (cls-style) publication line, fed to acad-pub-item by both docs:
+// full given names ("DoangJoo Synn"), “Title.” + italic venue + year, and a
+// doi: link when present. Mirrors cv.tex's \cvpublications entries. The self
+// name is bold WITHOUT the underline — academiccv.cls sets hidelinks, so the
+// academic CV carries no visible link styling at all. Year only (no months),
+// matching the cls's publication lists.
+#let pub-line-academic = p => {
+  let parts = p.authors.map(a => {
+    // \cvself prints "DoangJoo Synn" — strip parenthetical infixes ("(Alan)")
+    // the bib carries, so the academic CV's author lines match the cls.
+    let given = if a.given != none and a.given != "" { a.given.replace(regex(" *\([^)]*\)"), "") } else { none }
+    let name = if given != none and given != "" { [#given #a.family] } else { a.family }
+    if lower(a.family) == me-family {
+      text(weight: "bold")[#name]
+    } else { name }
+  })
+  // "doi:…" is the link LABEL (markup); the href is built in code mode. Venue
+  // is optional (the in-review preprint has none → "….” Year." like tex's M1).
+  let doi = if p.doi != none and p.doi != "" { [ #link("https://doi.org/" + str(p.doi))[doi:#p.doi].] } else { [] }
+  let venue = if p.venue != none and p.venue != "" { [#emph[#p.venue], ] } else { [] }
+  [#join-and(parts). “#p.title.” #venue #p.year.#doi]
 }
 
 // Split a paper list into (journal, conference, preprint) preserving order.
@@ -345,35 +353,40 @@
       "resume target '" + target + "' matched zero selected papers — widen its keywords in content/targets.yaml, or the Selected Publications section renders empty.",
     )
   }
+  // The cls's 6pt itemsep — and the absorbed-spacing trap: a grid-only block
+  // (acad-pub-item) contributes no spacing in Typst 0.15, so the itemsep
+  // needs an explicit v() between items. Same 6pt on both docs.
   if doc == "cv" {
+    // Academic CV: cls-style subsections with stable letter labels (C/J/P +
+    // recency rank within the group) — mirrors cv.tex's C1..C5/J1..J4/P1
+    // numbering. (cv.tex labels are hand-written for cross-reference
+    // stability; these are derived. If exact label stability across reorders
+    // ever matters, add a label={C1} field to papers.bib and read it here.)
     let s = split-by-type(list-all)
-    for (label, group) in (
-      ("Refereed Conference Papers", s.conference),
-      ("Refereed Journal Articles", s.journal),
-      ("Preprints", s.preprint),
+    for (label, letter, group) in (
+      ("Refereed Conference Papers", "C", s.conference),
+      ("Refereed Journal Articles", "J", s.journal),
+      ("Preprints", "P", s.preprint),
     ) {
       if group.len() == 0 { continue }
-      text(weight: "bold")[#label]
-      v(0.2em)
+      acad-subsection(label)
       let sorted = group.sorted(key: pub-sort-key)
       let m = sorted.len()
       for (i, p) in sorted.enumerate() {
-        pub-item(i + 1, p)
-        // pub-item's block(spacing: 0.5em) is absorbed by Typst 0.15 — a block
-        // whose sole child is a grid contributes no spacing of its own — so
-        // consecutive items otherwise collapse to ~0pt (measured 0.06pt), which
-        // against the sub-header boundary gaps reads as broken rhythm. An
-        // explicit v() between items is the only construction that lands the
-        // intended gap. (The resume keeps the absorbed-spacing path: its flat
-        // list reads as uniformly dense, and added height would fight the
-        // 1-page fit. Fixed here in the CV branch only → resume untouched.)
-        if i < m - 1 { v(0.5em) }
+        acad-pub-item(letter + str(i + 1), pub-line-academic(p))
+        if i < m - 1 { v(6pt) }
       }
       v(0.3em)
     }
   } else {
+    // Resume: the same academic hanging list, one flat numbered run — the
+    // journal/conference subsection grouping is CV-only detail.
     let sorted = list-all.sorted(key: pub-sort-key)
-    for (i, p) in sorted.enumerate() { pub-item(i + 1, p) }
+    let m = sorted.len()
+    for (i, p) in sorted.enumerate() {
+      acad-pub-item(str(i + 1), pub-line-academic(p))
+      if i < m - 1 { v(6pt) }
+    }
   }
 }
 
@@ -426,140 +439,117 @@
   }
 }
 
-// ---- 10. Title block (package idiom: = Name heading + metadata lines) -----
-// Mirrors template/main.typ: a level-1 heading carries the name, with the
-// role/affiliation and a contact line beneath. No manual size/weight on the
-// name — the heading style is the title typography, per the package template.
-// Every line is content-driven (site.yaml): title · affiliation, an optional
-// "Advised by …" line, then email · url. (The department field renders on the
-// web hero and in the Education section below; omitted here to keep the centered
-// title on one line.) The hero on the web renders from the SAME fields, so
-// editing site.yaml updates both surfaces in lockstep.
-#let advisor-line() = {
-  let arr = if "advisors" in site and type(site.advisors) == array { site.advisors } else { () }
-  if arr.len() != 0 {
-    let linked = arr.map(a => link(a.url)[#a.name])
-    let n = linked.len()
-    let joined = if n == 1 { linked.at(0) }
-    else if n == 2 { [#linked.at(0) and #linked.at(1)] }
-    else {
-      let out = linked.at(0)
-      for i in range(1, n - 1) { out = [#out, #linked.at(i)] }
-      [#out, and #linked.at(n - 1)]
-    }
-    [Advised by #joined]
-  }
+// ---- 10. Title block (cls \makecvheader, both docs) ------------------------
+// The cls header on BOTH documents: left-aligned bold 25pt name, subtitle,
+// \small contact line — acad-name-header's cls defaults, no doc split. Every
+// line is content-driven (site.yaml): title · affiliation, then email · url.
+// The hero on the web renders from the SAME fields, so editing site.yaml
+// updates web + PDFs in lockstep. Contact = email · site url ONLY; the phone
+// number the LaTeX original carried is deliberately absent (owner directive).
+#let title-block = doc => {
+  acad-name-header(
+    site.name,
+    [#md-inline(site.title) · #md-inline(site.affiliation)],
+    // Label drops the scheme (cls contact line prints "alansynn.com"); href keeps it.
+    [#link("mailto:" + site.email)[#site.email] · #link(site.url)[#site.url.replace(regex("^https?://"), "")]],
+  )
 }
-
-#let title-block = align(center)[
-  = #site.name
-  #md-inline(site.title) · #md-inline(site.affiliation) \
-  #if ("advisors" in site and site.advisors.len() > 0) [
-    #advisor-line() \
-  ]
-  #link("mailto:" + site.email)[#site.email] · #link(site.url)[#site.url]
-]
 
 // ---- 11. PDF metadata title ----------------------------------------------
 #let doc-title-str = doc => {
-  let kind = if doc == "cv" { "CV" } else { "Resume" }
-  if target != "" {
-    site.name + " — " + kind + " (" + target + ")"
+  // The CV mirrors the cls \hypersetup pdftitle ("Name: Curriculum Vitae");
+  // the resume keeps its "Name — Resume" form. Target variants append the id.
+  let suffix = if target != "" { " (" + target + ")" } else { "" }
+  if doc == "cv" {
+    site.name + ": Curriculum Vitae" + suffix
   } else {
-    site.name + " — " + kind
+    site.name + " — Resume" + suffix
   }
 }
 
 // ---- 12. Body assembly ----------------------------------------------------
+// Both docs share ONE rhythm — the cls's own (acad-section / acad-items /
+// acad-pub-item defaults); `doc` selects only the section SET and the
+// entry/pub-list shape.
 #let cv-body = doc => {
-  // Per-doc density knobs (resume tightens; CV keeps the template-matching
-  // defaults). Resume-only — defaults == current hardcoded values, so the CV
-  // re-renders bit-identical. entry-gap = the v() between a title and its
-  // bullets inside cv-entry; sec-before = the v() above each section rule.
-  let entry-gap = if doc == "resume" { 0.1em } else { 0.3em }
-  let sec-before = if doc == "resume" { 1pt } else { 4pt }
+  let sec(title) = acad-section(title)
   [
-  // Accent is passed via styling(accent-color: ...) at the doc entry points
-  // (resume-doc / cv-doc); layout.typ sets it into global-theme.
-  #title-block
-  #section("Research Interests", before: sec-before)
+  #title-block(doc)
+  #sec("Research Interests")
   #research-blurb(doc)
-  #section("Education", before: sec-before)
-  #entries(education, doc: doc, gap: entry-gap)
-  // Section order diverges by doc (plan §4.1 vs §5.2). The CV fronts
-  // Publications before Professional Experience — academic legitimacy before
-  // the full industry record; the resume keeps Experience → Selected
-  // Publications. The CV-only tail (Teaching / Invited Talks & Outreach /
-  // Honors / Activities) is absent from the one-page resume. The public CV
-  // omits References (plan §5.11 — a separate application sheet); the
-  // references-block helper + references.yaml stay for that sheet.
+  #sec("Education")
+  #entries(education, doc: doc)
+  // Section order diverges by doc (plan §4.1 vs §5.2). The CV fronts Projects
+  // and Publications before Professional Experience — academic legitimacy
+  // before the full industry record — and carries the CV-only tail (Patent
+  // Applications / Teaching / Invited Talks & Outreach / Scholarly Activities /
+  // Honors / Activities). The one-page resume keeps the academic 양식 with the
+  // compact section set: Research Interests → Education → Experience →
+  // Selected Publications. The public CV omits References (plan §5.11 — a
+  // separate application sheet); the references-block helper +
+  // references.yaml stay for that sheet.
   #if doc == "cv" [
-    #section("Publications", before: sec-before)
+    #sec("Selected Research Projects")
+    #entries(projects, doc: doc)
+    #sec("Publications")
     #pubs-section(doc)
-    #section("Professional Experience", before: sec-before)
-    #entries(experience, doc: doc, gap: entry-gap)
-    #section("Teaching", before: sec-before)
-    #entries(teaching, doc: doc, gap: entry-gap)
-    #section("Invited Talks & Outreach", before: sec-before)
-    #entries(outreach, doc: doc, gap: entry-gap)
-    #section("Honors & Awards", before: sec-before)
+    #sec("Patent Applications")
+    #for (i, pt) in patents.enumerate() {
+      acad-pub-item("IP" + str(i + 1), md-inline(pt.body))
+      if i < patents.len() - 1 { v(6pt) }
+    }
+    #sec("Professional Experience")
+    #entries(experience, doc: doc)
+    #sec("Teaching")
+    #entries(teaching, doc: doc)
+    #sec("Invited Talks & Outreach")
+    #entries(outreach, doc: doc)
+    #sec("Scholarly Activities")
+    #entries(service, doc: doc)
+    #sec("Honors & Awards")
     #honors-block(honors)
-    #section("Activities & Service", before: sec-before)
-    #entries(activities, doc: doc, gap: entry-gap)
+    #sec("Activities & Service")
+    #entries(activities, doc: doc)
   ] else [
-    #section("Experience", before: sec-before)
-    #entries(experience, doc: doc, gap: entry-gap)
-    #section("Selected Publications", before: sec-before)
+    #sec("Experience")
+    #entries(experience, doc: doc)
+    #sec("Selected Publications")
     #pubs-section(doc)
   ]
   ]
 }
 
 // ---- 13. Document entry points (used by resume.typ / cv.typ) --------------
-// The CV keeps Typst's defaults (Libertinus Serif, 11pt, default leading/
-// spacing): those defaults ARE cv-soft-and-hard's typography — an earlier
-// override (set par(leading: 0.9em, spacing: 0.6em) + New Computer Modern) was
-// the source of a line-spacing mismatch, measured away to within 0.1pt. So
-// cv-doc sets nothing typographic.
+// Both documents render in the owner's academiccv.cls 양식 (academic.typ) via
+// acad-page. They compile SEPARATELY (cv.typ never evaluates resume-doc and
+// vice versa), so each doc's density is scoped to its own compilation.
 //
-// The RESUME deliberately diverges from those defaults: it carries 10
-// publications + 6 experience entries, genuinely more than one page at template
-// density. resume-doc applies RESUME-ONLY density (10pt, tighter margins/
-// leading/spacing, plus the entry-gap / section before-gap knobs threaded from
-// cv-body) so it fits one page. It is scoped via the separate-compilation
-// boundary — cv.typ never evaluates resume-doc — so the CV's template-matching
-// spacing is unaffected. `lang: "en"` enables smart quotes / hyphenation.
+// The resume is the CV's 양식 at the CV's FULL rhythm — same section gaps
+// (13/7pt), entry gaps (4pt), bullet gaps (3/2pt), publication itemsep (6pt),
+// 25pt name — so every spacing the eye reads is IDENTICAL to the CV (owner
+// feedback 2026-10-15: the earlier knob-tightened rhythm read cramped next
+// to the CV). The one-page fit is funded by global levers that don't touch
+// the rhythm: 10pt text (the standard resume size; leading is em-based, so
+// line pitch scales proportionally at the same 0.65em) and slightly narrower
+// margins (0.65in sides / 0.5in top+bottom vs the cls's 0.78/0.72/0.70 —
+// still normal resume margins). Measured: 11pt + cls margins and 10pt + cls
+// margins both overflow by exactly one 3-line publication; 10pt + these
+// margins holds one page. The targeted resume variants carry a subset of the
+// content, so they fit a fortiori.
 #let resume-doc = it => {
-  set text(lang: "en", size: 10pt)
-  set page(numbering: none)
-  set document(title: doc-title-str("resume"), author: site.name)
-  // Resume-only density. cv.typ is a SEPARATE compilation — it never evaluates
-  // resume-doc — so none of this reaches the CV (which keeps Typst defaults +
-  // layout.typ's 2.5cm margin → template-matching spacing, 4 pages). The sets
-  // are nested inside the body passed to styling(), so they are more recent
-  // than styling()'s own set page(margin:) (layout.typ:44) and win per-field.
-  // Levers (each resume-scoped): text 11→10pt; margins 2.5→1.1cm (top 2→0.8cm,
-  // bottom default→0.8cm); par leading 0.65→0.55em + par/block spacing ~1.2→
-  // 0.3em; plus entry-gap 0.3→0.1em and section before-gap 4→1pt threaded from
-  // cv-body. 10pt + 0.55em leading is standard dense-resume density — no text
-  // overlap, still readable (verified by render). The CV keeps the template's
-  // 11pt + defaults unchanged.
-  styling(
-    {
-      set page(margin: (left: 1.1cm, right: 1.1cm, top: 0.8cm, bottom: 0.8cm))
-      set par(leading: 0.55em, spacing: 0.3em)
-      set block(spacing: 0.3em)
-      cv-body("resume")
-    },
-    accent-color: accent,
+  acad-page(
+    cv-body("resume"),
+    site.name,
+    doc-title-str("resume"),
+    size: 10pt,
+    margin: (left: 0.65in, right: 0.65in, top: 0.5in, bottom: 0.5in),
+    doc-type: "Resume",
   )
 }
 
 #let cv-doc = it => {
-  set text(lang: "en")
-  set page(numbering: "1 / 1")
-  set document(title: doc-title-str("cv"), author: site.name)
-  styling(cv-body("cv"), accent-color: accent)
+  // The cls's own rhythm — no density knobs.
+  acad-page(cv-body("cv"), site.name, doc-title-str("cv"))
 }
 
 // ---- 14. Paper one-pager (paper-page.typ) --------------------------------

@@ -35,7 +35,7 @@ resume target='':
     bun scripts/gen-papers-json.mjs
     if [ -z "{{target}}" ]; then STEM="alansynn-resume"; else STEM="alansynn-resume-{{target}}"; fi
     mkdir -p public/pdfs
-    typst compile --root . resume/typst/resume.typ "public/pdfs/$STEM.pdf" --input target="{{target}}" \
+    typst compile --root . --font-path resume/typst/fonts resume/typst/resume.typ "public/pdfs/$STEM.pdf" --input target="{{target}}" \
         || { echo "--- typst failed (resume $STEM) ---"; exit 1; }
     echo "built public/pdfs/$STEM.pdf"
 
@@ -46,7 +46,7 @@ cv target='':
     bun scripts/gen-papers-json.mjs
     if [ -z "{{target}}" ]; then STEM="alansynn-cv"; else STEM="alansynn-cv-{{target}}"; fi
     mkdir -p public/pdfs
-    typst compile --root . resume/typst/cv.typ "public/pdfs/$STEM.pdf" --input target="{{target}}" \
+    typst compile --root . --font-path resume/typst/fonts resume/typst/cv.typ "public/pdfs/$STEM.pdf" --input target="{{target}}" \
         || { echo "--- typst failed (cv $STEM) ---"; exit 1; }
     echo "built public/pdfs/$STEM.pdf"
 
@@ -64,7 +64,7 @@ pdfs-all:
     mkdir -p public/pdfs
     build() {
       local doc="$1" stem="$2" target="${3-}"
-      typst compile --root . "resume/typst/${doc}.typ" "public/pdfs/${stem}.pdf" --input target="${target}" \
+      typst compile --root . --font-path resume/typst/fonts "resume/typst/${doc}.typ" "public/pdfs/${stem}.pdf" --input target="${target}" \
         || { echo "--- typst failed (${doc} ${stem}) ---"; exit 1; }
       echo "built public/pdfs/${stem}.pdf"
     }
@@ -83,7 +83,7 @@ paper citekey:
     set -euo pipefail
     bun scripts/gen-papers-json.mjs
     mkdir -p public/pdfs
-    typst compile --root . resume/typst/paper-page.typ "public/pdfs/paper-{{citekey}}.pdf" \
+    typst compile --root . --font-path resume/typst/fonts resume/typst/paper-page.typ "public/pdfs/paper-{{citekey}}.pdf" \
         --input citekey="{{citekey}}" \
         || { echo "--- typst failed (paper {{citekey}}) ---"; exit 1; }
     echo "built public/pdfs/paper-{{citekey}}.pdf"

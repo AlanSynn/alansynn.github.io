@@ -1,12 +1,18 @@
 # ============================================================================
-# Research interests. Motion-first; HCI × graphics; spectrum framing.
+# Research interests. Motion-first; HCI × graphics. The statement is the
+# owner's "Research Profile" paragraph from the LaTeX CV (cv.tex, 2026-09-30)
+# — the newest curated profile prose, shared by web hero/CV/resume.
 # ============================================================================
 
 statements:
   - >-
-    I study **motion** as a computational medium across HCI and computer graphics. My research builds systems for designing, generating, and fabricating motion. I aim to make motion programmable and tangible across animated characters, mechanical artifacts, robotic systems, and AI-assisted creative tools.
-  - >-
-    Before starting my Ph.D., I spent eight years building software systems across AI systems, games, cloud platforms, and social robots.
+    I study **motion** as a computational medium in computer graphics and
+    human–computer interaction (HCI). I build interactive systems for
+    designing, generating, and fabricating motion, connecting expressive intent
+    with computational design and physical realization. My research interests
+    include computer animation, computational design, motion synthesis, and
+    AI-assisted creative tools. My earlier work spans machine-learning systems,
+    cloud software, games, and social robots.
 
 focus_areas:
   - HCI

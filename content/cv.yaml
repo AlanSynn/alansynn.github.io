@@ -8,6 +8,13 @@
 # Entry model (identical for every section):
 #   { period, title, location?, body(markdown), more?(markdown), only?/except? }
 #
+# `org` / `role` — optional CV-only formal two-line form (academiccv.cls
+# cventry, the owner's LaTeX CV 양식): org renders as the bold grid row and
+# role as the italic line beneath it. The web Timeline and the resume always
+# render `title` and ignore org/role. Periods carry month precision ("Aug.
+# 2022–Present") where the LaTeX CV documents it — the web renders the period
+# verbatim, so precision propagates everywhere.
+#
 # `more` — CV/web-only detail the resume OMITS (plan §4.4/§4.5 vs §5.4/§5.6): a
 # 2nd experience bullet, an M.Eng advisor line, military service. lib.typ's
 # cv-entry renders `more` only when doc != "resume"; the web Timeline renders
@@ -29,42 +36,57 @@
 # ============================================================================
 
 education:
-  - period: '2022–Present'
+  - period: 'Aug. 2022–Present'
     title: '[Georgia Tech](https://www.gatech.edu), Ph.D. in Computer Science'
+    org: '[Georgia Institute of Technology](https://www.gatech.edu)'
+    role: 'Ph.D. Candidate in Computer Science'
     body: |
       - [School of Interactive Computing](https://ic.gatech.edu); advised by Profs. [Oh](https://www.cc.gatech.edu/people/hyunjoo-oh) & [Ha](https://faculty.cc.gatech.edu/~sha9/)
       - Research: computational design, mechanical artifacts, and motion synthesis (HCI/Graphics)
 
-  - period: '2020–2022'
+  - period: 'Mar. 2020–Feb. 2022'
     title: '[Korea University](https://www.korea.ac.kr), M.Eng. in ECE'
+    org: '[Korea University](https://www.korea.ac.kr)'
+    role: 'M.Eng. in Electrical and Computer Engineering'
     body: |
       - Thesis: *On Efficient Data Delivery for Machine Learning Systems*
     more: |
       - Advised by [Prof. Jong-Kook Kim](https://hpic.korea.ac.kr/professor)
 
-  - period: '2012–2020'
+  - period: 'Mar. 2012–Feb. 2020'
     title: '[Korea University](https://www.korea.ac.kr), B.Eng. in EE'
+    org: '[Korea University](https://www.korea.ac.kr)'
+    role: 'B.Eng. in Electrical Engineering'
     more: |
       - Alternative military service as a Software Engineer, 2016–2019
 
 experience:
-  - period: '2024–2025'
+  - period: 'May 2024–Aug. 2025'
     title: 'Ph.D. Research Intern, [Dolby Laboratories](https://www.dolby.com)'
+    org: 'Dolby Laboratories'
+    role: 'Ph.D. Research Intern, Experience Delivery Lab'
     body: |
       - Built a time-series, multimodal datastore supporting low-latency media analytics in the Experience Delivery Lab.
 
-  - period: '2023'
+  - period: 'June–Aug. 2023'
     title: 'MLOps Engineering Intern, [LG Uplus Corp.](https://www.lguplus.com)'
+    org: 'LG Uplus'
+    role: 'MLOps Engineering Intern'
     body: |
       - Led **DeepCrunch**, a model-compression library supporting multi-backend AI inference for efficient edge deployment.
 
-  - period: '2021–2022'
+  - period: 'Jan. 2021–Aug. 2022'
     title: 'Research Scientist, [Protopia AI Inc.](https://protopia.ai)'
+    org: 'Protopia AI'
+    role: 'Research Scientist'
     body: |
       - Built **Stained-Glass**, a privacy-preserving deep-learning framework enabling inference without raw-data exposure.
     more: |
       - Led framework development and Kubernetes/GPU infrastructure integration; the work contributed to a NeurIPS 2021 Demo.
 
+  # Period kept year-only: the LaTeX CV's "2019–2022 Cloud Architecture
+  # Consulting" frames this differently; this merged AWS-Educate framing is the
+  # owner-curated one, so no month precision is invented here.
   - period: '2020–2022'
     title: 'Cloud Architect · [AWS Educate](https://aws.amazon.com/education/awseducate/) Cloud Ambassador'
     body: |
@@ -72,39 +94,51 @@ experience:
     more: |
       - Built cloud-native infrastructure using Kubernetes, Terraform, CI/CD, observability, and cost-optimized autoscaling while mentoring early-career engineers.
 
-  - period: '2019'
+  - period: 'Jan.–Dec. 2019'
     title: 'Server Engineer, Flysher Inc.'
+    org: 'Flysher'
+    role: 'Server Engineer'
     body: |
       - Shipped backend features for four social-game titles; one reached Facebook's global top 10.
     more: |
       - Built an ETL-to-Redshift analytics pipeline supporting data-informed feature rollout.
 
-  - period: '2017–2019'
+  - period: 'Apr. 2017–Jan. 2019'
     title: 'System Engineer, [AKA Intelligence](https://www.aka.ai) (Musio)'
+    org: 'AKA Intelligence'
+    role: 'System Engineer'
     body: |
       - Designed embedded Linux boards and firmware for **Musio**, a deployed social robot.
     more: |
       - Coordinated hardware-software integration and production QA with overseas ODMs.
 
 teaching:
-  - period: '2024–Present'
+  - period: 'Aug. 2024–Present'
     title: 'Head TA, CS 4496/7496 Computer Animation'
+    org: '[Georgia Institute of Technology](https://www.gatech.edu)'
+    role: 'Head Teaching Assistant, CS 4496/7496: Computer Animation'
     body: |
-      - [Georgia Tech](https://www.gatech.edu), [School of Interactive Computing](https://ic.gatech.edu).
+      - [School of Interactive Computing](https://ic.gatech.edu).
 
-  - period: '2021–2022'
+  - period: 'Feb. 2021; Jan. 2022'
     title: 'Lecturer, Korea University'
+    org: 'Korea University Science & Technology School'
+    role: 'Lecturer and Program Developer'
     body: |
-      - Taught introductory Java programming to 10+ undergraduate students.
+      - Taught introductory Java programming to 10+ undergraduate students; contributed to the BK21 Socialware IT education program.
 
-  - period: '2021'
+  - period: 'Spring; Fall 2021'
     title: 'Teaching Assistant, Korea University'
+    org: 'Korea University'
+    role: 'Teaching Assistant'
     body: |
       - Digital System Design
       - Data Structures and Algorithms
 
-  - period: '2012–2014'
+  - period: 'Jan. 2012–Aug. 2014'
     title: 'Lecturer, KAIST Engineering School'
+    org: 'KAIST Engineering School'
+    role: 'Lecturer and Curriculum Developer'
     body: |
       - Co-developed national project-based coding education programs with South Korea's Ministry of Science and ICT.
       - Designed and evaluated 20+ curricula combining Arduino, hardware prototyping, and software development for high-school and college students.
@@ -140,3 +174,49 @@ activities:
     title: 'TEDxKoreaUniversity, Korea University'
     body: |
       - Founder & Chief Organizer; led a 47-person team in producing a 200-guest event with 7 speakers and a $4K budget.
+
+# Selected Research Projects — CV-only (academiccv.cls port). The printable
+# digest of the two feature projects; the web surfaces research projects as
+# /projects/<slug> pages instead. `location` renders as the cls's italic
+# "role or description" line under the bold title row.
+projects:
+  - period: 'CHI 2026'
+    title: 'MotionSmith'
+    location: 'Sketch-based design of mechanical motion and fabricable artifacts'
+    body: |
+      - Developed a computational design system that connects sketched motion paths, mechanism generation, interactive refinement, and fabrication-ready output.
+      - Developed through a year-long participatory design process with three expert automata makers; supported motion exploration and the fabrication of working mechanical artifacts.
+      - Publication C1; [project page](https://alansynn.com/projects/motionsmith) and [source code](https://github.com/AlanSynn/automataii).
+
+  - period: 'Manuscript'
+    title: 'MotionSmith for Young Makers'
+    location: 'Educator co-design and classroom enactment of a mechanical CAD system'
+    body: |
+      - Extended the research to classroom use through co-design with four K–8 STEM educators, revising the authoring workflow, reusable fabrication kit, and instructional supports.
+      - Used in educator-led classroom activities with 129 middle-school students at two U.S. schools; three educators facilitated STEM, STEAM, and engineering activities over three to four sessions per class.
+      - Manuscript M1.
+
+# Scholarly Activities — reviewer/committee service (CV-only). Rows are by
+# service year: subreviewer in 2025, reviewer in 2026 and 2027.
+service:
+  - period: '2027'
+    title: 'Reviewer, CHI'
+
+  - period: '2026'
+    title: 'Reviewer, CHI'
+
+  - period: '2025'
+    title: 'Subreviewer, CHI'
+
+  - period: '2024'
+    title: 'Artifact Evaluation Committee, ASPLOS 2024'
+
+# Patent Applications — CV-only, rendered publication-style (hanging label
+# IP1…) so the whole citation line lives in `body`.
+patents:
+  - body: >-
+      HyunJoo Oh, Jin Yu, **DoangJoo Synn**, and Poojita Garg. “Coding Blocks
+      Learning System and Method.” Published U.S. patent application
+      [US 2026/0112292 A1](https://patents.justia.com/patent/20260112292),
+      23 April 2026. Application No. 19/357,594; filed 14 October 2025.
+      Applicant: Georgia Tech Research Corporation.

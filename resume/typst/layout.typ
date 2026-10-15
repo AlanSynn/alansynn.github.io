@@ -1,5 +1,5 @@
 // ============================================================================
-// layout.typ — first-party CV/resume layout toolkit.
+// layout.typ — first-party paper-handout layout toolkit.
 //
 // Adapted from cv-soft-and-hard 0.1.0 by Jonas Pleyer (MIT License,
 // © Jonas Pleyer; source https://github.com/jonaspleyer/cv-soft-and-hard).
@@ -7,12 +7,14 @@
 // freely editable — the upstream @preview package is no longer a runtime
 // dependency. (MIT attribution preserved per license; see CLAUDE.md "Stack".)
 //
-// Provides the four layout primitives lib.typ builds on:
+// The CV and resume now render in the academiccv.cls 양식 (academic.typ);
+// this toolkit's remaining consumer is the one-page paper handout
+// (paper-page.typ). Provides:
 //   global-theme — accent-color state shared across sections/links
 //   styling      — page margins + link underline + accent setup
 //   section      — level-2 heading with an accent rule beneath
-//   subsection   — level-3 heading
-//   entry        — two-column row (left = title/bullets, right = period)
+// (The old two-column `entry` and `subsection` primitives were removed once
+// their last consumer — the pre-academic resume layout — was replaced.)
 //
 // Two intentional changes vs upstream 0.1.0:
 //   1. styling(accent-color:) is FIXED here. Upstream's state-update lambda
@@ -61,21 +63,4 @@
     },
   ))
   if note != none { text(note, size: 7pt) }
-}
-
-#let subsection(title) = {
-  [=== #title]
-}
-
-// Two-column entry: left (1fr) = title + bullets, right (auto) = period.
-// Optional description spans both columns.
-#let entry(left-text, right-text, description: none) = {
-  grid(
-    column-gutter: 0pt,
-    row-gutter: 0.6em,
-    columns: (1fr, auto),
-    align(left, [#left-text]),
-    align(right, [#right-text]),
-    if description != none { grid.cell(colspan: 2, [#description]) },
-  )
 }

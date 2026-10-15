@@ -21,6 +21,12 @@ export const timelineEntry = z
     // doc != "resume"; the web Timeline concatenates body+more (web mirrors the
     // full CV, never the compact resume).
     more: z.string().optional(),
+    // CV-only formal two-line form (academiccv.cls cventry): org renders as the
+    // bold grid row and role as the italic line beneath. Optional — when
+    // absent the CV falls back to `title` on the grid row. The web and the
+    // resume always render `title` and never see org/role.
+    org: z.string().optional(),
+    role: z.string().optional(),
     only: targetList.optional(),
     except: targetList.optional(),
   })
@@ -36,6 +42,17 @@ export const cvSchema = z
     // Not rendered on the web homepage (only the Typst CV consumes it), but
     // validated here so a typo fails the web build before a bad PDF.
     outreach: z.array(timelineEntry),
+    // Further CV-only academic-CV sections (academiccv.cls port), same entry
+    // model and same validate-here rationale as outreach:
+    //   projects → "Selected Research Projects" (feature-project digest; the
+    //     web surfaces research projects as /projects/<slug> pages instead)
+    //   service  → "Scholarly Activities" (reviewer/committee service)
+    projects: z.array(timelineEntry),
+    service: z.array(timelineEntry),
+    // Patent Applications — rendered publication-style (hanging label IP1…),
+    // so the full citation line lives in `body` (authors, quoted title,
+    // application number, dates, applicant) instead of the title/period grid.
+    patents: z.array(z.object({ body: z.string() }).strict()),
   })
   .strict();
 
