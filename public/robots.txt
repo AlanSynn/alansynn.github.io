@@ -9,4 +9,12 @@
 User-agent: *
 Allow: /
 
+# Content Signals (https://contentsignals.org, Cloudflare's AI-preference
+# standard): explicit opt-IN to all three uses — search indexing, AI training,
+# and AI input (RAG/grounding, i.e. being cited in AI answers). This restates
+# the 2026-10-14 welcome policy above as a machine-readable signal for
+# auditors; omitted signals already default to allowed, so this changes nothing
+# for compliant crawlers.
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+
 Sitemap: https://alansynn.com/sitemap-index.xml
