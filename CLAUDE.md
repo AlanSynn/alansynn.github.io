@@ -135,7 +135,7 @@ entry.
   as **title-only pointer rows** — `On the blog: **Title**` with the post URL
   on the row's trailing ↗ (NewsList opens internal links same-tab), dated by
   the post, **no description** (the digest routes; /blog + RSS reproduce).
-  Share-of-voice cap: only the **4 most recent** posts participate, so an
+  Share-of-voice cap: only the **2 most recent** posts participate, so an
   active blog can never crowd career news out of the 8 slots. Post rows are a
   distinct item type — do NOT "fix" them into full sentences, and don't
   hand-add posts to news.yaml (a manual news.yaml item whose `link` contains
