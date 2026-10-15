@@ -19,7 +19,7 @@
 // are invisible to it).
 
 import { readdirSync, readFileSync, writeFileSync, rmSync, statSync } from 'node:fs';
-import { dirname, join, relative } from 'node:path';
+import { basename, dirname, join, relative } from 'node:path';
 import { NodeHtmlMarkdown } from 'node-html-markdown';
 
 const DIST = new URL('../dist', import.meta.url).pathname;
@@ -123,7 +123,11 @@ function jsonLdBlocks(html) {
 }
 
 // Remove stale mirrors first so pages deleted from the site can't linger.
-for (const stale of walk(DIST, '.md')) rmSync(stale);
+// Mirrors are exactly the <dir>/index.md layout; any other .md in dist (e.g.
+// the public/auth.md copy) is a real source file and must survive.
+for (const stale of walk(DIST, '.md')) {
+  if (basename(stale) === 'index.md') rmSync(stale);
+}
 
 const htmlFiles = walk(DIST, '.html').filter((p) => !SKIP.has(relative(DIST, p)));
 let written = 0;

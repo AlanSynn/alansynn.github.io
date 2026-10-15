@@ -1,0 +1,28 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://alansynn.com/",
+      "service-desc": [
+        {
+          "href": "https://alansynn.com/.well-known/openapi.json",
+          "type": "application/vnd.oai.openapi+json",
+          "title": "OpenAPI description of the site's read-only GET surface"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://alansynn.com/llms.txt",
+          "type": "text/plain; charset=utf-8",
+          "title": "llms.txt: machine-readable site index for agents"
+        }
+      ],
+      "describedby": [
+        {
+          "href": "https://alansynn.com/robots.txt",
+          "type": "text/plain; charset=utf-8",
+          "title": "Crawling policy and Content Signals"
+        }
+      ]
+    }
+  ]
+}

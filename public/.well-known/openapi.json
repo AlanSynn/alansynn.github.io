@@ -1,0 +1,92 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "alansynn.com",
+    "summary": "Read-only content surface of Alan Synn's academic homepage",
+    "version": "1.0.0",
+    "description": "This is a static content site, not a transactional API. Every operation below is an anonymous GET; there is no authentication, no registration, and no write access. Pages serve HTML by default and a markdown mirror when requested with Accept: text/markdown. See /auth.md for access details.",
+    "license": {
+      "name": "CC BY-NC-ND 4.0",
+      "url": "https://creativecommons.org/licenses/by-nc-nd/4.0/"
+    }
+  },
+  "servers": [{ "url": "https://alansynn.com" }],
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "getHome",
+        "summary": "Homepage (HTML, or markdown with Accept: text/markdown)",
+        "responses": { "200": { "description": "The homepage in HTML or markdown." } }
+      }
+    },
+    "/blog/": {
+      "get": {
+        "operationId": "listPosts",
+        "summary": "Blog index (HTML, or markdown mirror)",
+        "responses": { "200": { "description": "Post list." } }
+      }
+    },
+    "/blog/{slug}/": {
+      "get": {
+        "operationId": "getPost",
+        "summary": "A blog post (HTML, or markdown mirror)",
+        "parameters": [
+          { "name": "slug", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "The post in HTML or markdown." },
+          "404": { "description": "Unknown slug." }
+        }
+      }
+    },
+    "/publications/": {
+      "get": {
+        "operationId": "listPublications",
+        "summary": "Publication list (HTML, or markdown mirror)",
+        "responses": { "200": { "description": "Publications." } }
+      }
+    },
+    "/rss.xml": {
+      "get": {
+        "operationId": "getFeed",
+        "summary": "Site feed (RSS 2.0)",
+        "responses": {
+          "200": { "description": "RSS feed.", "content": { "application/rss+xml": {} } }
+        }
+      }
+    },
+    "/llms.txt": {
+      "get": {
+        "operationId": "getLlmsTxt",
+        "summary": "Machine-readable site index for agents",
+        "responses": { "200": { "description": "llms.txt index.", "content": { "text/plain": {} } } }
+      }
+    },
+    "/robots.txt": {
+      "get": {
+        "operationId": "getRobotsTxt",
+        "summary": "Crawling policy and Content Signals",
+        "responses": { "200": { "description": "robots.txt.", "content": { "text/plain": {} } } }
+      }
+    },
+    "/.well-known/api-catalog": {
+      "get": {
+        "operationId": "getApiCatalog",
+        "summary": "RFC 9727 API catalog (linkset)",
+        "responses": {
+          "200": {
+            "description": "Linkset catalog.",
+            "content": { "application/linkset+json": {} }
+          }
+        }
+      }
+    },
+    "/auth.md": {
+      "get": {
+        "operationId": "getAuthMd",
+        "summary": "Agent access and authentication policy",
+        "responses": { "200": { "description": "Auth.md in markdown.", "content": { "text/markdown": {} } } }
+      }
+    }
+  }
+}
