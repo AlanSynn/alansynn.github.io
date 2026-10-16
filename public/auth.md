@@ -22,6 +22,18 @@ No registration or provisioning endpoint exists, and none is needed: there
 is no write API, no user accounts, and no gated content. Nothing to sign up
 for, nothing to provision.
 
+Machine-readable statement of the same policy:
+
+```yaml
+agent_auth:
+  skill: none-required
+  register_uri: none
+  registration_required: false
+  methods_supported:
+    - anonymous-get
+  credentials_issued: none
+```
+
 ## Credentials
 
 None. No API keys, tokens, or other credentials are issued or accepted, and
