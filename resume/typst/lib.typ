@@ -318,12 +318,15 @@
 }
 
 #let pubs-for = doc => {
+  // `selected` gates BOTH documents (CLAUDE.md invariant: it decides what
+  // prints in the resume/CV PDF). The held in-review young-makers entry is
+  // selected=false and must not print anywhere until acceptance.
+  let selected = papers.filter(p => p.selected)
   if doc == "resume" {
-    let selected = papers.filter(p => p.selected)
     if target == "" { selected } else { match-pubs(selected).matched }
   } else {
-    if target == "" { papers } else {
-      let s = match-pubs(papers)
+    if target == "" { selected } else {
+      let s = match-pubs(selected)
       s.matched + s.rest
     }
   }
