@@ -156,6 +156,17 @@ export default defineConfig({
     '/cv': '/#profile',
     // Legacy microsite URL (the old motionsmith repo) → internalized project page.
     '/motionsmith': '/projects/motionsmith',
+    // Demo posts published during the 2026-07-04 launch window, before the
+    // draft flag existed: they built, were listed on /blog, and rode in the
+    // first sitemap Google ever crawled on this domain. Removed the next day,
+    // their URLs have 404'd ever since (surfaced by Search Console's "Not
+    // found" report, 2026-10-22). Retire them to the blog index, same as the
+    // legacy slugs above.
+    '/blog/grpo': '/blog/',
+    '/blog/syntax': '/blog/',
+    '/blog/test': '/blog/',
+    '/blog/typing-math': '/blog/',
+    '/blog/welcome': '/blog/',
   },
 
   markdown: {
