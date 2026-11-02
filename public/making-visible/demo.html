@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Making Visible editor demo — static build, in-browser service layer, synthetic data only" />
+    <title>Making Visible — demo</title>
+    <script type="module" crossorigin src="/making-visible/assets/demo-Bqd7xZlr.js"></script>
+    <link rel="stylesheet" crossorigin href="/making-visible/assets/demo-BV-yjEEn.css">
+  </head>
+  <body>
+    <!-- Demo banner is static markup: it is visible before any script runs,
+         and it states what this page is (ADR 006). Nothing persists beyond
+         this browser tab, and every record shown is synthetic. -->
+    <div id="demo-banner" class="demo-banner" data-testid="demo-banner">
+      <strong>Demo mode.</strong>
+      Fixture data only — the classroom, project, design, and captures below are
+      synthetic (nothing from a real classroom). The service layer runs inside
+      this browser tab over an in-memory store: nothing persists beyond the tab,
+      and no external service is called. Guidance answers use deterministic
+      templates, not a local model.
+      Model “8285 Technic Forklift” by Philippe Hurbain, redistributed under
+      CC BY 2.0 (LDraw OMR; license line “0 !LICENSE Redistributable under
+      CCAL version 2.0 : see CAreadme.txt”).
+    </div>
+    <div id="demo-status" data-testid="demo-status" role="status">
+      Loading the in-browser runtime…
+    </div>
+    <div id="demo-toolbar" data-testid="demo-toolbar" hidden></div>
+    <div id="root"></div>
+  </body>
+</html>
