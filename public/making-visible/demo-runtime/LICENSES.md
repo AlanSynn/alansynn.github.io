@@ -19,7 +19,7 @@ and source. The demo page itself carries the 8285 attribution in the banner.
   typing-extensions, typing-inspection): their own upstream licenses, all
   permissive (MIT / BSD / Apache-2.0 family), fetched from the pinned Pyodide
   CDN release and sha256-verified against the vendored pyodide-lock.json.
-- LDraw model "8285 Technic Forklift (pneumatic, geared drive)" by
+- LDraw model "8285-1 Tow Truck" (OMR set 8285) by
   Philippe Hurbain [Philo]: CC-BY-2.0. Verbatim license line in the model
   file: "0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt".
   Source: https://library.ldraw.org/media/omr_models/1066/8285-1.mpd

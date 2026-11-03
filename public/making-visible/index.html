@@ -1,27 +1,29 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Making Visible editor demo — static build, in-browser service layer, synthetic data only" />
     <title>Making Visible — demo</title>
-    <script type="module" crossorigin src="/making-visible/assets/demo-Bqd7xZlr.js"></script>
-    <link rel="stylesheet" crossorigin href="/making-visible/assets/demo-BV-yjEEn.css">
+    <script type="module" crossorigin src="/making-visible/assets/demo-w1SnEjHp.js"></script>
+    <link rel="stylesheet" crossorigin href="/making-visible/assets/demo-Klrmp0Jj.css">
   </head>
   <body>
     <!-- Demo banner is static markup: it is visible before any script runs,
-         and it states what this page is (ADR 006). Nothing persists beyond
-         this browser tab, and every record shown is synthetic. -->
+         and it states what this page is (ADR 006). One state line + details
+         (docs/24 §F: no duplicated demo paragraphs). Nothing persists beyond
+         this browser tab, and every record shown is synthetic. The static
+         markup cannot import the copy module, so tests/unit asserts it stays
+         word-identical with copy.ts (DEMO_STATE_LINE / DEMO_DETAILS_LINE /
+         DEMO_ATTRIBUTION). -->
     <div id="demo-banner" class="demo-banner" data-testid="demo-banner">
       <strong>Demo mode.</strong>
-      Fixture data only — the classroom, project, design, and captures below are
-      synthetic (nothing from a real classroom). The service layer runs inside
-      this browser tab over an in-memory store: nothing persists beyond the tab,
-      and no external service is called. Guidance answers use deterministic
-      templates, not a local model.
-      Model “8285 Technic Forklift” by Philippe Hurbain, redistributed under
-      CC BY 2.0 (LDraw OMR; license line “0 !LICENSE Redistributable under
-      CCAL version 2.0 : see CAreadme.txt”).
+      브라우저 데모 · 합성 예제 · 탭 종료 시 초기화 (합성 자료만 사용; 외부 서비스로 전송 없음).
+      <details>
+        <summary>자세히</summary>
+        <p>예제 자료와 기록은 이 탭에서만 유지됩니다. 외부 서비스로 전송하지 않습니다. 답변은 미리 정한 예시 규칙으로 구성됩니다.</p>
+        <p>Model 8285-1 Tow Truck by Philippe Hurbain, redistributed under CC BY 2.0 (LDraw OMR; license line “0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt”).</p>
+      </details>
     </div>
     <div id="demo-status" data-testid="demo-status" role="status">
       Loading the in-browser runtime…
