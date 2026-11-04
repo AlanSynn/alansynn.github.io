@@ -1,34 +1,16 @@
 <!doctype html>
-<html lang="ko">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Making Visible editor demo — static build, in-browser service layer, synthetic data only" />
-    <title>Making Visible — demo</title>
-    <script type="module" crossorigin src="/making-visible/assets/demo-BAwT8nl0.js"></script>
-    <link rel="stylesheet" crossorigin href="/making-visible/assets/demo-BJNEeD9_.css">
+    <meta name="theme-color" content="#f8f7fc" />
+    <meta name="description" content="Make, test, notice, and try again. A shared evidence workbench for young makers and their teachers." />
+    <title>Making Visible · Maker workbench</title>
+    <link rel="icon" type="image/svg+xml" href="/making-visible/favicon.svg" />
+    <script type="module" crossorigin src="/making-visible/assets/index-BneG6alF.js"></script>
+    <link rel="stylesheet" crossorigin href="/making-visible/assets/index-CJpGF-2g.css">
   </head>
   <body>
-    <!-- Demo banner is static markup: it is visible before any script runs,
-         and it states what this page is (ADR 006). One state line + details
-         (docs/24 §F: no duplicated demo paragraphs). Nothing persists beyond
-         this browser tab, and every record shown is synthetic. The static
-         markup cannot import the copy module, so tests/unit asserts it stays
-         word-identical with copy.ts (DEMO_STATE_LINE / DEMO_DETAILS_LINE /
-         DEMO_ATTRIBUTION). -->
-    <div id="demo-banner" class="demo-banner" data-testid="demo-banner">
-      <strong>Demo mode.</strong>
-      브라우저 데모 · 합성 예제 · 탭 종료 시 초기화 (합성 자료만 사용; 외부 서비스로 전송 없음).
-      <details>
-        <summary>자세히</summary>
-        <p>예제 자료와 기록은 이 탭에서만 유지됩니다. 외부 서비스로 전송하지 않습니다. 답변은 미리 정한 예시 규칙으로 구성됩니다.</p>
-        <p>Model 8285-1 Tow Truck by Philippe Hurbain, redistributed under CC BY 2.0 (LDraw OMR; license line “0 !LICENSE Redistributable under CCAL version 2.0 : see CAreadme.txt”).</p>
-      </details>
-    </div>
-    <div id="demo-status" data-testid="demo-status" role="status">
-      Loading the in-browser runtime…
-    </div>
-    <div id="demo-toolbar" data-testid="demo-toolbar" hidden></div>
     <div id="root"></div>
   </body>
 </html>
