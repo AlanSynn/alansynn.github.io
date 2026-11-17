@@ -10,11 +10,11 @@
 
 _A follow-up to #link("https://alansynn.com/blog/when-the-field-moves")[When the Field Moves]._
 
-“What do you do?” is usually an invitation to name a field and a skill. I work in robotics. I design interfaces. I build websites for small businesses. These answers are useful. They tell people something about the world we know and what we can do in it. They also give us a familiar way to plan our next move: take our skills into a different field, or stay in our field and learn something new.
+“What do you do?” is usually an invitation to name a field and a skill. I work in robotics. I design interfaces. I build websites for small businesses. These answers are pretty useful. They tell people something about the world we know and what we can do in it. They also give us a familiar way to plan our next move: take our skills into a different field, or stay in our field and learn something new.
 
 I have thought about my own work this way for a long time. Now I want to add a third question. As AI expands the range of things I can make and investigate, what do I want those abilities to make possible? Knowing how to do more things gives me more choices. It also gives me more responsibility for choosing where to spend my attention.
 
-Imagine that producing a decent first version becomes much easier. A working program. A readable essay. A website that looks good on a phone. Call these 80-point results: work that meets the basic requirements and provides a useful starting point. There will still be plenty to do between 80 and 100. Yet I think another question will become more important alongside that work. When several good outcomes are within reach, which one is worth pursuing?
+Imagine that producing amazing first prototype becomes much easier. A working program. A readable essay. A website that looks good on a phone. Call these 80-point results: work that meets the enough requirements and provides a useful starting point. There will still be plenty to do between 80 and 100. Yet I think another question will become more important alongside that work. When several good outcomes are within reach, which one is worth pursuing?
 
 == Three questions about my work
 
@@ -34,7 +34,7 @@ Consider a developer who builds websites for small shops. The developer understa
 
 The first owner would happily hand over the product details and think about the website as little as possible. She wants to spend her time making what she sells. A service that handles the details and requires very little upkeep would suit her well. The second owner wants to change the photographs, rearrange the pages, and write the descriptions herself. Working on the site is part of how she thinks about her shop. She wants a tool that makes those choices easy.
 
-Both owners want a reliable website. Beyond that shared requirement, they are asking for different things. For one, a good tool removes a task from her day. For the other, a good tool makes an activity more enjoyable and more fully her own. Giving both of them more automation could produce very different reactions.
+Both owners want a *reliable* website. Beyond that shared requirement, they are asking for *different things*. For one, a good tool removes a task from her day. For the other, a good tool makes an activity more enjoyable and more fully her own. Giving both of them more automation could produce very different reactions.
 
 These preferences can coexist in the same person. Someone may happily automate invoices while spending an hour choosing the photograph for the front page. From the outside, that hour might look inefficient. From the inside, it might be the most satisfying part of the afternoon. We learn more by asking what matters in that particular activity than by assigning the person a permanent label.
 
@@ -58,7 +58,7 @@ This gives me a more demanding understanding of “finding my value.” I have t
 
 It also gives personal branding a concrete purpose. “I am a developer who uses AI” tells someone about my tools. “I help small shop owners shape their online spaces” tells them when they might think of me. The work then has to support that description. A portfolio can show the choices I made, what people could do with the result, and what I changed after seeing them use it. Over time, the projects and the explanation of those projects give people a recognizable picture of my contribution.
 
-== Leave enough energy for the next dart
+== Leave enough energy for the next throw
 
 There is a temptation to turn all of this into one large assignment: find the right domain, master the right specialty, identify my true value, and commit. I understand the appeal. A clear direction would save a great deal of wondering. The difficulty is that much of the information needed to choose well arrives through experience. I often have to try the work before I know what it asks of me, where I can contribute, and whether I want to keep doing it.
 
@@ -80,4 +80,4 @@ I expect people to pursue increasingly different versions of a good life as more
 
 For those who come after me, I would offer these questions more readily than a list of safe careers. What world do you understand? What abilities can you use? What do you want those abilities to make possible? Your answers may change as you gain experience. They can still help you choose a project, build a skill, find collaborators, and explain the contribution you hope to make.
 
-I want to ask those questions of myself too. I want to use the help available to me, pursue work I find worthwhile, and pay attention to what it actually does for people. I want to learn deeply enough to make something good, with enough room left to change my mind. The first dart deserves care. I would also like to be there, curious and ready, when it is time to throw the second.
+I want to ask those questions of myself too. I want to use the help available to me, pursue work I find worthwhile, and pay attention to what it actually does for people. I want to learn deeply enough to make something good, with enough room left to change my mind. The first throw deserves care. I would also like to be there, curious and ready, when it is time to throw the second.
