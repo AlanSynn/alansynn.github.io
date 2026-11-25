@@ -1,17 +1,80 @@
 # Fast Enough for Whom?
 
-**Status:** English working draft | **Theme:** L. Software, systems, and engineering judgment | **Candidate tags:** computer-science, philosophy-of-science
+**Status:** Long-form editorial manuscript | **Theme:** L. Software, systems, and engineering judgment | **Candidate tags:** computer-science, philosophy-of-science
 
-A service responds quickly to most requests. One person waits for several seconds whenever they try to perform a particular operation. The average response time may describe the service accurately while saying very little about that person's experience.
+A person is drawing a curve in an editor. As they move the pointer, a control point follows it and the curve changes. Every now and then, the point stops moving for a moment. The pointer has reached another position, but the curve is still responding to an earlier movement. The person waits for the display to catch up before continuing.
 
-Systems researchers have long cared about the tail of a latency distribution. A small fraction of slow requests can matter a great deal when a larger operation depends on many smaller ones. Dean and Barroso's essay on latency at scale is a useful starting point for understanding this problem. There is another distinction I would like to examine: who experiences those slow requests, and whether the delay happens at a consequential moment.
+Another person uses the same system to prepare a rendering. They submit a request and continue working on something else while the rendering is generated. A delay of the same duration may have very little consequence for their activity.
 
-Consider a collaborative editor. A delayed operation that occurs while a document is being prepared in the background may be harmless. The same delay while someone is trying to move a drawing can disrupt their sense of control. A person who repeatedly uses a particular feature may encounter the slow behavior far more often than the overall distribution suggests.
+Both people would benefit from a faster system. What it means for the system to be fast enough depends on the work each person is doing.
 
-This does not mean latency has become impossible to measure. We can measure more carefully and organize observations according to tasks, users, and interactions. The important part is choosing a description that corresponds to the experience we claim to improve.
+I find this an interesting place for systems research and HCI to meet. We can learn quite a lot about a system by measuring its response times. Understanding which improvements matter to someone requires an account of how those response times enter their activity.
 
-An agent may become exceptionally good at optimizing the performance metrics available to it. That is a good reason for systems researchers and HCI researchers to understand one another's questions. The system needs to respond in time for the activity it supports. What counts as being in time can be quite specific to that activity.
+## A slow request in a large system
 
-## Editorial source notes
+Systems researchers have long been concerned with the tail of latency distributions. Suppose we measure the time it takes a service to respond to a large collection of requests. The median describes a typical position in that distribution. A high percentile tells us about the requests that take considerably longer. The difference between those measurements becomes important when the performance of one operation depends on many smaller operations.
 
-Reading leads: Dean and Barroso, The Tail at Scale (CACM, 2013); interaction latency and direct manipulation. Check the distinction between request-level percentiles and user-level experiences. No empirical response-time threshold is assumed.
+In [The Tail at Scale](https://research.google/pubs/the-tail-at-scale/), Jeffrey Dean and Luiz André Barroso describe how occasional slow components can become a substantial problem for large online services. They discuss techniques for constructing a predictably responsive service out of components whose individual performance can vary.
+
+A small hypothetical example makes the problem visible. Suppose a service receives a request that requires results from 100 workers. Assume that each worker independently has a one percent chance of taking longer than a chosen deadline. If the service must receive every result before proceeding, the probability that at least one worker misses that deadline is about 63.4 percent:
+
+`1 - 0.99^100 ≈ 0.634`
+
+This is a calculation under deliberately simplified assumptions, not a measurement of an existing service. Real workers can have correlated delays, and a system may be able to proceed without every result. The calculation illustrates why an operation involving many components can have a very different latency distribution from its components.
+
+The useful object of evaluation in this case is the service that needs to assemble the results. Improving the typical worker's response time might have relatively little effect if the service often waits for one slow worker. A different technique may address the part of the distribution that determines when the larger operation can finish.
+
+There is another distinction that becomes important when the result of the service is part of an interactive activity. We want to understand what the delay does to the person who is waiting.
+
+## Whose requests are slow?
+
+Consider a hypothetical editor with two operations. One is used frequently and normally takes 20 milliseconds. Another is used less often and takes one second. If the second operation accounts for one percent of all requests, the arithmetic mean of the two response times is 29.8 milliseconds.
+
+That average can be quite useful for a particular purpose. It tells us something about a request selected from the observed collection. It tells us little about a person whose work requires the second operation repeatedly.
+
+The distribution across requests and the distribution across people are different things. The first gives a great deal of weight to the activities that generate many requests. Someone who performs a less common activity can experience poor performance almost every time they use the feature, while having little effect on the reported mean.
+
+An aggregate high percentile may reveal the slow requests, depending on how the percentile is defined and how the distribution is constructed. It still does not tell us why a request was slow or which person encountered it. That requires some way to connect the measurement to the operation and the activity it supports.
+
+This is especially relevant when we report an improvement for a system used by several kinds of people. Suppose an optimization improves the frequent operation from 20 to 10 milliseconds but leaves the less frequent operation unchanged. The mean improves substantially. A person using the slow feature may experience exactly the same system as before.
+
+There can be excellent reasons to prioritize the improvement that affects more requests. I would want to know that we have made that decision, rather than infer from the improved mean that every kind of work has become easier.
+
+We can measure latency by operation, task, session, or another relevant unit, with care about privacy and the way the resulting data are used. These measurements let us examine different questions. Which one we need depends on the claim we want to make about the system.
+
+## Where the delay occurs in an activity
+
+Return to the person drawing a curve. The consequences of a delay depend partly on where it appears in the sequence of actions.
+
+Suppose the person selects a control point, moves it, and sees a new curve. The display is part of a process through which the person decides how to move the point next. If a particular update arrives late, the person may be making their next movement on the basis of an earlier state of the drawing. They might stop, make a corrective movement, or alter the way they work.
+
+In the rendering example, the result is needed at a different moment. The person may be able to spend the intervening time on another activity. If the rendering arrives before they need it, reducing the generation time might make little practical difference.
+
+Neither activity has a universal latency threshold. The useful threshold would depend on the feedback available to the user, the predictability of the delay, the required precision, and the surrounding work. A system might provide a responsive preview while a more expensive computation takes place. Another system might make the eventual cost clear and let the person decide when to initiate the operation.
+
+The important property is the relation between the event that is delayed and the next decision the person needs to make. The same one-second delay can occupy very different positions in two activities.
+
+This gives us a reason to study the timing of the activity itself. Observe how a person interacts with a system, identify where feedback informs their next decision, and measure the behavior of the system at those points. We might discover that a delay in one part of a workflow deserves much more attention than a larger delay somewhere else.
+
+## What I would ask an optimization agent to improve
+
+An agent could be extraordinarily useful in addressing latency. Given a sufficiently reliable benchmark, it could investigate implementations, choose among caching strategies, examine a trace, and test whether a change improves the reported behavior.
+
+The difficult part of the example is that there are several reasonable things to improve. We may want to reduce the total compute used by the service. We may want to reduce the slowest responses. We may want a particular interactive operation to remain available under load. We may want to ensure that people using a less common feature are not repeatedly exposed to a condition the aggregate benchmark barely represents.
+
+All of these goals can admit technical evaluation. Some may require a different experimental workload or a more specific instrument for examining performance. They can also conflict. Reserving resources for a rare operation can affect throughput elsewhere. Predictable response times may require a trade-off involving cost or utilization.
+
+More capable systems research gives us more ways to make those choices effective. It does not establish which choice is appropriate for every activity the system supports.
+
+I would like performance evaluation to make the relationship between the optimization and the intended use more visible. Describe the workload, identify the people or downstream operations that encounter the relevant behavior, and explain the consequences of the measured delay. If the evaluation supports only a claim about a synthetic workload, that can be a valuable result in its own right. A claim about someone's experience should connect the performance measurement to their activity.
+
+For a person moving a point on a curve, the relevant achievement may be the ability to continue making a movement without waiting for the system to catch up. We can begin with that observation and investigate what the implementation needs to provide.
+
+The speed of a system matters. Sometimes understanding how it matters begins by watching what a person is trying to do while the system responds.
+
+## Editorial source and claim notes
+
+- Dean and Barroso, The Tail at Scale, Communications of the ACM 56 (2013), pp. 74–80: [author/institution publication page and abstract](https://research.google/pubs/the-tail-at-scale/) inspected. Use for tail-tolerant service design and the effect of variable component latency at scale; no universal human latency threshold is asserted.
+- Probability and average calculations are explicitly hypothetical. The first assumes independent workers, equal deadline-miss probability, and waiting for every worker; the second assumes 99% at 20 ms and 1% at 1000 ms. The arithmetic is 19.8 + 10 = 29.8 ms. No user-study outcome is claimed.
+- Interaction examples are proposed analyses. A future empirical version could collect consented operation-level timings and task observations, but this manuscript does not report such a study.
+- Distinct from 15 (control latency), 90 (workload change), and 91 (instrumentation). Author approval and independent human reading remain pending.

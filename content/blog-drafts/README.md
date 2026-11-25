@@ -1,17 +1,21 @@
 # Blog editorial draft library
 
-**Status: unpublished editorial material.** This directory is deliberately outside the Astro blog collection at `content/blog/`. It contains 136 proposed English essays, not 136 finished, fact-checked posts.
+**Status: unpublished editorial material.** This directory is deliberately outside the Astro blog collection at `content/blog/`. It contains 136 English essays in different editorial states: 20 long-form editorial manuscripts and 116 short drafts requiring expansion. None is certified for publication.
 
 The library starts from the existing blog's concern with how research produces knowledge, how fields change, and how AI changes the relationship between a capability and a person's contribution. It also develops independent questions in evidence, embodied intelligence, design, graphics, fabrication, and education. Avoid turning all of these essays into variations of the same AI career argument.
 
-The first two pieces are extended working drafts of a possible series on qualitative evaluation. Entries 03–36 are substantial editorial drafts with openings, arguments, counterarguments, and reading plans. Entries 37–136 are short English working essays with developed prose and separate source notes. Each should be expanded only when its central claim and sources are sufficiently strong. The numbers are editorial identifiers, not publication order.
+The latest revision expands 20 essays to standalone long-form manuscripts and adds source and claim notes. The remaining 116 preserve their previous short prose or working argument. The original groups and numbering are unchanged. The numbers are editorial identifiers, not publication order.
 
-## Additional working drafts
+## Editorial navigation
 
-- [Index of entries 37–136](INDEX-037-136.md): ten additional themes and 100 English working drafts.
-- [Editorial writing and revision guide](STYLE.md): MotionSmith, the author's published blog, and research on human reading effort.
+- [Revision report](REVISION-REPORT.md): long-form inventory and validation status.
+- [Complete 136-entry editorial roadmap](EDITORIAL-ROADMAP.md): specific argument, evidence or example, counterpoint and manuscript state for every essay.
+- [Source verification ledger](SOURCE-AUDIT.md): reviewed URLs, scope and unresolved sources.
+- [Baseline audit](BASELINE-AUDIT.md): original 136-file inventory and mechanical findings.
+- [Editorial writing and revision guide](STYLE.md): detailed argument, prose, evidence, reading and publication standards.
+- [Index of entries 37–136](INDEX-037-136.md): ten additional themes and their individual questions.
 
-The original 36-entry index follows.
+The original 36-entry index follows. For the latest individual status and development plan, use the roadmap.
 
 ## A. Evidence after the scoreboard
 
@@ -79,16 +83,9 @@ The original 36-entry index follows.
 | 35 | [The End of a Shared Curriculum?](35-the-end-of-a-shared-curriculum.md) | What should children encounter together when instruction can be individually generated? |
 | 36 | [Who Gets to Be a Beginner?](36-who-gets-to-be-a-beginner.md) | Who finances the experiences that create experts when useful novice work is automated? |
 
-## Suggested first editorial sequence
+## Reading the revised collection
 
-1. 01 and 02: the strongest direct continuation of the existing scoreboard and robotics essays. Develop them as a pair but preserve their separate epistemic and institutional arguments.
-2. 29 and 30: closely connected to graphics, motion authoring, fabrication, and creative tools, with distinct arguments about representation and constraints.
-3. 19 and 24: two foundational HCI questions about the emergence of values and the nature of qualitative knowledge.
-4. 13: the technical and philosophical distinction between seeing, remembering, and acting.
-5. 31 and 36: two different educational bets, concerning institutions and the reproduction of expertise.
-6. 04, 09, and 10: independent research-method and institutional essays that broaden the blog beyond personal strategy.
-
-This is a suggested sequence, not a commitment to release dates. Space related essays apart if they would otherwise repeat the same example or premise.
+Start with 01 and 02 as complementary accounts of observable evidence and executable optimization. Continue with 51 and 57 for MotionSmith's authoring questions, 19 and 24 for HCI, and 25 and 29 for the role of an artifact's representation. The other revised manuscripts broaden the collection into review, infrastructure, embodied intelligence, education, systems, research methods, and measurement. See the revision report for direct links to all 20 long manuscripts.
 
 ## Editorial standards and workflow
 

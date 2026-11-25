@@ -1,17 +1,69 @@
 # The Reader Has No Context Window
 
-**Status:** English working draft | **Theme:** G. Writing, explanation, and representation | **Candidate tags:** philosophy-of-science, computer-science
+**Status:** Long-form editorial manuscript | **Theme:** Writing, explanation, and representation | **Candidate tags:** philosophy-of-science, computer-science
 
-A sentence can be short and still require a great deal of work from its reader. Consider a description of a design tool as an intent-preserving mechanism refinement interface. What does it preserve? Who refines the mechanism? When does the person's intent become apparent? Each word in the phrase is familiar, but the reader has to reconstruct the activity behind it.
+I can sometimes understand every word in a sentence and have little idea what the sentence means. This happens particularly often when I read an explanation of a subject outside my own area of research. The author may have chosen entirely reasonable technical terms. I have not yet acquired the understanding that would allow me to put them together.
 
-We could instead describe a maker who sketches a movement, sees a mechanism that approximates it, and changes the design after watching the mechanism move. The second description takes more words. It gives the reader people, objects, and a sequence of events. Once those are in place, we can introduce a term for the process.
+Consider a description of a creative tool as an interface for intent-preserving mechanism refinement. Someone who works on computational design may have a useful idea of what that means. Another reader needs to answer several questions first. What is a mechanism? What does the person want to preserve? What is being refined? How will we know whether the refinement helped?
 
-Clark, Martin, and Mahowald's October 2026 preprint, [Why is AI-generated language so hard to understand?](https://arxiv.org/abs/2610.29162), makes this concern concrete. They found that many of the models they studied used sentence structures associated with greater processing difficulty. Their experiments also suggest that rewarding shorter outputs can favor some of those structures. This is evidence about linguistic features and a possible mechanism; it is not a direct measure of every reader's comprehension.
+We could describe the same activity differently. An artist wants to make a wooden figure move. She draws the movement, examines several mechanisms that could produce it, and adjusts one of them until she likes what she sees. A computer helps her make changes that keep the mechanism capable of moving. We might then introduce a term for the relationship we want the computer to maintain between the movement and the artist's intention.
 
-There is a useful distinction between the amount of text and the amount of reconstruction it demands. Specialists often benefit from concise terms because they already know the activities those terms represent. A broader audience needs a way to acquire that knowledge while reading. I would rather spend another sentence establishing a relationship than save that sentence and ask every reader to infer it.
+The second account takes more words. I suspect it asks less of a reader.
 
-When producing words becomes cheap, we may need to pay closer attention to who does the work of understanding them. A piece of writing should make that work possible, not merely leave enough clues for a reader to reconstruct what the author meant.
+## Shorter text, longer work for the reader
 
-## Editorial source notes
+A recent paper by Thomas Hikaru Clark, Matias B. Martin, and Kyle Mahowald, [Why is AI-generated language so hard to understand?](https://arxiv.org/html/2610.29162v1), examines a concern I have had about language model writing. In addition to generating considerable amounts of text, some recent systems produce sentences that seem to pack several ideas into a small space.
 
-Checked source: Clark et al., arXiv:2610.29162v1, especially Experiments 1 and 2. Also [Cekini et al.](https://arxiv.org/abs/2610.23715), whose reading times are model predictions, not new eye-tracking measurements of the paired texts. For expansion, compare the same idea at two levels of assumed background.
+The authors investigate linguistic properties that previous research has associated with difficulty in processing language. Among these are long distances between grammatically related words, uncommon sequences of words, and constructions that require a reader to determine which noun is doing what. They find differences between outputs of the models they examine and the human texts and paraphrases with which those outputs are compared. The differences vary with model and type of text.
+
+The paper also explores a possible explanation. A system optimized in part for producing useful information under a cost for length may acquire a preference for compressed constructions. The authors' experiment with a length penalty produces changes in the model's linguistic choices consistent with that possibility. It is a proof of concept, rather than an account of the training history of every model.
+
+Another preprint, Kamer Cekini and colleagues' [The Cognitive Cost of LLM Writing](https://arxiv.org/html/2610.23715v1), examines paired human-written articles and machine-generated rewrites. They use a model trained on eye-tracking data to estimate reading times. The machine rewrites tend to contain fewer words, while the predicted cost of reading an individual word is higher. Predicted total reading time is slightly lower on average. That distinction is important. The work does not show that readers actually spend more time on every machine-written article.
+
+Both studies give us reasons to examine what happens when we make text shorter. They do not tell us how to write a particular essay well. To do that, I think we need to consider the work that a person performs while reading it.
+
+## Give the reader something to think about
+
+Imagine teaching someone the difference between the shape of a motion and its timing. We could begin by defining a spatial trajectory and a temporal parameterization. There is nothing wrong with those terms. But someone who has never thought about the distinction may have difficulty understanding why it matters.
+
+I might begin instead with a figure that raises its hand. We draw the path that the hand should follow. Then we play the movement once quickly, and once with a pause at the top. The hand has passed through the same places. The movement has acquired a different character. We can now name the two properties we have been changing.
+
+This is an important part of explaining technical work to me. The reader needs an object through which a new distinction can become intelligible. That object may be a drawing, a familiar activity, a mathematical example, or a result from a paper. Its purpose is to give the reader a place to put the concept.
+
+Once the concept is understood, a precise technical term can be exceptionally useful. We no longer need to describe the entire scene each time we refer to the distinction. The term has become a shared resource. It can help us reason about a more complicated example.
+
+The problem with introducing the term too early is that the reader has to guess what resource it is supposed to provide. Introducing several terms in the same sentence compounds the problem. By the time a reader understands the last one, they may have forgotten how it was connected to the first.
+
+This helps explain why writing that is appropriate for a specialist can be difficult for another reader. In systems research, I can use the word throughput without explaining the idea of completing many operations over time to another systems researcher. In an essay that also concerns the experience of a person using the system, I may need to show how that measurement relates to the activity before continuing.
+
+## Where the paragraph is going
+
+There is another difficulty that does not appear at the level of an individual sentence. I can read a paragraph whose sentences are clear and still find myself wondering why I am being told any of these things together.
+
+A paragraph should help me make a particular step in understanding an argument. Its first few sentences can establish the object or problem. The rest can explain the relation that the writer wants me to notice. Sometimes an observation needs a qualification. Sometimes the paragraph needs to give a reason why another interpretation is less convincing.
+
+The reader should not have to infer the entire argument from a collection of plausible statements. For example, an essay about AI in education might mention personalized learning, the changing role of teachers, the importance of community, and the danger of reducing education to scores. These are all interesting topics. Putting them in the same paragraph does not yet establish a relationship among them.
+
+A more useful account might begin with a student who receives a good explanation from a tutoring system. We can understand that achievement. We can then ask what else happens to the student over the course of a school day, and why the quality of the explanation tells us relatively little about those other activities. The larger argument can grow from the distinction we have introduced.
+
+This takes longer to write. It also takes some willingness to leave interesting related ideas for another place in the essay. I often find that the way to improve a dense paragraph is to remove one of its arguments rather than replace its sentences with shorter ones.
+
+## The limits of a writing score
+
+A number of linguistic measures can help us examine writing. We can count long sentences, identify uncommon words, and investigate the structure of clauses. Such observations can reveal habits that are worth reconsidering. The studies I mentioned earlier are good examples of why those habits deserve attention.
+
+I would be reluctant to optimize an essay directly against one of these measures. A long sentence can be easy to understand when its relationships have been established. A short sentence can be difficult when it introduces an unfamiliar abstraction. A common word may be less useful than a technical term with a precise meaning. A document can score well on a readability formula while presenting its ideas in an order that makes little sense.
+
+This is an interesting instance of the larger problem of evaluation. A measure of reading difficulty can tell us about some properties of the text. The activity we want to support is a person developing an understanding of an argument. The relation between the measure and that activity depends on the person, the subject, and the purpose of reading.
+
+We should investigate actual reading experiences when we can. Ask a reader to explain the central claim after a section. Ask where they began to lose track of the argument. Find out whether they can apply a distinction to a new example. These are different questions from whether the sentences look simple.
+
+I do not want to eliminate every difficulty from reading. Some ideas require sustained attention, and a good essay may leave a reader with a difficult question. What I would like to eliminate is the work that the reader has to do merely because the writer did not take the time to establish the argument.
+
+As producing language becomes increasingly easy, that difference matters. The point of writing is to share something we have understood, or something we are trying to understand. A reader should be able to participate in that inquiry. I would rather give them enough room to think about the problem than make them spend their time reconstructing the sentence.
+
+## Editorial source and claim notes
+
+Checked Clark et al. (October 2026, arXiv:2610.29162v1), abstract, sections 3–4 and limitations heading; the observed features correlate with difficulty, not direct comprehension measurements. Checked Cekini et al. (October 2026, arXiv:2610.23715v1), abstract and analysis structure: 496 paired articles, predicted per-word time higher, total time slightly lower. Both are preprints. All proposed examples and reading exercises are original hypothetical illustrations; no actual reader test is claimed. Keep this article separate from draft 42, which concerns the structure of a research introduction.
+
+Editorial status: source-checked at the level stated above; author approval, independent human reading, and publication conversion remain pending.
