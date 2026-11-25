@@ -2,7 +2,7 @@
 
 **Status:** English working draft | **Theme:** P. Knowledge, meaning, and life after common measures | **Candidate tags:** ethics, philosophy-of-science, sociology-of-science
 
-A town has space for a new public building. Some residents want a place for performances. Others want a quiet library. A third group wants a workshop where people can make things together. The residents may understand the merits of one another's ideas very well and still disagree about which one should be built.
+A town considering whether to build a library, a performance space, or a workshop may contain people with incompatible but intelligible purposes. Each group can understand the others' reasons and continue to have a good reason to prefer its own proposal. The disagreement is about what the town ought to make possible.
 
 We can learn more about the proposals. We can estimate costs, investigate likely use, and examine what each group would gain. Those observations can improve the quality of the decision. They need not reveal a common order in which everyone agrees the proposals should be placed.
 
@@ -10,7 +10,9 @@ I expect this sort of disagreement to become more visible as technical feasibili
 
 A society organized around a single score can make disagreements appear resolved when they have only been translated into a procedure for making a decision. Procedures can be useful and legitimate. Their legitimacy depends on how people participate, what interests they protect, and whether decisions can be challenged.
 
-I find the prospect of a world with fewer common winners both interesting and difficult. It could contain a much wider range of meaningful activities. It could also give greater importance to the arrangements through which people negotiate incompatible purposes. There may be excellent reasons to pursue a particular direction without expecting everyone to regard it as the best one.
+The town might choose a library through a legitimate process while acknowledging that the people who wanted a workshop lost an opportunity they valued. The decision can be justified through public reasoning without establishing that their purpose was inferior. Where possible, a later arrangement could create room for that purpose elsewhere.
+
+When more alternatives become affordable, some conflicts can be resolved by letting different groups pursue different purposes. Where they depend on the same scarce resource, a legitimate procedure may still need to select an outcome. The decision can be worth defending without establishing that everyone should value the selected experience more highly than the one they hoped for.
 
 ## Editorial source notes
 

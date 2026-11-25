@@ -2,15 +2,17 @@
 
 **Status:** English working draft | **Theme:** O. Careers, institutions, and the economics of expertise | **Candidate tags:** career-advice, sociology-of-science
 
-Imagine someone who has learned to make a particular kind of mechanical object exceptionally well. There may be very few other people who understand that work. There may also be very few people who need it. The person's skill can be rare without being economically valuable in the same way that a widely needed skill is valuable.
+A skill can be rare because it is extraordinarily difficult to acquire or because very few people need it. As common forms of production become cheaper, the second condition will matter in a growing number of activities. We may find many valuable niches whose economic possibilities are quite different.
 
-This distinction matters when we talk about the future of expertise. As many common capabilities become less expensive, smaller communities of interest may become easier to serve. Someone could build a tool for a practice that would never have supported the cost of conventional software development.
+Falling production costs change this relation between the size of a community and the viability of a project. As many common capabilities become less expensive, smaller communities of interest may become easier to serve. Someone could build a tool for a practice that would never have supported the cost of conventional software development.
 
 Whether that practice can support a livelihood is a different question. A small group may care deeply about a particular experience while being unable to pay much for it. A useful tool may be produced as a shared resource rather than as a business. Another small community might have enough demand to support a specialist.
 
+Suppose a small community needs a tool only occasionally. Reducing the cost of building it may make the project possible without creating enough recurring demand to support its developer. A shared service or contributions from several related communities could change the arrangement. The existence of demand and its capacity to finance ongoing work are different questions.
+
 The opportunity created by cheaper production is therefore partly an opportunity to change the organization of work. A person could serve several related communities, maintain a common tool used by many practitioners, or contribute to a practice alongside another form of employment. Different arrangements can sustain different kinds of knowledge.
 
-I expect many valuable activities to become visible outside the familiar rankings of professional achievement. We should distinguish the cultural value of those activities from the economic conditions that allow people to continue them. It would be a mistake to promise that every newly visible niche will become a job.
+A small community that values a particular form of making may sustain it through paid work, a shared institution, or the contributions of people who earn a living elsewhere. The existence of an interesting activity tells us little about which arrangement is available. A society with abundant technical capabilities may need new ways of supporting practices that matter to a few people without asking every practice to become a profitable market.
 
 ## Editorial source notes
 

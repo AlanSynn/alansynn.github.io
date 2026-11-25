@@ -2,13 +2,11 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** P. Knowledge, meaning, and life after common measures | **Candidate tags:** ethics, education, participatory-design
 
-A person learning to draw shows a friend a picture. The friend looks at it, notices something interesting, and they talk about the picture for a little while. The person may remember that conversation the next time they draw something.
+There are activities I would like people to be able to pursue without having their participation converted into an assessment of them. A person can learn to draw, make something for a friend, or spend an afternoon trying out an unfamiliar style. An accurate evaluation of what they produced may be useful to them. Whether the activity should create a record of their ability is a separate question.
 
-Now suppose the same interaction takes place in a system that records each drawing, estimates its quality, and maintains an account of the person's progress. The system can provide useful information. It can also change what it means for the person to draw a picture.
+A drawing tool could retain every attempt, estimate its quality, and offer an account of the person's progress. The person may welcome that information when they want to understand a particular difficulty. If the record can later be used to evaluate them for another purpose, an attempt that would otherwise have belonged to a private afternoon acquires a different consequence.
 
-An attempt that would otherwise have disappeared into the history of an afternoon can become evidence of an ability. The person may begin to think about what the record will say about them, even when they are drawing for a reason unrelated to improvement.
-
-As the ability to evaluate becomes more widely available, I would like to pay more attention to the circumstances under which people are evaluated. There are many activities in which measurement is useful, and there are activities people should be able to pursue without turning their participation into an assessment of themselves.
+The ability to measure more things gives us greater reason to think about when measurement is legitimate.
 
 ## What a measure is for
 
@@ -35,6 +33,8 @@ For the first person, the feedback can become something they choose to investiga
 The second person may find it distracting. They might be concerned about the purpose for which the resulting assessment will be retained, especially if the tool is part of an educational or professional institution. An evaluation that appears useful to the designer could introduce another obligation for the person using it.
 
 There is a meaningful difference between asking for information about an activity and being subjected to an ongoing assessment through that activity. The second arrangement involves decisions about who may interpret the evidence, what it can be used to decide, and whether the person can challenge the interpretation.
+
+The same distinction applies when an evaluation was originally requested by the person being evaluated. A learner might ask for feedback on a draft and welcome a detailed account of its weaknesses. Using that account later to make an unrelated selection decision would require a separate justification. The appropriateness of the measurement can change when its purpose and audience change.
 
 A student can benefit from detailed feedback while also having reasons to resist a permanent record of every unsuccessful attempt. A person practicing a musical instrument can want help with a difficult passage without wanting to maintain a public representation of their proficiency.
 
@@ -80,9 +80,9 @@ I also imagine that people will increasingly have reasons to decide which parts 
 
 A creative community might develop practices in which people freely share unfinished work without assigning a score to it. A learner might use a tool to investigate a particular difficulty and then decide that the resulting record has served its purpose. Another person might want to maintain a detailed history of everything they have made.
 
-These are different ways of having an interest in one's own work. I would like technology to make room for them.
+We should be able to make room for each of these practices. When measurement serves a legitimate purpose, its scope and the use of the resulting evidence should be intelligible. When a person simply wants to explore, they should have a meaningful way to do so without establishing a permanent account of their abilities.
 
-When I think about a future in which machines become much better at evaluating what we do, I find the possibility of an activity that needs no evaluation increasingly appealing. We may have many reasons to measure something. We should also be able to recognize the moments in which the experience is enough.
+The prospect of abundant evaluation makes that freedom more consequential. A person who can produce a remarkably good score may still have excellent reasons to spend an afternoon doing something for which they will never receive one.
 
 ## Editorial source and claim notes
 

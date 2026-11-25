@@ -2,13 +2,9 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** L. Software, systems, and engineering judgment | **Candidate tags:** computer-science, philosophy-of-science
 
-A person is drawing a curve in an editor. As they move the pointer, a control point follows it and the curve changes. Every now and then, the point stops moving for a moment. The pointer has reached another position, but the curve is still responding to an earlier movement. The person waits for the display to catch up before continuing.
+What counts as a fast system depends partly on the work the system supports. A delay of one second can be almost irrelevant to someone waiting for a rendering that they do not need yet. The same delay can interrupt the movement of someone editing a curve, because the person is waiting to see the consequence of their action before deciding what to do next.
 
-Another person uses the same system to prepare a rendering. They submit a request and continue working on something else while the rendering is generated. A delay of the same duration may have very little consequence for their activity.
-
-Both people would benefit from a faster system. What it means for the system to be fast enough depends on the work each person is doing.
-
-I find this an interesting place for systems research and HCI to meet. We can learn quite a lot about a system by measuring its response times. Understanding which improvements matter to someone requires an account of how those response times enter their activity.
+I find this distinction useful when thinking about the relationship between systems research and HCI. We can learn a great deal from a latency distribution. A claim that a system has improved someone's experience also requires us to understand where the measured operations occur within that experience.
 
 ## A slow request in a large system
 
@@ -24,7 +20,7 @@ This is a calculation under deliberately simplified assumptions, not a measureme
 
 The useful object of evaluation in this case is the service that needs to assemble the results. Improving the typical worker's response time might have relatively little effect if the service often waits for one slow worker. A different technique may address the part of the distribution that determines when the larger operation can finish.
 
-There is another distinction that becomes important when the result of the service is part of an interactive activity. We want to understand what the delay does to the person who is waiting.
+When the service supports an interactive activity, a further question is which person or operation encounters the delay. We want to understand what the delay does to the person who is waiting.
 
 ## Whose requests are slow?
 
@@ -35,6 +31,8 @@ That average can be quite useful for a particular purpose. It tells us something
 The distribution across requests and the distribution across people are different things. The first gives a great deal of weight to the activities that generate many requests. Someone who performs a less common activity can experience poor performance almost every time they use the feature, while having little effect on the reported mean.
 
 An aggregate high percentile may reveal the slow requests, depending on how the percentile is defined and how the distribution is constructed. It still does not tell us why a request was slow or which person encountered it. That requires some way to connect the measurement to the operation and the activity it supports.
+
+The weighting problem becomes clearer if a small group repeatedly uses the slow operation. Counting requests gives that group little influence on the overall average even though the slow behavior may characterize nearly every session they have. A per-session account or an operation-specific distribution could make this visible without pretending that a single alternative statistic captures every relevant experience.
 
 This is especially relevant when we report an improvement for a system used by several kinds of people. Suppose an optimization improves the frequent operation from 20 to 10 milliseconds but leaves the less frequent operation unchanged. The mean improves substantially. A person using the slow feature may experience exactly the same system as before.
 
@@ -68,9 +66,9 @@ More capable systems research gives us more ways to make those choices effective
 
 I would like performance evaluation to make the relationship between the optimization and the intended use more visible. Describe the workload, identify the people or downstream operations that encounter the relevant behavior, and explain the consequences of the measured delay. If the evaluation supports only a claim about a synthetic workload, that can be a valuable result in its own right. A claim about someone's experience should connect the performance measurement to their activity.
 
-For a person moving a point on a curve, the relevant achievement may be the ability to continue making a movement without waiting for the system to catch up. We can begin with that observation and investigate what the implementation needs to provide.
+For the editor, an improvement worth examining is the person's ability to continue shaping a curve while receiving useful feedback about each movement. An optimization that produces that improvement may affect only a small fraction of the service's requests. It could be nearly invisible in the aggregate average and quite consequential to the person using it.
 
-The speed of a system matters. Sometimes understanding how it matters begins by watching what a person is trying to do while the system responds.
+The distribution of response times helps explain how the implementation behaves. The organization of the activity tells us which parts of that distribution deserve our attention. Understanding both gives us a more useful reason to optimize the system.
 
 ## Editorial source and claim notes
 

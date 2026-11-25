@@ -4,7 +4,7 @@
 
 The library starts from the existing blog's concern with how research produces knowledge, how fields change, and how AI changes the relationship between a capability and a person's contribution. It also develops independent questions in evidence, embodied intelligence, design, graphics, fabrication, and education. Avoid turning all of these essays into variations of the same AI career argument.
 
-The latest revision expands 20 essays to standalone long-form manuscripts and adds source and claim notes. The remaining 116 preserve their previous short prose or working argument. The original groups and numbering are unchanged. The numbers are editorial identifiers, not publication order.
+The earlier revision expanded 20 essays into standalone long-form manuscripts and added source and claim notes. The subsequent collection-wide revision edits the prose of all 136 unpublished entries: openings, argumentative continuity, conclusions, and a specific additional intervention in each manuscript. The remaining 116 still require long-form development and claim-level source review. The original groups and numbering are unchanged. The numbers are editorial identifiers, not publication order.
 
 ## Editorial navigation
 
@@ -12,7 +12,8 @@ The latest revision expands 20 essays to standalone long-form manuscripts and ad
 - [Complete 136-entry editorial roadmap](EDITORIAL-ROADMAP.md): specific argument, evidence or example, counterpoint and manuscript state for every essay.
 - [Source verification ledger](SOURCE-AUDIT.md): reviewed URLs, scope and unresolved sources.
 - [Baseline audit](BASELINE-AUDIT.md): original 136-file inventory and mechanical findings.
-- [Editorial writing and revision guide](STYLE.md): detailed argument, prose, evidence, reading and publication standards.
+- [Editorial philosophy and writing standard](STYLE.md): ten qualitative editorial dimensions, distinct explanatory structures, and concrete examples across fields.
+- [Editorial review log](EDITORIAL-REVIEW.md): one specific intervention in every manuscript, in addition to the collection-wide body revision.
 - [Index of entries 37–136](INDEX-037-136.md): ten additional themes and their individual questions.
 
 The original 36-entry index follows. For the latest individual status and development plan, use the roadmap.

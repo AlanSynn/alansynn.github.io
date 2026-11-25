@@ -2,21 +2,19 @@
 
 **Status:** editorial draft / argument development | **Theme:** Embodied intelligence | **Candidate tags:** robotics, philosophy-of-science, ai
 
-A simulator is often described as a less expensive world in which a robot can learn. Its most consequential property may be that someone has already decided what kinds of things can happen inside it.
+A simulator gives a researcher a world in which certain things can happen. The range of events it supports determines which questions the researcher can investigate through it. I think this is an important part of understanding simulation as a research instrument.
 
-## Working argument
+Consider a simulator for a robot that picks up unfamiliar objects. We might vary the shapes, textures, lighting, and friction of the objects. These changes can provide useful experiences for learning a behavior that needs to work under different conditions. A visually unrealistic scene may even be helpful if the variation it provides encourages a policy to rely on properties that remain useful outside the simulator.
 
-A simulator represents physical properties and their interactions. It selects which variables can change, which relationships are modeled, and which phenomena will remain outside the simulated world. This is a form of epistemic selection. Its assumptions determine what evidence a simulated experiment can produce.
+Tobin and colleagues' work on domain randomization is an example of this idea. Their research investigates the transfer of a visual localization capability from varied simulated scenes to real observations. The purpose of varying the simulated images was connected to the behavior the system needed to perform in the physical world.
 
-Domain randomization illustrates why realism is not simply a matter of visual resemblance. Tobin and colleagues showed that deliberately varied simulated appearances could support object localization on real hardware. A simulator may be useful precisely because it represents a range of variation broader than a single realistic-looking scene. Yet randomizing a parameter presupposes that the parameter and its relevant consequences exist in the simulation.
+A different issue arises when a property is missing from the representation entirely. If the simulator treats every object as rigid, changing the friction of an object will not expose the robot to the way a flexible object deforms when grasped. The researcher needs either a representation of that behavior or a reason to believe that it is irrelevant to the intended task.
 
-A future agent may discover powerful policies in simulated worlds and help improve the simulators themselves. The claims that emerge from those worlds will still have boundaries. A simulator of a household can represent moving furniture and uncertain friction while omitting the fact that a family has disagreements about where an object should be placed. Better physics does not automatically settle the scope of the task.
+A rigid-object simulator could still teach a robot a useful approach to a flexible object if the task never depends on the deformation. An omitted property becomes a limitation when the claim relies on behavior that the property would change. We should establish which part of the learned behavior is meant to transfer before deciding how much fidelity the simulation needs.
 
-I would like the essay to treat simulators as scientific instruments with explicit claims of adequacy. They can reveal mechanisms, permit interventions, and support generalization. They also organize ignorance by deciding what is representable.
+This is why I would like evaluations of simulation to make clear which properties of the task the simulated experiments are intended to investigate. Increasingly powerful learned simulators may include behaviors that were previously difficult to model. Improving their fidelity can also enter automated research loops. The important condition is whether the resulting representation supports the particular interventions and observations through which a claim is supposed to be established.
 
-## Challenge
-
-High-fidelity and learned simulators can capture previously omitted phenomena, and transfer can be assessed empirically. The argument must remain about representational scope, rather than an assertion that simulation will always lag behind a fixed human capability.
+A simulator can be an excellent approximation for one purpose and a poor instrument for another. The fact that it produces a large number of trials tells us little about the possibilities it has omitted. Before drawing a conclusion from a simulated world, I would want to understand which parts of the real problem were allowed to vary inside it.
 
 ## Source plan
 

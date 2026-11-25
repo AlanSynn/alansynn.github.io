@@ -2,19 +2,21 @@
 
 **Status:** editorial draft / argument development | **Theme:** HCI, institutions, and value | **Candidate tags:** participatory-design, ai, ethics
 
-An agent that answers questions as a plausible user may help a designer recognize problems. It may also create the impression that someone affected by the design has already been consulted. Prediction and participation have different roles in research.
+An accurate simulation of a user's response and the participation of a person in a design decision serve different purposes. The distinction matters because the first may become increasingly inexpensive, while the second requires us to arrange a relationship with someone whose life could be affected by the work.
 
-## Working argument
+Suppose a team developing an accessibility tool uses a model to explore possible reactions to its early designs. The model can help the team identify confusing features, suggest overlooked circumstances, and prepare more useful questions for a field study. That is a reasonable use of simulated responses. The team is investigating the implications of a model of its potential users.
 
-Suppose a team simulates hundreds of potential responses to a new accessibility tool. The simulated responses could reveal likely misunderstandings, generate alternatives, or identify which questions deserve an expensive field study. This is a useful form of exploration. The responses represent the system's model of people, however, and may omit interests or circumstances that were absent from its data.
+A real participant can do something else during the inquiry. They can object to the team's description of their circumstances, explain that the proposed task has little relevance to their life, or decline to let the researchers use an account of their experience. They can acquire an understanding of the prototype through using it and introduce a concern that changes the design decision.
 
-Participation introduces an additional dimension. A real person can object to the categories through which the research understands their life. They can decline involvement, negotiate how their account is used, or change their mind after experiencing the artifact. A simulated response cannot itself constitute that person's consent or authority over a decision that affects them.
+Consider a participant who rejects the categories in the interview itself. A synthetic answer might correctly predict that rejection. The researcher could still choose to ignore it. A participatory arrangement gives the affected person an opportunity to challenge that choice. The difference concerns the authority of the response, not how closely the words resemble a human answer.
 
-I expect synthetic users to become increasingly useful and to reduce the cost of some forms of evaluation. The dangerous leap will be using their convenience to eliminate occasions on which affected people can challenge the project. A better simulation might anticipate many such challenges. The institutional question of whose response can alter a decision would remain.
+A simulated response might anticipate such an objection. It could be extraordinarily good at predicting what a person would say. The prediction is still evidence about what the model represents. It cannot provide that person's authorization or establish that the researchers have given the person an opportunity to influence the project.
 
-## Challenge
+This does not imply that a conventional user study automatically provides meaningful participation. Real people can be recruited through narrow samples and invited to make choices whose consequences are already decided. A carefully used simulation could help researchers recognize some of those limitations and prepare a broader inquiry.
 
-People are also imperfect representatives of groups, and real studies can exclude important voices. Models may help reach overlooked cases. The proposed distinction should not become a prohibition on useful simulation. Compare prediction quality, research validity, and participation rights separately.
+I would like HCI research to examine three questions separately: how accurately a simulated response represents behavior under specified conditions, how the response helps the researcher investigate a design, and who is entitled to influence the decisions the research will produce. Different methods may give useful answers to the first two. The third requires us to examine the arrangements through which actual people can have a say.
+
+A model can become a very useful means of investigating a person's possible experience. We should be able to benefit from that capability without confusing a predicted answer with an opportunity for the person to answer.
 
 ## Source plan
 

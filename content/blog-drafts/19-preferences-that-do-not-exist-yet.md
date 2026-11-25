@@ -2,13 +2,9 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** HCI, institutions, and value | **Candidate tags:** participatory-design, philosophy-of-science
 
-Someone wants to buy a chair. We can ask about the kind of chair they like, the amount they want to spend, and the room in which it will be used. Their answers can help us find something appropriate.
+A design study can begin by asking people what they want and end by discovering something they could not have wanted in quite the same way at the beginning. Making a possibility available can change the purpose of the activity for which the researcher was trying to discover the requirements.
 
-Now suppose we give the person a tool for designing a chair. They can change the shape, see how the parts fit together, and examine what the changes would mean for fabrication. After trying the tool, they may discover that they are interested in making the chair rather than buying one. They may begin to care about properties of chairs they had never noticed before.
-
-What should we have asked the person in the first conversation to discover that preference?
-
-There is a problem here with the way we often describe design. We ask what people want, and then try to make something that serves those wants. Much of design really does work this way. But some of the things people want emerge while they are using the technology we make. The inquiry can change the very activity for which we were trying to discover the requirements.
+Consider someone who needs a chair. An assistant can ask about the room, the person's taste, and the amount they want to spend. Now give the person a tool with which they can change the chair's shape and examine how it could be built. They may discover that making the chair is the activity they want to pursue. The earlier conversation was concerned with choosing an object; the new experience has given the person another reason to be interested in it.
 
 ## Three different things we learn from a choice
 
@@ -19,6 +15,8 @@ In another case, the person has a reasonably clear preference but has not yet fo
 There is a third case. The person discovers something interesting in the course of the activity, and that discovery changes the purpose of the activity itself. Before trying the design tool, they had little reason to imagine themselves making furniture. They can now develop a reason to do so.
 
 These possibilities are difficult to distinguish from the final choice alone. In every case, the person might select the same chair. We would need to understand the path to the choice before deciding what kind of change has occurred.
+
+A useful follow-up would examine what the person does when the tool is unavailable or when another way of making the object becomes possible. Continued interest may help distinguish a passing response to novelty from a change in the activity they want to pursue. It would not establish a permanent preference. The purpose of following the activity is to see how the person's reasons develop.
 
 There is a long history of research questioning the idea that people always carry well-defined preferences into decisions. In [Constructive Consumer Choice Processes](https://academic.oup.com/jcr/article-abstract/25/3/187/1795625), Bettman, Luce, and Payne describe how people construct preferences through strategies that depend on the demands of a decision. Their work concerns consumer choice. I want to extend the question to the ways in which a new technology can give someone a reason to participate in an activity they did not previously consider.
 
@@ -60,9 +58,9 @@ To understand what happened, we need to examine the conditions under which the p
 
 There is no simple test that separates every meaningful discovery from every form of manipulation. People develop preferences through encounters with others all the time. Education, culture, friendship, and design participate in that process. The responsibility of a research project is to understand enough of the circumstances to make a specific claim about the experience it supported.
 
-I would like design research to spend more time here as the cost of producing things falls. A great many activities that were previously difficult to imagine may become available to people. The experience of encountering them can give rise to new forms of creativity, learning, and social life.
+Cheaper tools give design research a particularly interesting opportunity here. Practices that would have been too expensive to investigate can become available to small groups. Some will reveal preferences the researchers could have discovered through better examples. Others may create an activity through which people acquire interests they had little reason to develop before.
 
-Some of these forms may be important to only a few people. They may never have appeared in a survey that asked what people wanted before the corresponding activity existed. A society with more ways to make things can become a society with more ways to discover what is worth making. Understanding that process deserves to be a purpose of research in its own right.
+The number of people who request an experience before it exists is therefore a poor general test of whether it deserves to be made possible. A design can contribute by giving someone a new way to care about what they do. Understanding when and how that happens should be one of the purposes of design research.
 
 ## Editorial source and claim notes
 

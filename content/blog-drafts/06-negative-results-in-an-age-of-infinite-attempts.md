@@ -2,19 +2,19 @@
 
 **Status:** editorial draft / argument development | **Theme:** Evidence after the scoreboard | **Candidate tags:** academia, sociology-of-science, ai
 
-When a person spends a year pursuing an idea that does not work, the failed attempt may contain useful knowledge. When an agent tries thousands of variants overnight, a list of failures can be too large for anyone to read. Both cases raise the same question: which failures deserve to remain part of the scientific record?
+An unsuccessful experiment can save the next researcher a great deal of work. But a collection of unsuccessful experiments can also be almost impossible to use. The difference matters in a research environment where machines can attempt many more ideas than a person could investigate manually.
 
-## Working argument
+Suppose an agent evaluates a large family of mechanism designs. Most cannot realize the desired motion. Some fail because two parts intersect. Others fail because the search did not find a suitable configuration within the time budget. A third group may belong to a mechanism family that cannot produce a required property under the specified geometric constraints. A log containing the score of every attempt would make all three look like unsuccessful candidates.
 
-The valuable negative result identifies a constraint on what can reasonably be expected. An implementation error that was fixed ten minutes later has a different significance from a family of carefully tested methods that repeatedly failed under a meaningful condition. As the number of experiments grows, the scientific problem shifts from preserving every attempt to preserving the distinctions that would change someone else's future search.
+These failures have different consequences for a later inquiry. Knowing that an implementation ran out of time may help someone improve the search. Knowing why a class of mechanisms cannot satisfy a constraint could let a researcher avoid an entire family of unproductive attempts. We should preserve enough of the investigation to distinguish those possibilities.
 
-An agentic research workflow can retain experiments, versions, and outputs cheaply. It can also generate a clean explanation that obscures how many alternatives were discarded. A paper should give enough information to distinguish a robust discovery from the winner of a very large adaptive search. This concerns the provenance of evidence rather than a moral preference for publishing failure.
+A useful record might identify the geometry that caused an intersection, the budget at which a search was stopped, and the assumptions used to establish a genuine limitation. These are different descriptions because the next researcher would use them differently. A timestamped list of low scores cannot, on its own, distinguish an inadequate search from an impossible design.
 
-The most interesting possibility is a reusable map of where a research program could not go: rejected assumptions, unreliable evaluators, conditions under which a mechanism ceased to work, and interventions that changed the explanation. Such maps may help prevent other researchers and agents from repeatedly paying for the same misunderstanding. Their value depends on the quality of the organization, not the size of the log.
+This also matters when reading a positive result. If an agent has searched a large number of variants, the winning one may have benefited from the specific conditions of the evaluator. Recording which alternatives were investigated, and under what conditions, helps another researcher decide what the result gives them reason to believe. A subsequent experiment may need to examine the discovered relation independently.
 
-## Challenge
+There is a practical limit to how much failed work can be reported. Recording every intermediate result can bury useful observations. Selective reporting can be misleading in the other direction. The useful level of detail depends on what the failure establishes, the range of alternatives actually explored, and the decisions a later researcher could reasonably make on the basis of it.
 
-Large search spaces can produce failure for mundane reasons. A selective summary of negative results can also mislead. State the range of tried configurations, distinguish principled limits from incomplete search, and make the underlying record inspectable where feasible.
+When experiments are abundant, an important scientific resource may be the understanding that organizes them. The failure of one candidate is a small event in a search. The discovery that many candidates failed for the same reason can tell us something new about the problem. That is the kind of negative result I would like the scientific record to retain.
 
 ## Source plan
 

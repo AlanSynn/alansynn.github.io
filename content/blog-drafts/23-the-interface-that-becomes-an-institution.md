@@ -2,19 +2,21 @@
 
 **Status:** editorial draft / argument development | **Theme:** HCI, institutions, and value | **Candidate tags:** computer-science, participatory-design, sociology-of-science
 
-A conventional interface often makes an organizational process visible: a form, a sequence of approvals, or a record of who made a decision. An agent interface can let a person state a goal and leave the sequence of actions to the system. In doing so, it may absorb part of the organization.
+When a person uses an agent to accomplish an organizational task, the agent may do more than operate an interface. It may carry out decisions that used to belong to different people. Understanding the resulting system requires an account of where those decisions acquire their authority.
 
-## Working argument
+Consider an assistant that helps someone purchase equipment for a laboratory. The assistant finds a suitable item, identifies a source of funding, and prepares the information needed for approval. A useful agent can remove a great deal of routine work from the process. There are also rules about who is allowed to spend the money, which funds can be used, and what should happen when a request falls outside the usual procedure.
 
-Imagine asking an assistant to arrange a purchase for a research laboratory. It can locate an item, compare prices, fill forms, obtain permissions, and update records. Each step involves more than manipulating a user interface. It also embodies a rule about which funds may be used, whose approval is needed, and what should happen when conditions are unusual.
+A conventional form can make some of those arrangements visible. A person might see that a request needs another approval or that a particular kind of purchase requires additional information. An agent can make the sequence much easier to navigate. If it simply reports a successful result, however, the person may have little understanding of the decisions the system made on their behalf.
 
-If those rules become hidden inside agent behavior, the interface may change how the organization works even when its formal policy has not changed. A good-looking result could conceal unauthorized decisions. Conversely, an interface that exposes every approval may defeat the point of delegation. The problem is to maintain an intelligible relation between the agent's autonomy and the institution's commitments.
+That can matter when someone wants to challenge a decision. Suppose a request is refused because an agent has classified it in a way that makes it ineligible for a particular fund. A useful interface would give the person some means of understanding the classification, correcting a misunderstanding, or requesting a different decision from someone with the relevant authority.
 
-The essay would argue that agentic interfaces need to be studied as arrangements of authority and responsibility. The most important design question may be what happens when a routine case becomes an exception: who can see the reason, suspend an action, dispute a classification, or revise the governing rule? This shifts HCI research from command efficiency toward the organization of delegated decisions.
+An exception can reveal the boundaries of delegation. If a purchase exceeds an authorized limit, the agent may be able to prepare the justification and route it to a person with the appropriate authority. Allowing the agent to choose an item and allowing it to spend the money are separate decisions. An intelligible interface should preserve that distinction.
 
-## Challenge
+It would be tiring to expose every internal decision during a routine activity. Part of the value of delegation is that a person can proceed without having to understand the entire procedure. But a system should make consequential decisions intelligible when their legitimacy or accuracy needs to be examined.
 
-Well-designed agents can make existing policies more consistent and improve auditability. The essay should compare workflows before and after delegation, distinguish explicit policy from informal practices, and identify the actual loss or gain of accountability.
+Agents could make organizations more consistent, improve records of decisions, and make complicated procedures accessible to people who previously needed extensive assistance. Whether that occurs depends on how the institutions distribute responsibility through the systems. The important change may become visible in an unusual case rather than the many routine cases that the agent handles successfully.
+
+An interface can carry a person's request into a set of institutional decisions. Its design matters because it helps determine whether the person will have a way to understand and challenge those decisions when the result is one they did not expect.
 
 ## Source plan
 

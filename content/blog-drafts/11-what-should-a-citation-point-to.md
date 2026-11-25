@@ -2,19 +2,19 @@
 
 **Status:** editorial draft / argument development | **Theme:** The institutions of knowledge | **Candidate tags:** academia, sociology-of-science
 
-A citation can tell a reader where an idea came from, where a result was demonstrated, where to find software, or whom a field considers responsible. A single reference is expected to do several of these jobs. The jobs may diverge as research becomes easier to generate and reproduce.
+When I follow a citation in a research paper, I may be looking for several different things. I might want to find the person who introduced an idea, examine the experiment that established a result, or obtain the implementation I need for my own work. A reference to a paper often serves all of these purposes reasonably well. I expect the purposes to diverge as research becomes more automated.
 
-## Working argument
+Consider a method developed by a team using a pretrained model, an existing evaluator, and a search procedure produced with an agent. The team finds a result that was previously unknown. One researcher recognizes a useful constraint, another develops the evaluation, and the agent examines many candidate methods. A later researcher might reproduce the result with a different model and implementation.
 
-Imagine a discovery made by an agent using a widely distributed model, a public dataset, a borrowed evaluator, and a researcher's intervention at one decisive moment. A paper is written by a team. Years later, another team reconstructs the result using a different agent. The lineage of the idea, the materials required to check it, and the people whose work was distinctive do not necessarily have the same shape.
+What should that later researcher cite? The original paper is the natural place to establish the history of the discovery. The actual evidence for a claim might reside in an experiment whose materials have been released separately. The particular model and version used in the reproduction may be important to someone who wants to repeat it. The identities of the people responsible for the original discovery are yet another part of the account.
 
-A citation is a minimal representation of that lineage. It helps science navigate a large record, but institutional incentives have also turned citation counts into measures of standing. As methods become more modular and generated, we may need provenance that distinguishes a claim from the artifact that supports it and the contribution of particular people. A stable conceptual reference and an executable dependency serve different purposes.
+A conventional reference is useful precisely because it gives us a reasonably stable way to locate knowledge within a large literature. It need not describe every dependency or computation. But its simplicity becomes a problem when we interpret counts of references as though they were a complete representation of the people whose abilities made the work possible.
 
-The essay would argue for more legible attribution rather than for exhaustive acknowledgment of every computation. If automated workflows begin to assemble discoveries from many interchangeable pieces, the scientific record should still make it possible to locate the observation or argument that changed the field. The allocation of prestige is a separate decision.
+For example, a later paper might cite the original article for the definition of an operation and identify the actual software release used to evaluate it. The two references give readers different routes into the research. Adding a detailed contributor record would address a third question. Treating those records as complementary can make attribution clearer without turning a citation into an accounting exercise.
 
-## Challenge
+We can improve the situation without demanding an exhaustive history of every operation. Give the reader a route from the claim to the evidence, identify the artifacts required to examine it, and describe the particular contributions that changed the course of the investigation. The appropriate level of detail depends on whether we are establishing priority, enabling verification, or recognizing a person.
 
-Citation has never been a perfect account of intellectual contribution. Detailed provenance can create administrative burden, surveillance, or strategic credit claims. Discuss the minimum useful representation for each purpose and examples where a conventional paper remains the right unit.
+The point of attribution is not to divide every result into perfectly measured shares of credit. It is to make the history and the basis of the knowledge intelligible. As more of that knowledge is produced through combinations of people and machines, the distinction between locating a discovery and explaining who made it possible will deserve particular attention.
 
 ## Source plan
 

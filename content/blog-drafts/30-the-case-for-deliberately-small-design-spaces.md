@@ -2,19 +2,19 @@
 
 **Status:** editorial draft / argument development | **Theme:** Graphics, fabrication, and making | **Candidate tags:** computer-science, participatory-design, philosophy-of-science
 
-A tool capable of making almost anything sounds like the ideal creative tool. It can also make the act of choosing unexpectedly difficult. A small design space may give a person a medium with which to think.
+A tool that can produce almost anything can be surprisingly difficult to think with. Sometimes the activity of making something becomes more interesting when the maker has a small collection of operations whose consequences they can understand. The size of a design space is therefore a poor general measure of its creative value.
 
-## Working argument
+Consider a tool for making small moving figures from a few standard components. Someone can learn how the components respond to changes, try different combinations, and begin to anticipate which arrangements will produce a useful motion. A more general generator may produce an impressive figure in much less time. The smaller tool gives the person a different way to participate in developing the design.
 
-Consider an authoring tool built around a limited family of movable parts. A beginner can see what operations are possible, learn how the parts respond, and discover interesting combinations. A fully open generator might produce a more impressive artifact immediately. It might also make it harder to develop an understanding of how a change will affect the result. The restricted tool supplies a repeatable relationship between an intention, an action, and a consequence.
+This does not imply that the unrestricted generator is less creative. It may also help people investigate constraints, preserve relationships, and develop a useful understanding of the artifact. The question is which parts of the possible work become accessible to the person and how easily they can recognize the consequences of an operation.
 
-Constraints also give communities shared material through which styles can develop. People working with a common medium can explore differences that would be difficult to identify among arbitrarily generated outputs. A narrow space does not need to be the best possible space according to a global criterion. Its value can come from the practices people form within it.
+A common set of constraints can also give a community a shared medium. When several people use a small set of familiar parts, they can recognize an unusual combination in someone else's work and try to understand how it was achieved. Their knowledge of the medium gives a particular kind of variation a meaning it might not have in a collection of unrelated generated objects.
 
-As generative capability expands, I expect the design of meaningful constraints to become a more important part of creative technology. There may be many small and incompatible tools, each exposing a different set of operations for a different form of exploration. The capacity to generate everything does not determine which medium a person will find interesting to inhabit.
+A useful distinction is between a restriction chosen for the maker and one the maker has chosen as part of the activity. A novice might appreciate a small set of parts because it lets them understand the medium. An experienced maker might choose the same restriction to explore a new style. Their ability to reconsider the restriction matters when we evaluate the tool.
 
-## Challenge
+The limitations of a medium can become frustrating. A person may have a clear idea that the available components cannot realize. Restricting the design space can impose assumptions that matter little to the people using it. A tool should make those constraints intelligible and, where appropriate, give the maker a way to extend or leave the medium.
 
-Restrictive tools can impose a designer's assumptions and exclude valuable alternatives. A flexible generator can also help users construct their own constraints. Examine who chooses and revises the rules, which skills they support, and whether users can leave the space when it no longer suits them.
+As generating results becomes easier, we have more reason to investigate the experience of working within different spaces of possibility. A small authoring tool can contribute an intelligible set of relations through which someone develops an idea. Its value may reside in the activity it makes possible, even when a general generator can produce all of its finished artifacts.
 
 ## Source plan
 

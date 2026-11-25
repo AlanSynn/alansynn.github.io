@@ -2,15 +2,17 @@
 
 **Status:** English working draft | **Theme:** J. Robotics, control, and situated intelligence | **Candidate tags:** robotics, computer-science
 
-A person using a screwdriver does not usually think about the movement of their wrist as the final action. They think about turning the screw. The tool changes the relationship between their body and the part of the world they intend to affect.
+When someone uses a screwdriver, the intended action occurs at the tip of the tool. Movement of the wrist is useful because it produces a corresponding movement there. A robot that acquires a new tool may therefore need a different account of how its own movement affects the world.
 
 For a robot, changing that relationship can require a different account of its own actions. Attaching a long tool changes what it can reach. Holding a flexible tool changes the way forces travel. A small movement at the robot's hand can produce a much larger movement at the far end of the tool.
 
-This makes tool use more than an additional list of tasks for a policy to learn. It is an occasion to revise the representation through which the system relates movement to consequence. A useful account might include where contact occurs, which parts of the tool can move, and what changes when the grip shifts.
+A system can represent tool use as a change in the relation between movement and consequence. It is an occasion to revise the representation through which the system relates movement to consequence. A useful account might include where contact occurs, which parts of the tool can move, and what changes when the grip shifts.
+
+For a tool held at a new angle, a previously useful motion of the robot's hand may no longer produce the intended motion at the point of contact. The robot needs some way to observe or infer the changed relation. A useful transfer experiment can vary the grasp or tool geometry while retaining the intended effect.
 
 A sufficiently capable model could learn those relations through experience. Other systems might estimate tool geometry and dynamics explicitly. The practical question is how well the resulting behavior travels to unfamiliar tools, and whether the robot can recognize when its previous understanding no longer applies.
 
-I like this example because it makes the boundary of a machine less obvious. A tool can temporarily become part of the robot's means of acting. The world that the robot can influence changes without replacing the robot itself. Research on tool use may therefore tell us something important about how embodied systems acquire new ways of acting, rather than merely how they perform a longer list of behaviors.
+A robot that adapts to an unfamiliar tool has acquired a new relationship between its actions and their consequences. I would like to know which observations let it establish that relationship and whether it can revise it when its grasp or the tool changes. The resulting capability is more specific than another task added to a list of manipulation skills.
 
 ## Editorial source notes
 

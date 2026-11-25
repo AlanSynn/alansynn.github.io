@@ -2,7 +2,7 @@
 
 **Status:** English working draft | **Theme:** K. Interaction, delegation, and responsibility | **Candidate tags:** computer-science, participatory-design
 
-I can try a different color in a drawing program because I know I can usually return to the previous one. The undo button changes what I am willing to do before I ever press it. It makes a small experiment less expensive.
+The undo button changes the way I work even when I never press it. I can try another color or move a shape because I know I have a way back to the earlier result. Reversibility has made an experiment less costly before it has taken place.
 
 Creative tools depend on this relationship between action and recovery. A person can explore several possibilities without deciding in advance which one should survive. But undo becomes more difficult when an operation affects something beyond the tool. A file may have been shared, a message may have reached another person, or a physical object may have been changed.
 
@@ -10,7 +10,9 @@ Agents make these distinctions especially important because they can perform man
 
 One approach is to make changes inspectable before committing them. Another is to preserve intermediate versions and distinguish reversible local changes from actions that have already affected other people. These methods involve different costs, and there are situations in which a complete reversal is impossible.
 
-I think a useful agent interface should make the cost of an experiment understandable. People can give a system more freedom to explore when they know what they will be able to recover afterward. The quality of a creative tool depends partly on how easily its users can abandon an idea without losing everything they learned while pursuing it.
+It helps to distinguish restoring a previous state from compensating for an action. A drawing can often be restored exactly. A message that another person has read cannot be made unread by restoring a local record. An interface can offer a correction or another action in response, but the original consequence needs to remain intelligible.
+
+An agent that helps me explore a design should make it possible to recognize which consequences I can recover from and which will extend beyond the current workspace. That knowledge can give me more room to try something unfamiliar. The usefulness of undo lies partly in the decisions a person becomes willing to make because recovery is available.
 
 ## Editorial source notes
 

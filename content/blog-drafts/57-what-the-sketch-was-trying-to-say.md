@@ -2,13 +2,9 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** Craft, mechanisms, and fabrication | **Candidate tags:** participatory-design, computer-science
 
-When someone draws the movement of a character, what should a computer do with the drawing?
+A motion sketch can be useful before a maker has decided exactly what they want the finished object to do. The sketch may express a clear desired path. It may also give the person a way to begin investigating a movement whose character becomes apparent only after watching a mechanism realize it.
 
-One possibility is to find a movement that matches it as closely as possible. The maker can express a desired path, and the computer can search for a mechanism that produces a similar one. If the path is the intended outcome, the quality of the match is useful information.
-
-There is another way in which a person can use a sketch. They can use it to begin thinking about a movement. They may not yet know what they want the finished object to do. Seeing the movement realized in some form can help them develop the idea. The sketch gives the person and the computer a place from which to begin.
-
-These two uses of a drawing have different consequences for the design of a computational tool. The first treats the sketch as a specification. The second treats it as part of an activity through which a specification may develop.
+The difference affects what a computational design tool should do. A fixed path can give a search algorithm a well-defined target. An evolving idea needs an arrangement in which the maker can reconsider the target as they examine possible results. I would like the tool to support both uses of the sketch.
 
 ## A maker begins with a possibility
 
@@ -25,6 +21,8 @@ In a conventional optimization problem, a change to the target is a change to th
 ## What does it mean to preserve an intention?
 
 There is a tempting way to describe an ideal creative tool. We might say that it understands the person's intention and realizes it faithfully. The description is attractive, but it can conceal a difficult question. What is the person's intention at the moment they begin using the tool?
+
+This account also changes what it means for a mechanism search to succeed. The search could return the closest feasible path and give the maker exactly the information needed to finish a specified design. It could also reveal an alternative that changes what the person wants to specify. A system designed for the second activity should preserve the possibility of returning from the search to the idea.
 
 A person can have a clear reason to make something without having a clear idea of all its properties. An artist may want a figure to express hesitation. They might discover through trying several movements that a pause before a small movement is more interesting than the larger movement they initially imagined. A change in timing can help them understand what they wanted from the figure.
 
@@ -58,11 +56,9 @@ Imagine an assistant that produces a mechanism exactly matching the first sketch
 
 We need to study how those arrangements affect different people. A novice may benefit from suggestions that an expert considers unnecessary. A maker who understands the mechanism may want very specific control over the proposed alternatives. Someone with a precise goal may be frustrated by a system that keeps inviting them to reconsider it. The useful amount of exploration will depend on the person and the activity.
 
-The larger possibility is to treat creative authoring as something that develops through interaction with representations. A sketch need not be an inadequate description of a finished idea. It can be a particularly good description of an unfinished one.
+The useful amount of exploration depends on whether the maker has already established the motion they want, or is using the alternatives to discover it. A tool can satisfy a precise specification and make the specification itself available for reconsideration when that is what the work requires.
 
-As more of the technical work of finding a mechanism becomes automatic, I expect researchers to have greater opportunities to investigate this relationship. A machine can give us more ways to realize a movement. The experience of encountering those possibilities can help us discover many more movements worth realizing.
-
-A drawing at the beginning of that process has done something useful if it gives the maker a way to enter it.
+The sketch's first purpose may be to create a conversation between a maker and the possibilities the mechanism offers. Its success can become apparent when the maker knows something about the movement they want that they did not know when they drew it.
 
 ## Editorial source and claim notes
 

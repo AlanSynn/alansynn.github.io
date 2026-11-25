@@ -2,13 +2,9 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** Education and the next generation of expertise | **Candidate tags:** education, career-advice, sociology-of-science
 
-A great deal of what an experienced engineer knows was acquired through work that an organization was willing to pay someone to do. An engineer might begin by fixing a small problem in a larger system. They encounter another part of the system, learn why an earlier design decision was made, and gradually become able to take responsibility for more complicated work.
+A profession can continue to need experts while losing the work through which people used to become experts. This is a risk I find particularly important as AI becomes capable of performing much of the work given to beginners.
 
-The organization receives a useful result from the beginner's work. The beginner receives an opportunity to learn. The same activity can serve both purposes.
-
-What happens when a machine can do the activity very well?
-
-I think this is one of the most consequential questions for the future of expertise. A field can continue to need knowledgeable people while losing some of the arrangements through which people used to acquire that knowledge. The changes may be difficult to see if we only ask whether an experienced professional can be replaced.
+An engineer might begin by fixing a small problem in a larger system. In doing so, they encounter the decisions of other engineers, receive guidance, and gradually develop the ability to take responsibility for more difficult work. The organization obtains a useful result, and the engineer receives an opportunity to learn. The same activity helps finance both. When the organization can obtain the result without employing a beginner, those two purposes may need to be organized separately.
 
 ## The work through which a beginner learns
 
@@ -29,6 +25,8 @@ Now imagine that the small software task can be completed by an agent in a few m
 There is a compelling reason for the organization to use that arrangement. It may obtain a better result with less effort. There may be many other things that its experienced engineers can investigate now that some of the smaller tasks have become inexpensive.
 
 The change also removes an occasion for a person to enter the practice. The organization could continue hiring beginners and give them different opportunities to develop the relevant knowledge. It may decide that doing so is important. The economic reason for asking them to perform the old task has become weaker.
+
+An individual firm might reasonably rely on experienced hires rather than pay for training whose benefits could eventually accrue to another employer. If many firms make the same decision, however, the supply of experienced people can become harder to replenish. That possibility is a reason to examine the arrangements that distribute the cost of apprenticeship across institutions. It is a mechanism to investigate, rather than a consequence established by the employment evidence alone.
 
 I find the distinction between the demand for labor and the reproduction of expertise particularly important here. An organization can reduce its demand for the activities that beginners perform without reducing its desire to work with experienced people. In the short term, it can draw on a supply of people who learned under earlier arrangements.
 
@@ -62,9 +60,9 @@ All of those arrangements require resources. The distribution of those resources
 
 I expect this difference to become more important if many conventional entry-level activities disappear. The ability to learn may become much more widely available in one sense, while the opportunity to establish oneself within a profession becomes more dependent on the circumstances of one's life.
 
-The prediction should be evaluated through the actual routes people take into their fields. I would look at hiring and mentorship, the availability of paid training, and the kinds of responsibility people receive during their early years. If new forms of work and apprenticeship give a broad population better access to those experiences, the risk I am describing will have been addressed in a meaningful way.
+The prediction should be tested through the routes people actually take into a profession. I would look at whether new forms of paid work, mentorship, and shared learning give a broad population useful opportunities to develop expertise. If those arrangements emerge, the loss of a particular entry-level task need not leave a lasting gap.
 
-For a long time, the work of becoming an expert and the work through which a beginner earned a living have often been connected. As machines become increasingly capable of performing the latter, we may need to organize the former more deliberately. A society that wants people with useful knowledge has to provide them with a way to become people with that knowledge.
+The broader concern is who can afford the time and conditions required to become knowledgeable. A society can give almost everyone access to a remarkable tutor and reserve the experience of becoming a professional for people who can finance it themselves. Preventing that outcome requires an arrangement for learning, rather than another assurance about the future value of expertise.
 
 ## Editorial source and claim notes
 

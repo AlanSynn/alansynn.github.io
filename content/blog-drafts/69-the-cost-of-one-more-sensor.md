@@ -2,15 +2,17 @@
 
 **Status:** English working draft | **Theme:** J. Robotics, control, and situated intelligence | **Candidate tags:** robotics, computer-science
 
-When a robot cannot distinguish two situations, adding a sensor can be an appealing solution. A camera can provide another view. A force sensor can reveal contact. In the laboratory, the extra information may make the problem much easier.
+Adding a sensor to a robot changes what the robot can know. It also changes the equipment someone must maintain, the observations the software must reconcile, and sometimes the information people sharing its environment must disclose. A laboratory comparison can establish the first benefit while making the other changes difficult to see.
 
 An installed sensor also becomes part of the system someone has to operate. Its observations need to remain aligned with the robot. It may introduce calibration work, extra cables, fragile connections, or new failure modes. In a shared space, it may collect information that people would prefer not to provide. The design choice extends beyond the accuracy obtained in the original experiment.
 
-The interesting question is how much knowledge the new sensor makes available, and when that knowledge is necessary. Suppose a robot occasionally needs to know the precise position of an object. It might carry another sensor everywhere. It might also move to a better observation point when the information is needed. These approaches distribute complexity differently between the hardware and the behavior of the robot.
+A meaningful comparison begins with the uncertainty that the extra sensor is supposed to resolve. Suppose a robot occasionally needs to know the precise position of an object. It might carry another sensor everywhere. It might also move to a better observation point when the information is needed. These approaches distribute complexity differently between the hardware and the behavior of the robot.
+
+For a task performed only occasionally, acquiring an additional observation on demand may be sufficient. In a rapidly changing interaction, waiting to move the camera could be too costly. The decision depends on when the missing information is needed, rather than simply on which sensing arrangement can supply more detailed data.
 
 This suggests a useful kind of comparison. We could examine what the robot must observe, which situations make the current observations insufficient, and what each proposed sensing arrangement requires to remain useful over time.
 
-As automated design makes it easier to optimize perception, I expect more of these trade-offs to become explicit. A sensor can be an excellent addition even when it introduces substantial cost. But we should understand the system that needs the information, rather than equating more information with a better machine.
+Whether to add another sensor should depend on the information needed for particular decisions and the cost of obtaining that information over time. Sometimes an extra camera is the simplest useful solution. Sometimes a different observation strategy provides the necessary evidence with fewer obligations. Evaluating the alternatives requires an account of the system that will live with the sensor.
 
 ## Editorial source notes
 

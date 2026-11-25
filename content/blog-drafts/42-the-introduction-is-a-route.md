@@ -2,11 +2,9 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** Writing, explanation, and representation | **Candidate tags:** academia, education
 
-When I read the introduction to a research paper, I want to understand why somebody decided that the work needed to exist. I may know very little about the kind of person who would use the system. I may have no experience with the technique being proposed. The introduction gives me a chance to acquire enough understanding to see the problem.
+The introduction of a paper should give a reader a reason to want the next part of the paper. They may begin with little knowledge of the activity the researchers are investigating. A successful introduction establishes enough of that activity to let the reader recognize the problem and understand what the contribution is a response to.
 
-Sometimes I encounter an introduction that begins with a broad area of technological progress and quickly arrives at a series of limitations. The existing methods lack some properties. The proposed method offers those properties. The authors have evaluated it and obtained good results. I may be able to identify the contributions without yet knowing why I should be interested in them.
-
-This seems particularly important in interdisciplinary research. A graphics researcher, a mechanical engineer, and an HCI researcher can encounter the same interactive system and notice quite different things. The writer has to decide where they can begin to reason together.
+This matters especially across disciplines. A graphics researcher, a mechanical engineer, and an HCI researcher may understand an interactive system through quite different concepts. I want to find a place where those readers can begin reasoning together, before the explanation separates into the technical questions appropriate to each of them.
 
 ## Beginning with the activity
 
@@ -32,6 +30,8 @@ The second description can also help us explain the scope of the research. We ar
 
 The introduction is a useful place to make this boundary visible. The broader purpose explains why the distinction matters. The narrower claim explains what the research can give us reason to believe.
 
+A broad motivation should not silently turn into a broad claim. A paper about one tool may be motivated by the difficulty of creative work and establish something much more specific about revising a motion. I would rather know precisely what the work helps us understand than arrive at the method expecting it to solve every difficulty named in its introduction.
+
 ## The technical explanation comes at a useful moment
 
 When I explain a system to somebody, there is often a moment when the person becomes interested in a detail of the implementation. They may ask how the tool ensures that the pieces can move without interfering, or how a change to a joint affects the proposed mechanism. That question is valuable because the technical detail has acquired a purpose.
@@ -52,9 +52,9 @@ For a tool such as MotionSmith, that question could concern how a person develop
 
 A different paper may require a different arrangement. An algorithmic advance can be described through a small computational example. An empirical result may be best introduced by showing a surprising observation and explaining the accounts that could make sense of it. What matters is that the reader develops a reason for the next part of the argument.
 
-I sometimes imagine asking someone who has read only the introduction to explain the work to another person. They do not need to know every technical detail. I hope they can describe the problem, recognize what the authors have changed, and say why they want to know whether the change works. If they can do those things, the introduction has helped them enter the inquiry.
+One test I would use is to ask a reader who has only read the introduction to explain the work to someone else. They should be able to describe the activity, state the problem the researchers decided to investigate, and explain why the proposed change might matter. Their explanation need not reproduce the technical detail that belongs later in the paper.
 
-Research writing contains much more than a way to announce new knowledge. It offers a way to bring another person into the conditions under which that knowledge became interesting. The order in which we do so can determine whether the person gets a chance to understand what we have learned.
+An introduction has done something valuable when the reader acquires a question of their own about the contribution. The method and results can then become answers to a question the reader understands, rather than information they must assemble into a reason for the paper to exist.
 
 ## Editorial source and claim notes
 

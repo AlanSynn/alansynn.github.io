@@ -2,7 +2,7 @@
 
 **Status:** English working draft | **Theme:** K. Interaction, delegation, and responsibility | **Candidate tags:** ethics, computer-science, participatory-design
 
-If I ask someone to open a drawer and retrieve a notebook, I have given them a fairly specific permission. I have not necessarily invited them to read the other papers inside the drawer. The distinction is easy to understand in ordinary life and can be difficult to express in a general account of an agent's capabilities.
+Asking someone to retrieve a notebook from a drawer gives them a reason to open the drawer. It does not give them a reason to examine everything they find there. When an agent receives access to a collection of files, an equivalent distinction needs to survive the way its technical permissions are implemented.
 
 An agent may need access to a collection of objects or files in order to perform a task. A technical permission might allow it to read the entire collection. The person's intention may concern only a small part of it. Access to a resource and a legitimate reason to use it are different conditions.
 
@@ -10,7 +10,9 @@ Suppose the agent finds something interesting while retrieving the notebook. Sho
 
 Requiring confirmation for every small operation would make delegation exhausting. We need ways to express permissions that travel with a purpose, expire when that purpose is fulfilled, and can be changed when a new situation arises. How these arrangements work in practice is an HCI problem as well as a security problem.
 
-The important distinction is between a machine's ability to act and the authority under which it acts. The stronger the first becomes, the more carefully we will need to design the second.
+The purpose of a request could remain attached to the operations through which the system carries it out. Retrieving a specified file may require reading a directory listing; retaining unrelated content for another task is a different operation. The design question is how to make the necessary scope practical without allowing technical access to determine the entire authority of the agent.
+
+A useful delegation system can connect authorization to the activity for which it was given, and let people revise that authorization as the activity changes. It should be possible to complete a request without treating everything the system can access as information it is entitled to retain or use for another purpose.
 
 ## Editorial source notes
 

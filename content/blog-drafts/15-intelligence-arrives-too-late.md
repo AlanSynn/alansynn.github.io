@@ -2,19 +2,19 @@
 
 **Status:** editorial draft / argument development | **Theme:** Embodied intelligence | **Candidate tags:** robotics, computer-science, ai
 
-An answer can be correct and arrive at the wrong moment. In a conversation, the delay may make a response seem detached. In physical contact, the same delay can mean that the opportunity to act has passed. A system's intelligence has a temporal structure.
+A robot can make a correct decision about an observation and still act incorrectly because the world has changed while it was deciding. For an embodied system, the time at which a result becomes available is part of what determines whether the result is useful.
 
-## Working argument
+Suppose a robot is handing someone an object. It needs to identify an appropriate position for the handover, move toward it, and respond to changes in the other person's grip. These activities can require decisions at different rates. A considered plan might help the robot approach an unfamiliar object. A response to a sudden loss of support needs to occur on a much shorter timescale.
 
-Consider a robot handing someone an object. Planning the route, deciding whether to release the object, responding to a sudden change in grip, and explaining a problem operate on different timescales. Putting all these operations inside a single deliberative loop may simplify the architecture while producing bad interactions. Conversely, a fast controller can preserve stability without knowing why a person stopped reaching.
+This is a reason to distinguish the information required for a decision from the time available to use that information. A slow planning process can produce a useful trajectory if the relevant conditions remain stable. A local control process can adjust that trajectory as the situation develops. The system also needs a way to recognize when an earlier plan has ceased to be appropriate.
 
-The essay would examine the division between slow reasoning and fast control as an architectural and experiential choice. Longer deliberation can help with unfamiliar situations, while timely local responses maintain the conditions in which deliberation remains useful. A useful robot may need mechanisms for interrupting, revising, and synchronizing decisions across levels, rather than simply a faster version of one large model.
+There are many possible architectures for achieving that organization. Separate planning and control modules can make the responsibilities explicit. A learned system may acquire effective behavior at several timescales without using those exact modules. What we should examine is the relationship between the decisions it makes, the observations on which they depend, and the time at which their consequences occur.
 
-There is a parallel in HCI. Latency matters partly because it changes the relation between an action and its perceived consequence. Two systems with the same task success may support different experiences of authorship and control. The important unit is not always total task completion time. It can be the moment at which a particular response becomes meaningful.
+A policy that produces a new motion every few seconds might remain useful if a separate process can respond to a contact event in the meantime. Conversely, a very fast local response may need to be interrupted when the purpose of the task changes. The relevant property is the relation between the age of the information, the decision being made, and the dynamics of the next action.
 
-## Challenge
+The experience of a person interacting with the robot provides another reason to examine timing. Two robots can complete the same handover with similar success rates while responding quite differently to a person's movement. A delay can change whether the person feels able to influence what happens next. That quality belongs to the sequence of interactions, rather than the total duration of the task alone.
 
-End-to-end systems may learn effective multi-rate behavior without explicit modules; architectural hierarchy should not be assumed superior. Compare the responses, available timing constraints, and interaction consequences rather than declaring that a named cognitive architecture is necessary.
+More capable inference can help the robot understand the purpose of a difficult action. It is also worth asking which decisions should not have to wait for that inference. A useful architecture can give an earlier decision enough continuity to guide action while giving the robot a way to recognize when the world has moved beyond it.
 
 ## Source plan
 

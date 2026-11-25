@@ -1,92 +1,133 @@
-# Editorial standard for the long-form research essay library
+# Editorial philosophy and writing standard
 
-## Purpose and reader
+**Simple enough to follow, precise enough to disagree with, and deep enough to think about afterward.**
 
-These essays should make a particular idea about computing, research, design, or education easier to understand and harder to dismiss. They are English research essays for a technically literate reader who may come from another subfield, including a serious undergraduate. They need not resemble papers submitted to a conference. They should preserve the intellectual specificity and reflective tone of the author's published blog and the explanatory clarity of MotionSmith.
+The purpose of these English essays is to help a reader understand a consequential idea about computing, research, design, education, or society. The intended reader may be a researcher from another field or a serious undergraduate. Give them enough context to enter the inquiry without asking them to reconstruct the author's reasoning. A demanding argument can be written in ordinary language. Preserve necessary technical distinctions.
 
-The reader can follow a difficult argument when the objects, activities, and relations needed to reason about it are introduced in a useful order. Depth comes from the quality of the distinction, the evidence, the mechanism, and the consequences. It does not come from density of terms, length of sentences, or the amount of background an author can compress into a paragraph.
+The standard is intellectually demanding, linguistically accessible, and argumentatively direct. Clarity is the quality of a developed explanation, not a count of short sentences. Depth comes from the claim, the mechanism, the evidence, the scope of the conclusion, and the consequences. A reader should know what the author believes, why the author believes it, and where they might reasonably disagree.
 
-A good essay here has a recognizable point of view. It makes a claim the reader could disagree with. It gives the reader a reason to care, lets them inspect the basis for the claim, considers a serious limit or alternative account, and arrives at a judgment that follows from what has been discussed.
+## A collection of examples, not a house template
 
-## Primary style references
+The author's existing published blog is the principal reference for the author's voice and range. Use [What My Best Answer Could Not See](../blog/what-my-best-answer-could-not-see.typ) to consider how experience changes a prior belief; [Same Computer Science, Different Senses of Reality](../blog/on-truth-computer-research.typ) to consider how a distinction can organize a broad analysis; [When the Field Moves 2](../blog/when-the-field-moves-2-domain-specialty-value.typ) to consider a reflective framework for thinking about change; and the two robotics essays to consider how a technical premise develops into a prediction about a field. Each has a different reason for its structure.
 
-Read the author's [What My Best Answer Could Not See](../blog/what-my-best-answer-could-not-see.typ) and [When the Field Moves 2](../blog/when-the-field-moves-2-domain-specialty-value.typ) as essays. Their reflective first-person voice, use of concrete situations, and willingness to distinguish several kinds of value are important. Do not imitate isolated rhetorical constructions until they become a house formula.
+[MotionSmith](https://doi.org/10.1145/3772318.3791545) is one additional example of clear technical and empirical explanation. Its account of making automata establishes the activity and its difficulties before describing the system; its discussion of the artists' choices ties interpretation to specific observations. It is useful when the subject warrants those kinds of explanation. It is neither the primary model for every essay nor a requirement to discuss design, creative intent, or the same study in unrelated articles. Select other public research examples that directly bear on the argument. Use only the observations that the relevant source supports. The earlier source review inspected the public MotionSmith text; PDF page-image retrieval failed.
 
-Read [MotionSmith: A Sketch-Based Design System for Automata Making](https://alansynn.com/motionsmith/static/pdfs/motionsmith-chi-2026.pdf) (Synn et al., CHI 2026, DOI [10.1145/3772318.3791545](https://doi.org/10.1145/3772318.3791545)) for a second model:
+## Readability: the work of understanding a relationship
 
-- The introduction describes automata making as an activity and gives the reader a concrete difficulty before establishing the technical contribution.
-- The workflow explains what the maker does, what the system does, and how the two activities interact. A term gains meaning through what it allows someone to do.
-- Section 5.2.1 moves from observations of particular artists to an interpretation of authoring. For instance, different decisions about smoothing have different expressive purposes. The discussion about attention to mechanism-matching scores concerns those artists and their tasks. It is not a universal claim about how designers evaluate motion.
-- Use the public paper's actual observations. Do not invent participant quotations, studio experiences, or unpublished study outcomes. The available paper text was inspected in this revision; page-image retrieval failed.
+Clark, Martin, and Mahowald, [Why is AI-generated language so hard to understand?](https://arxiv.org/html/2610.29162v1), investigate linguistic features associated with processing difficulty and a possible effect of length pressure. Cekini et al., [The Cognitive Cost of LLM Writing](https://arxiv.org/abs/2610.23715), report that predicted per-word reading cost increased for the generated rewrites in their paired-text analysis, while predicted total reading time was slightly lower. The latter uses a prediction model rather than a direct test of comprehension on the paired texts. Both are preprints and should be rechecked when cited in published work. They motivate attention to the effort we transfer to a reader, not a universal verdict about machine-written prose or a fixed readability score.
 
-## Readability research and what it permits us to conclude
+The practical question is whether the reader has enough knowledge to understand the next claim. Spend words establishing new relations; compress only after the relevant concepts are shared. Preserve specialist terminology when it does useful work.
 
-Clark, Martin, and Mahowald, [Why is AI-generated language so hard to understand?](https://arxiv.org/html/2610.29162v1), examine linguistic features associated with reading difficulty and a possible effect of pressure to produce shorter text. The measured features and the length-penalty experiment motivate attention to sentence structure and compressed expressions. They do not establish that every generated document is difficult, that every human document is easy, or that all models were trained with the same objective.
+## 1. Editorial dimensions
 
-Cekini et al., [The Cognitive Cost of LLM Writing: A Reading-Time Comparison with Human Text](https://arxiv.org/abs/2610.23715), compare 496 pairs of articles and rewrites. In their analysis, predicted reading time per word increases for rewrites while predicted total reading time is slightly lower. These are estimates from a reading-time model rather than direct measurements of comprehension for the paired articles. Both works are preprints; preserve their scope and check updated versions before publication.
+Review each manuscript along the following distinct dimensions. These are qualitative questions for editing, not scores, mandatory paragraph types, or a formula that every essay must visibly follow.
 
-The editorial implication is concrete: avoid saving tokens by transferring the work of reconstructing the relations to the reader. Spend words where the reader needs to form a new concept. Do not replace readability with a numerical threshold, or infer a causal explanation for difficult prose from a correlation alone.
-
-## 1. Choose an argument worth developing
-
-For each manuscript, consult the [editorial roadmap](EDITORIAL-ROADMAP.md). Before writing, identify:
-
-1. The specific observation or difficulty the essay examines.
-2. The main claim in one or two sentences. Name the relationship, mechanism, or distinction that makes the claim different from an existing essay.
-3. The concrete case or worked example that makes the claim inspectable.
-4. The strongest reasonable alternative explanation, counterexample, or boundary condition.
-5. The consequence for how a researcher, builder, teacher, or community would think or act differently.
-
-These five items are working notes, not the required visible structure of the article. An essay about visual evidence, a technical design, and an institution can make use of very different forms of argument. Do not make all 136 articles recapitulate the same thesis about AI or human labor.
-
-An important position in this library is that reliably evaluable, repeatable competition can enter automated improvement loops, and that widespread access to capable systems can weaken the use of scores as evidence of distinctive personal merit. The technical prediction and its social consequences are separate claims. Difficulty and resource constraints influence the rate and scope of the change; unequal ownership and access may alter its social outcome. Do not replace the position with a generic reassurance that people will always be important.
-
-The expansion of qualitative inquiry and plural purposes is another prediction. It is compatible with capable automated research, interpretation, and preference learning. It is not a claim that an entire method belongs exclusively to humans. Distinguish the ability to measure, learn, or optimize an operational property from the normative decision that the property should govern everyone's activity.
-
-## 2. Select the right explanatory structure
-
-Use a structure fitted to the argument. Four useful shapes are:
-
-| Essay type | A reader's route through the argument |
+| Dimension | Question and editorial decision |
 |---|---|
-| Technical distinction | Concrete operation or failure; define the two things that are being conflated; show what changes in a worked example; specify assumptions and implications. |
-| Empirical case | Introduce the activity; describe the actual study or artifact and the relevant conditions; report the bounded observation; interpret it; test alternative interpretations; explain why the distinction matters. |
-| Institutional forecast | Begin with the current practice; identify a mechanism through which technology changes costs or authority; follow the consequences under different arrangements; state which observations would support or weaken the forecast. |
-| Reflective or normative essay | Establish a recognizable conflict between worthwhile purposes; develop a defensible position; consider the other people affected and legitimate counterclaims; arrive at a bounded judgment. |
+| Claim and force | What does the author actually assert? State it directly. Preserve an ambitious prediction when it is the author's position; make its conditions and warrant inspectable. |
+| Intellectual contribution | What will a reader understand differently after reading? If the answer is a broad appeal to nuance or a claim already established in another post, find the actual new distinction. |
+| Reasoning and structure | Which proposition leads to the next? Reorder, combine, split, or remove sections when they do not advance the argument. Do not merely group related topics under headings. |
+| Concrete explanation | Can a reader reconstruct the relevant object, event, operation, or social arrangement? Develop a case far enough to demonstrate the relationship; avoid illustrative scenes that leave the central inference unstated. |
+| Evidence and scope | Which statements are observations, findings, analytic inferences, normative judgments, or forecasts? Match each to the appropriate warrant. Keep sources close to their claims. |
+| Serious alternative | What is the strongest reason the author's explanation might be incomplete or wrong? Examine that mechanism. A list of generic disclaimers is not a counterargument. |
+| Authorial perspective | What does this particular researcher see, doubt, or care about? Use the author's documented experience and stated positions. Do not invent experiences or use habitual first-person phrases as a substitute for a point of view. |
+| Language and continuity | Can the intended reader follow the subject, action, reference, and consequence? Introduce technical terms at the point where they become useful. Edit for continuity and natural rhythm rather than sentence-length uniformity. |
+| Ending | What follows from the argument that a reader could not have understood in quite the same way at the start? End at that consequence, question, or judgment. Do not attach a generic optimistic forecast. |
+| Collection independence | Does this essay contribute a different mechanism, question, or perspective from related manuscripts? Compare actual openings, examples, inferences, and endings, not just titles. |
 
-The opening should be enough to establish the topic and the main tension. A reader should not have to reach the final section before discovering the point of the essay. Use one central example when it can carry the argument. Add another only if it establishes a different mechanism, a counterexample, or a useful boundary.
+Treat a specific failure in one dimension as a reason for a particular editorial intervention. For instance, if a prediction is plausible but its institutional mechanism is missing, add the mechanism. If the mechanism is already clear and the author repeats it three times, cut the repetition. If a term is necessary, define it rather than replace it with a vague synonym. Strength, depth, and readability are separate properties.
 
-A long-form article will often be 1,200–2,500 words with a few meaningful sections. Some arguments require more or less. Treat the range as a practical planning aid, not a target score. A 1,300-word article with a developed argument is stronger than a 2,000-word article with several repeated conclusions. Do not inflate a short draft by mechanically expanding every sentence.
+## 2. Build an argument before choosing a shape
 
-Headings should advance the argument. For example, "Whose requests are slow?" is more informative in a systems essay than "A New Perspective." Do not use the same heading sequence in every manuscript. The final section should draw a consequence, clarify what remains uncertain, or leave the reader with a precise question. Avoid a generic optimistic conclusion unrelated to the argument.
+Write a private outline that identifies the central claim, the necessary premises, the evidence for those premises, the most consequential objection, and the implication. Supporting claims should advance the central argument rather than act as a collection of independent observations. Use the [editorial roadmap](EDITORIAL-ROADMAP.md) to check that the essay has a distinct purpose.
 
-## 3. Write sentences that carry thought rather than conceal it
+Choose a route that fits the inquiry. The following are possibilities, not templates:
 
-Give the reader a person, object, operation, or relation before asking them to interpret a dense abstraction. When a term has already been established, use it consistently rather than paraphrasing it each time. Keep technical terminology when it lets us make a precise distinction. Introduce it at the point where it has a job to do.
+| Form | A possible route |
+|---|---|
+| Predictive or institutional analysis | State the forecast; describe the existing arrangement; identify what changes its conditions; follow the consequences and competing mechanisms; specify what could disconfirm the forecast. |
+| Conceptual or technical analysis | Identify a confusion or concrete operation; establish the necessary distinctions; use a worked case to examine their consequences; consider a boundary; derive the new account. |
+| Empirical case analysis | Explain the relevant activity; introduce a real study or artifact; report the particular observation and its conditions; develop its interpretation; test its limits; explain its wider significance. |
+| Personal or historical reflection | Begin with a belief, event, or conflict that is grounded in the author's actual experience or historical evidence; develop how the account changed; explain what the change reveals beyond the anecdote. |
+| Normative or philosophical inquiry | Establish a conflict between intelligible purposes; state the position; examine what follows under different arrangements; consider the interests of those affected; arrive at a defensible judgment. |
 
-The following edits illustrate the standard. They are illustrative editorial examples, not quotations from a paper.
+A direct assertion is often the strongest opening for a forecast. A particular observation can be more effective for an empirical essay. An experience can be the best entry to a reflective one. A question earns its place when the essay actually develops an answer. Avoid turning every opening into a hypothetical person doing something. A reader should recognize the problem and the purpose of the essay early, even if a more precise understanding of the claim develops later.
 
-**Compressed:** "Preference-contingent motion representation enables iterative intent alignment through affordance-mediated exploration."
+A section must perform an argumentative task. Choose headings that expose that task. A paragraph should move the reader's understanding through an inference, example, explanation, distinction, or objection. The next paragraph should have a reason to follow. A short paragraph is occasionally effective; repeated one-sentence declarations can make a careful argument feel artificially dramatic.
 
-**Developed:** "A maker may begin with a motion sketch and change the idea after seeing what a mechanism can do. The tool should let the maker return to the sketch without losing the useful parts of the mechanism. In that way, the representation can support the development of an intention rather than treating the initial sketch as a fixed target."
+Do not require a counterargument section in every article. Introduce an alternative where it bears on the argument and follow it far enough to learn something. Do not require an AI-related final section in an essay about geometry, explanation, a practice, or an educational experience. A subject can have enduring value without a technological forecast.
 
-The second version is longer because it establishes the actor, the sequence of events, the consequence for the tool, and the distinction the essay wants to examine. It does not require the reader to infer the process from a noun phrase.
+A long article often needs 1,200–2,500 words or more. Its necessary length follows from the work its reasoning has to perform. A complex historical or speculative essay can require much more. A shorter argument may be complete without being long. Length should not be attained by repeating the thesis in different words or adding an unrelated literature survey.
 
-**Unsupported:** "The human qualities of an artwork can never be quantified."
+## 3. Preserve strong claims and make their reasoning visible
 
-**Developed:** "A viewer can rate the smoothness of a movement. That rating can be useful evidence about how the viewer experienced the movement. If an artist is interested in a deliberately hesitant gesture, however, a higher smoothness rating need not identify the movement the artist wants. The question is which property matters to the work."
+The author's position in the essays about quantified competition is deliberately strong: **AI will dominate quantified competition.** The forecast concerns the recursive search for improvement wherever results can be evaluated, compared, and used to choose subsequent attempts. The social prediction is that the authority of scores to confer individual distinction and justify status will collapse as the capacity to produce those scores becomes abundant. Quantitative improvements can remain useful while the professional bargain and common value system built around them lose their force.
 
-The second version has a stronger argumentative boundary. It remains true even if a model can predict the viewer's judgment or the artist's choice.
+A practical evaluator must make useful search possible; a number alone does not guarantee tractability, an adequate budget, or reliable physical trials. Technical and institutional consequences can move at different rates. State these conditions as part of the mechanism and its possible failures. Do not reduce the central forecast to the safe observation that AI may help researchers or that qualitative work is also important. Do not turn the claim into an established theorem. Do not assume equal access, guaranteed employment, or a permanently human-only domain.
 
-**Vague forecast:** "AI will transform how research is conducted."
+The author treats socially recognized objectivity in this discussion as a shared representation constructed and stabilized by multiple subjective judgments, procedures, and institutions. Language is a minimal representation in the author's philosophical sense, not a claim about shortest mathematical encoding. A shared word or score may communicate a property without reproducing a person's first-person experience. Some qualities of experience cannot be fully conveyed through common language or scores; the essay should retain that philosophical commitment rather than treating it merely as a temporary gap in instrumentation. Separate it from empirical claims about what a machine can learn, predict, or produce. A physical measurement's reliability is distinct from the social decision to use that measurement as a general ranking of people or purposes.
 
-**Developed:** "A reviewer could use an agent to inspect a method's implementation and run a small, authorized counterexample search. That would reduce the cost of some criticisms. If authors are expected to respond to every newly available criticism, the reviewing institution could shift a large part of that cost to them."
+When common performance becomes infrastructure, previously suppressed or uneconomic niches can become distinct activities and research questions. Explain the mechanism through which that happens, and consider concentration of tools, distribution of benefits, and institutional inertia. The prediction of proliferating qualitative inquiry does not mean every niche will be profitable or every qualitative procedure immune to automation.
 
-The improved version identifies a mechanism and an institutional consequence that can be investigated. It does not claim that the future has already arrived.
+These commitments apply to essays that actually investigate them. They need not organize the entire collection.
 
-Use complete paragraphs with a coherent purpose. A paragraph can introduce a claim, examine an example, explain a relation, or consider a limit. The paragraph should give the reader enough context to understand why the next one follows. Remove paragraphs that merely rephrase an established point.
+### Example A: strong forecast with an explicit mechanism
 
-Prefer simple subjects and active, precise verbs. Avoid long noun stacks, layered hedges, vague pronouns, artificial contrasts, rhetorical questions without answers, repetitive opening phrases, and overuse of "I expect." A reflective first-person judgment is welcome when it represents the author's position. Never invent an event from the author's life or imply that a hypothetical study occurred. Use no em dashes.
+**Weak:** Certain forms of quantitative research may gradually become less relevant as AI improves.
+
+**Developed:** AI will dominate quantified competition. A benchmark that can be run repeatedly becomes part of the process that produces a better result. Once agents can generate candidates, run the benchmark, and revise their search using the outcome, increasingly capable systems can perform much of the improvement work themselves. I expect the authority attached to a better number to collapse as the ability to produce it becomes widely available.
+
+The improved paragraph names both the mechanism and the threatened arrangement. Its next section needs to address evaluation cost, access, and attribution. Strength does not require pretending that these questions have already been settled.
+
+### Example B: preserve the distinction, reduce reconstruction effort
+
+**Compressed:** Preference-contingent motion representation enables iterative intent alignment through affordance-mediated exploration.
+
+**Too thin:** The system helps people make better motions.
+
+**Developed:** A maker may change their idea of a movement after seeing how a mechanism behaves. The system lets them return to the sketch, revise the movement, and explore another mechanism without starting the design again.
+
+The technical relationship survives in the developed version. The reader has an actor, an action, and a reason for the operation before encountering a label for it.
+
+### Example C: develop the example until the inference becomes clear
+
+**Weak:** Visual quality cannot be fully captured by quantitative metrics.
+
+**Developed:** Two animations of a character raising its hand can follow exactly the same spatial path. One pauses before completing the movement; the other moves continuously. An error measure that compares spatial paths alone treats them as identical. A viewer may nevertheless interpret one as hesitant and the other as decisive.
+
+This is an illustrative case, not a result from a user study. It establishes a specific limitation of a spatial-path-only comparison and motivates an empirical question about interpretation. It does not establish that timing is inherently unmeasurable or that every viewer interprets the movement alike.
+
+### Example D: separate observations from their explanation
+
+**Weak:** A robot that asks for help is less autonomous.
+
+**Developed:** A robot can know how to carry out an operation and need permission from the person who controls the shared space. A request for authorization can therefore be appropriate even when its physical capability is adequate. Counting the request as a failure of perception would conflate the robot's ability with its authority.
+
+The example gives a reader a concrete reason to reconsider the definition and the proposed measure of autonomy.
+
+### Example E: follow the causal step into the institution
+
+**Weak:** Automation will make workers more productive, so work will become easier for everyone.
+
+**Developed:** A team that produces the same output in less time has gained capacity. Its employer could use that capacity to serve additional demand, reduce working hours, or reduce staffing. The outcome depends on demand and who has authority over the resulting resources.
+
+A claim about productivity does not settle a claim about workers' lives. Strong social forecasts need an account of that additional mechanism.
+
+### Example F: finish with the implication, not a summary
+
+**Weak:** AI will continue to advance, so qualitative research will become more important.
+
+**Developed:** For much of computer science, progress has meant getting closer to a common answer. I expect a growing part of research to move in the opposite direction. As machines become better at reaching that answer, we may discover how many different questions we had placed underneath it.
+
+The ending follows from the argument about automated competition and plural purposes. It would be inappropriate in an unrelated article merely because it sounds memorable.
+
+### Sentence and paragraph editing
+
+Prefer identifiable subjects, concrete nouns, precise verbs, and referents that have been established. Keep conceptual terms when they carry meaning. Avoid noun stacks, vague intensifiers, unnecessary nested clauses, boilerplate transitions, and repeated artificial contrasts such as "not X but Y". Vary sentence length and paragraph rhythm in response to the thought, rather than manufacturing variation.
+
+Use first person where it establishes a judgment, an experience, a change of belief, or responsibility for a forecast. Avoid using "I find this interesting", "This suggests an important distinction", "I would like to see", and "I expect this to become increasingly important" as automatic transitions. They can be natural in a particular context; the collection should not acquire a voice made out of them. No invented first-person scenes, participant quotes, or unpublished findings. No em dashes.
+
+Do not replace a difficult sentence with a vague easy sentence. Establish the relationships in the order the reader needs them. Read the passage in context to determine whether an explanation repeats something the reader already knows or introduces something that is not yet intelligible.
 
 ## 4. Establish evidence before stating a result
 
@@ -116,19 +157,20 @@ For the qualitative/evaluation articles, preserve these distinctions:
 - A qualitative study interprets situated actions, accounts, or experiences using an appropriate method. Describe what was observed and the basis of the interpretation. Do not treat an anecdote or a pleasing picture as a qualitative study.
 - An interpretive or normative claim can be worth making without assigning a common score to the activity. Give the reader a way to understand the claim and its limits. Do not assert that the claim cannot ever be computationally studied.
 
-## 5. Apply a substantive review, not a cosmetic polish
 
-Before calling a manuscript long-form, inspect the whole argument in order:
+## 5. Apply the editorial review across levels
 
-**Argument review:** Is there a specific claim that is not just a restatement of the title? Does each major section establish something needed for that claim? Could the main objection change the conclusion? Identify what would need to be different in the world for the claim to fail.
+Work from argument to structure to paragraphs to sentences. Do not spend most of the revision polishing prose that will disappear when the argument changes.
 
-**Evidence review:** Inspect every source used to support a consequential factual assertion. Check counts, definitions, dates, comparison conditions, and whether causal language is warranted. Remove or narrow unsupported claims. Check that references are close enough to the relevant statements that a reader can inspect them.
+**Argument and counterargument.** Write down the conclusion the author is prepared to defend. Determine whether the premises establish it and whether a competing explanation changes the inference. Make predictions vulnerable to relevant future observations. Where a premise is weak, repair the inference, supply evidence, or narrow the specific claim. Do not mechanically hedge the whole essay.
 
-**Reader review:** Read the whole essay as someone who understands computing but does not know the specialized area. At each transition, ask what the reader needs to remember or infer. Can they reconstruct the key example, explain the central distinction, and say what would count as a counterexample? Edit the order of ideas before shortening sentences. A script can flag dense sentences or repeated phrases, but cannot establish that a person understood the article.
+**Structure and continuity.** Trace each section's contribution to the conclusion. Inspect each paragraph's relation to the preceding one. Move necessary definitions before the inferences that depend on them. Cut a repetition rather than keep it as a polished transition. Integrate counterarguments where they matter.
 
-**Voice review:** Is the judgment consistent with the author's positions and uncertainty? Does it use a concrete case rather than generic claims about an AI future? Is the first-person voice grounded in public work or explicitly presented as an editorial position for the author's review? Avoid patronizing advice, exaggerated certainty, and self-congratulatory prose.
+**Evidence and technical precision.** Review actual primary sources or clearly identified available parts of them. Maintain the claim ledger, not just a bibliography. For technical examples, specify the variables, comparison, assumptions, and operation that reveals the distinction. Keep hypothetical examples separate from observed cases. Evidence for a limited claim can be strong; an impressive but irrelevant citation does not strengthen a broader claim.
 
-**Collection review:** Compare adjacent and conceptually related manuscripts using the cross-essay map in the roadmap. A paper can appear in more than one essay when each uses a different result or makes a different argument. Repeated explanations should be linked or abbreviated. Compare opening situations, examples, transitions, and conclusions, not merely titles.
+**Reader and voice.** Read the manuscript as someone from another field. Ask what the reader must infer to make the next sentence meaningful. A good test is whether the reader can explain the example and carry the distinction to a new case. Do not claim a human-reader test occurred unless it did. Preserve the author's genuine point of view, including a forceful or uncomfortable conclusion, while removing artificial language and unsupported personal narration.
+
+**Collection and publication.** Compare related essays for repeated claims, examples, research references, openings, and conclusions. Preserve their distinct questions. The [editorial review log](EDITORIAL-REVIEW.md) records one focused intervention in each numbered draft alongside the opening/ending and structural revision. It is a trace of actual edits rather than proof that every dimension has been independently validated. Use the existing roadmap and source ledger to identify remaining work. Keep published articles untouched unless explicitly asked to revise them.
 
 ## 6. Track completion honestly
 
@@ -140,8 +182,9 @@ Before calling a manuscript long-form, inspect the whole argument in order:
 | Publication candidate | Individual claim audit and copyedit complete; source links verified; neighboring posts checked; converted to the actual blog format and site build/preview passed. |
 | Published | Explicit publication approval followed by deployment. |
 
-The [baseline audit](BASELINE-AUDIT.md) records the pre-revision state of all 136 files. The [roadmap](EDITORIAL-ROADMAP.md) records the distinct argument, evidence plan, caveat and current manuscript status for every ID. The [revision report](REVISION-REPORT.md) records what changed in this revision. Updating those records does not substitute for actually editing the article.
+The [baseline audit](BASELINE-AUDIT.md) records the pre-revision state of all 136 files. The [roadmap](EDITORIAL-ROADMAP.md) records the distinct argument, evidence plan, caveat and current manuscript status for every ID. The [revision report](REVISION-REPORT.md) records successive revisions; the [editorial review log](EDITORIAL-REVIEW.md) identifies the focused intervention in each of the 136 unpublished drafts. Updating those records does not substitute for actually editing the article.
 
 After a manuscript is selected for publication, remove the editorial notes and internal state markers from the published body. Convert it to a single Typst file in `content/blog/` using the site's existing `/content/blog.typ` template. Use a stable slug, a specific title and description, an appropriate date, and two or three registered tags. Use `draft: true` for an intentionally unlisted preview only; it may be accessible by URL after deployment. Use `draft: false` only on explicit approval. Validate Typst compilation, the Astro content schema, internal and external links, rendered layout, and mobile reading experience. A build must actually run before recording that it passed.
 
 The editorial library stays in `content/blog-drafts/` outside the site collection. An open draft PR in this public repository is not private. Do not put confidential personal information, unpublished participant data, or work under anonymous review in these files. No publication candidate or independent reader evaluation is claimed by this revision.
+

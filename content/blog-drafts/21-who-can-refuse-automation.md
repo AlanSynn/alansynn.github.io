@@ -2,19 +2,21 @@
 
 **Status:** editorial draft / argument development | **Theme:** HCI, institutions, and value | **Candidate tags:** ethics, participatory-design, sociology-of-science
 
-A service may allow people to opt out of automation while making the alternative prohibitively difficult. The presence of a choice in an interface is a poor description of who can actually exercise it.
+A person may have the formal right to choose a manual service and very little practical ability to use it. The difference becomes apparent when the alternative requires much more time, money, or help than the automated service. An interface can offer a choice while the institution makes exercising it prohibitively expensive.
 
-## Working argument
+Imagine an organization introducing an assistant that completes a routine task. Initially, a worker can use the assistant or carry out the task themselves. The organization's expectations gradually change as the assistant becomes more widely used. Schedules are shortened, staffing is reduced, and support for the manual process disappears. A worker who prefers the older practice now has to absorb costs that were once part of ordinary work.
 
-Consider an organization in which an AI tool becomes the default way to complete a task. A worker can still do it manually, but the performance expectations, schedules, and support systems now assume that everyone uses the tool. What was once a real choice has become a decision to absorb extra cost. A customer may face a similar situation when the human service option requires hours of waiting.
+There may be excellent reasons for the organization to adopt the new arrangement. The assistant may make the service more accessible and reduce substantial amounts of unnecessary work. The interesting question is what happened to the possibility of choosing another way to participate.
 
-This reveals an important shift in the meaning of agency. A system can offer local control while the surrounding institution makes refusal expensive. A choice about who performs a task becomes a choice about who pays for refusing the prevailing workflow. Once automation reorganizes an institution, restoring the old interface alone will not restore the old freedom.
+Someone may want to retain a particular activity because doing it helps them understand their work. Another person may prefer a human service because it allows them to discuss circumstances the standard process handles poorly. Such choices can matter to people even when the alternatives perform similarly according to the institution's common evaluation.
 
-The essay would connect this issue to the future of qualitative niches. People may want to retain a form of personal service, authorship, learning, or care for reasons that cannot be ordered on a universal performance scale. Whether such niches remain accessible depends on infrastructure and the way their costs are distributed. A society may celebrate human involvement while reserving it for those who can afford it.
+A meaningful alternative may require collective provision rather than a choice exercised individually. If only one worker can afford the extra time required by the manual procedure, the presence of that procedure tells us little about the freedom available to the rest of the team. The cost of refusal can become a property of the organization.
 
-## Challenge
+Sometimes maintaining an alternative would place unreasonable burdens on other people. A service also has obligations concerning safety, consistency, and access. It may need to limit some choices. The question of who should carry the cost of preserving a different way of working is therefore a substantive institutional decision.
 
-Refusal can impose costs on other people and can conflict with safety, consistency, or accessibility. Identify who should have a say, who carries the cost, and what alternatives are feasible. Avoid treating every form of automation as coercive.
+A useful study of agency would examine whether people can actually exercise the choices a system appears to provide. How much time does an alternative require? Who is available to support it? Can the person return to it after their circumstances change? These questions reveal the distribution of control around the technology.
+
+As automation becomes common infrastructure, the freedom to pursue a different kind of experience will depend partly on whether anyone can afford to maintain the conditions for that experience. A choice presented in an interface may be the least consequential part of that arrangement.
 
 ## Source plan
 

@@ -2,19 +2,21 @@
 
 **Status:** editorial draft / argument development | **Theme:** The institutions of knowledge | **Candidate tags:** academia, sociology-of-science, computer-science
 
-A researcher can publish a paper that adds a true result to the literature. If the result is never found, compared, understood, or used, the field's ability to reason about it may barely change. The size of a literature and the knowledge available to a community are different quantities.
+A field can possess a result without being able to use it. Somewhere in its literature there may be an experiment that addresses a question researchers are currently asking. If nobody can find the relevant observation, recognize what it establishes, and connect it to the new question, the community may behave much as it did before the experiment was conducted.
 
-## Working argument
+This is a concern about the growth of research that goes beyond the number of papers people need to read. A published result has a practical life in the collective understanding of a field. The way that result is retrieved, summarized, and connected to other results affects that life.
 
-The cost of generating manuscripts is falling. Agents can also help search and summarize them, but compression introduces another bottleneck. A summary that reports a paper's main result may omit the assumptions under which it holds or a failure case that matters to the next experiment. In an expanding literature, the quality of retrieval and synthesis can shape which findings become part of the field's effective memory.
+Suppose a paper reports a small performance improvement. In an ablation, its authors discover that the improvement depends on a surprising relationship between two components. A literature search that prioritizes papers with the best scores might give relatively little attention to the paper. A summary that concentrates on the main comparison might omit the observation about the components. Yet that observation could be the useful starting point for another researcher.
 
-Consider a new method whose performance improvement is small but whose ablation reveals a surprising dependency. A search system trained to prefer widely cited or high-scoring papers may elevate the leaderboard and hide the observation. The field then has access to the paper without access to the reason the paper was scientifically interesting.
+Agents could help enormously with this problem. They can search for relevant work, compare explanations, and identify relationships that a person reading papers individually might miss. I would like them to become better at recovering the conditions under which each result matters, rather than simply assigning relevance or importance to a whole paper.
 
-I expect curation to become a more important scientific activity, with its own failure modes and power. Useful syntheses should connect competing accounts, expose disagreements and provenance, and give readers a route back to the material evidence. A ranking of papers by importance can become another narrow representation that makes whole research directions difficult to see.
+The synthesis itself can also be mistaken. Suppose two studies use the same word for different properties of motion. A system that collects their findings under one heading may create an apparent disagreement where there was none. I would want to recover the definitions and the original observations before accepting the relation proposed by the summary.
 
-## Challenge
+A synthesis should let a reader investigate a disagreement. If two papers reach different conclusions, show which tasks, populations, or assumptions differ. If an important result appears only in a supplemental experiment, preserve the route to the experiment. The reader should be able to examine the basis of the summary and discover that a proposed connection is mistaken.
 
-Scholarly search, reviews, and textbooks have always performed this function. The essay needs to establish how the rate and structure of generated research alter the task. AI synthesis may improve access dramatically. Evaluate whether readers can recover assumptions and exceptions, rather than assuming that more publication necessarily makes comprehension worse.
+Reviews, textbooks, and conversations among researchers have long helped science perform this work. Their value may become more visible as producing manuscripts becomes easier. A field needs people and tools that can turn a collection of reports into something researchers can think with.
+
+The size of a literature is relatively easy to count. I would rather know whether the field is getting better at finding and using what it has already learned.
 
 ## Source plan
 

@@ -2,15 +2,17 @@
 
 **Status:** English working draft | **Theme:** O. Careers, institutions, and the economics of expertise | **Candidate tags:** academia, education, sociology-of-science
 
-A research group can spend several months investigating an idea and discover that the idea was mistaken. Sometimes that outcome is precisely what someone needed to learn. Whether the group can afford to reach it depends on the institution in which the work takes place.
+A university can give someone several months to investigate an idea and discover why it was mistaken. That is an expensive arrangement. Its value may become particularly visible when a machine can produce acceptable research results much faster than a student can develop the understanding through which a result becomes meaningful.
 
-One of the things I value about a university is the possibility of spending time on a question whose usefulness is not yet established. A student can develop an idea, encounter difficulties, and discover that the original question needs to change. A good education can give someone the means to understand the failure rather than merely experience it.
+One valuable possibility in a university is the time to pursue a question before its usefulness has been established. A student can develop an idea, encounter difficulties, and discover that the original question needs to change. A good education can give someone the means to understand the failure rather than merely experience it.
 
 There are limits to this freedom. Research requires resources, and students need to finish their degrees. Some university environments offer very little room for investigations that do not produce recognized outcomes. Other kinds of organizations can support remarkably open-ended inquiry.
 
+A student who learns that a proposed mechanism cannot realize a particular motion may have gained something important from the investigation. Whether they can afford to examine that result depends on the commitments of the institution, including time, funding, supervision, and degree requirements. Calling the university a place for inquiry does not establish that every student has that opportunity.
+
 As agents make particular forms of research much faster, I wonder what will happen to the time available for becoming a researcher. An institution could expect students to produce more results within the same period. It could also give them more room to explore questions and understand relationships that were previously difficult to investigate.
 
-The distinction concerns what the institution believes the period of education is for. Producing useful knowledge is an important purpose of research training. So is developing a person who can reconsider their own understanding of a problem. A university that makes room for the latter may provide something that is difficult to describe through the number of papers produced by its students.
+A university has to decide what time spent doing research is supposed to provide for the person doing it. An institution that values the development of a researcher has a reason to make room for examining a failed explanation, even when it could obtain another useful result more cheaply. The time available for that inquiry is part of the education.
 
 ## Editorial source notes
 

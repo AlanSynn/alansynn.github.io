@@ -2,19 +2,21 @@
 
 **Status:** editorial draft / argument development | **Theme:** Education and the next generation of expertise | **Candidate tags:** education, sociology-of-science, ethics
 
-A personalized learning system can give every student a different sequence of activities, explanations, and examples. If it does this very well, students may learn things that fit their interests and needs. A school must still decide what its students should encounter together.
+A school could give every student an excellent individualized learning path and still face a difficult question about what the students should experience together. The technical ability to provide different lessons does not determine the educational purpose of a shared curriculum.
 
-## Working argument
+Suppose two children receive instruction that closely follows their interests. One becomes deeply interested in mechanical design, while the other spends much of their time learning about music. Each can develop substantial knowledge. Their school may also want them to encounter a common problem, discuss something with classmates who have different experiences, or participate in an activity they would not have chosen on their own.
 
-A common curriculum has several functions. It can organize the progression of knowledge, make certain opportunities available to all students, and provide experiences through which people learn to discuss a shared world. A personalized system could improve the first function dramatically. Its effect on the others depends on how a school organizes participation.
+These shared experiences can serve several purposes. They can give students a vocabulary with which to communicate. They can make unfamiliar activities accessible to someone who would never have thought to investigate them. They can also give a group of people an opportunity to learn what their interests and understanding have in common.
 
-Imagine two children whose learning paths develop in very different directions. Each could acquire impressive competence while having few shared reference points with the other. That might be desirable in some contexts and difficult in others. Education also exposes people to ideas, practices, and communities they would not have selected based on their current preferences. A learning system optimized for existing interests may underprovide these encounters.
+A common curriculum has sometimes been used to impose the priorities of a dominant group. Students whose circumstances differ can be poorly served by a fixed sequence of activities. The ability to offer more appropriate explanations and examples to individual learners could address many important difficulties. We have good reasons to benefit from that capability.
 
-I expect educational pluralism to become technically easier as AI tutors and authoring tools grow more capable. The question of a shared curriculum may therefore become more explicitly political and social. What experiences should remain common? Which differences should be cultivated? Who gets to decide that a person ought to encounter something they did not ask for?
+We should therefore distinguish common educational experiences from identical instructional sequences. A class can investigate a shared artifact while students receive different kinds of assistance in understanding it. They can develop different contributions to a common project. The purpose of their being together becomes visible through the relationships among their activities.
 
-## Challenge
+For a class investigating a moving object, one student might need help with the mathematics and another with the construction. They need not encounter the same explanation or move at the same pace. They can nevertheless discuss the same object and confront disagreements about how it works. The common experience consists in what their different contributions allow them to investigate together.
 
-A common curriculum can impose dominant cultural assumptions and ignore learners' circumstances. Personalization can expand access, and shared experiences need not require identical content or pace. Treat the tension between common participation and individualized paths as a design and governance problem, not as a defense of uniform schooling.
+As AI makes individualized instruction more feasible, it may give schools greater freedom to determine which experiences deserve to remain shared. Those decisions concern the society that children are being invited to participate in, and the opportunities they have to encounter people and ideas beyond their existing interests.
+
+A curriculum organized entirely around the preferences and progress of each learner can perform very well according to some educational measures. Whether it gives the learners a useful way to encounter a shared world will depend on what else the school makes possible. We should examine that achievement on its own terms.
 
 ## Source plan
 

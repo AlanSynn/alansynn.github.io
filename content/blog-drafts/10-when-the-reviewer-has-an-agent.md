@@ -2,11 +2,9 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** The institutions of knowledge | **Candidate tags:** academia, sociology-of-science, ai
 
-A reviewer reads a paper about a new method for generating motion. The authors report better performance on several tasks and explain why they believe the method works. There is a public implementation of the method, but reproducing the experiments would require more time than the reviewer has available. The reviewer reads the tables carefully, checks that the comparison appears reasonable, and writes a few questions about the proposed explanation.
+I would like peer review to produce better-informed disagreements about research. At present, a reviewer may suspect that a method depends on an initial configuration but lack the time to establish whether that suspicion is justified. An agent that can inspect the implementation and carry out a small, authorized experiment could change what the reviewer has a reason to believe before writing the review.
 
-Now imagine that the reviewer can ask an agent to inspect the implementation, run a small experiment, and look for a case where the method behaves differently from the account in the paper. The agent returns a result that the reviewer can examine. The reviewer might have discovered something that was previously too expensive to investigate.
-
-Much of the discussion about AI and peer review concerns the quality of the review that an AI can write. I am interested in a different possibility. An agent could change what it is practical for a reviewer to know before making a judgment. That change could matter more than whether the prose of the review improves.
+That capability is more consequential than producing fluent review text. It changes the cost of obtaining evidence, and may also change the balance of obligations between authors, reviewers, and the institutions that ask them to investigate one another's work.
 
 ## A criticism that can be inspected
 
@@ -44,6 +42,8 @@ These are reasons to make a paper's claims easier to connect to its materials. A
 
 A convenient artifact is not necessarily an adequate one. An implementation that runs may still conceal assumptions shared with the data or evaluation. A demonstration that looks convincing may not establish the stated range of conditions. Authors should be able to describe the boundary of the evidence rather than make every possible use of the artifact a part of the contribution.
 
+I would also distinguish a result that changes the assessment of a paper from an experiment that would merely extend it. A reviewer may establish a failure within the conditions promised by the authors. Another experiment might instead reveal how the method could be developed for a new task. The latter can be valuable without creating an obligation for the authors to carry out the next research project.
+
 Reviewers need the same discipline. If a criticism concerns a claim the paper does not make, asking for another experiment may add work without improving the evaluation. When agents make it cheap to identify possible experiments, it will become especially important to explain why a proposed experiment is relevant.
 
 ## Who decides what must be answered?
@@ -60,11 +60,9 @@ A useful review would distinguish a finding from a proposed investigation, ident
 
 ## A better-informed disagreement
 
-I would like peer review to become an occasion for more specific disagreements about evidence. A reviewer may think a result has been interpreted too broadly. An author may show that the criticized behavior lies outside the stated claim. Both may discover an interesting condition that deserves a later investigation.
+An experiment that a reviewer can inspect and an author can challenge may leave both with a more precise understanding of the result. A disagreement about an interview or a rendered motion can likewise become more informative when the relevant observation is accessible. The appropriate form of criticism depends on the claim under examination.
 
-Agents could help make these exchanges more practical. The resulting process would still require decisions about the kinds of contributions a field recognizes and the evidence those contributions require. An executable test is particularly useful for some claims. For others, understanding the circumstances of an observation or the interpretation of an experience may matter more.
-
-The interesting future of machine-assisted review may be the one in which a reviewer has more opportunities to investigate a paper before judging it. A review is valuable when the questions it raises help people understand what the paper establishes. Producing a longer list of reasons to accept or reject the paper is a much less ambitious goal.
+The review I would most value after this change is one that I could learn from even if I disagreed with the recommendation. It would tell me which evidence changed the reviewer's judgment and which part of the work still needed to be understood. An agent that expands the opportunity for that exchange would have changed peer review in a meaningful way.
 
 ## Editorial source and claim notes
 

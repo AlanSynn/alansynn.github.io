@@ -2,19 +2,19 @@
 
 **Status:** editorial draft / argument development | **Theme:** The institutions of knowledge | **Candidate tags:** academia, philosophy-of-science, ai
 
-Imagine asking an agent to reproduce the main experiment in a paper. It reads the method, finds the code, reconstructs missing pieces, and obtains a similar result. That is useful. It might also be a weaker test of the paper than the successful reproduction suggests.
+There are several ways for another researcher to obtain the result of a published experiment. They can execute the original implementation, build a new implementation from the description, or investigate the proposed phenomenon in another setting. The procedures answer different questions even when their results agree.
 
-## Working argument
+Imagine an agent that reads a paper and successfully runs the associated code. The result establishes that the supplied procedure can still produce the reported outcome under the tested conditions. That can be valuable to someone who wants to use the method. If we want to understand whether the explanation in the paper is sufficient to recreate the mechanism, we would learn something different from an independently written implementation.
 
-Re-executing a published implementation establishes that a specified procedure still produces a result under certain conditions. Independently implementing a method tests a different form of transfer: whether the description is sufficient for another builder to realize the claimed mechanism. Repeating an inquiry in a new setting asks whether the phenomenon travels. These distinctions will become more important as reproducing code becomes cheaper.
+An agent can make both activities easier. It may infer details from software libraries, related implementations, or information about the original experiment. Those additional resources can make the reconstruction remarkably successful. They also complicate our interpretation of the agreement. Two agents might recover the same undocumented choice from the same source rather than independently determine that the choice follows from the paper.
 
-An agent may infer undocumented defaults from common libraries or from other accounts of the paper. Two agents may share the same mistaken assumptions because both rely on similar models and training material. Their agreement can therefore reveal a useful operational capability without constituting strong independent evidence. Conversely, a reproducible implementation may be precisely what a practitioner needs, even when the deeper explanation remains uncertain.
+Shared resources do not automatically invalidate an experiment. A common dataset can be the appropriate instrument for a carefully specified comparison. A reference implementation can be useful for understanding whether an observation is reproducible. Independence matters in relation to the possible errors or assumptions we want to investigate.
 
-As research artifacts become easier to execute, I expect verification to move outward from the question of whether a script runs. Did the implementation embody the stated mechanism? Which choices were reconstructed? What conditions have to travel with the result? Distinguishing re-execution from independent corroboration will help keep abundant reproduction from becoming abundant repetition of the same mistake.
+There is a practical difference between recovering a missing software version and recovering a missing scientific assumption. An agent that repairs an environment can make the original experiment accessible. If it fills in an unspecified model choice with a common convention, however, the resulting success may tell us more about that convention than about what the authors' description establishes.
 
-## Challenge
+For a stronger test of a claim about a mechanism, I might want the agent to reconstruct it using a description that excludes certain implementation details, or to test a different implementation under a condition that distinguishes competing explanations. For a claim about generalization, I would want to understand how the new task differs from the original one. The evidence would be informative because we know what has changed.
 
-Terminology for reproducibility and replicability differs across organizations. Define the operations directly and verify the local definitions before naming them. Do not treat all shared tools as disqualifying evidence; independence is relative to the claim.
+As reproduction becomes less expensive, I expect researchers to encounter many more agreements among experiments. Their significance will depend on which parts of the original inquiry were repeated and which parts were independently reconsidered. A program that runs again and an observation that survives a change in the way it was obtained are both useful scientific accomplishments. I would like reports of automated reproduction to make it possible to tell which one occurred.
 
 ## Source plan
 

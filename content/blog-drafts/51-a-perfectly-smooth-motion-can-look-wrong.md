@@ -2,11 +2,9 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** Graphics, vision, and perception | **Candidate tags:** computer-science, participatory-design
 
-A person draws the path that the hand of a small mechanical figure should follow. The path contains a few irregularities. Some of them came from the difficulty of drawing a smooth curve by hand. Some may belong to the movement the person wants to make.
+In [MotionSmith](https://doi.org/10.1145/3772318.3791545), three experienced automata artists used a smoothing control while developing movements. Two used it to reduce irregularities in their drawings. The third tried it and chose to retain some of the roughness. The same operation had a different expressive purpose for each of them.
 
-A computer can easily offer a smoother version. The smoother path may be easier to use in a mechanism design process. It can also change the character of the figure's movement. A small irregularity that appears to be a mistake in the drawing may make a gesture feel playful when the figure moves.
-
-This distinction appeared in our work on [MotionSmith](https://doi.org/10.1145/3772318.3791545). The observation was quite simple. Artists used the same computational operation in different ways. It has stayed with me because it tells us something about the relationship between a technical improvement and the experience of a result.
+A smooth path can be easier to work with when synthesizing a mechanism. It can also produce a different kind of movement from the one a maker finds interesting. The observation gives us a reason to separate the technical effect of smoothing from the quality of the movement the artist is trying to create.
 
 ## When a filter becomes part of making a movement
 
@@ -25,6 +23,8 @@ The distinction can be understood through the activity. Someone is creating a fi
 ## Smoothness has several meanings
 
 The word smooth is particularly interesting in this setting. A curve can be smooth according to its mathematical properties. A movement can have a velocity that changes gradually. A joint can move smoothly because there is little friction. A person watching the result can describe it as smooth because the movement looks continuous and feels easy to follow.
+
+We can make the distinction concrete by comparing two paths with identical geometry but different timing. A pause in one of them changes the experienced gesture without changing the spatial curve. Likewise, removing a corner from a curve could alter a motion even when the average speed remains similar. The operation and the property it affects need to be specified separately.
 
 These descriptions concern related properties. They are not interchangeable. If I smooth the shape of a curve without considering the speed at which a character moves along it, I may still produce a very abrupt movement. If I change the timing without changing the path, I can make the same movement feel hesitant or decisive.
 
@@ -56,11 +56,9 @@ A maker may prefer something they did not expect to prefer. A tool can help make
 
 A good automaton needs to move. Once it can move, a person has many ways to make the movement interesting. The movement can feel like a little effort, a moment of surprise, or a repeated gesture with a particular rhythm. Different figures can invite entirely different choices.
 
-I expect the ability to generate and refine movements to become far more widely available. Many of the mathematical tasks involved in that work will be handled by machines with little effort from the maker. This will give people greater opportunity to explore the qualities of motion they find interesting.
+The value of increasingly powerful motion tools may become particularly visible in the range of qualities a maker can investigate. They can use a smoother path when it helps express an idea, preserve some variation when it gives a movement its character, and discover a reason to prefer either through watching the result.
 
-If we evaluate such movements by an increasingly reliable common definition of smoothness, we may find that machines become extremely good at producing smooth motions. That will be a useful capability. It will leave open the many reasons people have for wanting a movement with a particular character.
-
-The small observation from MotionSmith offers a way to see the difference. Two artists found a smoother path useful. Another found something worth keeping in the roughness. A successful computational tool can support all three of them. The interesting part of the result is visible when we watch what they were making.
+A useful evaluation of such a tool needs to account for both what its operations do and what people can make with them. Smoothness can be defined, measured, and optimized. Whether the resulting motion is worth making depends on a further question about the movement itself.
 
 ## Editorial source and claim notes
 

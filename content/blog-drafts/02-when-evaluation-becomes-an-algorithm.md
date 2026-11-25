@@ -2,15 +2,15 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** Evidence after the scoreboard | **Candidate tags:** philosophy-of-science, ai, sociology-of-science
 
-A researcher finds a way to make a program faster. She changes a small part of the implementation, runs the program again, and measures the difference. She has a better result and perhaps a better understanding of the system. Her next question concerns which change to try now.
+AI will dominate quantified competition. I expect much of the work through which researchers have demonstrated their expertise to become an automated search for better results. The numbers will continue to be useful. Their authority as evidence of a person's distinctive contribution will collapse.
 
-If a machine can perform this sequence, the evaluation becomes part of a different kind of system. It can generate an implementation, execute it, compare the result, and retain promising changes. It can also search for better ways to choose the changes. A test that was once used to establish the quality of a research contribution has become one of the means of producing that contribution.
+Take a researcher trying to make a program faster. She changes a part of the implementation, runs the program, and measures the result. The measurement helps her decide which change to try next. An agent can use the same information to generate candidates, evaluate them, and revise both the implementation and its way of searching. A benchmark that once stood outside the research process has become part of the process that produces the next result.
 
-I expect this change to reach much further into research than we are currently comfortable admitting. AI will dominate quantified competition. A great deal of the work through which researchers have demonstrated their expertise will enter the same kind of improvement loop. That will change the authority of the score and, eventually, the kinds of contributions a field recognizes.
+What happens to research when an agent can improve the score better than its author? I want to follow that question from automated experimentation to the way a field understands contribution, and then to the experiences that a common evaluation has left out.
 
 ## The test moves inside the research process
 
-The program at the beginning of this essay does not have to be easy to improve. Its implementation may be difficult to understand, and an improvement may require an ingenious new algorithm. These conditions make search difficult. They do not prevent a machine from participating in the search.
+The program in that example can be exceptionally difficult to improve. Its implementation may be difficult to understand, and an improvement may require an ingenious new algorithm. These conditions make search difficult. They do not prevent a machine from participating in the search.
 
 [AlphaEvolve](https://arxiv.org/html/2506.13131v1) gives a concrete example. Language models propose programs; evaluators assess them; the search uses information from earlier attempts to develop later ones. The authors describe applications ranging from mathematical problems to the optimization of computing infrastructure. One particularly interesting example concerns a scheduling heuristic used in Google's data centers. They report that the new heuristic recovers about 0.7 percent of fleet-wide computational resources on average after deployment. A small change can matter a great deal at that scale.
 
@@ -31,6 +31,8 @@ Research has always involved shared tools and the contributions of many people. 
 A conference may continue to ask for better scores after that change. But I expect increasing difficulty in justifying a system of professional recognition that depends on the ability to obtain them. If the same tools can continually produce better methods, the number can become a record of what a field's infrastructure can do. The result is useful to the field without necessarily offering the distinction the author once expected to receive from it.
 
 It is possible for the opposite institutional effect to occur. The most powerful models, expensive experiments, and deployment environments may remain concentrated. Competition for a better result could grow more intense because it is a competition among organizations with different resources. Even in that case, a higher score may tell us increasingly more about the arrangement of resources than about a person's individual ability. Whether institutions change their interpretation of such results is an important part of the forecast.
+
+Losing the power to distinguish researchers is only part of the change. A common evaluation also sets a direction for the field: every team is encouraged to produce a result that performs better according to the same definition. If machines supply that improvement routinely, the definition has less reason to govern the activities of every research group. This gives us an opportunity to ask which differences the common evaluation has made difficult to see.
 
 ## The movement that looked human
 
@@ -68,9 +70,9 @@ My prediction concerns the structure of the field. As common performance becomes
 
 This prediction can fail. The institutions of research may continue to allocate recognition through common rankings, even when the rankings primarily describe access to powerful infrastructure. Distribution platforms may favor a few standardized experiences over many smaller ones. A proliferation of qualitative work does not guarantee that its practitioners will have a livelihood.
 
-But I expect the world of research to become more differentiated. Quantitative improvement will continue inside the machinery that produces results. The authority of the number as a general certificate of distinctive human achievement will weaken. What we have treated as personal differences will increasingly become the actual subjects of research.
+The future of qualitative research depends on whether the institutions of research can recognize contributions whose purposes are genuinely different. A better evaluation of gesture, for example, can help machines reproduce an established notion of naturalness. It cannot settle whether a particular person wants a reassuring movement, a playful one, or one that gives them more control.
 
-A good score once gave a person a way to claim that their contribution stood above others. In many fields, I expect the machine to take over much of the work of making that claim possible. The more interesting world will be the one in which a particular experience can become worth investigating without having to defeat every other experience on the same scale.
+For much of computer science, progress has meant getting closer to a common answer. I expect a growing part of research to move in the opposite direction. As machines become better at reaching that answer, we may discover how many different questions we had placed underneath it.
 
 ## Editorial source and claim notes
 

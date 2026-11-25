@@ -2,19 +2,19 @@
 
 **Status:** editorial draft / argument development | **Theme:** Education and the next generation of expertise | **Candidate tags:** education, computer-science, academia
 
-A student can receive an excellent explanation of every weakness in an essay and still learn very little from the experience. Feedback becomes educational when the learner has an opportunity and a reason to do something with it.
+A student can receive excellent feedback on a piece of writing without developing the ability to improve the next piece of writing. The feedback might identify every weak argument and suggest a more convincing structure. If the student accepts the changes, the document improves. What the student has learned remains a separate question.
 
-## Working argument
+Suppose a teacher points out that two paragraphs reach a conclusion before introducing the evidence needed for it. The student can ask a system to reorganize the paragraphs. They could also try to explain why the original order made the argument difficult to follow. The second activity gives them a way to recognize a similar problem in another piece of writing.
 
-Imagine a system that provides increasingly precise comments on every draft. A learner can accept the suggestions and produce a much better document. That outcome is useful if the objective is the document. To understand the learning outcome, we would need to know which differences the student noticed, which choices they understood, and what they could do when encountering a new problem.
+The useful distinction concerns how feedback becomes part of a learner's understanding. A comment has value partly through the decisions the learner can make with it. Receiving more comments can create more opportunities to learn. It can also overwhelm someone who has little idea which problem to investigate first.
 
-As feedback becomes abundant, attention, interpretation, and the ability to revise may become stronger bottlenecks. A learner faced with dozens of correct suggestions can become dependent on the system's ordering of the problems. A useful educational tool might sometimes present fewer suggestions, ask the learner to compare alternatives, or help them reconstruct why a revision changed the result.
+A later task can help us examine what has been learned. If the student recognizes the need to introduce evidence earlier in a new essay, we have one indication that the earlier feedback became useful understanding. If they can only reproduce the suggested revision, the intervention may still have improved the document, but it has given us less evidence of transfer.
 
-This is an opportunity to reconsider the unit of educational design. A feedback message is one event within a longer cycle of production, response, reflection, and subsequent action. Improving the message does not automatically improve the cycle. I expect learning systems to become more useful when they are evaluated through the trajectory of what a person can later do, rather than through the quality or quantity of the assistance delivered.
+A capable tutor could help the learner identify a manageable revision, examine the difference it makes, and reconsider the original explanation. It could demonstrate an improved version when that example gives the learner a useful way to understand the problem. In another setting, it might be appropriate to give the student a finished revision so they can continue with a larger project.
 
-## Challenge
+The amount of revision a student performs independently is an imperfect measure of what they learn. A well-chosen worked example can reveal a relationship more clearly than a long period of unaided effort. The appropriate form of assistance depends on the purpose of the exercise and the understanding the learner already has.
 
-Automated feedback can be invaluable where expert feedback is unavailable. Students can also learn from worked revisions and examples. Compare forms of guidance rather than assuming independent revision is always necessary. Distinguish transfer, retention, and useful tool-assisted performance.
+As detailed feedback becomes inexpensive, the educational bottleneck may move toward a person's opportunities to understand and act on it. We should evaluate the sequence of work, feedback, revision, and subsequent activity, rather than treating the quality of an individual response as the whole educational achievement. A student who recognizes the same structural problem in their next essay has gained something that an excellent revision of the first essay cannot establish on its own.
 
 ## Source plan
 

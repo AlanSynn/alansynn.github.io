@@ -2,13 +2,11 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** Writing, explanation, and representation | **Candidate tags:** philosophy-of-science, computer-science
 
-I can sometimes understand every word in a sentence and have little idea what the sentence means. This happens particularly often when I read an explanation of a subject outside my own area of research. The author may have chosen entirely reasonable technical terms. I have not yet acquired the understanding that would allow me to put them together.
+I can sometimes understand every word in a sentence and have little idea what the sentence means. The difficulty is often that the author has compressed relationships I have not yet learned to recognize. A short account may ask more of me than a longer one.
 
-Consider a description of a creative tool as an interface for intent-preserving mechanism refinement. Someone who works on computational design may have a useful idea of what that means. Another reader needs to answer several questions first. What is a mechanism? What does the person want to preserve? What is being refined? How will we know whether the refinement helped?
+Consider an interface for intent-preserving mechanism refinement. Someone familiar with computational design may understand the term immediately. Another reader needs to know what is being refined, whose intention matters, and what counts as preserving it. We could give them an account of a maker who sketches a movement, sees the motion of a mechanism, and revises the design while keeping it mechanically feasible. The reader now has an activity through which the term can acquire meaning.
 
-We could describe the same activity differently. An artist wants to make a wooden figure move. She draws the movement, examines several mechanisms that could produce it, and adjusts one of them until she likes what she sees. A computer helps her make changes that keep the mechanism capable of moving. We might then introduce a term for the relationship we want the computer to maintain between the movement and the artist's intention.
-
-The second account takes more words. I suspect it asks less of a reader.
+Writing should give readers a way to develop the understanding that allows them to use a technical expression. The number of words needed to do that can differ considerably from the number of words required to state the expression.
 
 ## Shorter text, longer work for the reader
 
@@ -30,7 +28,7 @@ I might begin instead with a figure that raises its hand. We draw the path that 
 
 This is an important part of explaining technical work to me. The reader needs an object through which a new distinction can become intelligible. That object may be a drawing, a familiar activity, a mathematical example, or a result from a paper. Its purpose is to give the reader a place to put the concept.
 
-Once the concept is understood, a precise technical term can be exceptionally useful. We no longer need to describe the entire scene each time we refer to the distinction. The term has become a shared resource. It can help us reason about a more complicated example.
+Once the concept is understood, a precise technical term can become a shared resource. Specialists use terms economically because they know the activities and distinctions those terms represent. The problem arises when a writer borrows that economy before the reader has acquired the knowledge on which it depends. We can use the term to develop a more complicated argument once its meaning is available to the reader.
 
 The problem with introducing the term too early is that the reader has to guess what resource it is supposed to provide. Introducing several terms in the same sentence compounds the problem. By the time a reader understands the last one, they may have forgotten how it was connected to the first.
 
@@ -58,9 +56,9 @@ This is an interesting instance of the larger problem of evaluation. A measure o
 
 We should investigate actual reading experiences when we can. Ask a reader to explain the central claim after a section. Ask where they began to lose track of the argument. Find out whether they can apply a distinction to a new example. These are different questions from whether the sentences look simple.
 
-I do not want to eliminate every difficulty from reading. Some ideas require sustained attention, and a good essay may leave a reader with a difficult question. What I would like to eliminate is the work that the reader has to do merely because the writer did not take the time to establish the argument.
+A good explanation can give us a difficult question to think about. It can demand sustained attention, introduce unfamiliar ideas, and make us reconsider something we believed. The useful difficulty lies in thinking about the subject. I would prefer not to spend that attention recovering relationships that the author could have established more clearly.
 
-As producing language becomes increasingly easy, that difference matters. The point of writing is to share something we have understood, or something we are trying to understand. A reader should be able to participate in that inquiry. I would rather give them enough room to think about the problem than make them spend their time reconstructing the sentence.
+The reader has come to the essay with a world of their own knowledge. Writing is the work of giving them a way to connect that world to the one the essay is trying to explain.
 
 ## Editorial source and claim notes
 

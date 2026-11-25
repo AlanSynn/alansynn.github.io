@@ -2,11 +2,9 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** Graphics, fabrication, and making | **Candidate tags:** computer-science, philosophy-of-science, participatory-design
 
-Open two programs for making an animation. In one, we select a joint and specify its angle at several moments in time. In another, we give a character a movement and adjust the timing of that movement relative to the rest of the scene. The programs may eventually produce very similar animations. The person using them has encountered the movement in two different forms.
+Every authoring tool contains a theory of the activity it supports. It decides which parts of the work will become objects a person can examine, which relationships they can manipulate, and which distinctions the system will handle on their behalf. I use theory here in this practical sense, as a set of assumptions expressed through the representation and the interface.
 
-In the first program, the angle of a joint has become something we can examine and change. In the second, an entire action has become an object of authoring. These are decisions about what the person needs to understand in order to make something. They give different kinds of knowledge a place in the interface.
-
-I think every authoring tool contains a theory of the activity it supports. By theory here, I mean a set of assumptions about the things a person will find useful to distinguish and the operations they will want to perform on them. We can learn quite a lot about a tool by examining those assumptions.
+An animation tool that lets someone edit joint angles offers a different account of a movement from one that lets them arrange actions in time. The two tools may produce an identical sequence. The maker has nevertheless worked with different concepts while developing it. That difference helps explain why an authoring system can change the way someone understands the thing they are trying to make.
 
 ## What has become an object of thought?
 
@@ -34,6 +32,8 @@ The theory of the activity expressed through this workflow is that a person's mo
 
 That does not mean the tool provides a complete account of automata making. Some arrangements of movement are outside the mechanism families and workflow the paper addresses. Other makers may prefer to begin with a physical mechanism and develop a character around it. The assumptions become clearer when we understand the situations in which the tool would be difficult to use.
 
+The assumptions of the tool can also become visible when a user has an idea that requires a relation its representation does not express. A person may understand exactly how several movements should be coordinated and have no useful way to communicate that relation through the available controls. The missing operation can expose a limitation of the tool's account of the activity.
+
 A representation can be interesting partly because it makes its own limits recognizable. The person can see which operations the tool supports and, through trying them, discover what they might want to do differently.
 
 ## The prompt is a representation too
@@ -60,9 +60,9 @@ These are empirical questions about how the tool works and how people encounter 
 
 There is no reason to expose every possible distinction at once. An extensive technical representation can be difficult for someone to learn. Sometimes the best arrangement gives the person access to a small number of meaningful operations and lets the system handle the rest. What matters is whether those operations fit the activity the person is developing.
 
-As generating finished artifacts becomes easier, I expect the way people encounter and understand their own creations to become an increasingly rich subject of research. An authoring tool can produce a good result. It can also give someone a vocabulary through which they develop an idea, inspect its consequences, and discover other things they can make.
+We can design tools that make a relationship intelligible to a person who had never considered working with it before. Someone who used to edit a movement joint by joint may discover a useful way to compose actions, or someone accustomed to a rigid scene may discover what happens when its temporal behavior becomes editable.
 
-The choice of vocabulary is part of the contribution. When we design a tool, we are making a particular way of thinking about the work available to another person.
+This is a contribution that deserves to be evaluated in its own right. An authoring tool can give people a way to develop and examine ideas that were difficult to formulate through the representations they previously had. When we design that tool, we make a particular vocabulary of thought available to them.
 
 ## Editorial source and claim notes
 

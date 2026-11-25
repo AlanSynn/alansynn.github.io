@@ -2,19 +2,19 @@
 
 **Status:** editorial draft / argument development | **Theme:** Embodied intelligence | **Candidate tags:** robotics, ethics, philosophy-of-science
 
-A failed software experiment can often be repeated from the same starting state. A failed interaction in a home may change the home, the user's trust, or what the user is willing to do next. The difference is not simply that physical experiments take longer.
+A robot that fails during a task may change the conditions of the next attempt. It might knock something out of place, damage a material, or make a person unwilling to repeat the interaction. Returning the robot to its starting position restores only a part of the world in which the experiment took place.
 
-## Working argument
+This is a consequential difference between many experiments in software and experiments involving physical or social situations. Imagine a robot learning to sort a collection of fragile objects. One policy could discover a useful grasp through several attempts. Another might damage an object on its first attempt. The two policies have acquired different histories, and the objects available for subsequent learning may now differ.
 
-Consider a robot helping someone sort objects. Moving an object to the wrong shelf changes the next observation. Damaging an object changes the set of possible future actions. Making a person uncomfortable may change whether they agree to another trial. Resetting the position of the robot does not reset every relevant part of the world.
+A study involving people introduces another kind of history. Someone who becomes uncomfortable with a robot may choose to avoid a movement the robot makes. The robot's performance during later trials could improve because the person has learned to accommodate it. We would need to understand that change before attributing the entire improvement to the robot.
 
-This matters for the scientific interpretation of repeated interactions. A hundred trials involving the same people or materials may represent a hundred states in one unfolding history, rather than independent repetitions. A robot may improve because it learned, because the environment was repaired, or because people changed their behavior to avoid its failure modes. The work required to restore a starting condition may itself be part of the system's cost.
+The experimental arrangement therefore has to account for what an intervention changes and what needs to be restored. Sometimes independent objects, prepared fixtures, or a simulator can provide an appropriate reset. Other times, the history of interaction is part of the phenomenon we want to study. Treating it as a disturbance to be removed would make the study less informative.
 
-As agentic robotics expands, I expect the economics and ethics of experimentation to become intertwined. Cheap repeated trials are an immense advantage where resets are available. Where interventions are costly or irreversible, deciding what can legitimately be tried is a different problem. The robot's learning process needs to account for those consequences, and the research design needs to explain who bore them.
+For a study of an evolving relationship, replacing a participant after each trial could remove the very history the researchers want to investigate. For a study of a controller's initial behavior, that history may instead obscure the comparison. It is the claim about the task that determines whether a reset is desirable, and which conditions a reset would need to restore.
 
-## Challenge
+This distinction will matter as agents conduct more of the work of experimentation. Many physical activities can enter repeatable automated loops, and improving the capacity to reset the environment can make those loops much more powerful. Where an action has persistent consequences, we also need to decide which changes are permissible and how they will be represented in the evidence.
 
-Many industrial tasks are resettable, and simulators, fixtures, and reversible operations can greatly reduce costs. Do not claim physical research is protected from automation. The focus is the temporal and social consequences of trials that cannot be treated as independent.
+The cost of a trial includes more than the time needed to execute it. Sometimes it includes a change to the material or to the relationship that makes the next trial possible. We should understand that cost before assuming that the most informative way to investigate a problem is to keep trying until the score improves.
 
 ## Source plan
 

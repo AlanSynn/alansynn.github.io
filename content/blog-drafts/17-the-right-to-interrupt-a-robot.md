@@ -2,19 +2,19 @@
 
 **Status:** editorial draft / argument development | **Theme:** Embodied intelligence | **Candidate tags:** robotics, ethics, participatory-design
 
-A robot can allow its user to stop it and still be difficult to interrupt. Pressing a button may freeze its motion, erase its plan, and leave a person with the burden of recovering the situation. Interruption should be understood as a transition of authority, not merely a command that terminates execution.
+A stop button and a successful interruption are different things. A stop button can prevent a robot from continuing an action. Someone interrupting the robot during ordinary work may also need it to yield space, preserve what has already been done, and let them decide how the task should continue.
 
-## Working argument
+Consider a robot helping someone prepare a table. The robot has started to place objects in an area the person now needs to use. If the robot simply stops moving when asked, it may continue to occupy that area. The person could be left with the burden of moving the robot or restoring the interrupted task. In a more useful interaction, the robot might move to an appropriate position, communicate which part of the work is unfinished, and wait for another instruction.
 
-Imagine a robot sorting dishes while someone is preparing a meal. The person wants to use the space the robot is occupying. A stop command is useful, but an interruption designed for collaboration would preserve the state of the unfinished work, yield the space safely, make clear what the robot intends to do next, and allow the person to redirect the task. These are different capabilities.
+That arrangement involves several distinct changes. The person acquires the opportunity to act in the shared space. The robot's current plan is suspended or revised. Information about the state of the work remains available. When the activity resumes, it may do so under different instructions.
 
-As autonomous systems become more competent, the asymmetry between the machine's ability to continue and a person's ability to intervene may become more important. An agent could be correct about its assigned objective and still be occupying a shared resource at a bad moment. The possibility of changing the objective, transferring responsibility, or suspending a plan without excessive loss determines whether delegation remains practically reversible.
+Interruptibility therefore concerns how authority and responsibility can move during an activity. A user may want to correct a single movement while allowing the robot to continue pursuing the larger goal. They may want to take over a task temporarily. In an emergency, stopping immediately may take priority over preserving the work. These situations deserve different arrangements.
 
-The essay would distinguish emergency stopping, ordinary turn-taking, correction, takeover, and negotiated redirection. Each involves different timing, information, and safety requirements. It would ask what kinds of robot behavior make human intervention feel like a normal part of collaboration rather than a failure of automation.
+A useful test would give a person a reason to change the plan at an intermediate stage and examine what happens to the state of the work. Can they tell which operations the robot has completed, which remain pending, and when it is safe to act? An emergency stop can be tested separately; it serves an obligation that is not always the same as ordinary turn-taking.
 
-## Challenge
+There are physical constraints on what a robot can safely do while yielding control. It might need to place an object somewhere stable before moving away, or prevent an action that would endanger someone. The user needs an intelligible account of such a constraint. More capable automation could also make some interruptions unnecessary by recognizing the person's intended change earlier.
 
-Interruption must sometimes be restricted by safety or physical constraints. A person may also prefer a system that handles interruptions automatically. Do not equate maximum interruption freedom with maximum safety or agency. Compare cases where yielding is safe, where it requires a transition, and where it is impossible.
+The test of a useful interruption is what the people involved can do afterward. Can someone introduce a change without reconstructing the entire task? Can the robot resume the part of the plan that remains relevant? As robots become capable of carrying out longer sequences of activity, preserving a meaningful route for other people to change those sequences will become an increasingly consequential part of collaboration.
 
 ## Source plan
 

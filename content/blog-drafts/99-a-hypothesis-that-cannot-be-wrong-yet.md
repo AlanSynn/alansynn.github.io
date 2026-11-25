@@ -2,15 +2,17 @@
 
 **Status:** English working draft | **Theme:** M. Research as a practice | **Candidate tags:** philosophy-of-science, academia
 
-I often encounter statements that sound like promising hypotheses: a tool should support creativity, a robot should collaborate naturally, or an educational system should help learners develop understanding. These are worthwhile purposes. They do not yet tell us what we would learn from a particular experiment.
+A statement that a tool should support creativity gives a research project a desirable purpose. To make it a hypothesis, I would want to understand what a particular observation could establish about that purpose. Could we encounter a result that makes one account of the tool's role less convincing than another?
 
 Suppose a designer claims that showing several motion alternatives will help a maker express their intention. We might observe that the maker explores more alternatives. We might observe that the maker creates a result they prefer. We could also discover that the maker spends more time deciding among movements without developing a clearer idea. Each observation would lead to a different understanding of the claim.
 
-To turn the original statement into a hypothesis, we need to make those possible experiences intelligible. We do not necessarily need a single numerical outcome. A qualitative investigation can examine how a person articulates an intention, changes their choices, or explains a difficulty. The important step is to say what we would regard as evidence for a particular interpretation and what might lead us to another.
+Those possible experiences give us a way to develop a more specific hypothesis. We do not necessarily need a single numerical outcome. A qualitative investigation can examine how a person articulates an intention, changes their choices, or explains a difficulty. The important step is to say what we would regard as evidence for a particular interpretation and what might lead us to another.
 
 Exploratory design research has good reasons to begin with an open question. A researcher may genuinely not know which phenomenon will become important. That is different from presenting an aspiration as something the study has already demonstrated.
 
-The work of developing a hypothesis is partly the work of discovering what could go wrong with our understanding. Once we can imagine an observation that would change our account, we have a clearer reason to conduct the study.
+A statement about a preferred design can also be normative. A researcher may argue that users should be able to reconsider a decision because the decision affects their lives. A study can examine whether the interface provides that opportunity and what happens when people use it. Those observations inform the argument without deciding the normative question on their own.
+
+A hypothesis can give a researcher a useful reason to look for a particular kind of evidence. An exploratory question can help them discover what kind of claim deserves to be investigated. In either case, the paper becomes more informative when it explains how the observations could change our understanding, rather than presenting a desirable purpose as an outcome the study has already established.
 
 ## Editorial source notes
 

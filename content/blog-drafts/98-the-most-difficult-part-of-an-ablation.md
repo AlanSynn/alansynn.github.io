@@ -2,11 +2,9 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** M. Research as a practice | **Candidate tags:** computer-science, philosophy-of-science
 
-A paper presents a system with several components. Removing one component reduces performance. The authors report the result in a table, and the reader learns that the complete system performs better than the version without it.
+When removing a component of a method lowers its performance, we have learned something about the complete method as implemented. We may know considerably less about why the component is useful or whether a different design could supply the same capability. An ablation becomes particularly informative when its comparison is chosen to distinguish between accounts of how the method works.
 
-This is useful information. When I read an ablation study, however, I often want to know something beyond the performance of the two versions. I would like to understand the relationship the component was introduced to create, and what the comparison gives me a reason to believe about that relationship.
-
-The distinction can seem small when a system contains a straightforward collection of independent improvements. It becomes important when components were designed to work together.
+The problem is easiest to recognize when two components were designed to work together. Their individual contributions may depend on the way the other component has been constructed or trained.
 
 ## A system that needs both of its parts
 
@@ -59,6 +57,8 @@ Sometimes the second question is more appropriate. If the complete system learne
 
 Retraining introduces other questions. Should we give the alternative the same number of training steps? The same compute? The same opportunities for tuning? An alternative may have a different way of using resources, and that difference can itself be part of the contribution.
 
+There is a further distinction between comparing architectures and comparing the best procedures a team could develop around them. Giving both versions the same tuning budget makes one comparison intelligible. Allowing each version to use the training strategy suited to it makes another comparison intelligible. A paper should explain which conclusion its intervention is intended to support.
+
 I think it helps to make these decisions explicit before treating the observed difference as evidence for a particular explanation. We should understand what was changed, what was allowed to adapt, and what remained fixed. The meaning of the result depends on those choices.
 
 ## An ablation that examines an explanation
@@ -79,13 +79,13 @@ The example is hypothetical. I use it because it shows why the most difficult pa
 
 As it becomes easier for agents to implement alternative systems and run evaluations, we may see ablation tables with many more rows. That could be a welcome change. Researchers could examine interactions and alternatives that were previously too costly to investigate.
 
-A large table will be useful when its comparisons help us understand the method. It can be less useful when it merely demonstrates that many changes lower a particular score. We would still need to determine which changes address the explanation that gives the work its significance.
+A large table can be useful when its comparisons help us distinguish competing explanations of the method. It can be less useful when it merely demonstrates that many changes lower a particular score. We would still need to determine which changes address the explanation that gives the work its significance.
 
 There is also a risk in searching many comparisons and selecting those that tell the most convincing story. A result discovered through exploration can be important, but the evidence should reflect the process through which it was found. A later investigation may be needed to establish that the relationship holds beyond the observations that suggested it.
 
-I would like an ablation to leave me with a better understanding of how the complete method works. Perhaps it reveals that two components need one another. Perhaps it shows that a proposed representation is unnecessary once another condition is changed. Perhaps a comparison makes one explanation less convincing than another.
+A particularly valuable ablation can give another researcher a reason to design a different system. It might reveal that two components need to be developed together, that a costly representation is unnecessary under another condition, or that an apparent explanation of the result is incomplete.
 
-The number in an ablation table becomes particularly interesting when I understand what I have learned from it about the method. That understanding begins with the experiment's question.
+That is what I would like a reader to carry away from the table. The change in the score is evidence about a particular intervention. Understanding the relationship that the intervention was designed to examine can make the observation useful well beyond the implementation in which it was obtained.
 
 ## Editorial source and claim notes
 

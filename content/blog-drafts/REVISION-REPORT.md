@@ -1,8 +1,20 @@
-# Revision report: long-form manuscripts and full-library editorial audit
+# Revision report: full-library editorial revision and prior audit
 
 **Reviewed:** 2026-11-25. **Baseline:** `f80a771669c046ac2c714e68d3d6eca4c557392a`. All work remains in the unpublished draft library. No author approval, independent human-reader test, Typst build, site deployment, or complete claim-level audit of the 136 essays is represented as having occurred.
 
-## Inventory and actual completion
+## Collection-wide editorial revision
+
+Comparison base: `6a0bfa3767f7f36d4799f67e8520071edbb97882`. The current main blog collection was inspected before editing. Eight non-draft Typst posts were identified; no numbered draft matched their titles or slugs. The published files are outside the changed paths. The existing usage guide is a separate draft and was also left alone.
+
+- All 136 numbered unpublished manuscripts received a body edit: revised openings and conclusions, fuller rewriting of the early short argument drafts where needed, and additional paragraph-level changes.
+- A second focused pass changed a substantive aspect of each individual essay. The [review log](EDITORIAL-REVIEW.md) records all 136 interventions: technical distinctions, evidential boundaries, examples, causal mechanisms, alternative explanations, scope, or explanatory continuity.
+- The [style guide](STYLE.md) now establishes ten editorial dimensions, several possible argument structures, and worked examples from multiple areas. MotionSmith is one optional reference, not a universal template. The guide requires strong claims where warranted, direct argument, and appropriate evidence rather than systematic softening.
+- The [roadmap](EDITORIAL-ROADMAP.md) and indexes retain stable IDs and distinguish manuscript states. The previous count of 20 long-form editorial manuscripts and 116 shorter working drafts remains the completion classification. This pass does not claim to have completed the long-form expansion of all 116, a fresh claim-level literature audit, or an independent human-reader evaluation.
+- The previous source and claim notes have been retained as the basis for future verification. New illustrations are analytic or hypothetical, not new empirical results. A substantive editorial intervention is not certification that an essay is ready to publish.
+
+The word counts in the prior revision section below refer to that earlier snapshot, not the current prose. Publication and build checks remain pending; all work stays outside the website's published collection.
+
+## Previous revision inventory (historical snapshot)
 
 - 136 numbered drafts retained, with no change to their filenames or IDs.
 - 20 developed long-form editorial manuscripts, approximately 29,947 words of revised prose (rough word count excluding title, status line and editorial notes).

@@ -2,7 +2,7 @@
 
 **Status:** English working draft | **Theme:** N. Learning, teaching, and shared practice | **Candidate tags:** education, computer-science
 
-A student writes a program that produces an incorrect result. Another student finds the mistake and fixes it. The first student understands the corrected program when they see it. What would tell us whether they have learned something from the mistake?
+A corrected program tells a teacher that an error has been removed. To learn whether the student who wrote it has understood the mistake, I would give them an opportunity to predict what a related program will do. The two accomplishments can come apart, particularly when an assistant makes the correction.
 
 I would like to ask them to explain what they expected to happen and why the program behaved differently. Perhaps they misunderstood the order in which operations were performed. Perhaps they did understand the order but forgot a detail while writing. The same incorrect result can come from quite different states of understanding.
 
@@ -10,9 +10,11 @@ An educational system that immediately repairs the program may help the student 
 
 This distinction matters as AI takes on more of the work of correcting errors. We can give learners better assistance while preserving occasions in which their own expectations become visible. A teacher or tutor can then help them investigate the relation between those expectations and what occurred.
 
+A student might be able to explain the corrected code but still predict the wrong result when two operations are reordered. That discrepancy gives the teacher a more precise question than whether the student understood the explanation. The next exercise can examine the particular relationship the student has yet to understand.
+
 It is also worth making room for students who understand a mistake through demonstration rather than a fluent verbal explanation. Learning can become apparent in how a person approaches the next problem.
 
-A correct answer tells us that a particular task has been completed. I am interested in what a learner can do with the understanding they gained on the way to that answer.
+The useful evidence of understanding may arrive in the student's next attempt. They might anticipate a similar error, distinguish it from another one, or recognize the conditions under which the earlier correction would be inappropriate. A tutor that helps produce that understanding has accomplished something beyond repairing the program.
 
 ## Editorial source notes
 

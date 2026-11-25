@@ -2,19 +2,21 @@
 
 **Status:** editorial draft / argument development | **Theme:** Evidence after the scoreboard | **Candidate tags:** computer-science, philosophy-of-science
 
-A baseline is often presented as a method against which another method should win. I would describe it as a contract: two methods agree to solve a certain problem with a certain set of resources, information, and allowable operations. Much confusion in research begins when that contract is implicit.
+Before reading the performance columns in a comparison table, I want to know what each method was asked to do. A baseline comparison contains a set of agreements about the information available, the resources that can be used, and the result that counts as success. I think of those agreements as the comparison contract.
 
-## Working argument
+A graphics method that reconstructs a scene from several images has access to different evidence from a method that generates a scene from text. We could compare a rendering from each method and learn which image people prefer. The comparison would establish something about the resulting images. It would give us a weaker basis for concluding which method extracts more knowledge from its input.
 
-A graphics method that reconstructs a scene from a video and a method that synthesizes a scene from text have different information available. They can sometimes be compared on a common rendering, but a better rendering alone cannot establish that the method with more information solves the harder problem. Similarly, an interactive tool with expert-provided corrections may outperform a fully automatic tool because some difficult decisions were delegated to a person. The human effort belongs in the description of the comparison.
+The same issue appears when an authoring tool allows a person to correct an intermediate result. Including a knowledgeable person can improve what the system produces. For a study of a complete authoring workflow, that assistance may be precisely the capability the authors want to investigate. If the claim concerns fully automatic generation, however, the person's decisions are part of the information available to one method and need to be accounted for.
 
-As foundation models become common components, the contract becomes harder to see. A method may use pretrained knowledge, external tools, more compute, longer search, or data its comparator never had. Each can be a legitimate engineering choice. The question is which difference the experiment supports. A comparison at equal inference cost, a comparison at equal final quality, and a comparison of available workflows answer different questions.
+As AI systems become components of many methods, the contract becomes harder to see. One system might use a pretrained model, extra computation at inference time, or access to an external tool. Comparing at equal inference cost can answer a different question from comparing the best attainable result of each system. Both questions are reasonable. The choice should follow the contribution being evaluated.
 
-One useful change to paper reading would be to identify the exchange being evaluated before looking for the winner. What information goes in? What decisions remain with a user? What guarantees come out? What must another group purchase or maintain? The baseline is scientifically informative to the extent that these obligations are intelligible. If a new system changes the contract by introducing an affordance, that may itself be the contribution.
+Exact matching of resources can itself create an artificial comparison. A new architecture may use a resource differently, and its advantage may depend on being allowed to do so. An end-to-end comparison under actual deployment conditions can be more informative than forcing the systems to use an identical budget. The important step is to say what was allowed and why.
 
-## Challenge
+I would therefore describe the comparison before naming the winner. A faster method at a fixed quality, a higher-quality result at a fixed budget, and a workflow that lets a person obtain a previously inaccessible result are three different achievements. A paper can make more than one of these claims, provided it explains what each comparison holds fixed.
 
-Identical resource budgets can be impractical and can favor older designs. A comparison under natural deployment conditions may answer a more useful question. Require transparency about the contract, not one rigid resource-matching rule.
+When a new method offers a representation or operation that the older methods cannot provide, there may be only a limited common task on which to compare them. A better score on that task is useful evidence. The new capability deserves its own account.
+
+A comparison table becomes more interesting when we understand the conditions under which the numbers have acquired their meaning. I would read those conditions as carefully as I read the numbers.
 
 ## Source plan
 

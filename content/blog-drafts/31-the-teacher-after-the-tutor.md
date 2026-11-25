@@ -2,13 +2,9 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** Education and the next generation of expertise | **Candidate tags:** education, sociology-of-science, ethics
 
-Imagine a classroom in which every student has access to an excellent tutor. The tutor can explain a difficult concept in several ways. It can recognize a mistake, offer an example, and give each student the amount of practice they need. A student who has fallen behind can receive assistance without waiting for the teacher to finish helping someone else.
+My bet about the future of schools is that AI will become better at much of the work of tutoring, while human teachers will remain central to the sustained educational relationships of children. I do not expect the role of a teacher to survive because humans will continue to explain mathematics or correct exercises better than machines. I expect it to survive because of the kind of social institution a school is.
 
-I hope that such systems become available to children. I also think the capability to provide this kind of instruction will become increasingly difficult for a human teacher to compete with. If we can establish what a student needs to learn, and have a reliable way to investigate whether the student has learned it, much of the work of improving instruction can enter an automated process.
-
-What, then, is the purpose of having a teacher?
-
-I do not think the answer will be found by identifying a way in which teachers can continue to explain things better than machines. I expect the distinction between teaching as a means of delivering knowledge and the teacher as a participant in an educational institution to become much more visible.
+A tutor that can explain a concept in several ways, recognize difficulties, and provide appropriate practice would be an excellent resource for a classroom. Giving every student access to such a tutor could transform how knowledge is acquired. It would also allow us to see more clearly the other purposes for which children and adults spend their time together at school.
 
 ## It is possible for the tutor to win
 
@@ -29,6 +25,8 @@ Consider a child in a classroom with other children. They need to learn how to p
 There are difficult moments as well. A child is excluded from a group. Two students disagree about something they have made together. Someone refuses to participate in an activity the others regard as important. These situations are part of the education of the children, even when they have little to do with the knowledge an examination will ask them to demonstrate.
 
 The teacher's role can involve participating in those situations and deciding how to respond to them. A response can establish what the children are expected to do for one another, how they can express a disagreement, and when the group needs to change its practice. The teacher is also part of a larger arrangement involving families, other teachers, and the school.
+
+A system can become excellent at helping a student understand another person's position. A school also has to decide who is authorized to intervene when a student is being excluded, and who will remain responsible for the consequences. The quality of an intervention and the arrangement through which that responsibility is carried are separate questions. My prediction depends more heavily on the latter.
 
 Gert Biesta gives a useful account of the different purposes of education in [Good Education in an Age of Measurement](https://www.stir.ac.uk/research/hub/publication/892564). He distinguishes the development of knowledge and skills, participation in existing social and cultural arrangements, and the development of the learner as a subject. His argument helps us ask what a school should be doing rather than treating the measurement of outcomes as sufficient to decide its purposes.
 
@@ -60,9 +58,9 @@ We should therefore examine what happens in schools rather than simply count whe
 
 If the answers become largely negative, the educational bet will have failed in an important sense. A teacher whose name remains attached to a group of students but who seldom has an opportunity to know them is a different kind of institution from the one I expect.
 
-I am fairly optimistic about the capabilities of future tutors. I am less certain about how societies will distribute the opportunities those capabilities create. That is precisely why I think the social organization of education deserves more attention.
+The question of who should be a child's teacher will become more visible as the work of providing instruction becomes less closely attached to the role. I would judge the result through the relationships children actually have with the adults who are responsible for them, rather than through the job titles a school retains.
 
-A machine may eventually teach a child nearly any subject with extraordinary effectiveness. The school will still embody a decision about what the child is there to experience, whom they are expected to encounter, and who will share responsibility for that part of their life. I expect the future of education to be decided increasingly through those questions.
+An excellent AI tutor gives a society a new possibility for teaching a child a subject. What the society does with that possibility tells us something about what it understands education to be.
 
 ## Editorial source and claim notes
 

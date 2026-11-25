@@ -2,15 +2,17 @@
 
 **Status:** English working draft | **Theme:** M. Research as a practice | **Candidate tags:** academia, philosophy-of-science
 
-A student wants to study how people can work creatively with AI. It is a good concern to have. It is also a difficult research question. A study might show that a particular interface helped a particular group, and the student would still have little reason to claim that they had understood creative work with AI.
+A research question becomes useful when we can identify what a possible answer would teach us. Asking how people can work creatively with AI describes a valuable area of inquiry. It leaves open many relations among the people, the tools, and the activities. We need to find a distinction within that area that the project can actually investigate.
 
-I prefer to begin by identifying a distinction that the work could make clearer. For example, we could ask whether people revise their creative goals differently when they see several alternatives at once rather than one alternative after another. This question has a smaller world. It also gives us more concrete things to investigate.
+One approach is to specify a relationship we want to examine. For example, we could ask whether people revise their creative goals differently when they see several alternatives at once rather than one alternative after another. This question has a smaller world. It also gives us more concrete things to investigate.
 
 The scope of a question determines what can count as an answer. A small question does not necessarily produce a small contribution. If it reveals a relationship that people have misunderstood, the result may give other researchers a better way to approach a much larger problem. Conversely, a broad question can lead to a narrow experiment whose result is difficult to interpret.
 
 There is a danger in making questions too small. We can isolate a variable so carefully that we remove the circumstances under which it mattered. Research sometimes needs to follow a problem across several activities before a meaningful distinction becomes apparent.
 
-This is one of the harder decisions in starting a project. We need enough of the world to make the question consequential, and a sufficiently clear question to learn something from the work. A project can become more ambitious when we understand exactly what part of that world it is prepared to investigate.
+If the distinction concerns how a maker develops an intention, removing the opportunity to revise the goal might make the experiment easy to control while eliminating the phenomenon of interest. A narrower question is useful when it preserves the conditions under which the relationship can actually appear.
+
+A well-chosen question gives a result somewhere meaningful to go. An observation about how people reconsider a creative goal could lead to a better account of several authoring tools, even when the study itself is narrowly scoped. I would judge the ambition of the question by the relationship it makes possible to understand, rather than the breadth of the topic it names.
 
 ## Editorial source notes
 

@@ -2,19 +2,19 @@
 
 **Status:** editorial draft / argument development | **Theme:** Evidence after the scoreboard | **Candidate tags:** philosophy-of-science, robotics
 
-A robot runs successfully a thousand times. On the next trial, it fails in a way that should have been impossible. Is the new observation weak evidence because it consists of a single event, or strong evidence because it contradicts a claim that was supposed to hold for every relevant event?
+A thousand successful trials and one failure can have very different meanings depending on the claim we made before running them. A paper that promises safety under every allowed condition has taken on a different obligation from a paper that reports how often a robot succeeds on a specified set of tasks.
 
-## Working argument
+Consider a hypothetical robot controller with a guarantee that it will keep a specified distance from a wall whenever its sensors and initial state satisfy stated assumptions. A reproducible trial in which those assumptions hold and the robot crosses the boundary would be a serious counterexample. We would need to examine the measurement and the implementation before deciding exactly what failed. But another thousand successful trials would not repair the universal claim.
 
-The answer depends on the quantifier in the claim. A universal safety guarantee, a claim about typical task success, and a proposal for a new possible interaction have different evidentiary requirements. An authenticated counterexample can refute a universal claim within its assumptions. It cannot estimate a population failure rate. A single well-characterized working example may establish feasibility without establishing robustness. Confusing these questions turns sample size into a substitute for the structure of an argument.
+Suppose instead that a paper reports a high success rate across a collection of sampled tasks. The same failure could belong to the remaining fraction of unsuccessful trials. We would need more evidence to estimate how often that kind of failure occurs, and whether the original sample represented the relevant conditions. A single observation can refute a universal statement. It cannot establish the frequency of an event in a population.
 
-Autonomous agents may become very good at finding unusual inputs, constructing adversarial cases, and exploring rare conditions. That capability will expose claims whose stated scope exceeds the evidence that originally supported them. In some areas, a successful counterexample will be a more valuable research contribution than a marginal average improvement. In others, a spectacular failure will be irrelevant to a correctly bounded statistical claim.
+The reverse distinction matters for a working example. Demonstrating a motion under well-characterized conditions can establish feasibility, without establishing that a method can reliably produce it on a wider collection of inputs. These are legitimate but different kinds of knowledge.
 
-The larger cultural point is that rigorous criticism requires understanding exactly what was promised. We should read the quantifier before counting trials. The interesting work begins when a failure tells us which assumptions need revision or which category of possible behavior we had excluded.
+The distinction also explains why one counterexample should sometimes change the language of a paper rather than discredit its entire contribution. A claim that holds under a narrower condition may remain scientifically useful. Specifying that condition is substantive progress if the explanation shows why it matters; simply excluding every failed case after the fact is not.
 
-## Challenge
+As agents become capable of searching for difficult cases, it may become inexpensive to find failures that a researcher would never have tried. The value of a discovered counterexample will depend on the claim it addresses. A robot operating outside its stated sensor range, for instance, does not contradict a theorem that explicitly assumes observations within that range. It might still reveal a serious practical limitation if the system will encounter those conditions in use.
 
-A counterexample only works when it genuinely falls within the claim's stated assumptions. An anecdote from an unrelated environment cannot refute a distribution-specific result. The post should include one deliberately invalid counterexample to expose this distinction.
+I would like to see criticism organized around the promises a paper actually makes. A failure is scientifically consequential when it changes our reason to believe a claim or reveals the circumstances under which a result stops being useful. Its importance cannot be read directly from the number of times it happened.
 
 ## Source plan
 

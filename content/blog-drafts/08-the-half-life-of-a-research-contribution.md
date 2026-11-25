@@ -2,19 +2,19 @@
 
 **Status:** editorial draft / argument development | **Theme:** The institutions of knowledge | **Candidate tags:** history-of-science, philosophy-of-science, academia
 
-A paper can be correct when it is published and almost useless for today's engineer. We often read that fate as a sign of the paper's success or failure. The more interesting question is which conditions gave its contribution a useful life, and what survived when those conditions disappeared.
+Some research becomes obsolete because the world changes around it. A method built to address a severe memory constraint can lose its practical advantage when the cost and capacity of memory change. The paper may remain correct. What has changed is the condition that made its particular solution worth using.
 
-## Working argument
+I find it useful to examine research contributions through the things on which their usefulness depends. A systems method may depend on the distribution of a workload or the relative cost of two operations. A graphics representation may have been attractive because it supported a particular form of editing with the available hardware. A study of an interactive system may identify a difficulty that persists even when the system is replaced.
 
-A scheduling heuristic may be valuable because memory is slow or because jobs arrive in a particular pattern. A representation may be important because a field has no abundant training data. A study of an interface can reveal a conflict that survives the interface's replacement. Each contribution has a relationship to assumptions, infrastructure, and the practices of its users. Those relationships give different kinds of knowledge different rates of aging.
+The contributions in these examples have different ways of surviving. The original implementation can become uncompetitive while its explanation of a performance problem remains useful. An observation about a person's work can continue to help us understand a new interface. Another result may be closely tied to the specific conditions under which it was obtained, and have little to tell us when those conditions disappear.
 
-An era of automated optimization could accelerate the obsolescence of specific methods. The score improvement may become easy to reproduce, the code may be regenerated, and the resource constraint may vanish. A carefully explained mechanism or a previously unrecognized phenomenon might still orient research in a changed world. Such knowledge need not be more abstract; a richly documented particular case can remain valuable because it reveals a distinction that later systems still encounter.
+The distinction is particularly relevant when automated optimization makes improvements easier to reproduce. Some methods may become ordinary components much sooner than their authors expected. An explanation of why a representation supports a particular operation may remain relevant after several new implementations of it exist. A documented example can also reveal a phenomenon that the field continues to encounter. Durability need not require a high level of abstraction.
 
-The proposed essay would compare two historical cases in detail rather than offer generic advice to work on timeless problems. It would ask what parts of a contribution remain independently useful after the original technique ceases to be competitive. That may be a better way to understand a research program's durability than its current citation count.
+For a reader of a historical systems paper, it helps to ask a counterfactual: if the original machine's bottleneck were removed, would the explanation still identify a relationship worth knowing? A method may lose its economic advantage while a description of how memory access and computation interact remains useful under another bottleneck. That is a different form of survival from continuing to win the original benchmark.
 
-## Challenge
+None of this makes longevity a universal measure of research quality. An optimization that saves an enormous amount of computation for a few years can be an excellent contribution. An idea can remain influential despite being poorly supported. We should distinguish the lifespan of an implementation, the lifespan of an explanation, and the period during which a result helps people accomplish something.
 
-Short-lived research can have enormous practical impact. Long-lived concepts can be wrong. Longevity is neither a moral ranking nor a substitute for relevance. The point is to understand the dependencies of a contribution and make time-specific claims explicit.
+When reading an older paper, I would like to ask which of its conditions still describe the world in which we work. Sometimes the useful thing to carry forward is the method. Sometimes it is the account of a problem that explains why the method was needed at the time. Understanding that difference gives us a better view of what the next paper has changed.
 
 ## Source plan
 

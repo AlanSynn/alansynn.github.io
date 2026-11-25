@@ -2,13 +2,9 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** HCI, institutions, and value | **Candidate tags:** participatory-design, philosophy-of-science, sociology-of-science
 
-Imagine observing a group of people who manage the use of a shared workshop. There is a schedule, and there are rules about when people can use the equipment. In practice, the members often help one another work around those rules. Someone gives up a reserved period when another person needs to finish a project. Someone agrees to help a beginner even though it means changing their own plans.
+A good account of people's lives can change our understanding of what needs to be designed, including whether a system should be designed at all. I am concerned about the expectation that qualitative research must turn that understanding into a list of useful features.
 
-A researcher might conclude that the workshop needs a better scheduling tool. The new tool could make exchanges easier, show which resources are available, and allow someone to ask for help. That could be an excellent contribution.
-
-But I would like to know something else about the workshop before deciding what the tool should do. Why have the members developed these practices? What do they understand themselves to owe one another? What would change if their informal arrangements became a series of operations mediated by the scheduling system?
-
-I think this is a useful example of a question that has been discussed in HCI for a long time. What should we expect to learn when we investigate the lives of the people for whom we might design technology?
+Imagine a shared workshop with a schedule for using its equipment. Members often exchange reserved periods. One gives up time to help a beginner, another accommodates a member who needs to finish a project. An efficient scheduling tool might make those exchanges easier. Before building it, I would like to understand what the existing exchanges do for the people involved. They may be occasions through which members recognize one another's circumstances and maintain a relationship. A system that changes the exchanges could change more of the practice than the schedule.
 
 ## When understanding is expected to produce a feature
 
@@ -36,6 +32,8 @@ An account of the practice can preserve these different positions. A list of req
 
 That distinction is helpful when evaluating a paper. A finding can be analytically interesting even if I disagree with the design recommendation that follows from it. Perhaps the authors have identified an important feature of a practice and chosen one way to respond. Other researchers may develop a different response that follows from the same understanding.
 
+We can ask whether a design recommendation follows from the analysis, and also whether it requires additional assumptions. A finding that workshop members value discretion might support private requests, negotiated exchanges, or leaving the existing arrangement alone. Deciding among those responses requires a further account of the consequences of each design.
+
 If we require the findings to justify one particular system, we can make it difficult to preserve that possibility. The inquiry may become a story about why the proposed features were necessary, and the parts of people's lives that suggest another interpretation may become harder to see.
 
 ## What changes when implementing the features becomes cheap?
@@ -58,9 +56,9 @@ We can ask difficult questions about such a contribution without requiring it to
 
 Some work will be primarily concerned with developing a design. In that setting, it is reasonable to examine how the design follows from the investigation and what happens when people use it. Other work can have a different purpose. A study may make it possible for several researchers to investigate different aspects of the same phenomenon.
 
-I would like this diversity of contributions to become easier to recognize. As tools make implementation more accessible, more of the relationships and practices we have not understood will become possible to investigate. We may discover things about the lives of people that give us reasons to make new systems. We may also discover things that give us reasons to make fewer systems, or to organize the work differently.
+When implementation becomes inexpensive, a field can pursue a great many responses to the same qualitative finding. Some researchers may develop a new scheduling system. Others may reconsider the rules of the workshop or decide to leave an existing arrangement alone. The account has scientific value if it helps these people understand the practice more precisely, including why their decisions differ.
 
-The person who took part in the study has a life that extends beyond the system we are developing. A useful account of that life can give us something to think about even when it does not tell us what to build next.
+A study of someone's life can give us a better question than the one through which we originally approached them. We should recognize that contribution before requiring the person to become a set of requirements for a system.
 
 ## Editorial source and claim notes
 

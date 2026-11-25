@@ -2,13 +2,11 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** HCI, institutions, and value | **Candidate tags:** participatory-design, ethics, ai
 
-Suppose a person wants to make a website for a small community. A generative tool asks what the community does and produces a finished-looking page. The page has an appropriate heading, a pleasant set of colors, and a clear description of the group's activities. The person can accept it and move on.
+A generative tool can improve every individual result in a collection and leave the collection less interesting. People may have good reasons to accept the results they receive. If the tool continually offers similar possibilities, however, some of the differences that could have emerged through their work may never become visible.
 
-This would be a very useful tool. Many people would be able to make websites without spending time learning how to design them. Some would make things that they otherwise would not have made.
+Take a tool that makes websites. Someone who needs a page for a small community can receive a well-composed design and use it immediately. That is a useful capability. It is worth asking another question about the experience: which alternatives would the community have found meaningful had the tool made them as easy to encounter as the first result?
 
-I would also like to know what would have happened if the tool had shown the person something different. Perhaps the community has an unusual way of describing itself. Perhaps the people in it would have liked to create a small visual object through which visitors could learn about their work. They may not have known that such a website was possible before they began.
-
-A default can be excellent at satisfying the purpose for which someone approached a tool. It can also determine which other purposes the person has an opportunity to discover.
+An excellent default can help someone enter an activity. It can also shape the subsequent evidence about the kinds of work people appear to want.
 
 ## A good story among similar stories
 
@@ -33,6 +31,8 @@ We would need another kind of evidence to understand what people would have done
 This is one reason to be careful about interpreting the frequency of a choice as evidence of a person's preference. The frequency depends on the available alternatives, the cost of encountering them, and what the person is trying to accomplish at the time.
 
 The problem becomes more consequential if that record is used to determine what the system will offer in the future. Consider a hypothetical sequence in which a generated output is more likely to be accepted because it is convenient, and acceptance makes that kind of output more likely to be generated again. The system can become increasingly successful at producing the kinds of things its earlier choices made common.
+
+To distinguish a popular default from a self-reinforcing one, we would need to observe how alternatives are presented and what happens to the feedback afterward. Comparing tools that offer different starting points but permit the same later edits could help isolate the effect of the starting point. Establishing a training feedback loop would require separate evidence about the training process.
 
 Such a loop is possible, not a description of the training process of every current model. An actual investigation would need to establish which feedback is collected, how it enters the subsequent system, and what other sources of variation are present.
 
@@ -64,9 +64,9 @@ The question is whether the available tools also make room for unfamiliar forms 
 
 Evaluating this part of a system will require more than a measure of the quality of its individual outputs. We could investigate what people explore, which alternatives become easy to discover, whether they can retain a deliberately unusual choice, and what kinds of work become possible for communities using the tool. A measure of output diversity could be useful, but it would not decide on its own which differences matter.
 
-I expect many people to welcome systems that produce very good defaults. I will welcome them too. As those defaults become more successful, I would like to pay attention to the possibilities that remain available after a person has received one.
+A system that provides a finished result and an accessible route to meaningful alternatives can serve people with different purposes. We can evaluate whether it supports those purposes by looking beyond acceptance of the first result to the alternatives people encounter, preserve, and develop.
 
-A tool has helped someone creatively when it gives them a useful way to make what they want. Sometimes what makes the tool particularly interesting is that it also gives them a chance to find out what else they could want.
+The cost of a perfect default becomes apparent when a community wants to make something for which the established vocabulary has little room. A useful generative system should give that community a way to create and share an unfamiliar form before there is enough evidence of its popularity to make it a default.
 
 ## Editorial source and claim notes
 

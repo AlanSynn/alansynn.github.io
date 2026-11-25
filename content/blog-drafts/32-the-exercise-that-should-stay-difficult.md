@@ -2,11 +2,9 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** Education and the next generation of expertise | **Candidate tags:** education, philosophy-of-science
 
-A student spends an hour trying to solve a problem. An AI assistant could solve it in a few seconds. If the purpose of the activity is to obtain the answer, it is difficult to justify making the student continue.
+Some educational exercises should remain difficult even after the difficulty of obtaining the answer has disappeared. An hour spent trying to understand a problem can help a student develop an ability that an assistant could otherwise supply in a few seconds. But we should be able to explain what the learner acquires through the effort before deciding that the effort deserves an hour.
 
-If the purpose of the activity is to help the student learn something, we have another question. What would the student learn by spending that hour on the problem? Could the assistant provide a useful form of help without taking away the part of the activity through which that learning occurs?
-
-I think these questions will become increasingly important as we acquire systems that are capable of solving nearly every problem we give to a beginner. A great deal of difficulty can disappear from education. We should try to understand which difficulties we have good reasons to preserve.
+The arrival of very capable tutors makes the difference between producing a result and developing an understanding particularly useful. It gives us the freedom to reconsider which parts of a learning activity the student should perform and which obstacles the technology can help remove.
 
 ## When the result and the learning separate
 
@@ -19,6 +17,8 @@ In another setting, the problem could be part of learning how the program repres
 We can distinguish these purposes by considering what happens when the student encounters another example. If they have developed an understanding of the relevant operations, they may be able to anticipate what an unfamiliar program will do. If they have only learned to recognize a useful correction, they may need the same form of assistance again.
 
 Both are useful capabilities. Someone who knows how to work with an assistant can do things they could not otherwise do. A person who understands a particular concept can use that understanding to approach many other problems. An educational activity should make clear which of these things it is trying to develop.
+
+This gives us a reason to distinguish an exercise's apparent difficulty from its educational difficulty. Writing a program can be tedious because the learner has to recall syntax, or demanding because they need to understand how a change in state affects later behavior. Assistance can remove the first burden while preserving an opportunity to investigate the second. The distinction has to be made for a particular learning purpose.
 
 This is especially important when the output is used to evaluate learning. A good result from a collaboration between a student and a machine tells us something about what that arrangement can produce. It may provide little information about which parts of the work the student has come to understand.
 
@@ -58,9 +58,9 @@ A programming course might give students access to agents while they work on a s
 
 We should also be prepared for the abilities worth developing to change. If a technical procedure becomes easily available, a learner may benefit more from understanding where it can be applied, what its assumptions are, or how to recognize an inappropriate result. There is little reason to preserve an entire curriculum merely because the activities in it were once difficult for an expert.
 
-I expect education to become more deliberate about the relation between an exercise and the understanding it is supposed to help a person develop. The strongest reason to preserve a difficulty will be a clear account of the learning it makes possible, rather than the difficulty of the achievement itself.
+The difficulty of an exercise should be justified through the understanding it gives a learner an opportunity to develop. That justification can change as the learner's abilities and the tools available to them change. We may find that one familiar exercise no longer serves a useful purpose and another becomes newly valuable.
 
-Sometimes the exercise that takes an hour will deserve that hour. Sometimes the right thing to do will be to give the student the answer and let them move on to a more interesting question. A capable tutor can help with both. What matters is that we understand which part of the activity belongs to the education of the person who is doing it.
+When an assistant can supply nearly every answer, a well-designed learning activity will become easier to recognize by the questions and capabilities it leaves with the student after the answer has arrived.
 
 ## Editorial source and claim notes
 

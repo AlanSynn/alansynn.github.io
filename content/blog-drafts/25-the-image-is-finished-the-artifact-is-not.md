@@ -2,13 +2,11 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** Graphics, fabrication, and making | **Candidate tags:** computer-science, philosophy-of-science, ai
 
-Two people send me an image of a chair they have designed. The images look identical. I ask each person to make the chair a little wider, while keeping the legs in their original proportions and preserving the way the back attaches to the seat.
+Two images of a chair can look identical while being useful for very different things. Suppose one was rendered from a model whose dimensions and geometric relationships are editable. The other was generated as an image. If we ask the designer to make the chair wider while preserving the proportions of the legs, the distinction becomes consequential.
 
-The first person opens a model of the chair and changes a dimension. The related parts move, and the relationship between the back and the seat remains intact. The second person opens the image and asks a generative system to produce a wider version. The new image looks good, but the shape of the legs has changed slightly. The person needs another attempt.
+In one workflow the designer can modify a dimension and inspect the effect on the connected parts. In another, the designer might request a new image and discover that some properties have changed unexpectedly. These are hypothetical workflows; a capable generative editor could eventually make the second operation very reliable as well. The comparison matters because the designer has another task to perform after obtaining the image.
 
-At the moment I received the images, there was little reason to distinguish the two results. The distinction became important when the people began to work with them again.
-
-I think this will be an increasingly interesting issue for computer graphics. As the ability to produce convincing visual results becomes more widely available, we may spend more time asking what those results allow someone to do afterward.
+Graphics research can create an excellent visual result. It can also produce an artifact that carries useful relationships forward into later work. To evaluate the latter contribution, we need to understand which changes the artifact supports.
 
 ## An image is an observation of something
 
@@ -31,6 +29,8 @@ Consider an animator who has designed a character and a small movement. They lik
 The character should probably retain its shape. Its motion should still have the same timing. The color of another object should perhaps remain the same. The appearance of the scene may need to change in some respects because light interacts with the new material differently. The desired operation involves a collection of relationships among properties.
 
 A representation can help make those relationships available. If the geometry, material, and motion are separately manipulable, the animator has a way to specify the intended change. The representation may also make it possible to reproduce the change, examine its consequences, and return to an earlier decision.
+
+The relevant invariants may include decisions made by another person. A colleague who has already prepared a part for fabrication may need its mounting holes to remain compatible while the surrounding object changes. A representation that preserves the relationship gives the group a way to continue the same project. Producing a plausible replacement object may instead create a new project.
 
 This does not mean that all relevant relationships are simple to encode. A person can have a particular idea about a character's identity that is difficult to describe in terms of geometry and material. They may want a movement to feel similar even when the underlying trajectory changes. The useful notion of sameness depends on the activity.
 
@@ -62,9 +62,9 @@ For some tasks, the evaluation can have a precise numerical definition. We can t
 
 A useful evaluation would describe why the selected operations matter. There is no general reason to require every generated image to support arbitrary geometric editing. Nor is there a reason to reject regeneration when a person can reliably obtain the result they want through another request. The intended activity should determine the meaning of the comparison.
 
-This is one way I would like to think about graphics research in the presence of increasingly capable generative systems. Producing a good image will continue to be important. Understanding the operations available through the generated artifact will give us another way to examine what the method provides.
+The next request to change the chair provides evidence that was unavailable when we first looked at the images. It reveals whether the designer can revise one part of the object without having to recover decisions they have already made. In a continuing project, preserving those decisions can be as consequential as producing the first result.
 
-The image I received at the beginning of this essay can be perfectly adequate. I want to know a little more about it when the person who made it has another idea. That is often the moment at which I begin to understand the value of the artifact.
+A graphics method can contribute a new object to a scene. It can also contribute a useful way of continuing to work on that object. I would like evaluations to give readers a way to recognize the difference.
 
 ## Editorial source and claim notes
 

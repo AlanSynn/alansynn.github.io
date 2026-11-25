@@ -2,11 +2,9 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** The institutions of knowledge | **Candidate tags:** sociology-of-science, academia, ai
 
-Suppose a researcher has access to an assistant capable of proposing a useful experiment. The assistant can read the relevant literature, explain the proposed method, and write a program that would help conduct the experiment. The researcher needs something else before they can learn whether the idea works. They need access to the world in which the experiment can take place.
+If AI makes scientific ideas inexpensive, access to the instruments that can test them will become a more consequential form of power. A researcher may have a convincing account of a material, an excellent proposed experiment, and software capable of conducting it. They may still lack the equipment through which they could obtain evidence.
 
-This is easy to recognize in a field that depends on a particular piece of equipment. A person can have an interesting idea about the behavior of a material while lacking a way to prepare and examine the material. A roboticist can develop an idea for a controller without having a suitable robot on which to investigate it.
-
-I expect the ability to carry out experiments to become a particularly important part of the distribution of knowledge as AI becomes more capable. The cost of proposing and implementing an idea may fall much faster than the cost of obtaining the evidence through which the idea can be understood.
+I expect the costs of these activities to fall at different rates. Agents can help researchers formulate and implement many ideas. The equipment, environments, permissions, and other arrangements through which those ideas encounter the world determine how many can become investigations. The distribution of those arrangements will shape both who gets to do research and which questions they can afford to ask.
 
 ## The point at which an idea reaches an instrument
 
@@ -31,6 +29,8 @@ The difference becomes more consequential when an agent can propose and revise c
 We can think of this as a relationship between intellectual and experimental resources. A useful experiment requires some combination of a proposal, an appropriate intervention, an observation, and an account of what the observation means. Reducing the cost of one part can make the conditions governing the other parts much more visible.
 
 This will not happen uniformly. Simulators can provide useful substitutes for some physical experiments. Equipment can become less expensive, and robotic systems can make better use of a limited number of trials. Shared facilities can give several groups access to instruments that none could maintain alone. These changes could substantially broaden the range of people able to investigate difficult questions.
+
+There is also a difference between offering a fixed collection of experiments as a service and allowing another researcher to configure a new investigation. The first can make an established comparison inexpensive. The second gives that researcher a way to challenge the assumptions behind the comparison. Broadening the availability of trials need not broaden the availability of that second capability.
 
 The distribution of the ability to experiment is therefore something worth observing. We should know whether new tools are making useful trials more accessible to many people or allowing a few institutions to conduct vastly more trials.
 
@@ -58,9 +58,9 @@ The scientific benefit would be particularly large if the facilities preserved m
 
 We should examine which of these arrangements develops. I would look for evidence about the price and availability of trials, who controls the choice of experiments, and whether researchers outside the institutions that own the strongest systems can obtain new evidence through them.
 
-I expect automated research to make ideas and candidate solutions increasingly plentiful. The ability to test them in meaningful settings will remain an important part of scientific opportunity. We can use the technology to distribute that opportunity more widely. We can also organize it in a way that gives extraordinary investigative capacity to a relatively small number of institutions.
+An institution can offer thousands of inexpensive trials without giving researchers much freedom to choose what those trials investigate. Shared access becomes scientifically more consequential when people can introduce new questions, examine the assumptions of the instrument, and challenge the conclusions obtained with it.
 
-The answer will help determine not only who gets to do science, but which questions become inexpensive enough to ask.
+If we want automated research to broaden the distribution of scientific opportunity, we should look beyond who has access to an intelligent assistant. Look at who can turn an unexpected idea into an observation that others can examine. That is where a great deal of the freedom to investigate a problem resides.
 
 ## Editorial source and claim notes
 

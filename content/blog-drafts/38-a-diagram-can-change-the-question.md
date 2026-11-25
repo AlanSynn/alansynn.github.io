@@ -2,15 +2,15 @@
 
 **Status:** English working draft | **Theme:** G. Writing, explanation, and representation | **Candidate tags:** computer-science, philosophy-of-science
 
-Suppose three people are trying to understand a linkage. One describes how the bars move. Another draws a diagram with the joints labeled. The third moves the linkage by hand. They are working on the same object, but each representation makes a different question easy to ask.
+A diagram can make a question possible before it makes an answer easier to communicate. Someone investigating a linkage might notice in a drawing that two joints move along similar paths. Watching the mechanism move gives them a reason to distinguish the shape of those paths from the timing of the movements. A new diagram can help the group think about that distinction.
 
-In the diagram, two joints may appear to follow the same circular path. Moving the mechanism reveals that their timing differs. A person who notices that difference can draw a new diagram that separates the path of a joint from its position along the path. The new drawing changes what the group can discuss.
+Two joints might trace the same circular path and reach each position at different moments. A static drawing of their paths can make the first relationship apparent; a diagram that also represents phase can reveal the second. The useful representation has changed because the group has learned to ask a different question.
 
 I find this an important property of representation. A good representation can do more than communicate an answer we already have. It can place two things next to one another that we had never considered together. It can expose a relation whose significance becomes clear only when we see it.
 
 Of course, a diagram can also suggest a relation that does not exist. A straight line between two events may imply causation. A schematic of a mechanism may omit the thickness of its parts. The freedom to make an abstraction useful brings a responsibility to explain what has been left out.
 
-This matters for the way we evaluate research tools. A visualization that helps someone reach a correct answer to a predefined question has demonstrated one useful capability. A visualization that lets someone formulate a question they could not previously ask has demonstrated another. I expect both to matter as systems become more capable of producing answers on demand.
+A visualization that helps someone answer a known question is useful. Another visualization may arrange the information so that a person begins to investigate a relation they had not noticed. I would like evaluations of research tools to examine both achievements: the answers made easier to reach and the questions made easier to discover.
 
 ## Editorial source notes
 

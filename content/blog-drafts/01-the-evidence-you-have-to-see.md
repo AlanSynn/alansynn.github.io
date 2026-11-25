@@ -2,11 +2,11 @@
 
 **Status:** Long-form editorial manuscript | **Theme:** Evidence after the scoreboard | **Candidate tags:** philosophy-of-science, computer-science
 
-A rose opens and withers. If I show you a photograph of the flower on Monday and another photograph on Friday, you can see that it has changed. If I show you the movement between those photographs, you can begin to understand how it changed. You might notice one petal moving before the others, or see the shape of the flower slowly lose its familiar structure.
+One thing I like about [Birth and Death of a Rose](https://openaccess.thecvf.com/content/CVPR2025/html/Geng_Birth_and_Death_of_a_Rose_CVPR_2025_paper.html), a paper by Chen Geng and colleagues at CVPR 2025, is the kind of object it gives us to examine. A rose opens and withers. I can inspect its shape at different moments, look at it from another direction, and change the lighting. Those operations let me investigate the changes in the flower rather than simply watch a particular recording of them.
 
-Now imagine being able to turn the flower around at any moment in that process. You could look at its underside, change the lighting, and return to an earlier stage of its life. There would be something new to investigate. The result would be a visual object with a history that you could examine from several positions.
+The paper offers a useful example of a distinction in graphics research. Some contributions improve our ability to produce a familiar result. Others make something available for observation and manipulation that was difficult to study before. A comparison table can give us evidence about the quality of the result. To understand the second kind of contribution, we also need to examine what the researchers have made possible.
 
-This is one reason I like [Birth and Death of a Rose](https://openaccess.thecvf.com/content/CVPR2025/html/Geng_Birth_and_Death_of_a_Rose_CVPR_2025_paper.html), a paper by Chen Geng and colleagues at CVPR 2025. I want to use it to discuss a kind of contribution that is sometimes difficult to explain through the familiar language of research evaluation. The paper does technical work that can be compared with other technical work. It also makes a new kind of object available to the people who study and use graphics.
+This distinction does not depend on whether the generated flower describes the actual growth of a particular rose. A synthetic object can support a new authoring operation without being a faithful biological model. The evidence needs to establish the operation and its consequences. A claim about the physical process of flowering would require observations of actual plants.
 
 ## What exactly did the paper make?
 
@@ -50,7 +50,7 @@ An interactive demonstration can provide another kind of evidence. A viewer can 
 
 We should also distinguish the evidence a viewer obtains by examining a video from the evidence obtained through a study of people using a system. A study can investigate how people interpret a movement, how they develop a design, or how their activities change over time. These questions require observations of people in an appropriate setting. A rendered result cannot stand in for such a study.
 
-## What I expect to change
+## When new phenomena become easier to make
 
 I expect machines to dominate much of the research organized around repeatable, executable comparisons. Once a test can guide a search, an agent can propose a change, run the test, and use the result to choose the next change. More capable systems can repeat the process and improve the search procedure. This is a powerful mechanism for improving methods. It will also change what it means for a researcher to present a better number.
 
@@ -58,9 +58,9 @@ Many visual problems will enter that process. An agent can learn to judge artifa
 
 The interesting consequence for graphics is the expansion of the things that people can make and investigate. A sufficiently capable generator might produce many different representations of aging objects. Some would be useful for animation. Others would matter to people studying materials, teaching a process, or making a particular kind of artwork. These purposes need not converge on one common notion of a good rose.
 
-I think this will make the distinction between performance and possibility increasingly important. The improvement of a familiar capability can continue as an automated process. New capabilities can be examined through the activities they make available. The field can develop forms of inquiry around particular visual experiences without having to place all of them on the same scale.
+As optimization becomes routine, the set of phenomena we can construct and examine may expand much faster than our ability to agree on a ranking of them. An animator studying a flower's motion and a researcher studying its material can use the same representation to pursue different questions. Neither needs the other to accept a single definition of the best result.
 
-When I return to the rose in this paper, I still want to see it. I want to see how it changes, and understand what the representation allows someone to observe and manipulate. Its quantitative evaluation is useful. The new object it gives us is useful in another way. There is room in computer science to understand both kinds of contribution on their own terms.
+A new research object has value in part because it admits observations that we have yet to make. For the rose, that could mean another view, another light, or another way of composing its changing shape into a scene. The question I would ask about the paper is what can I now investigate that I could not investigate before? Watching and manipulating the result helps me answer it.
 
 ## Editorial source and claim notes
 

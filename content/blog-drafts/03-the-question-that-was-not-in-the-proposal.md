@@ -2,19 +2,19 @@
 
 **Status:** editorial draft / argument development | **Theme:** Evidence after the scoreboard | **Candidate tags:** philosophy-of-science, academia
 
-A research proposal usually describes a question and a method for answering it. In many projects, the most interesting question is one the researchers could not have put in the original proposal. They needed to build something, observe what happened, and discover that the categories with which they entered the project were incomplete.
+A proposal is written before the researcher has seen many of the things the research will reveal. We expect the work to answer a question, yet some of its value comes from the questions that become possible to ask along the way. Scientific reporting should preserve that distinction.
 
-## Working argument
+Suppose a team wants to study whether an interface helps people finish a task more quickly. In an early session, a participant avoids the main feature because using it would reveal their work to a colleague. The team had planned to compare completion times. It now has a reason to investigate how visibility changes the activity. The original experiment may remain useful, but the observation has changed what the researchers need to understand.
 
-Consider an interaction researcher investigating whether an interface makes a task easier. During an early session, a participant avoids the main feature because it changes who can see the result. The planned efficiency comparison might still be meaningful, but a different question has appeared about visibility and responsibility. Retrospectively writing the entire study as a clean test of that question erases the path through which it was discovered.
+Writing the paper as if the team had always intended to study visibility would make the inquiry look more orderly. It would also remove the observation that made the new question interesting. Another researcher would have difficulty distinguishing a question developed from these participants' behavior from a prediction independently tested with them.
 
-This does not license changing a confirmatory hypothesis after looking at the results and reporting the resulting statistical evidence as if it were prospective. Exploratory work and confirmatory work perform distinct epistemic tasks. What we need is a way to report a change in the research question without manufacturing an illusion of foresight. Versioned research questions, dated design decisions, observations that triggered a revision, and a subsequent study of the revised claim would make the trajectory inspectable.
+We can preserve a history of inquiry without demanding that every study follow an unchanging plan. An exploratory study can describe the unexpected observation, explain why the team changed its question, and identify the evidence that supports the new interpretation. A later study can examine whether the explanation holds under new conditions. In a confirmatory statistical study, we should keep the original hypotheses and report changes to the analysis openly. Exploring a result and independently confirming it are different achievements.
 
-Automated research makes this tension more acute. An agent can generate many hypotheses, investigate them, and write a persuasive retrospective rationale for the surviving one. A paper with a coherent opening question may become even less informative about how the question arose. I expect the history of an inquiry to matter more as a kind of evidence, particularly when the contribution is a changed understanding of the situation.
+A later inquiry need not be a large statistical experiment. It could examine another setting where the proposed interpretation would lead us to notice something different. The point is to distinguish the observations that generated the interpretation from the evidence that gives us further reason to accept it.
 
-## Challenge
+This will become consequential when agents can investigate many possible explanations and produce a convincing account of the one that survived. A fluent explanation of why a question mattered before the study is easy to generate afterward. What would help me as a reader is a record of the actual moment at which the question changed, and the evidence through which the change became reasonable.
 
-Exploratory freedom can become a justification for selecting attractive anecdotes. The essay must separate discovery from validation, state which observations motivated a claim, and identify what would undermine that claim. A preplanned study and a revision log solve different problems.
+A research project can succeed by exposing a mistake in its original conception of the problem. Its report should make that achievement visible.
 
 ## Source plan
 
