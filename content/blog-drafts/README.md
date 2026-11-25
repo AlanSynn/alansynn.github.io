@@ -1,10 +1,17 @@
 # Blog editorial draft library
 
-**Status: unpublished editorial material.** This directory is deliberately outside the Astro blog collection at `content/blog/`. It contains 36 proposed English essays, not 36 finished, fact-checked posts.
+**Status: unpublished editorial material.** This directory is deliberately outside the Astro blog collection at `content/blog/`. It contains 136 proposed English essays, not 136 finished, fact-checked posts.
 
 The library starts from the existing blog's concern with how research produces knowledge, how fields change, and how AI changes the relationship between a capability and a person's contribution. It also develops independent questions in evidence, embodied intelligence, design, graphics, fabrication, and education. Avoid turning all of these essays into variations of the same AI career argument.
 
-The first two pieces are extended working drafts of a possible series on qualitative evaluation. The other 34 are substantial editorial drafts: a proposed opening, a developed argument, a counterargument or limit, and a reading plan. Each should be expanded only when its central claim and sources are sufficiently strong. The numbers are editorial identifiers, not publication order.
+The first two pieces are extended working drafts of a possible series on qualitative evaluation. Entries 03–36 are substantial editorial drafts with openings, arguments, counterarguments, and reading plans. Entries 37–136 are short English working essays with developed prose and separate source notes. Each should be expanded only when its central claim and sources are sufficiently strong. The numbers are editorial identifiers, not publication order.
+
+## Additional working drafts
+
+- [Index of entries 37–136](INDEX-037-136.md): ten additional themes and 100 English working drafts.
+- [Editorial writing and revision guide](STYLE.md): MotionSmith, the author's published blog, and research on human reading effort.
+
+The original 36-entry index follows.
 
 ## A. Evidence after the scoreboard
 
